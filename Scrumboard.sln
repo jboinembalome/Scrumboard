@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.App", "src\UI\App\Scrumboard.App.csproj", "{003C0689-5948-4256-96EA-F06A8F47069A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web", "src\UI\Web\Scrumboard.Web\Scrumboard.Web.csproj", "{A3DD56B4-63EF-4D21-9CB0-1982B8764E11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web", "src\UI\Web\Scrumboard.Web.csproj", "{A3DD56B4-63EF-4D21-9CB0-1982B8764E11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

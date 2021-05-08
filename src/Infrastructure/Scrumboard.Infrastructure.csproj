@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Scrumboard.Infrastructure</AssemblyName>
+    <RootNamespace>Scrumboard.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Application\Scrumboard.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Identity\" />
+    <Folder Include="FileExport\" />
+    <Folder Include="Mail\" />
+    <Folder Include="Logging\" />
+    <Folder Include="Persistence\" />
+  </ItemGroup>
+
+</Project>

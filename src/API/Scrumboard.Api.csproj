@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Scrumboard.Api</AssemblyName>
+    <RootNamespace>Scrumboard.Api</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Application\Scrumboard.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\Scrumboard.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

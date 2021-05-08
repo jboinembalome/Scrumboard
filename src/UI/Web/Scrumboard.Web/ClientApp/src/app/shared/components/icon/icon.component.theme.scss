@@ -1,0 +1,44 @@
+
+@mixin mat-icon-color($config-or-theme) {
+  $config: mat-get-color-config($config-or-theme);
+  $primary: map-get($config, primary);
+  $accent: map-get($config, accent);
+  $warn: map-get($config, warn);
+  $background: map-get($config, background);
+  $foreground: map-get($config, foreground);
+
+  .mat-icon {
+    &.mat-primary {   
+      @if (type-of(mat-color($primary, text)) == color) {
+        color: mat-color($primary, text);
+      }
+      @else {
+        background: mat-color($primary, text);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;        
+      }
+    }
+
+    &.mat-accent {
+      @if (type-of(mat-color($accent, text)) == color) {
+        color: mat-color($accent, text);
+      }
+      @else {
+        background: mat-color($accent, text);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;        
+      }
+    }
+
+    &.mat-warn {
+      @if (type-of(mat-color($warn, text)) == color) {
+        color: mat-color($warn, text);
+      }
+      @else {
+        background: mat-color($warn, text);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;        
+      }
+    }
+  }
+}

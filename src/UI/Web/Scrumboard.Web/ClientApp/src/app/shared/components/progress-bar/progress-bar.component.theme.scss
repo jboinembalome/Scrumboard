@@ -1,0 +1,47 @@
+@mixin mat-progress-bar-color($config-or-theme) {
+    $config: mat-get-color-config($config-or-theme);
+    $primary: map-get($config, primary);
+    $accent: map-get($config, accent);
+    $warn: map-get($config, warn);
+  
+    .mat-progress-bar-background {
+      fill: mat-color($primary, lighter);
+    }
+  
+    .mat-progress-bar-buffer {
+      background: mat-color($primary, lighter);
+    }
+  
+    .mat-progress-bar-fill::after {
+      background: mat-color($primary);
+    }
+  
+    .mat-progress-bar.mat-accent {
+      .mat-progress-bar-background {
+        fill: mat-color($accent, lighter);
+      }
+  
+      .mat-progress-bar-buffer {
+        background: mat-color($accent, lighter);
+      }
+  
+      .mat-progress-bar-fill::after {
+        background: mat-color($accent);
+      }
+    }
+  
+    .mat-progress-bar.mat-warn {
+      .mat-progress-bar-background {
+        fill: mat-color($warn, lighter);
+      }
+  
+      .mat-progress-bar-buffer {
+        background: mat-color($warn, lighter);
+      }
+  
+      .mat-progress-bar-fill::after {
+        background: mat-color($warn);
+      }
+    }
+  }
+  

@@ -1,0 +1,19 @@
+@mixin _mat-slide-toggle-checked($palette, $thumb-checked-hue) {
+    &.mat-checked {
+      .mat-slide-toggle-thumb {
+        background: mat-color($palette, $thumb-checked-hue);
+      }
+  
+      .mat-slide-toggle-bar {
+        // Opacity is determined from the specs for the selection controls.
+        // See: https://material.io/design/components/selection-controls.html#specs
+        background: mat-color($palette, $thumb-checked-hue, 0.54);
+      }
+  
+      .mat-ripple-element {
+        // Set no opacity for the ripples because the ripple opacity will be adjusted dynamically
+        // based on the type of interaction with the slide-toggle (e.g. for hover, focus)
+        background: mat-color($palette, $thumb-checked-hue);
+      }
+    }
+  }

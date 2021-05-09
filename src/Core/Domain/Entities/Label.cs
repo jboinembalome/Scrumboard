@@ -10,6 +10,7 @@ namespace Scrumboard.Domain.Entities
         public Guid LabelId { get; set; }
         public string Name { get; set; }
         public CustomColor CustomColor { get; set; }
+        public Board Board { get; set; }
         public ICollection<Card> Cards { get; set; }
     }
 }

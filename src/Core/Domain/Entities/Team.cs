@@ -9,5 +9,6 @@ namespace Scrumboard.Domain.Entities
         public Guid TeamId { get; set; }
         public string Name { get; set; }
         public ICollection<Guid> UserIds { get; set; }
+        public ICollection<Board> Boards { get; set; }
     }
 }

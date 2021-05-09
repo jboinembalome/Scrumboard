@@ -1,5 +1,6 @@
 ﻿using Scrumboard.Domain.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace Scrumboard.Domain.Entities
 {
@@ -9,5 +10,6 @@ namespace Scrumboard.Domain.Entities
         public CustomColor CustomColor { get; set; }
         public bool Subscribed { get; set; }
         public bool CardCoverImage { get; set; }
+        public ICollection<Board> Boards { get; set; }
     }
 }

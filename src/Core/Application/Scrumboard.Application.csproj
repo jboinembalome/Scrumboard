@@ -11,16 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\FileExport\" />
-    <Folder Include="Interfaces\Identity\" />
-    <Folder Include="Interfaces\Logging\" />
-    <Folder Include="Interfaces\Mail\" />
-    <Folder Include="Interfaces\Persistence\" />
-    <Folder Include="Models\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Models\" />
     <Folder Include="Specifications\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification" Version="5.1.0" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Xunit;
 
-namespace Scrumboard.Application.Tests.Features.Boards.Specifications
+namespace Scrumboard.Application.UnitTests.Features.Boards.Specifications
 {
     public class BoardWithAllSpecTests
     {

@@ -5,7 +5,7 @@ using Scrumboard.Application.Dto;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardsByUserId;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;
-using Scrumboard.Application.Tests.Mocks;
+using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Scrumboard.Application.Tests.Features.Boards.Queries
+namespace Scrumboard.Application.UnitTests.Features.Boards.Queries
 {
     public class GetBoardsByUserIdQueryHandlerTests
     {

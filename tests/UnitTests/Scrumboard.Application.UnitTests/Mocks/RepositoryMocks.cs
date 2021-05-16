@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 
-namespace Scrumboard.Application.Tests.Mocks
+namespace Scrumboard.Application.UnitTests.Mocks
 {
     public class RepositoryMocks
     {

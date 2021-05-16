@@ -6,14 +6,14 @@ using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;
-using Scrumboard.Application.Tests.Mocks;
+using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Entities;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Scrumboard.Application.Tests.Features.Boards.Commands
+namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
 {
     public class UpdateBoardCommandHandlerTests
     {

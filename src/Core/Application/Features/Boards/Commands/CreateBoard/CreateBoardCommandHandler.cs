@@ -25,24 +25,10 @@ namespace Scrumboard.Application.Features.Boards.Commands.CreateBoard
         {
             var createBoardCommandResponse = new CreateBoardCommandResponse();
 
-            var validator = new CreateBoardCommandValidator();
-            var validationResult = await validator.ValidateAsync(request);
+            var board = _mapper.Map<Board>(request);
+            board = await _boardRepository.AddAsync(board, cancellationToken);
 
-            if (validationResult.Errors.Count > 0)
-            {
-                createBoardCommandResponse.Success = false;
-                createBoardCommandResponse.ValidationErrors = new List<string>();
-
-                foreach (var error in validationResult.Errors) 
-                    createBoardCommandResponse.ValidationErrors.Add(error.ErrorMessage);
-            }
-            if (createBoardCommandResponse.Success)
-            {
-                var board = _mapper.Map<Board>(request);
-                board = await _boardRepository.AddAsync(board, cancellationToken);
-
-                createBoardCommandResponse.Board = _mapper.Map<BoardDto>(board);
-            }
+            createBoardCommandResponse.Board = _mapper.Map<BoardDto>(board);
 
             return createBoardCommandResponse;
         }

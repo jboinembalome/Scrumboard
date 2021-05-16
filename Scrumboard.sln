@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.App", "src\UI\Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web", "src\UI\Web\Scrumboard.Web.csproj", "{A3DD56B4-63EF-4D21-9CB0-1982B8764E11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Application.Tests", "tests\UnitTests\Scrumboard.Application.Tests\Scrumboard.Application.Tests.csproj", "{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application.UnitTests", "tests\UnitTests\Scrumboard.Application.UnitTests\Scrumboard.Application.UnitTests.csproj", "{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

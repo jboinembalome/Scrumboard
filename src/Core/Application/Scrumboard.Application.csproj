@@ -14,9 +14,6 @@
     <Folder Include="Extensions\" />
     <Folder Include="Features\Cards\Commands\" />
     <Folder Include="Features\Cards\Queries\" />
-    <Folder Include="Features\Boards\Commands\" />
-    <Folder Include="Features\Boards\Queries\" />
-    <Folder Include="Specifications\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,6 +2,7 @@
 using Moq;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,19 +25,19 @@ namespace Scrumboard.Application.UnitTests.Mocks
                 {
                     Id = Guid.Parse("059eecf9-074e-4a9a-aaa2-4b46d7fa2bd5"),
                     Name = "Design",
-                    CustomColor = Domain.Enums.CustomColor.White
+                    Colour = Colour.White
                 },
                 new Label
                 {
                     Id = Guid.Parse("3bbb0e95-2cf0-4f78-b4a8-f6c8f3cc0fab"),
                     Name = "App",
-                    CustomColor = Domain.Enums.CustomColor.Orange
+                    Colour = Colour.Orange
                 },
                 new Label
                 {
                     Id = Guid.Parse("fd9b02cc-6086-4928-81a2-d07c3552d8ca"),
                     Name = "Feature",
-                    CustomColor = Domain.Enums.CustomColor.Black
+                    Colour = Colour.Red
                 }
             };
             var boardFrontEndScrumboard = new Board
@@ -215,19 +216,19 @@ namespace Scrumboard.Application.UnitTests.Mocks
                 {
                     Id = Guid.Parse("0a6d0625-2019-483d-bea1-c0776253a1a5"),
                     Name = "Log",
-                    CustomColor = Domain.Enums.CustomColor.White
+                    Colour = Colour.White
                 },
                 new Label
                 {
                     Id = Guid.Parse("98cdcc99-510d-429e-9e9f-2ee33c5d6fa8"),
                     Name = "Documentation",
-                    CustomColor = Domain.Enums.CustomColor.Orange
+                    Colour = Colour.Orange
                 },
                 new Label
                 {
                     Id = Guid.Parse("492dcef8-ea07-4656-9941-7c4c6f4eb00b"),
                     Name = "Persitence",
-                    CustomColor = Domain.Enums.CustomColor.Black
+                    Colour = Colour.Red
                 }
             };
             var boardScrumboardBackEnd = new Board

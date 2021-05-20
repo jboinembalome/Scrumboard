@@ -4,6 +4,7 @@ using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.Enums;
+using Scrumboard.Domain.ValueObjects;
 using System.Linq;
 
 namespace Scrumboard.Application.Profiles
@@ -23,7 +24,8 @@ namespace Scrumboard.Application.Profiles
                 .ForMember(d => d.ChecklistItemsCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count()))
                 .ForMember(d => d.ChecklistItemsDoneCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)));
 
-            CreateMap<CustomColor, CustomColorDto>().ConvertUsing(new CustomColorTypeConverter());
+            CreateMap<Colour, ColourDto>()
+                .ForMember(d => d.Colour, opt => opt.MapFrom(c => c.Code));
 
             CreateMap<Label, LabelDto>();
 
@@ -32,12 +34,5 @@ namespace Scrumboard.Application.Profiles
             CreateMap<Team, TeamDto>();
         }
 
-        public class CustomColorTypeConverter : ITypeConverter<CustomColor, CustomColorDto>
-        {
-            public CustomColorDto Convert(CustomColor source, CustomColorDto destination, ResolutionContext context)
-            {            
-                return new CustomColorDto { Name = source.ToString(), Value = (int)source };
-            }
-        }
     }
 }

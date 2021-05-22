@@ -11,7 +11,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Specifications
 {
     public class BoardWithAllSpecTests
     {
-        private readonly Guid boardId1 = Guid.Parse("B0788D2F-8003-43C1-92A4-EDC76A7C5DDE");
+        private readonly int boardId1 = 1;
 
         [Fact]
         public void BoardWithAllSpecTest_ExistingUserId_ReturnsBoard()
@@ -54,7 +54,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Specifications
 
         public List<Board> GetTestBoardsCollection()
         {
-            var boardId2 = Guid.Parse("C0788D2F-8003-43C1-92A4-EDC76A7C5DDE");
+            var boardId2 = 2;
 
             var board1 = new Board
             {

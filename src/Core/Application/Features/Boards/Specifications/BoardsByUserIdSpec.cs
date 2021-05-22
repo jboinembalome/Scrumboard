@@ -6,9 +6,9 @@ namespace Scrumboard.Application.Specifications
 {
     public class BoardsByUserIdSpec : Specification<Board>
     {
-        public BoardsByUserIdSpec(Guid userId)
+        public BoardsByUserIdSpec(string userId)
         {
-            Query.Where(b => b.UserId == userId);
+            Query.Where(b => b.Adherent.IdentityGuid == userId).Include( b => b.Adherent);
         }
     }
 }

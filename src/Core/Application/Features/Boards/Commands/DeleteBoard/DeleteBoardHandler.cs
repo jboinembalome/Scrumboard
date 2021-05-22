@@ -3,7 +3,6 @@ using MediatR;
 using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,10 +10,10 @@ namespace Scrumboard.Application.Features.Boards.Commands.DeleteBoard
 {
     public class DeleteBoardHandler : IRequestHandler<DeleteBoardCommand>
     {
-        private readonly IAsyncRepository<Board, Guid> _boardRepository;
+        private readonly IAsyncRepository<Board, int> _boardRepository;
         private readonly IMapper _mapper;
 
-        public DeleteBoardHandler(IMapper mapper, IAsyncRepository<Board, Guid> boardRepository)
+        public DeleteBoardHandler(IMapper mapper, IAsyncRepository<Board, int> boardRepository)
         {
             _mapper = mapper;
             _boardRepository = boardRepository;

@@ -1,14 +1,13 @@
 ﻿using Scrumboard.Domain.Common;
 using Scrumboard.Domain.Interfaces;
-using System;
 
 namespace Scrumboard.Domain.Entities
 {
-    public class Activity : AuditableEntity, IEntity<Guid>
+    public class Activity : AuditableEntity, IEntity<int>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Message { get; set; }
-        public Guid UserId { get; set; }
+        public Adherent Adherent { get; set; }
         public Card Card { get; set; }
     }
 }

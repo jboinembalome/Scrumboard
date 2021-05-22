@@ -1,14 +1,13 @@
 ﻿using Scrumboard.Domain.Common;
 using Scrumboard.Domain.Interfaces;
 using Scrumboard.Domain.ValueObjects;
-using System;
 using System.Collections.Generic;
 
 namespace Scrumboard.Domain.Entities
 {
-    public class Label : AuditableEntity, IEntity<Guid>
+    public class Label : AuditableEntity, IEntity<int>
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public Colour Colour { get; set; }
         public Board Board { get; set; }

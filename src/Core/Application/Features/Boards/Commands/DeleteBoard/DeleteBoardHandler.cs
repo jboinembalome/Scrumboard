@@ -26,7 +26,7 @@ namespace Scrumboard.Application.Features.Boards.Commands.DeleteBoard
             if (boardToDelete == null)
                 throw new NotFoundException(nameof(Board), request.BoardId);
 
-            await _boardRepository.DeleteAsync(boardToDelete);
+            await _boardRepository.DeleteAsync(boardToDelete, cancellationToken);
 
             return Unit.Value;
         }

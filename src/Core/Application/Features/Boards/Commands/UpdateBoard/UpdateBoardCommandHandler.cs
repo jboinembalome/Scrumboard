@@ -21,20 +21,20 @@ namespace Scrumboard.Application.Features.Boards.Commands.UpdateBoard
 
         public async Task<Unit> Handle(UpdateBoardCommand request, CancellationToken cancellationToken)
         {
-            var boardToUpdate = await _boardRepository.GetByIdAsync(request.BoardId);
+            var boardToUpdate = await _boardRepository.GetByIdAsync(request.BoardId, cancellationToken);
 
             if (boardToUpdate == null)
                 throw new NotFoundException(nameof(Board), request.BoardId);
 
             var validator = new UpdateBoardCommandValidator();
-            var validationResult = await validator.ValidateAsync(request);
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (validationResult.Errors.Count > 0)
                 throw new ValidationException(validationResult.Errors);
 
             _mapper.Map(request, boardToUpdate, typeof(UpdateBoardCommand), typeof(Board));
 
-            await _boardRepository.UpdateAsync(boardToUpdate);
+            await _boardRepository.UpdateAsync(boardToUpdate, cancellationToken);
 
             return Unit.Value;
         }

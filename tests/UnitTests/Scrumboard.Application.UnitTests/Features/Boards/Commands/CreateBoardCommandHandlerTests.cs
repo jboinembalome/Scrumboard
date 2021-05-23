@@ -44,7 +44,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
             // Assert
             result.Success.Should().BeTrue();
             allBoards.Count.Should().Be(3);
-            allBoards.Last().Name.Should().Be(result.Board.Name);
+            allBoards[allBoards.Count - 1].Name.Should().Be(result.Board.Name);
         }
     }
 }

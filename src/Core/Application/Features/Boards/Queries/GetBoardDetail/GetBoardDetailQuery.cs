@@ -6,6 +6,6 @@ namespace Scrumboard.Application.Features.Boards.Queries.GetBoardDetail
 {
     public class GetBoardDetailQuery : IRequest<BoardDetailDto>
     {
-        public Guid BoardId { get; set; }
+        public int BoardId { get; set; }
     }
 }

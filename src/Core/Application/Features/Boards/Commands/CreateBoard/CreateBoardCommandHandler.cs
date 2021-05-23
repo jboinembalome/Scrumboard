@@ -3,8 +3,6 @@ using MediatR;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,10 +10,10 @@ namespace Scrumboard.Application.Features.Boards.Commands.CreateBoard
 {
     public class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, CreateBoardCommandResponse>
     {
-        private readonly IAsyncRepository<Board, Guid> _boardRepository;
+        private readonly IAsyncRepository<Board, int> _boardRepository;
         private readonly IMapper _mapper;
 
-        public CreateBoardCommandHandler(IMapper mapper, IAsyncRepository<Board, Guid> boardRepository)
+        public CreateBoardCommandHandler(IMapper mapper, IAsyncRepository<Board, int> boardRepository)
         {
             _mapper = mapper;
             _boardRepository = boardRepository;

@@ -8,7 +8,6 @@ using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Entities;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -18,7 +17,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
     public class DeleteBoardHandlerTests
     {
         private readonly IMapper _mapper;
-        private readonly Mock<IAsyncRepository<Board, Guid>> _mockBoardRepository;
+        private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
 
         public DeleteBoardHandlerTests()
         {
@@ -36,7 +35,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
         {
             // Arrange
             var handler = new DeleteBoardHandler(_mapper, _mockBoardRepository.Object);
-            var deleteBoardCommand = new DeleteBoardCommand { BoardId = Guid.Parse("B0788D2F-8003-43C1-92A4-EDC76A7C5DDE") };
+            var deleteBoardCommand = new DeleteBoardCommand { BoardId = 1 };
 
             // Act
             var result = await handler.Handle(deleteBoardCommand, CancellationToken.None);
@@ -52,7 +51,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
         {
             // Arrange
             var handler = new DeleteBoardHandler(_mapper, _mockBoardRepository.Object);
-            var deleteBoardCommand = new DeleteBoardCommand { BoardId = Guid.Parse("C0788D2F-8003-43C1-92A4-EDC76A7C5DDE") };
+            var deleteBoardCommand = new DeleteBoardCommand { BoardId = 0 };
 
             // Act and Assert
             await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(deleteBoardCommand, CancellationToken.None));

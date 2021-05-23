@@ -6,7 +6,7 @@ namespace Scrumboard.Application.Features.Boards.Specifications
 {
     public class BoardWithAllSpec : Specification<Board>, ISingleResultSpecification
     {
-        public BoardWithAllSpec(Guid boardId)
+        public BoardWithAllSpec(int boardId)
         {
             Query.Where(b => b.Id == boardId);
             Query.Include(b => b.Labels);

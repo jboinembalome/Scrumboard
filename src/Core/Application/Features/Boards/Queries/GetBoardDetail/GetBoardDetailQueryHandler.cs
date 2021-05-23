@@ -5,8 +5,6 @@ using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Features.Boards.Specifications;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,10 +12,10 @@ namespace Scrumboard.Application.Features.Boards.Queries.GetBoardDetail
 {
     public class GetBoardDetailQueryHandler : IRequestHandler<GetBoardDetailQuery, BoardDetailDto>
     {
-        private readonly IAsyncRepository<Board, Guid> _boardRepository;
+        private readonly IAsyncRepository<Board, int> _boardRepository;
         private readonly IMapper _mapper;
 
-        public GetBoardDetailQueryHandler(IMapper mapper, IAsyncRepository<Board, Guid> boardRepository)
+        public GetBoardDetailQueryHandler(IMapper mapper, IAsyncRepository<Board, int> boardRepository)
         {
             _mapper = mapper;
             _boardRepository = boardRepository;

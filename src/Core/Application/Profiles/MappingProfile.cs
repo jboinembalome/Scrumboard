@@ -3,7 +3,6 @@ using Scrumboard.Application.Dto;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Domain.Entities;
-using Scrumboard.Domain.Enums;
 using Scrumboard.Domain.ValueObjects;
 using System.Linq;
 
@@ -13,6 +12,8 @@ namespace Scrumboard.Application.Profiles
     {
         public MappingProfile()
         {
+            CreateMap<Adherent, AdherentDto>();
+
             CreateMap<Board, BoardDto>();
             CreateMap<Board, CreateBoardCommand>().ReverseMap();
             CreateMap<Board, UpdateBoardCommand>().ReverseMap();

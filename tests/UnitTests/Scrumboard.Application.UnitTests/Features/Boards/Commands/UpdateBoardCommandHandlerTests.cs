@@ -18,7 +18,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
     public class UpdateBoardCommandHandlerTests
     {
         private readonly IMapper _mapper;
-        private readonly Mock<IAsyncRepository<Board, Guid>> _mockBoardRepository;
+        private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
 
         public UpdateBoardCommandHandlerTests()
         {
@@ -36,11 +36,11 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
         {
             // Arrange
             var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
-            var updateBoardCommand = new UpdateBoardCommand { Name = "My new name", BoardId = Guid.Parse("B0788D2F-8003-43C1-92A4-EDC76A7C5DDE") };
+            var updateBoardCommand = new UpdateBoardCommand { Name = "My new name", BoardId = 1 };
 
             // Act
             var result = await handler.Handle(updateBoardCommand, CancellationToken.None);
-            var updatedBoard = await _mockBoardRepository.Object.GetByIdAsync(Guid.Parse("B0788D2F-8003-43C1-92A4-EDC76A7C5DDE"), CancellationToken.None);
+            var updatedBoard = await _mockBoardRepository.Object.GetByIdAsync(1, CancellationToken.None);
 
             // Assert
             result.Should().Be(Unit.Value);
@@ -52,7 +52,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
         {
             // Arrange
             var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
-            var updateBoardCommand = new UpdateBoardCommand { Name = "My new name", BoardId = Guid.Parse("C0788D2F-8003-43C1-92A4-EDC76A7C5DDE") };
+            var updateBoardCommand = new UpdateBoardCommand { Name = "My new name", BoardId = 0 };
 
             // Act and Assert
             await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(updateBoardCommand, CancellationToken.None));
@@ -66,7 +66,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
         {
             // Arrange
             var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
-            var updateBoardCommand = new UpdateBoardCommand { Name = name, BoardId = Guid.Parse("B0788D2F-8003-43C1-92A4-EDC76A7C5DDE") };
+            var updateBoardCommand = new UpdateBoardCommand { Name = name, BoardId = 1 };
 
             // Act and Assert
             await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(updateBoardCommand, CancellationToken.None));
@@ -82,7 +82,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
             for (int i = 0; i < 20; i++)
                 name += name;
 
-            var updateBoardCommand = new UpdateBoardCommand { Name = name, BoardId = Guid.Parse("B0788D2F-8003-43C1-92A4-EDC76A7C5DDE") };
+            var updateBoardCommand = new UpdateBoardCommand { Name = name, BoardId = 1 };
 
             // Act and Assert
             await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(updateBoardCommand, CancellationToken.None));

@@ -7,11 +7,11 @@ using Xunit;
 namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
 {
     [Collection("Database collection")]
-    public class BoardRepositoryUpdate : IAsyncLifetime
+    public class BoardRepositoryDeleteTests : IAsyncLifetime
     {
         readonly DatabaseFixture _database;
 
-        public BoardRepositoryUpdate(DatabaseFixture database)
+        public BoardRepositoryDeleteTests(DatabaseFixture database)
         {
             _database = database;
         }
@@ -31,16 +31,12 @@ namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
             _database.DbContext.Boards.Add(board);
             await _database.DbContext.SaveChangesAsync();
 
-            board.Name = "Updated Name";
-
             // Act
-            await boardRepository.UpdateAsync(board);
-            var boardUpdated = await _database.DbContext.Boards.FirstOrDefaultAsync(b => b.Name == board.Name);
+            await boardRepository.DeleteAsync(board);
+            var boardDeleted = await _database.DbContext.Boards.FirstOrDefaultAsync(b => b.Name == testBoardName);
 
             // Assert
-            boardUpdated.Should().NotBeNull();
-            boardUpdated.Id.Should().Be(board.Id);
-            boardUpdated.Name.Should().Be(board.Name);        
+            boardDeleted.Should().BeNull();
         }
     }
 }

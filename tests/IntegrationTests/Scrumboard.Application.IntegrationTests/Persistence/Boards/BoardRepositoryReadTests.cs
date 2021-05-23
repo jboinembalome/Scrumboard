@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Entities;
 using System.Threading.Tasks;
 using Xunit;
@@ -7,11 +6,11 @@ using Xunit;
 namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
 {
     [Collection("Database collection")]
-    public class BoardRepositoryDelete : IAsyncLifetime
+    public class BoardRepositoryReadTests : IAsyncLifetime
     {
         readonly DatabaseFixture _database;
 
-        public BoardRepositoryDelete(DatabaseFixture database)
+        public BoardRepositoryReadTests(DatabaseFixture database)
         {
             _database = database;
         }
@@ -21,7 +20,7 @@ namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
         public Task InitializeAsync() => Task.CompletedTask;
 
         [Fact]
-        public async Task DeleteAsync_ExistingBoard_BoardDeleted()
+        public async Task GetByIdAsync_ExistingId_BoardRetrieved()
         {           
             // Arrange
             var testBoardName = "testBoard";
@@ -31,12 +30,14 @@ namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
             _database.DbContext.Boards.Add(board);
             await _database.DbContext.SaveChangesAsync();
 
+            int boardId = board.Id;
+
             // Act
-            await boardRepository.DeleteAsync(board);
-            var boardDeleted = await _database.DbContext.Boards.FirstOrDefaultAsync(b => b.Name == testBoardName);
+            var boardRetrived = await boardRepository.GetByIdAsync(boardId);
 
             // Assert
-            boardDeleted.Should().BeNull();
+            boardRetrived.Name.Should().Be(board.Name);
+            boardRetrived.Id.Should().BeGreaterThan(0);
         }
     }
 }

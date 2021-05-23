@@ -7,11 +7,11 @@ using Xunit;
 namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
 {
     [Collection("Database collection")]
-    public class BoardRepositoryCreate : IAsyncLifetime
+    public class BoardRepositoryUpdateTests : IAsyncLifetime
     {
         readonly DatabaseFixture _database;
 
-        public BoardRepositoryCreate(DatabaseFixture database)
+        public BoardRepositoryUpdateTests(DatabaseFixture database)
         {
             _database = database;
         }
@@ -21,20 +21,26 @@ namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
         public Task InitializeAsync() => Task.CompletedTask;
 
         [Fact]
-        public async Task AddAsync_ValidBoard_BoardAdded()
+        public async Task DeleteAsync_ExistingBoard_BoardDeleted()
         {           
             // Arrange
             var testBoardName = "testBoard";
             var board = new Board { Name = testBoardName };
             var boardRepository =  _database.GetRepository<Board, int>();
 
+            _database.DbContext.Boards.Add(board);
+            await _database.DbContext.SaveChangesAsync();
+
+            board.Name = "Updated Name";
+
             // Act
-            var newboard = await boardRepository.AddAsync(board);
-            var boardAdded = (await _database.DbContext.Boards.ToListAsync())[0];
+            await boardRepository.UpdateAsync(board);
+            var boardUpdated = await _database.DbContext.Boards.FirstOrDefaultAsync(b => b.Name == board.Name);
 
             // Assert
-            boardAdded.Name.Should().Be(newboard.Name);
-            boardAdded?.Id.Should().BeGreaterThan(0);
+            boardUpdated.Should().NotBeNull();
+            boardUpdated.Id.Should().Be(board.Id);
+            boardUpdated.Name.Should().Be(board.Name);        
         }
     }
 }

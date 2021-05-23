@@ -7,11 +7,11 @@ using Xunit;
 namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
 {
     [Collection("Database collection")]
-    public class BoardRepositoryRead : IAsyncLifetime
+    public class BoardRepositoryCreateTests : IAsyncLifetime
     {
         readonly DatabaseFixture _database;
 
-        public BoardRepositoryRead(DatabaseFixture database)
+        public BoardRepositoryCreateTests(DatabaseFixture database)
         {
             _database = database;
         }
@@ -21,24 +21,20 @@ namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
         public Task InitializeAsync() => Task.CompletedTask;
 
         [Fact]
-        public async Task GetByIdAsync_ExistingId_BoardRetrieved()
+        public async Task AddAsync_ValidBoard_BoardAdded()
         {           
             // Arrange
             var testBoardName = "testBoard";
             var board = new Board { Name = testBoardName };
             var boardRepository =  _database.GetRepository<Board, int>();
 
-            _database.DbContext.Boards.Add(board);
-            await _database.DbContext.SaveChangesAsync();
-
-            int boardId = board.Id;
-
             // Act
-            var boardRetrived = await boardRepository.GetByIdAsync(boardId);
+            var newboard = await boardRepository.AddAsync(board);
+            var boardAdded = (await _database.DbContext.Boards.ToListAsync())[0];
 
             // Assert
-            boardRetrived.Name.Should().Be(board.Name);
-            boardRetrived.Id.Should().BeGreaterThan(0);
+            boardAdded.Name.Should().Be(newboard.Name);
+            boardAdded.Id.Should().BeGreaterThan(0);
         }
     }
 }

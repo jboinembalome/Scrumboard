@@ -26,12 +26,6 @@ namespace Scrumboard.Application.Features.Boards.Commands.UpdateBoard
             if (boardToUpdate == null)
                 throw new NotFoundException(nameof(Board), request.BoardId);
 
-            var validator = new UpdateBoardCommandValidator();
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (validationResult.Errors.Count > 0)
-                throw new ValidationException(validationResult.Errors);
-
             _mapper.Map(request, boardToUpdate, typeof(UpdateBoardCommand), typeof(Board));
 
             await _boardRepository.UpdateAsync(boardToUpdate, cancellationToken);

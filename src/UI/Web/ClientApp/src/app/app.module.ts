@@ -19,6 +19,7 @@ import { HomeComponent } from './home/home.component';
 import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
 import { AuthorizeGuard } from '../api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
+import { RedirectGuard } from './shared/guard/redirect.guard';
 
 import { FakeDbService } from './fake-db/fake-db.service';
 import { FuseModule } from '@fuse/fuse.module';
@@ -34,6 +35,14 @@ const appRoutes: Routes = [
         loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule)
     },
     { path: 'home', component: HomeComponent},
+    {
+        path: 'swagger',
+        canActivate: [RedirectGuard],
+        component: RedirectGuard,
+        data: {
+            externalUrl: location.origin + '/swagger/index.html'
+        }
+    },
     { path: '**', redirectTo: 'home' }
 ];
 

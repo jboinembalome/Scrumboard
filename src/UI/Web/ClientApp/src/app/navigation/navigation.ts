@@ -68,5 +68,21 @@ export const navigation: FuseNavigation[] = [
                 url: '/apps/scrumboard'
             }
         ]
+    },
+    {
+        id: 'documentation',
+        title: 'Documentation',
+        translate: 'NAV.DOCUMENTATION',
+        type: 'group',
+        children: [
+            {
+                id: 'swagger',
+                title: 'Swagger UI',
+                translate: 'NAV.SWAGGER_UI',
+                type: 'item',
+                icon: 'Description',
+                url: '/swagger'
+            }
+        ]
     }
 ];

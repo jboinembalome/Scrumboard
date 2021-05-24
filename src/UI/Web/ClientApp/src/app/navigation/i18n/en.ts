@@ -12,7 +12,9 @@ export const locale = {
                 'TITLE': 'Sample',
                 'BADGE': '25'
             },
-            'SCRUMBOARD': 'Scrumboard'
+            'SCRUMBOARD': 'Scrumboard',
+            'DOCUMENTATION': 'Documentation',
+            'SWAGGER_UI': 'Swagger UI'
         }
     }
 };

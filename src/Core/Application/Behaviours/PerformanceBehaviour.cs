@@ -46,7 +46,7 @@ namespace Scrumboard.Application.Behaviours
                 if (!string.IsNullOrEmpty(userId))
                     userName = await _identityService.GetUserNameAsync(userId);
 
-                _logger.LogWarning("CleanArchitecture Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
+                _logger.LogWarning("Scrumboard API Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
                     requestName, elapsedMilliseconds, userId, userName, request);
             }
 

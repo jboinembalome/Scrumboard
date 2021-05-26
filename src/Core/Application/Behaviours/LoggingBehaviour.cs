@@ -29,7 +29,7 @@ namespace Scrumboard.Application.Behaviours
             if (!string.IsNullOrEmpty(userId))
                 userName = await _identityService.GetUserNameAsync(userId);
 
-            _logger.LogInformation("CleanArchitecture Request: {Name} {@UserId} {@UserName} {@Request}",
+            _logger.LogInformation("Scrumboard API Request: {Name} {@UserId} {@UserName} {@Request}",
                 requestName, userId, userName, request);
         }
     }

@@ -15,8 +15,12 @@ namespace Scrumboard.Application.Profiles
             CreateMap<Adherent, AdherentDto>();
 
             CreateMap<Board, BoardDto>();
-            CreateMap<Board, CreateBoardCommand>().ReverseMap();
-            CreateMap<Board, UpdateBoardCommand>().ReverseMap();
+            CreateMap<Board, CreateBoardCommand>()
+                .ForMember(d => d.UserId, opt => opt.MapFrom(c => c.Adherent.IdentityGuid))
+                .ReverseMap();
+            CreateMap<Board, UpdateBoardCommand>()
+                .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))
+                .ReverseMap();
             CreateMap<Board, BoardDetailDto>();
 
             CreateMap<BoardSetting, BoardSettingDto>();

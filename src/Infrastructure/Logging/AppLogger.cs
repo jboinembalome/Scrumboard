@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Scrumboard.Application.Interfaces.Logging;
+using System;
 
 namespace Scrumboard.Infrastructure.Logging
 {
@@ -30,6 +31,11 @@ namespace Scrumboard.Infrastructure.Logging
         public void LogDebug(string message, params object[] args)
         {
             _logger.LogDebug(message, args);
+        }
+
+        public void LogError(Exception exception, string message, params object[] args)
+        {
+            _logger.LogError(exception, message, args);
         }
 
         public void LogError(string message, params object[] args)

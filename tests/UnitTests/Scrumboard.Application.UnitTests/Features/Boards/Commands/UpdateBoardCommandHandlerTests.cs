@@ -57,35 +57,5 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
             // Act and Assert
             await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(updateBoardCommand, CancellationToken.None));
         }
-
-        [Theory()]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("  ")]
-        public async Task UpdateBoardTest_EmptyName_ThrowsAnExceptionValidation(string name)
-        {
-            // Arrange
-            var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
-            var updateBoardCommand = new UpdateBoardCommand { Name = name, BoardId = 1 };
-
-            // Act and Assert
-            await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(updateBoardCommand, CancellationToken.None));
-        }
-
-        [Fact]
-        public async Task UpdateBoardTest_NameGreaterthan50_ThrowsAnExceptionValidation()
-        {
-            // Arrange
-            var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
-            string name = "aaaaaaaaaa";
-
-            for (int i = 0; i < 20; i++)
-                name += name;
-
-            var updateBoardCommand = new UpdateBoardCommand { Name = name, BoardId = 1 };
-
-            // Act and Assert
-            await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(updateBoardCommand, CancellationToken.None));
-        }
     }
 }

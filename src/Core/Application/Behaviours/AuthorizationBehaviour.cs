@@ -39,9 +39,9 @@ namespace Scrumboard.Application.Behaviours
 
                 if (authorizeAttributesWithRoles.Any())
                 {
+                    var authorized = false;
                     foreach (var roles in authorizeAttributesWithRoles.Select(a => a.Roles.Split(',')))
                     {
-                        var authorized = false;
                         foreach (var role in roles)
                         {
                             var isInRole = await _identityService.IsInRoleAsync(_currentUserService.UserId, role.Trim());

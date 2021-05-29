@@ -8,6 +8,7 @@ using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Entities;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -64,8 +65,11 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Queries
             var handler = new GetBoardDetailQueryHandler(_mapper, _mockBoardRepository.Object);
             var getBoardDetailQuery = new GetBoardDetailQuery { BoardId = 0 };
 
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(getBoardDetailQuery, CancellationToken.None));
+            // Act
+            Func<Task> action = async () => { await handler.Handle(getBoardDetailQuery, CancellationToken.None); };
+
+            // Assert
+            await action.Should().ThrowAsync<NotFoundException>();
         }
 
     }

@@ -10,7 +10,7 @@ namespace Scrumboard.Application.IntegrationTests.FileExport
 {
     public class ExportToCsvTests
     {
-        readonly ICsvExporter<Board> _csvExporter;
+        private readonly ICsvExporter<Board> _csvExporter;
 
         public ExportToCsvTests()
         {

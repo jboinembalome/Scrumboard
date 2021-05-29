@@ -9,7 +9,7 @@ namespace Scrumboard.Application.IntegrationTests.Persistence.Boards
     [Collection("Database collection")]
     public class BoardRepositoryDeleteTests : IAsyncLifetime
     {
-        readonly DatabaseFixture _database;
+        private readonly DatabaseFixture _database;
 
         public BoardRepositoryDeleteTests(DatabaseFixture database)
         {

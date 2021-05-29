@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Scrumboard.Application.Specifications;
 using Scrumboard.Domain.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;

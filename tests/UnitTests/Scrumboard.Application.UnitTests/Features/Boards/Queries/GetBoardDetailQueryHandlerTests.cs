@@ -8,7 +8,6 @@ using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Entities;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

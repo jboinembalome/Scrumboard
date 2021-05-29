@@ -54,8 +54,11 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
             var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
             var updateBoardCommand = new UpdateBoardCommand { Name = "My new name", BoardId = 0 };
 
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(updateBoardCommand, CancellationToken.None));
+            // Act
+            Func<Task> action = async () => { await handler.Handle(updateBoardCommand, CancellationToken.None); };
+
+            // Assert
+            await action.Should().ThrowAsync<NotFoundException>();
         }
     }
 }

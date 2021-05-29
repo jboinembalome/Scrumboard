@@ -8,6 +8,7 @@ using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Entities;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -53,8 +54,11 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Commands
             var handler = new DeleteBoardHandler(_mapper, _mockBoardRepository.Object);
             var deleteBoardCommand = new DeleteBoardCommand { BoardId = 0 };
 
-            // Act and Assert
-            await Assert.ThrowsAsync<NotFoundException>(() => handler.Handle(deleteBoardCommand, CancellationToken.None));
+            // Act
+            Func<Task> action = async () => { await handler.Handle(deleteBoardCommand, CancellationToken.None); };
+
+            // Assert
+            await action.Should().ThrowAsync<NotFoundException>();
         }
     }
 }

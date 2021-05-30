@@ -11,34 +11,20 @@ namespace Scrumboard.Infrastructure.Persistence
 {
     public static class ScrumboardDbContextSeed
     {
-        private static string adminUserId;
+        private const string ADMIN_USER_ID = "31a7ffcf-d099-4637-bd58-2a87641d1aaf";
+        private const string ADHERENT_USER_ID = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
 
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var administratorRole = new IdentityRole("Administrator");
-
-            if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
-            {
-                await roleManager.CreateAsync(administratorRole);
-
-            }
-
-            var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
-
-            if (userManager.Users.All(u => u.UserName != administrator.UserName))
-            {
-                var test = await userManager.CreateAsync(administrator, "Administrator1!");
-                await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
-            }
-
-            adminUserId = userManager.FindByEmailAsync("administrator@localhost").Result.Id;
+            await CreateUser(userManager, roleManager, "Administrator", ADMIN_USER_ID, "administrator@localhost", "administrator@localhost", "Administrator1!");
+            await CreateUser(userManager, roleManager, "Adherent", ADHERENT_USER_ID, "adherent@localhost", "adherent@localhost", "Adherent1!");
         }
 
         public static async Task SeedSampleDataAsync(ScrumboardDbContext context)
         {
             var adherent1 = new Adherent
             {
-                IdentityGuid = adminUserId
+                IdentityGuid = ADHERENT_USER_ID
             };
 
             if (!context.Adherents.Any())
@@ -240,5 +226,20 @@ namespace Scrumboard.Infrastructure.Persistence
             }
         }
 
+        private static async Task CreateUser(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, string role, string userId, string userName, string userMail, string userPassword)
+        {
+            var identityRole = new IdentityRole(role);
+
+            if (roleManager.Roles.All(r => r.Name != identityRole.Name))
+                await roleManager.CreateAsync(identityRole);
+
+            var administrator = new ApplicationUser { Id = userId, UserName = userName, Email = userMail };
+
+            if (userManager.Users.All(u => u.UserName != administrator.UserName))
+            {
+                var test = await userManager.CreateAsync(administrator, userPassword);
+                await userManager.AddToRolesAsync(administrator, new[] { identityRole.Name });
+            }
+        }
     }
 }

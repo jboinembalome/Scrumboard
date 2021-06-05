@@ -62,7 +62,7 @@ namespace Scrumboard.Web.Controllers
         {
             var response = await Mediator.Send(command);
 
-            return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, command);
+            return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, response);
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Scrumboard.Application.IntegrationTests.Persistence
 {
-    public class DatabaseFixture
+    public class DatabaseFixture : IDisposable
     {
         private const string DEFAULT_SQL_CONNECTION = "Server=(localdb)\\mssqllocaldb;Database=ScrumboardTestDb;Trusted_Connection=True;MultipleActiveResultSets=true;";
         private readonly Mock<ICurrentUserService> _mockCurrentUserService;
@@ -87,7 +87,16 @@ namespace Scrumboard.Application.IntegrationTests.Persistence
             var operationalStoreOptions = Options.Create(new OperationalStoreOptions());
 
             DbContext = new ScrumboardDbContext(options, operationalStoreOptions, _mockCurrentUserService.Object, _mockDateTime.Object);
-            DbContext.Database.Migrate();
+            if (!inMemoryDatabase)
+                DbContext.Database.Migrate();
+            else
+                DbContext.Database.EnsureCreated();
+        }
+
+        public void Dispose()
+        {
+            DbContext.Database.EnsureDeleted();
+            GC.SuppressFinalize(this);
         }
     }
 }

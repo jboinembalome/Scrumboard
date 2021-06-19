@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
 using Scrumboard.Infrastructure.Identity;
@@ -11,52 +12,25 @@ namespace Scrumboard.Infrastructure.Persistence
 {
     public static class ScrumboardDbContextSeed
     {
-        private static string adminUserId;
+        private const string ADMIN_USER_ID = "31a7ffcf-d099-4637-bd58-2a87641d1aaf";
+        private const string ADHERENT_USER_ID = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
 
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var administratorRole = new IdentityRole("Administrator");
-
-            if (roleManager.Roles.All(r => r.Name != administratorRole.Name))
-            {
-                await roleManager.CreateAsync(administratorRole);
-
-            }
-
-            var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
-
-            if (userManager.Users.All(u => u.UserName != administrator.UserName))
-            {
-                var test = await userManager.CreateAsync(administrator, "Administrator1!");
-                await userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
-            }
-
-            adminUserId = userManager.FindByEmailAsync("administrator@localhost").Result.Id;
+            await CreateUser(userManager, roleManager, "Administrator", ADMIN_USER_ID, "administrator@localhost", "administrator@localhost", "Administrator1!");
+            await CreateUser(userManager, roleManager, "Adherent", ADHERENT_USER_ID, "adherent@localhost", "adherent@localhost", "Adherent1!");
         }
 
         public static async Task SeedSampleDataAsync(ScrumboardDbContext context)
         {
-            var adherent1 = new Adherent
+            var adherent = new Adherent
             {
-                IdentityGuid = adminUserId
+                IdentityGuid = ADHERENT_USER_ID
             };
 
-            if (!context.Adherents.Any())
-            {
-                context.Adherents.Add(adherent1);
-                await context.SaveChangesAsync();
-            }
-                
-            var team1 = new Team { Name = "Developer Team" };
+            var team = new Team { Name = "Developer Team" };
 
-            if (!context.Teams.Any())
-            {
-                context.Teams.Add(team1);
-                await context.SaveChangesAsync();
-            }
-                
-
-            var labelsForFrontEndScrumboard = new Collection<Label>
+            var labels = new Collection<Label>
             {
                 new Label
                 {
@@ -72,173 +46,247 @@ namespace Scrumboard.Infrastructure.Persistence
                 {
                     Name = "Feature",
                     Colour = Colour.Red
+                },
+                new Label
+                {
+                    Name = "Log",
+                    Colour = Colour.White
+                },
+                new Label
+                {
+                    Name = "Documentation",
+                    Colour = Colour.Orange
+                },
+                new Label
+                {
+                    Name = "Persitence",
+                    Colour = Colour.Red
                 }
             };
 
-            if (!context.Labels.Any())
+            var activities = new Collection<Activity>
             {
-                context.Labels.Add(labelsForFrontEndScrumboard[0]);
-                context.Labels.Add(labelsForFrontEndScrumboard[1]);
-                context.Labels.Add(labelsForFrontEndScrumboard[2]);
-                await context.SaveChangesAsync();
-            }
-
-
-            // Seed, if necessary
-            if (!context.Boards.Any())
-            {
-                context.Boards.Add(new Board
+                new Activity
+                 {
+                     Message = @"Jimmy Boinembalome moved Add Create login page on Design",
+                     Adherent = adherent
+                 },
+                new Activity
                 {
-                    Name = "Scrumboard FrontEnd",
-                    Uri = "scrumboard-frontend",
-                    Adherent = adherent1,
-                    Team = team1,
-                    ListBoards = new Collection<ListBoard>
+                    Message = @"Jimmy Boinembalome added Change background colors on Design",
+                    Adherent = adherent
+                },
+                new Activity
+                {
+                    Message = @"Jimmy Boinembalome added Fix splash screen bugs on Development",
+                    Adherent = adherent
+                },
+                new Activity
+                {
+                    Message = @"Jimmy Boinembalome added Add a notification when a user adds a comment on Upcoming Features",
+                    Adherent = adherent
+                }
+            };
+
+            var cards = new Collection<Card>
+            {
+                new Card
+                {
+                    Name = "Create login page",
+                    Description = "Create login page with social network authenfication.",
+                    Suscribed = false,
+                    DueDate = null,
+                    Labels = new Collection<Label> { labels[0], labels[1] },
+                    Adherents = new Collection<Adherent> { adherent },
+                    Activities =  new Collection<Activity> { activities[0] },
+                    Attachments = new Collection<Attachment>
                     {
-                        new ListBoard
+                        new Attachment
                         {
-                            Name = "Design",
-                            Cards = new Collection<Card>
+                            Name = "Image.png",
+                            Url = "urlOfimage",
+                            AttachmentType = Domain.Enums.AttachmentType.Image
+                        },
+                            new Attachment
+                        {
+                            Name = "Image2.png",
+                            Url = "urlOfimage2",
+                            AttachmentType = Domain.Enums.AttachmentType.Image
+                        },
+                    },
+                    Checklists = new Collection<Checklist>
+                    {
+                        new Checklist
+                        {
+                            Name = "Checklist",
+                            ChecklistItems = new Collection<ChecklistItem>
                             {
-                                new Card
+                                new ChecklistItem
                                 {
-                                    Name = "Create login page",
-                                    Description = "Create login page with social network authenfication.",
-                                    Suscribed = false,
-                                    DueDate = null,
-                                    Labels = new Collection<Label> { labelsForFrontEndScrumboard[0], labelsForFrontEndScrumboard[1] },
-                                    Adherents = new Collection<Adherent> { adherent1 },
-                                    Activities =  new Collection<Activity>
-                                    {
-                                        new Activity
-                                        {
-                                            Message = @"Jimmy Boinembalome moved Add Create login page on Design",
-                                            Adherent = adherent1
-                                        }
-                                    },
-                                    Attachments = new Collection<Attachment>
-                                    {
-                                        new Attachment
-                                        {
-                                            Name = "Image.png",
-                                            Url = "urlOfimage",
-                                            AttachmentType = Domain.Enums.AttachmentType.Image
-                                        },
-                                         new Attachment
-                                        {
-                                            Name = "Image2.png",
-                                            Url = "urlOfimage2",
-                                            AttachmentType = Domain.Enums.AttachmentType.Image
-                                        },
-                                    },
-                                    Checklists = new Collection<Checklist>
-                                    {
-                                        new Checklist
-                                        {
-                                            Name = "Checklist",
-                                            ChecklistItems = new Collection<ChecklistItem>
-                                            {
-                                                new ChecklistItem
-                                                {
-                                                    Name = "Create template for the login page",
-                                                    IsChecked = true,
-                                                },
-                                                new ChecklistItem
-                                                {
-                                                    Name = "Validate template for the login page",
-                                                    IsChecked = false,
-                                                }
-                                            }
-                                        }
-                                    },
-                                    Comments = new Collection<Comment>
-                                    {
-                                        new Comment
-                                        {
-                                            Message = "The template for the login page is available on the cloud.",
-                                            Adherent = adherent1
-                                        }
-                                    }
+                                    Name = "Create template for the login page",
+                                    IsChecked = true,
                                 },
-                                new Card
+                                new ChecklistItem
                                 {
-                                    Name = "Change background colors",
-                                    Description = null,
-                                    Suscribed = false,
-                                    DueDate = null,
-                                    Labels = new Collection<Label> { labelsForFrontEndScrumboard[0] },
-                                    Adherents = new Collection<Adherent> { },
-                                    Activities =  new Collection<Activity>
-                                    {
-                                        new Activity
-                                        {
-                                            Message = @"Jimmy Boinembalome added Change background colors on Design",
-                                            Adherent = adherent1
-                                        }
-                                    }
+                                    Name = "Validate template for the login page",
+                                    IsChecked = false,
+                                }
+                            }
+                        }
+                    },
+                    Comments = new Collection<Comment>
+                    {
+                        new Comment
+                        {
+                            Message = "The template for the login page is available on the cloud.",
+                            Adherent = adherent
+                        }
+                    }
+                },
+                new Card
+                {
+                    Name = "Change background colors",
+                    Description = null,
+                    Suscribed = false,
+                    DueDate = null,
+                    Labels = new Collection<Label> { labels[0] },
+                    Activities =  new Collection<Activity> { activities[1] }
+                },
+                new Card
+                {
+                    Name = "Fix splash screen bugs",
+                    Description = "",
+                    Suscribed = true,
+                    DueDate = new DateTime(2021, 5, 15),
+                    Labels = new Collection<Label> { labels[1] },
+                    Activities =  new Collection<Activity> { activities[2] }
+                },
+                new Card
+                {
+                    Name = "Add a notification when a user adds a comment",
+                    Description = "",
+                    Suscribed = false,
+                    DueDate = null,
+                    Labels = new Collection<Label> { labels[2] },
+                    Adherents = new Collection<Adherent> { adherent },
+                    Activities =  new Collection<Activity> { activities[3] }
+                },
+            };
+
+            var listboards = new Collection<ListBoard>
+            {
+                new ListBoard
+                {
+                    Name = "Design",
+                    Cards = new Collection<Card>{ cards[0], cards[1] }
+                },
+                new ListBoard
+                {
+                    Name = "Development",
+                    Cards = new Collection<Card> { cards[2] }
+                },
+                new ListBoard
+                {
+                    Name = "Upcoming Features",
+                    Cards = new Collection<Card> { cards[3] }
+                },
+                new ListBoard
+                {
+                    Name = "Known Bugs",
+                },
+                new ListBoard
+                {
+                    Name = "Backlog",
+                    Cards = new Collection<Card>
+                    {
+                        new Card
+                        {
+                            Name = "Write documentation for the naming convention",
+                            Description = "",
+                            Suscribed = false,
+                            DueDate = null,
+                            Labels = new Collection<Label> { labels[4] },
+                            Adherents = new Collection<Adherent> { adherent },
+                            Activities =  new Collection<Activity>
+                            {
+                                new Activity
+                                {
+                                    Message = @"Jimmy Boinembalome added Write documentation for the naming convention on Backlog",
+                                    Adherent = adherent
                                 }
                             }
                         },
-                        new ListBoard
+                        new Card
                         {
-                            Name = "Development",
-                            Cards = new Collection<Card>
+                            Name = "Add Serilog for logs",
+                            Description = "",
+                            Suscribed = false,
+                            DueDate = null,
+                            Labels = new Collection<Label> { labels[3] },
+                            Adherents = new Collection<Adherent> { },
+                            Activities =  new Collection<Activity>
                             {
-                                new Card
+                                new Activity
                                 {
-                                    Name = "Fix splash screen bugs",
-                                    Description = "",
-                                    Suscribed = true,
-                                    DueDate = new DateTime(2021, 5, 15),
-                                    Labels = new Collection<Label> { labelsForFrontEndScrumboard[1] },
-                                    Adherents = new Collection<Adherent> { },
-                                    Activities =  new Collection<Activity>
-                                    {
-                                        new Activity
-                                        {
-                                            Message = @"Jimmy Boinembalome added Fix splash screen bugs on Development",
-                                            Adherent = adherent1
-                                        }
-                                    }
-                                },
+                                    Message = @"Jimmy Boinembalome added Add Serilog for logs on Backlog",
+                                    Adherent = adherent
+                                }
                             }
                         },
-                        new ListBoard
-                        {
-                            Name = "Upcoming Features",
-                            Cards = new Collection<Card>
-                            {
-                                new Card
-                                {
-                                    Name = "Add a notification when a user adds a comment",
-                                    Description = "",
-                                    Suscribed = false,
-                                    DueDate = null,
-                                    Labels = new Collection<Label> { labelsForFrontEndScrumboard[2] },
-                                    Adherents = new Collection<Adherent> { adherent1 },
-                                    Activities =  new Collection<Activity>
-                                    {
-                                        new Activity
-                                        {
-                                            Message = @"Jimmy Boinembalome added Add a notification when a user adds a comment on Upcoming Features",
-                                            Adherent = adherent1
-                                        }
-                                    }
-                                },
-                            }
-                        },
-                        new ListBoard
-                        {
-                            Name = "Known Bugs",
-                            Cards = new Collection<Card>{ }
-                        }
-                    },
-                    Labels = labelsForFrontEndScrumboard
-                });
+                    }
+                }
+            };
+
+            var boards = new Collection<Board>
+            {
+                new Board
+                {
+                    Name = "Scrumboard FrontEnd",
+                    Uri = "scrumboard-frontend",
+                    Adherent = adherent,
+                    Team = team,
+                    ListBoards = new Collection<ListBoard> { listboards[0], listboards[1], listboards[2], listboards[3] },
+                    Labels = labels
+                },
+                new Board
+                {
+                    Name = "Scumboard BackEnd",
+                    Uri = "scrumboard-backend",
+                    Adherent = adherent,
+                    Team = team,
+                    ListBoards = new Collection<ListBoard> { listboards[4] }
+                },
+                new Board
+                {
+                    Name = "Scumboard Test",
+                    Uri = "scrumboard-test",
+                    Adherent = adherent
+                }
+            };
+
+            // Seed, if necessary
+            if (!await context.Boards.AnyAsync())
+            {
+                await context.Boards.AddRangeAsync(boards);
 
                 await context.SaveChangesAsync();
             }
         }
 
+        private static async Task CreateUser(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, string role, string userId, string userName, string userMail, string userPassword)
+        {
+            var identityRole = new IdentityRole(role);
+
+            if (roleManager.Roles.All(r => r.Name != identityRole.Name))
+                await roleManager.CreateAsync(identityRole);
+
+            var administrator = new ApplicationUser { Id = userId, UserName = userName, Email = userMail };
+
+            if (userManager.Users.All(u => u.UserName != administrator.UserName))
+            {
+                var test = await userManager.CreateAsync(administrator, userPassword);
+                await userManager.AddToRolesAsync(administrator, new[] { identityRole.Name });
+            }
+        }
     }
 }

@@ -345,5 +345,64 @@ namespace Scrumboard.Application.UnitTests.Mocks
 
             return mockBoardRepository;
         }
+
+        public static Mock<IAsyncRepository<Adherent, int>> GetAdherentRepository()
+        {
+            var adherent1Model = new Adherent
+            {
+                Id = 1,
+                IdentityGuid = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
+            };
+        
+            var adherents = new List<Adherent> { adherent1Model };
+
+            var mockAdherentRepository = new Mock<IAsyncRepository<Adherent, int>>();
+            mockAdherentRepository.Setup(repo => repo.ListAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(adherents);
+
+            mockAdherentRepository.Setup(repo => repo.ListAsync(It.IsAny<ISpecification<Adherent>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+                  (ISpecification<Adherent> specification, CancellationToken cancellationToken) =>
+                  {
+                      IReadOnlyList<Adherent> adherentList = specification.Evaluate(adherents).ToList().AsReadOnly();
+                      return adherentList;
+                  });
+
+            mockAdherentRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+              (int id, CancellationToken cancellationToken) =>
+              {
+                  var adherent = adherents.FirstOrDefault(b => b.Id == id);
+                  return adherent;
+              });
+
+            mockAdherentRepository.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<ISpecification<Adherent>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+                (ISpecification<Adherent> specification, CancellationToken cancellationToken) =>
+                {
+                    Adherent adherent = specification.Evaluate(adherents).FirstOrDefault();
+                    return adherent;
+                });
+
+            mockAdherentRepository.Setup(repo => repo.AddAsync(It.IsAny<Adherent>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+                (Adherent adherent, CancellationToken cancellationToken) =>
+                {
+                    adherent.Id = adherents.Count + 1;
+                    adherents.Add(adherent);
+                    return adherent;
+                });
+
+            mockAdherentRepository.Setup(repo => repo.UpdateAsync(It.IsAny<Adherent>(), It.IsAny<CancellationToken>())).Callback(
+                (Adherent adherent, CancellationToken cancellationToken) =>
+                {
+                    var adherentToBeUpdated = adherents.FirstOrDefault(b => b.Id == adherent.Id);
+                    adherentToBeUpdated = adherent;
+                });
+
+            mockAdherentRepository.Setup(repo => repo.DeleteAsync(It.IsAny<Adherent>(), It.IsAny<CancellationToken>())).Callback(
+               (Adherent adherent, CancellationToken cancellationToken) =>
+               {
+                   adherents.Remove(adherent);
+               });
+
+            return mockAdherentRepository;
+        }
+
     }
 }

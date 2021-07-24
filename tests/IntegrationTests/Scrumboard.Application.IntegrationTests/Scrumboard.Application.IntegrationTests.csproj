@@ -22,8 +22,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\UI\Web\Scrumboard.Web.csproj" />
-  </ItemGroup>
-
 </Project>

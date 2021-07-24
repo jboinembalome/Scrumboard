@@ -2,94 +2,39 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule } from '@ngx-translate/core';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { AppStoreModule } from 'app/store/store.module';
-import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
-import { AuthorizeGuard } from '../api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
-import { RedirectGuard } from './shared/guard/redirect.guard';
-
-import { FakeDbService } from './fake-db/fake-db.service';
-import { FuseModule } from '@fuse/fuse.module';
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
-
-import { fuseConfig } from 'app/fuse-config';
-
-
-const appRoutes: Routes = [
-    {
-        path: 'apps',
-        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule)
-    },
-    { path: 'home', component: HomeComponent},
-    {
-        path: 'swagger',
-        canActivate: [RedirectGuard],
-        component: RedirectGuard,
-        data: {
-            externalUrl: location.origin + '/swagger/index.html'
-        }
-    },
-    { path: '**', redirectTo: 'home' }
-];
+import { CounterComponent } from './counter/counter.component';
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
+import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HomeComponent
-    ],
-    imports: [
-
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        FormsModule,
-        ApiAuthorizationModule,
-
-        RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
-
-        TranslateModule.forRoot(),
-
-        InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay: 0,
-            passThruUnknownUrl: true
-        }),
-
-        // Material moment date module
-        MatMomentDateModule,
-
-        // Material
-        MatButtonModule,
-        MatIconModule,
-
-        // Fuse modules
-        FuseModule.forRoot(fuseConfig),
-        FuseProgressBarModule,
-        FuseSharedModule,
-        FuseSidebarModule,
-        FuseThemeOptionsModule,
-
-        // App modules
-        LayoutModule,
-        AppStoreModule,
-        SampleModule
-    ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    NavMenuComponent,
+    HomeComponent,
+    CounterComponent,
+    FetchDataComponent
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    HttpClientModule,
+    FormsModule,
+    ApiAuthorizationModule,
+    RouterModule.forRoot([
+      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'counter', component: CounterComponent },
+      { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+    ])
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

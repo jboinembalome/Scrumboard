@@ -2,38 +2,46 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
+
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+import { appRoutes } from './app.routing';
+//import { MaterialModule } from './shared/material/material.module';
+import { CoreModule } from './core/core.module';
+import { LayoutModule } from './layout/layout.module';
+import { AuthModule } from 'src/app/core/auth/auth.module';
+import { AuthInterceptor } from 'src/app/core/auth/interceptors/auth.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+const routerConfig: ExtraOptions = {
+  preloadingStrategy       : PreloadAllModules,
+  scrollPositionRestoration: 'enabled'
+};
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
+    RouterModule.forRoot(appRoutes, routerConfig),
+
+    // Material module with all import
+    //MaterialModule,
+
+    // Core module of the application
+    CoreModule,
+
+    // Layout module of the application
+    LayoutModule,
+    
     HttpClientModule,
     FormsModule,
-    ApiAuthorizationModule,
-    RouterModule.forRoot([
-    { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'counter', component: CounterComponent },
-    { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-], { relativeLinkResolution: 'legacy' })
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -2,94 +2,47 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { TranslateModule } from '@ngx-translate/core';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
 
 
 import { AppComponent } from './app.component';
-import { AppStoreModule } from 'app/store/store.module';
-import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
-import { HomeComponent } from './home/home.component';
-import { ApiAuthorizationModule } from '../api-authorization/api-authorization.module';
-import { AuthorizeGuard } from '../api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from '../api-authorization/authorize.interceptor';
-import { RedirectGuard } from './shared/guard/redirect.guard';
+import { appRoutes } from './app.routing';
+//import { MaterialModule } from './shared/material/material.module';
+import { CoreModule } from './core/core.module';
+import { LayoutModule } from './layout/layout.module';
+import { AuthModule } from 'src/app/core/auth/auth.module';
+import { AuthInterceptor } from 'src/app/core/auth/interceptors/auth.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FakeDbService } from './fake-db/fake-db.service';
-import { FuseModule } from '@fuse/fuse.module';
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
-
-import { fuseConfig } from 'app/fuse-config';
-
-
-const appRoutes: Routes = [
-    {
-        path: 'apps',
-        loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule)
-    },
-    { path: 'home', component: HomeComponent},
-    {
-        path: 'swagger',
-        canActivate: [RedirectGuard],
-        component: RedirectGuard,
-        data: {
-            externalUrl: location.origin + '/swagger/index.html'
-        }
-    },
-    { path: '**', redirectTo: 'home' }
-];
+const routerConfig: ExtraOptions = {
+  preloadingStrategy       : PreloadAllModules,
+  scrollPositionRestoration: 'enabled'
+};
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HomeComponent
-    ],
-    imports: [
+  declarations: [
+    AppComponent,
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
+    RouterModule.forRoot(appRoutes, routerConfig),
 
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        FormsModule,
-        ApiAuthorizationModule,
+    // Material module with all import
+    //MaterialModule,
 
-        RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
+    // Core module of the application
+    CoreModule,
 
-        TranslateModule.forRoot(),
-
-        InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay: 0,
-            passThruUnknownUrl: true
-        }),
-
-        // Material moment date module
-        MatMomentDateModule,
-
-        // Material
-        MatButtonModule,
-        MatIconModule,
-
-        // Fuse modules
-        FuseModule.forRoot(fuseConfig),
-        FuseProgressBarModule,
-        FuseSharedModule,
-        FuseSidebarModule,
-        FuseThemeOptionsModule,
-
-        // App modules
-        LayoutModule,
-        AppStoreModule,
-        SampleModule
-    ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
-    ],
-    bootstrap: [AppComponent]
+    // Layout module of the application
+    LayoutModule,
+    
+    HttpClientModule,
+    FormsModule,
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

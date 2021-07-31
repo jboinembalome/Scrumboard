@@ -1,23 +1,14 @@
-import { FusePage } from './app.po';
-import { browser, logging } from 'protractor';
+import { AppPage } from './app.po';
 
-describe('Fuse App', () => {
-  let page: FusePage;
+describe('App', () => {
+  let page: AppPage;
 
   beforeEach(() => {
-    page = new FusePage();
+    page = new AppPage();
   });
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to Fuse!');
-  });
-
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE
-    } as logging.Entry));
+    expect(page.getMainHeading()).toEqual('Hello, world!');
   });
 });

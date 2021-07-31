@@ -1,31 +1,20 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "baseUrl": "./src",
-        "outDir": "./dist/out-tsc",
-        "sourceMap": true,
-        "declaration": false,
-        "downlevelIteration": true,
-        "experimentalDecorators": true,
-        "module": "es2020",
-        "moduleResolution": "node",
-        "importHelpers": true,
-        "target": "es2015",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": [
-            "es2018",
-            "dom"
-        ],
-        "paths": {
-            "@fuse": [
-                "@fuse/"
-            ]
-        }
-    },
-    "angularCompilerOptions": {
-        "fullTemplateTypeCheck": false,
-        "strictInjectionParameters": false
-    }
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "es2020",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  }
 }

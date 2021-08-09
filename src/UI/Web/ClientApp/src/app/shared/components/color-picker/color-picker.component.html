@@ -1,0 +1,31 @@
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{label}}</label>
+<div class="mt-1 relative rounded-md text-gray-400 focus-within:text-gray-600">
+  <div class="flex items-center">
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <mat-icon class="h-6 w-6">palette</mat-icon>
+    </div>
+    <input type="text" readonly [ngModel]="color | stringColor"
+      (ngModelChange)="colorChange.emit(color)"
+      class="bg-white dark:bg-gray-900 block w-full sm:min-h pl-10 sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 shadow rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      [attr.placeholder]="placeholder">
+    <div class="relative ml-3">
+      <button type="button" [matMenuTriggerFor]="menu"
+        class="w-10 h-10 rounded-full inline-flex p-2 shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        [class]="color.colour">
+        <mat-icon class="w-6 h-6 fill-current">colorize</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Menu dropdown-->
+<mat-menu #menu="matMenu" class="dark:bg-gray-600">
+      <div class="flex flex-wrap w-36 h-36">
+        <div *ngFor="let pickerColor of colors" class="px-2">
+          <div (click)="color = pickerColor" class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200"
+          [class]="color.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
+          </div>
+        </div>
+      </div>
+</mat-menu>

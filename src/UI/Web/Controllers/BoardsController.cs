@@ -54,13 +54,12 @@ namespace Scrumboard.Web.Controllers
         /// <summary>
         /// Create a board.
         /// </summary>
-        /// <param name="command">New board.</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<CreateBoardCommandResponse>> Create(CreateBoardCommand command)
+        public async Task<ActionResult<CreateBoardCommandResponse>> Create()
         {
-            var response = await Mediator.Send(command);
+            var response = await Mediator.Send(new CreateBoardCommand { UserId = _currentUserService.UserId });
 
             return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, response);
         }

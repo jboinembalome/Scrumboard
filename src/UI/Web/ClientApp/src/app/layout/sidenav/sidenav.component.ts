@@ -4,7 +4,6 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { NavigationPaths } from './sidenav.constant';
-import { Observable } from 'rxjs';
 import { Navigation } from './models/navigation.model';
 
 
@@ -17,18 +16,32 @@ const SMALL_WIDTH_BREAKPOINT = 720;
 })
 export class SidenavComponent implements OnInit {
 
-  public isScreenSmall: boolean;
+  isScreenSmall: boolean;
 
-  navigationPaths : Navigation[] = NavigationPaths;
+  navigationPaths: Navigation[] = NavigationPaths;
   isDarkTheme: boolean = false;
   dir: string = 'ltr';
 
+  @ViewChild(MatSidenav) sidenav: MatSidenav;
+
   constructor(
     @Inject(DOCUMENT) private _document: any,
-    private breakpointObserver: BreakpointObserver,
-    private router: Router) { }
+    private _breakpointObserver: BreakpointObserver,
+    private _router: Router) {
+  }
 
-  @ViewChild(MatSidenav) sidenav: MatSidenav;
+  ngOnInit(): void {
+    this._breakpointObserver
+      .observe([`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`])
+      .subscribe((state: BreakpointState) => {
+        this.isScreenSmall = state.matches;
+      });
+
+    this._router.events.subscribe(() => {
+      if (this.isScreenSmall)
+        this.sidenav.close();
+    });
+  }
 
   toggleTheme() {
     this.isDarkTheme = !this.isDarkTheme;
@@ -43,25 +56,11 @@ export class SidenavComponent implements OnInit {
     this.dir = this.dir == 'ltr' ? 'rtl' : 'ltr';
   }
 
-  ngOnInit(): void {
-    this.breakpointObserver
-      .observe([`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`])
-      .subscribe((state: BreakpointState) => {
-        this.isScreenSmall = state.matches;
-      });
-
-    this.router.events.subscribe(() => {
-      if (this.isScreenSmall) {
-        this.sidenav.close();
-      }
-    });
-  }
-
   /**
- * Update the selected scheme
- *
- * @private
- */
+  * Update the selected scheme
+  *
+  * @private
+  */
   private updateScheme(scheme): void {
     // Remove class names for all schemes
     this._document.body.classList.remove('light', 'dark');

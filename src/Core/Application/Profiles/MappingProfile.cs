@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Scrumboard.Application.Dto;
+using Scrumboard.Application.Extensions;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
+using System;
 using System.Linq;
 
 namespace Scrumboard.Application.Profiles
@@ -14,7 +16,10 @@ namespace Scrumboard.Application.Profiles
         {
             CreateMap<Adherent, AdherentDto>();
 
-            CreateMap<Board, BoardDto>();
+            CreateMap<Board, BoardDto>()
+                .ForMember(d => d.Initials, opt => opt.MapFrom(c => GetInitials(c.Name)))
+                .ForMember(d => d.LastActivity, opt => opt.MapFrom(c => c.LastModifiedDate))
+                .ForMember(d => d.Members, opt => opt.MapFrom(c => c.Team.Adherents.Count));
             CreateMap<Board, CreateBoardCommand>()
                 .ForMember(d => d.UserId, opt => opt.MapFrom(c => c.Adherent.IdentityGuid))
                 .ReverseMap();
@@ -39,5 +44,12 @@ namespace Scrumboard.Application.Profiles
             CreateMap<Team, TeamDto>();
         }
 
+        // Gets only the first two characters of the initials.
+        private string GetInitials(string name)
+        {
+            var initials = name.GetInitials();
+
+            return !string.IsNullOrEmpty(initials) && initials.Length <= 2 ? initials : initials.Substring(0, 2);
+        }
     }
 }

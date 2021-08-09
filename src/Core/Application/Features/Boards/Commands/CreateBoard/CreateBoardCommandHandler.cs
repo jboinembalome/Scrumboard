@@ -34,6 +34,8 @@ namespace Scrumboard.Application.Features.Boards.Commands.CreateBoard
 
             var board = _mapper.Map<Board>(request);
             board.Adherent = adherent;
+            board.BoardSetting = new BoardSetting();
+
             board = await _boardRepository.AddAsync(board, cancellationToken);
 
             createBoardCommandResponse.Board = _mapper.Map<BoardDto>(board);

@@ -1,41 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector     : 'blouppy-toggle',
     templateUrl  : './toggle.component.html',
 })
-export class ToggleComponent implements OnInit
-{
+export class ToggleComponent {
     @Input() checked: boolean = false;
 
-    /**
-     * Constructor
-     */
-    constructor()
-    {
+    constructor() {
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {      
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-    updateChecked(): void
-    {
+    updateChecked(): void {
         this.checked = !this.checked;
     }
 }

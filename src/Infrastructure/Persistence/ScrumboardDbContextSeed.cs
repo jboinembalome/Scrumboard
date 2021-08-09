@@ -28,7 +28,7 @@ namespace Scrumboard.Infrastructure.Persistence
                 IdentityGuid = ADHERENT_USER_ID
             };
 
-            var team = new Team { Name = "Developer Team" };
+            var team = new Team { Name = "Developer Team", Adherents = new Collection<Adherent>() { adherent} };
 
             var labels = new Collection<Label>
             {
@@ -63,6 +63,23 @@ namespace Scrumboard.Infrastructure.Persistence
                     Colour = Colour.Red
                 }
             };
+
+            var boardSettings = new Collection<BoardSetting>
+            {
+                new BoardSetting
+                {
+                    Colour = Colour.Red,                 
+                },
+                new BoardSetting
+                {
+                    Colour = Colour.Yellow,
+                }, 
+                new BoardSetting
+                {
+                    Colour = Colour.Blue,
+                },
+            };
+
 
             var activities = new Collection<Activity>
             {
@@ -241,26 +258,32 @@ namespace Scrumboard.Infrastructure.Persistence
             {
                 new Board
                 {
-                    Name = "Scrumboard FrontEnd",
+                    Name = "Scrumboard Frontend",
                     Uri = "scrumboard-frontend",
+                    IsPinned = false,
                     Adherent = adherent,
                     Team = team,
                     ListBoards = new Collection<ListBoard> { listboards[0], listboards[1], listboards[2], listboards[3] },
-                    Labels = labels
+                    Labels = labels,
+                    BoardSetting = boardSettings[0]
                 },
                 new Board
                 {
-                    Name = "Scumboard BackEnd",
+                    Name = "Scrumboard Backend",
                     Uri = "scrumboard-backend",
+                    IsPinned = true,
                     Adherent = adherent,
                     Team = team,
-                    ListBoards = new Collection<ListBoard> { listboards[4] }
+                    ListBoards = new Collection<ListBoard> { listboards[4] },
+                    BoardSetting = boardSettings[1]
+
                 },
                 new Board
                 {
-                    Name = "Scumboard Test",
+                    Name = "Scrumboard Test",
                     Uri = "scrumboard-test",
-                    Adherent = adherent
+                    Adherent = adherent,
+                    BoardSetting = boardSettings[2]
                 }
             };
 

@@ -10,5 +10,6 @@ export * from './labelDto';
 export * from './listBoardDto';
 export * from './problemDetails';
 export * from './teamDto';
+export * from './updatePinnedBoardCommand';
 export * from './updateBoardCommand';
 export * from './weatherForecast';

@@ -5,6 +5,7 @@ using Scrumboard.Application.Dto;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.DeleteBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
+using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardsByUserId;
 using Scrumboard.Application.Interfaces.Common;
@@ -82,6 +83,26 @@ namespace Scrumboard.Web.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Update the pinned board.
+        /// </summary>
+        /// <param name="id">Id of the board.</param>
+        /// <param name="command">Pinned board to be updated.</param>
+        /// <returns></returns>
+        [HttpPut("{id}/pinned")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> UpdatePinned(int id, UpdatePinnedBoardCommand command)
+        {
+            if (id != command.BoardId)
+                return BadRequest();
+
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
 
         /// <summary>
         /// Delete a board.

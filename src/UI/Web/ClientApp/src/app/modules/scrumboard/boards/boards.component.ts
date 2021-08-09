@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StringColorPipe } from 'src/app/shared/pipes/string-color.pipe';
-import { BoardDto, BoardsService } from 'src/app/swagger';
+import { BoardDto, BoardsService, UpdatePinnedBoardCommand } from 'src/app/swagger';
 import { DataSourceSelectBoard } from './boards.constant';
 
 @Component({
@@ -13,6 +13,7 @@ import { DataSourceSelectBoard } from './boards.constant';
 export class BoardsComponent implements OnInit, OnDestroy {
 
   private boardsSubscription: Subscription;
+  private updatePinnedBoardCommand: UpdatePinnedBoardCommand;
 
   private isDesc: boolean = false;
   column: string = 'name';
@@ -71,6 +72,9 @@ export class BoardsComponent implements OnInit, OnDestroy {
 
       this.pinnedBoards.push(board);
     }
+
+    this.updatePinnedBoardCommand = { boardId: board.id, isPinned: board.isPinned };
+    this.boardsSubscription = this._boardsService.apiBoardsIdPinnedPut(this.updatePinnedBoardCommand.boardId, this.updatePinnedBoardCommand).subscribe();
   }
 
   /*

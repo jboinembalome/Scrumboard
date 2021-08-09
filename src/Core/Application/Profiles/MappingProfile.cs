@@ -3,6 +3,7 @@ using Scrumboard.Application.Dto;
 using Scrumboard.Application.Extensions;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
+using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
 using System;
@@ -26,6 +27,10 @@ namespace Scrumboard.Application.Profiles
             CreateMap<Board, UpdateBoardCommand>()
                 .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))
                 .ReverseMap();
+            CreateMap<Board, UpdatePinnedBoardCommand>()
+                .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))
+                .ReverseMap();
+
             CreateMap<Board, BoardDetailDto>();
 
             CreateMap<BoardSetting, BoardSettingDto>();

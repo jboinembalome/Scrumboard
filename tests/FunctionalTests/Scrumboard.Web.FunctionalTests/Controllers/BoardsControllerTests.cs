@@ -102,14 +102,9 @@ namespace Scrumboard.Web.FunctionalTests.Controllers
             // Arrange
             var provider = TestClaimsProvider.WithAdherentClaims();
             var client = _factory.CreateClientWithTestAuth(provider);
-            var request = new CreateBoardCommand()
-            {
-                UserId = provider.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value
-            };
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await client.PostAsync("api/boards", jsonContent);
+            var response = await client.PostAsync("api/boards", null);
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();

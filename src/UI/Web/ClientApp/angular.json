@@ -33,6 +33,7 @@
               }
             ],
             "styles": [
+              "src/app/shared/material/styles/overrides/angular-material.scss",
               "src/styles.scss"
             ],
             "scripts": [],

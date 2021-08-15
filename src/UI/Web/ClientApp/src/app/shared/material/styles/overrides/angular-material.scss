@@ -1,0 +1,30 @@
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    @apply bg-indigo-800 text-indigo-100 #{'!important'};
+}
+
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+    @apply bg-indigo-800 text-indigo-100 #{'!important'};
+}
+
+.mat-option:hover:not(.mat-option-disabled),
+.mat-option:focus:not(.mat-option-disabled) {
+    @apply bg-indigo-600 text-indigo-100 #{'!important'};
+}
+
+.mat-form-field-wrapper {
+    padding-bottom: 1em;
+}
+
+.mat-select-min-line {
+    @apply text-gray-900 dark:text-gray-100 #{'!important'};
+}
+
+.mat-select-arrow {
+    @apply text-gray-900 dark:text-gray-100 #{'!important'};
+}
+
+[type='text'], [type='email'], [type='url'], [type='date'], [type='search'], [type='time'], [multiple], textarea, select {
+
+     border-color: transparent !important;
+     border-width: 0px !important; 
+}

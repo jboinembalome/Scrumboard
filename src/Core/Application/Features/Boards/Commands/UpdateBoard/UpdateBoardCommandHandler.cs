@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Exceptions;
+using Scrumboard.Application.Features.Boards.Specifications;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
 using System.Threading;
@@ -21,7 +22,8 @@ namespace Scrumboard.Application.Features.Boards.Commands.UpdateBoard
 
         public async Task<Unit> Handle(UpdateBoardCommand request, CancellationToken cancellationToken)
         {
-            var boardToUpdate = await _boardRepository.GetByIdAsync(request.BoardId, cancellationToken);
+            var specification = new UpdateBoardSpec(request.BoardId);
+            var boardToUpdate = await _boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
             if (boardToUpdate == null)
                 throw new NotFoundException(nameof(Board), request.BoardId);

@@ -1,20 +1,23 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WeatherForecast } from './fetch-data.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-fetch-data',
   templateUrl: './fetch-data.component.html'
 })
-export class FetchDataComponent {
-  public forecasts: WeatherForecast[];
+export class FetchDataComponent implements OnInit {
 
   columns: string[] = ['Date', 'Temp. (C)', 'Temp. (F)', 'Summary'];
+  forecasts: Observable<WeatherForecast[]>;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'api/weatherforecast').subscribe(result => {
-      this.forecasts = result;
-      this.forecasts.splice(this.forecasts.length-1, 1);
-    }, error => console.error(error));
+  constructor(
+    private _httpClient: HttpClient, 
+    @Inject('BASE_URL') private _baseUrl: string) {  
+  }
+
+  ngOnInit(): void {
+    this.forecasts = this._httpClient.get<WeatherForecast[]>(this._baseUrl + '/api/weatherforecast');
   }
 }

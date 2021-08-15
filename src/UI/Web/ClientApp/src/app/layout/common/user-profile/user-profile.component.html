@@ -33,19 +33,21 @@
     <mat-divider class="my-2"></mat-divider>
   </div>
 
-  <blouppy-toggle class="block px-4 py-2 text-sm" text="Dark mode" [checked]="false" (click)="toggleTheme.emit()">
-    <div class="group flex items-center">
-      <mat-icon class="h-6 w-6 mr-1.5 ">dark_mode</mat-icon>
-      <span class="text-sm font-medium">Dark mode</span>
-    </div>
+  <blouppy-toggle class="cursor-pointer group flex items-center px-4 py-2 text-sm" text="Dark mode" [checked]="checkedDarkMode" (click)="updateChecked()">
+    <span class="mr-3">
+      <div class="group flex items-center">
+        <mat-icon class="h-6 w-6 mr-1.5 ">dark_mode</mat-icon>
+        <span class="text-sm font-medium">Dark mode</span>
+      </div>
+    </span>   
   </blouppy-toggle>
-  <div *ngIf="isAuthenticated | async">
+  <ng-container *ngIf="isAuthenticated | async">
     <a [routerLink]='["/auth/authentication/profile"]'
       class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
       <mat-icon class="h-6 w-6 mr-1.5 flex-none">account_circle</mat-icon>
       <span class="text-sm font-medium">Profile</span>
     </a>
-  </div>
+  </ng-container>
   <a href="#"
     class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
     <mat-icon class="h-6 w-6 mr-1.5 flex-none">settings</mat-icon>

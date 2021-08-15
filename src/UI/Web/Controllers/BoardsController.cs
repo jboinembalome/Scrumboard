@@ -5,6 +5,7 @@ using Scrumboard.Application.Dto;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.DeleteBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
+using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardsByUserId;
 using Scrumboard.Application.Interfaces.Common;
@@ -54,13 +55,12 @@ namespace Scrumboard.Web.Controllers
         /// <summary>
         /// Create a board.
         /// </summary>
-        /// <param name="command">New board.</param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<CreateBoardCommandResponse>> Create(CreateBoardCommand command)
+        public async Task<ActionResult<CreateBoardCommandResponse>> Create()
         {
-            var response = await Mediator.Send(command);
+            var response = await Mediator.Send(new CreateBoardCommand { UserId = _currentUserService.UserId });
 
             return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, response);
         }
@@ -83,6 +83,26 @@ namespace Scrumboard.Web.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Update the pinned board.
+        /// </summary>
+        /// <param name="id">Id of the board.</param>
+        /// <param name="command">Pinned board to be updated.</param>
+        /// <returns></returns>
+        [HttpPut("{id}/pinned")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> UpdatePinned(int id, UpdatePinnedBoardCommand command)
+        {
+            if (id != command.BoardId)
+                return BadRequest();
+
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
 
         /// <summary>
         /// Delete a board.

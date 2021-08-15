@@ -5,11 +5,9 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './login-menu.component.html',
   styleUrls: ['./login-menu.component.scss']
 })
-export class LoginMenuComponent implements OnInit {
+export class LoginMenuComponent {
   @Input() isAuthenticated: boolean;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() { 
   }
 }

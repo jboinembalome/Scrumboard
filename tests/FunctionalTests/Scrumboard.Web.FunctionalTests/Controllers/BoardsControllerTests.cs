@@ -126,7 +126,8 @@ namespace Scrumboard.Web.FunctionalTests.Controllers
             var request = new UpdateBoardCommand()
             {
                 BoardId = id,
-                Name = "Updated board name"
+                Name = "Updated board name",
+                Uri= "updated-board-name"
             };
             var jsonContent = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 

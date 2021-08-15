@@ -5,23 +5,19 @@ export class BoardsFilterPipe implements PipeTransform {
   /**
    * Transform
    *
-   * @param {any[]} items
+   * @param {any[]} boards
    * @param {string} searchText
    * @returns {any[]}
    */
-  transform(items: any[], searchText: string): any[] {
-    if (!items) {
+  transform(boards: any[], searchText: string): any[] {
+    if (!boards)
       return [];
-    }
     
-    if (!searchText) {
-      return items;
-    }
+    if (!searchText)
+      return boards;
 
     searchText = searchText.toLocaleLowerCase();
 
-    return items.filter(it => {
-      return it.name.toLocaleLowerCase().includes(searchText);
-    });
+    return boards.filter(board => board.name.toLocaleLowerCase().includes(searchText));
   }
 }

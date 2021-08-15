@@ -13,10 +13,9 @@ import { DataSourceSelectBoard } from './boards.constant';
 export class BoardsComponent implements OnInit, OnDestroy {
 
   private boardsSubscription: Subscription;
-  private updatePinnedBoardCommand: UpdatePinnedBoardCommand;
 
   private isDesc: boolean = false;
-  column: string = 'name';
+  column: string = 'most_recent';
   direction: number;
 
   dataSource = DataSourceSelectBoard;
@@ -51,16 +50,15 @@ export class BoardsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.boardsSubscription != undefined) {
+    if (this.boardsSubscription != undefined)
       this.boardsSubscription.unsubscribe();
-    }
   }
 
   /*
   * Updates the board pin.
   */
   updatePinned(name: string, isPinned: boolean) {
-    let board = this.boards.find(b => b.name == name);
+    const board = this.boards.find(b => b.name == name);
 
     if (isPinned) {
       board.isPinned = false;
@@ -73,12 +71,13 @@ export class BoardsComponent implements OnInit, OnDestroy {
       this.pinnedBoards.push(board);
     }
 
-    this.updatePinnedBoardCommand = { boardId: board.id, isPinned: board.isPinned };
-    this.boardsSubscription = this._boardsService.apiBoardsIdPinnedPut(this.updatePinnedBoardCommand.boardId, this.updatePinnedBoardCommand).subscribe();
+    const updatePinnedBoardCommand: UpdatePinnedBoardCommand = { boardId: board.id, isPinned: board.isPinned };
+    
+    this.boardsSubscription = this._boardsService.apiBoardsIdPinnedPut(updatePinnedBoardCommand.boardId, updatePinnedBoardCommand).subscribe();
   }
 
   /*
-  * Create a board.
+  * Creates a board.
   */
   createBoard(): void {
     this.boardsSubscription = this._boardsService.apiBoardsPost().subscribe(board => {
@@ -131,12 +130,19 @@ export class BoardsComponent implements OnInit, OnDestroy {
   * Filters all boards by colors.
   */
   filterColors(checkedValues: any[]) {
-    if (checkedValues.length > 0) {
+    if (checkedValues.length > 0)
       this.filteredBoard = this.boards.filter(b => checkedValues.includes(b.boardSetting.colour.colour));
-    }
-    else {
+    else
       this.filteredBoard = this.boards;
-    }
+  }
 
+  /**
+  * Tracks by function for ngFor loops.
+  *
+  * @param index
+  * @param item
+  */
+  trackByFn(index: number, item: any): any {
+    return item.id || index;
   }
 }

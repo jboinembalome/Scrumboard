@@ -9,7 +9,9 @@ export const scrumboardRoutes: Route[] = [
     },
     {
         path     : ':id',
-        component: BoardComponent
-        // Add Card Children
+        component: BoardComponent,
+        children : [
+            // Add Card Children
+        ]
     },
 ];

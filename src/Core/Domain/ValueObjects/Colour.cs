@@ -27,7 +27,7 @@ namespace Scrumboard.Domain.ValueObjects
             return colour;
         }
 
-        public static Colour Black => new("bg-black");
+        public static Colour Black => new("bg-gray-900");
 
         public static Colour White => new("bg-white");
 

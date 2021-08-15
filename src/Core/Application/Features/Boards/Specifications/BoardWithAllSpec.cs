@@ -9,6 +9,10 @@ namespace Scrumboard.Application.Features.Boards.Specifications
         public BoardWithAllSpec(int boardId)
         {
             Query.Where(b => b.Id == boardId);
+
+            Query.Include(b => b.BoardSetting)
+                 .ThenInclude(bs => bs.Colour);
+
             Query.Include(b => b.Labels);
 
             Query.Include(b => b.ListBoards)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Extensions;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
@@ -25,7 +26,7 @@ namespace Scrumboard.Application.Profiles
                 .ForMember(d => d.UserId, opt => opt.MapFrom(c => c.Adherent.IdentityGuid))
                 .ReverseMap();
             CreateMap<Board, UpdateBoardCommand>()
-                .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))
+                .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))       
                 .ReverseMap();
             CreateMap<Board, UpdatePinnedBoardCommand>()
                 .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))
@@ -33,20 +34,26 @@ namespace Scrumboard.Application.Profiles
 
             CreateMap<Board, BoardDetailDto>();
 
-            CreateMap<BoardSetting, BoardSettingDto>();
+            CreateMap<BoardSetting, BoardSettingDto>()
+                .ReverseMap();
 
             CreateMap<Card, CardDto>()
                 .ForMember(d => d.ChecklistItemsCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count()))
                 .ForMember(d => d.ChecklistItemsDoneCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)));
 
             CreateMap<Colour, ColourDto>()
-                .ForMember(d => d.Colour, opt => opt.MapFrom(c => c.Code));
+                .ForMember(d => d.Colour, opt => opt.MapFrom(c => c.Code))
+                .ReverseMap();
 
             CreateMap<Label, LabelDto>();
 
-            CreateMap<ListBoard, ListBoardDto>();
+            CreateMap<ListBoard, ListBoardDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ReverseMap();
+            CreateMap<ListBoard, ListBoardDetailDto>();
 
-            CreateMap<Team, TeamDto>();
+            CreateMap<Team, TeamDto>()
+                .ReverseMap();
         }
 
         // Gets only the first two characters of the initials.

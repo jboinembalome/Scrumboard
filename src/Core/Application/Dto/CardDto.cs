@@ -9,6 +9,7 @@ namespace Scrumboard.Application.Dto
         public string Name { get; set; }
         public bool Suscribed { get; set; }
         public DateTime DueDate { get; set; }
+        public int Position { get; set; }
         public IEnumerable<LabelDto> Labels { get; set; }
         public IEnumerable<AdherentDto> Adherents { get; set; }
         public int AttachmentsCount { get; set; }

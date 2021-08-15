@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BoardDetailDto, UpdateBoardCommand, BoardsService } from 'src/app/swagger';
+import { ListBoardDto } from 'src/app/swagger/model/listBoardDto';
 
 @Component({
   selector: 'scrumboard-board',
@@ -9,13 +11,16 @@ import { BoardDetailDto, UpdateBoardCommand, BoardsService } from 'src/app/swagg
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, OnDestroy {
+
+  @ViewChild('matDrawer') matDrawer: MatDrawer;
+
   private boardSubscription: Subscription;
 
-  board: BoardDetailDto;
-  updateBoardCommand: UpdateBoardCommand;
   id: any;
-  oldTitle: string;
-  isEditTitle: boolean = false;
+  board: BoardDetailDto;
+
+  oldBoardName: string;
+  isEditBoardName: boolean = false;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -27,41 +32,78 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     this.boardSubscription = this._boardsService.apiBoardsIdGet(this.id).subscribe(board => {
       this.board = board;
+
+      // Sort the board lists
+      this.board.listBoards.sort((a, b) => a.position - b.position);
     }, error => console.error(error));
   }
 
   ngOnDestroy() {
-    if (this.boardSubscription != undefined) {
+    if (this.boardSubscription != undefined)
       this.boardSubscription.unsubscribe();
-    }
   }
 
   /**
-  * Edits the board title.
+  * Edits the board name.
   */
-  editTitle(): void {
-    this.isEditTitle = !this.isEditTitle;
-    this.oldTitle = this.board.name;
+  editBoardName(): void {
+    this.isEditBoardName = !this.isEditBoardName;
 
-    if (!this.isEditTitle) {
+    if (!this.isEditBoardName) {
+      // If the name is empty...
+      if (!this.board.name || this.board.name.trim() === '') {
+        // Resets to original name and return
+        this.board.name = this.oldBoardName;
+        return;
+      }
+
       this.updateBoard();
+      return;
     }
+
+    this.oldBoardName = this.board.name;
   }
 
   /**
-  * Keeps the old board title.
+  * Keeps the old board name.
   */
-  keepOldTitle(): void {
-    this.isEditTitle = !this.isEditTitle;
-    this.board.name = this.oldTitle;
+  keepOldBoardName(): void {
+    this.isEditBoardName = !this.isEditBoardName;
+    this.board.name = this.oldBoardName;
   }
 
   /**
   * Updates the board.
   */
   updateBoard(): void {
-    this.updateBoardCommand = { boardId: this.id, name: this.board.name };
+    const listboards: ListBoardDto[] = this.board.listBoards.map(listboard => ({
+      id: listboard.id,
+      name: listboard.name,
+      position: listboard.position
+    }));
 
-    this.boardSubscription = this._boardsService.apiBoardsIdPut(this.updateBoardCommand.boardId, this.updateBoardCommand).subscribe(error => console.error(error));
+    const updateBoardCommand: UpdateBoardCommand = {
+      boardId: this.id,
+      name: this.board.name,
+      uri: this.board.uri,
+      boardSetting: this.board.boardSetting,
+      listBoards: listboards
+    };
+
+    this.boardSubscription = this._boardsService.apiBoardsIdPut(updateBoardCommand.boardId, updateBoardCommand).subscribe();
+  }
+
+  /**
+  * Open the setting panel.
+  */
+  openSettingPanel(): void {
+    this.matDrawer.open();
+  }
+
+  /**
+  * Close the setting panel.
+  */
+  closeSettingPanel(): void {
+    this.matDrawer.close();
   }
 }

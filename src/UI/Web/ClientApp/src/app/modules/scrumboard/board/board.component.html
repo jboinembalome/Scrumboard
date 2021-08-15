@@ -1,44 +1,56 @@
-<!-- Header -->
-<div class="flex flex-col md:flex-row flex-0 md:items-center md:justify-between">
-    <!-- Title -->
-    <div class="flex-1">
-        <div
-            class="group flex items-center">
-            <blouppy-input-with-icon *ngIf="isEditTitle" class="w-52"   icon="edit" placeholder="Edit the title"
-                [(value)]="board.name">
-            </blouppy-input-with-icon>
-            <blouppy-title *ngIf="!isEditTitle" [text]="board?.name"></blouppy-title>
-            <button (click)="editTitle()" class="ml-4 px-1 pt-2 rounded-full text-indigo-100 bg-indigo-600 hover:bg-indigo-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <span class="sr-only">Edit title</span>
-                <mat-icon  *ngIf="!isEditTitle" class="h-8 w-8">edit</mat-icon>
-                <mat-icon  *ngIf="isEditTitle" class="h-8 w-8">done</mat-icon>
-              </button>
-              <button *ngIf="isEditTitle" (click)="keepOldTitle()" class="ml-2 px-1 pt-2 rounded-full text-indigo-100 bg-indigo-600 hover:bg-indigo-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <span class="sr-only">Cancel edit title</span>
-                <mat-icon  *ngIf="isEditTitle" class="h-8 w-8">close</mat-icon>
-              </button>
-        </div>
-    </div>
-    <!-- Actions -->
-    <div class="flex flex-shrink-0 items-center mt-6 ml-0 md:mt-0 md:ml-4">
-        <a [routerLink]="['..']">
-            <button type="button"
-                class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1">
-                <mat-icon class="mr-2">view_week</mat-icon>
-                Boards
-            </button>
-        </a>
+<mat-drawer-container *ngIf="board" class="bg-transparent" (backdropClick)="closeSettingPanel()">
+    <mat-drawer mode="over" [opened]="false" [position]="'end'" [disableClose]="true" #matDrawer class="w-full md:w-72">
+        <scrumboard-board-setting [boardSetting]="board.boardSetting" (boardSettingChange)="updateBoard()"  (closeSettingPanel)="closeSettingPanel()">
+        </scrumboard-board-setting>
+    </mat-drawer>
+    <mat-drawer-content class="p-1">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row flex-0 md:items-center md:justify-between">
+            <!-- Board name -->
+            <div class="flex-1">
+                <div class="group flex items-center">
+                    <blouppy-input-with-icon *ngIf="isEditBoardName" class="w-52" icon="edit" placeholder="Edit the board name"
+                        [(value)]="board.name" (keydown.enter)="editBoardName()" >
+                    </blouppy-input-with-icon>
+                    <blouppy-title *ngIf="!isEditBoardName" [text]="board?.name"></blouppy-title>
+                    <button (click)="editBoardName()"
+                        class="ml-4 px-1 pt-2 rounded-full text-indigo-100 bg-indigo-600 hover:bg-indigo-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="sr-only">Edit board name</span>
+                        <mat-icon *ngIf="!isEditBoardName" class="h-8 w-8">edit</mat-icon>
+                        <mat-icon *ngIf="isEditBoardName" class="h-8 w-8">done</mat-icon>
+                    </button>
+                    <button *ngIf="isEditBoardName" (click)="keepOldBoardName()"
+                        class="ml-2 px-1 pt-2 rounded-full text-indigo-100 bg-red-600 hover:bg-red-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span class="sr-only">Cancel edit board name</span>
+                        <mat-icon *ngIf="isEditBoardName" class="h-8 w-8">close</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="flex flex-shrink-0 items-center mt-6 ml-0 md:mt-0 md:ml-4">
+                <a [routerLink]="['..']">
+                    <button type="button"
+                        class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1">
+                        <mat-icon class="mr-2">view_week</mat-icon>
+                        Boards
+                    </button>
+                </a>
 
-        <button type="button"
-            class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1 ml-3">
-            <mat-icon class="mr-2">settings</mat-icon>
-            Settings
-        </button>
-    </div>
-</div>
-<div>
-    <!-- Replace with your content -->
-    <div class="py-4">
-        <div class="bg-white dark:bg-gray-900 shadow rounded-lg h-96"></div>
-    </div>
-</div>
+                <button type="button" (click)="openSettingPanel()"
+                    class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1 ml-3">
+                    <mat-icon class="mr-2">settings</mat-icon>
+                    Settings
+                </button>
+            </div>
+        </div>
+        <div>
+            <!-- Replace with your content -->
+            <div class="py-4">
+                <div class="overflow-y-auto shadow rounded-lg h-96" [class]="board.boardSetting.colour.colour">
+                    <!-- Lists -->
+                    <scrumboard-listboards [listBoards]="board.listBoards" (listBoardsChange)="updateBoard()"></scrumboard-listboards>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

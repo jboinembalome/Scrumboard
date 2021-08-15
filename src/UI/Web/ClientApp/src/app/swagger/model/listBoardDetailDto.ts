@@ -9,19 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AdherentDto } from './adherentDto';
-import { LabelDto } from './labelDto';
+import { CardDto } from './cardDto';
 
-export interface CardDto { 
+export interface ListBoardDetailDto { 
     id?: number;
     name?: string;
-    suscribed?: boolean;
-    dueDate?: Date;
     position?: number;
-    labels?: Array<LabelDto>;
-    adherents?: Array<AdherentDto>;
-    attachmentsCount?: number;
-    checklistItemsCount?: number;
-    checklistItemsDoneCount?: number;
-    commentsCount?: number;
+    cards?: Array<CardDto>;
 }

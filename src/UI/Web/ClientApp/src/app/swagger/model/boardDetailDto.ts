@@ -12,7 +12,7 @@
 import { AdherentDto } from './adherentDto';
 import { BoardSettingDto } from './boardSettingDto';
 import { LabelDto } from './labelDto';
-import { ListBoardDto } from './listBoardDto';
+import { ListBoardDetailDto } from './listBoardDetailDto';
 import { TeamDto } from './teamDto';
 
 export interface BoardDetailDto { 
@@ -22,6 +22,6 @@ export interface BoardDetailDto {
     adherent?: AdherentDto;
     team?: TeamDto;
     boardSetting?: BoardSettingDto;
-    listBoards?: Array<ListBoardDto>;
+    listBoards?: Array<ListBoardDetailDto>;
     labels?: Array<LabelDto>;
 }

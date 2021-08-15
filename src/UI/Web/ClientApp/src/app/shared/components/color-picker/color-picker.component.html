@@ -23,7 +23,7 @@
 <mat-menu #menu="matMenu" class="dark:bg-gray-600">
       <div class="flex flex-wrap w-36 h-36">
         <div *ngFor="let pickerColor of colors" class="px-2">
-          <div (click)="color = pickerColor" class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200"
+          <div (click)="updateColor(pickerColor)" class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200"
           [class]="color.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
           </div>
         </div>

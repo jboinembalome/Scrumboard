@@ -14,6 +14,8 @@ export class UserProfileComponent implements OnInit {
   avatar: string = ""; // ex: assets/images/avatars/jimmy.jpg
   status: string = ""; // ex: online
 
+  checkedDarkMode: boolean = false;
+
   userName: Observable<string>;
   
   @Output() toggleTheme = new EventEmitter<void>();
@@ -25,5 +27,10 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.isAuthenticated = this._authService.isAuthenticated();
     this.userName = this._authService.getUser().pipe(map(u => u && u.name));
+  }
+
+  updateChecked() {
+    this.checkedDarkMode = !this.checkedDarkMode;
+    this.toggleTheme.emit();
   }
 }

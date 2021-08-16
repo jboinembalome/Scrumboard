@@ -1,6 +1,5 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Entities;
-using System;
 
 namespace Scrumboard.Application.Features.Boards.Specifications
 {
@@ -13,7 +12,9 @@ namespace Scrumboard.Application.Features.Boards.Specifications
             Query.Include(b => b.BoardSetting)
                  .ThenInclude(bs => bs.Colour);
 
-            Query.Include(b => b.ListBoards);
+            Query.Include(b => b.ListBoards)
+                .ThenInclude(l => l.Cards)
+                .ThenInclude(c => c.Labels);
         }
     }
 }

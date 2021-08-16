@@ -28,3 +28,21 @@
      border-color: transparent !important;
      border-width: 0px !important; 
 }
+
+
+// CDK Drag and Drop
+.cdk-drag-preview {
+    @apply shadow-2xl;
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging div:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

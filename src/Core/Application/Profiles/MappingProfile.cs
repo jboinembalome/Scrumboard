@@ -38,19 +38,23 @@ namespace Scrumboard.Application.Profiles
                 .ReverseMap();
 
             CreateMap<Card, CardDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ForMember(d => d.ListBoardId, opt => opt.MapFrom(c => c.ListBoard.Id))
                 .ForMember(d => d.ChecklistItemsCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count()))
-                .ForMember(d => d.ChecklistItemsDoneCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)));
+                .ForMember(d => d.ChecklistItemsDoneCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)))
+                .ReverseMap();
 
             CreateMap<Colour, ColourDto>()
                 .ForMember(d => d.Colour, opt => opt.MapFrom(c => c.Code))
                 .ReverseMap();
 
-            CreateMap<Label, LabelDto>();
+            CreateMap<Label, LabelDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ReverseMap();
 
             CreateMap<ListBoard, ListBoardDto>()
                 .EqualityComparison((d, opt) => d.Id == opt.Id)
                 .ReverseMap();
-            CreateMap<ListBoard, ListBoardDetailDto>();
 
             CreateMap<Team, TeamDto>()
                 .ReverseMap();

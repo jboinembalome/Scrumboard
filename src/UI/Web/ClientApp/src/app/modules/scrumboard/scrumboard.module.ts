@@ -9,6 +9,7 @@ import { ScrumboardComponent } from './scrumboard.component';
 import { BoardsComponent } from './boards/boards.component';
 import { BoardComponent } from './board/board.component';
 import { ListBoardsComponent } from './board/listboards/listboards.component';
+import { CardComponent } from './board/listboards/card/card.component';
 import { ListBoardAddComponent } from './board/listboards/listboard-add/listboard-add.component';
 
 import { BoardsFilterPipe } from './boards/boards.pipe';
@@ -22,6 +23,7 @@ import { SettingComponent } from './board/setting/setting.component';
         BoardComponent,
         BoardsComponent,
         ListBoardsComponent,
+        CardComponent,
         ListBoardAddComponent,
         SettingComponent,
 

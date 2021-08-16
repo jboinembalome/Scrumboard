@@ -6,7 +6,8 @@
 
         <ng-container *ngFor="let listBoard of listBoards; trackBy: trackByFn">
             <!-- List -->
-            <div class="flex-0 w-72 p-2 m-2 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" cdkDrag [cdkDragLockAxis]="'x'">
+            <div class="flex-0 w-72 p-2 m-2 rounded-2xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+                cdkDrag [cdkDragLockAxis]="'x'">
 
                 <div class="flex items-center justify-between cursor-grab" cdkDragHandle>
                     <div class="flex items-center w-full py-2 px-3 rounded-md border border-transparent">
@@ -14,7 +15,7 @@
                         <input [value]="listBoard.name" [spellcheck]="'false'"
                             (focusout)="editListBoardName($event, listBoard)" (keydown.enter)="listNameInput.blur()"
                             #listNameInput
-                            class="bg-white dark:bg-gray-900 cursor-text p-2 w-full font-medium sm:min-h sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="bg-gray-50 dark:bg-gray-900 cursor-text p-2 w-full font-medium sm:min-h sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     </div>
                     <div class="flex items-center">
                         <span
@@ -24,7 +25,7 @@
                     </div>
                     <div class="ml-1">
                         <button
-                            class="bg-white dark:bg-gray-900 px-1 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            class="bg-gray-50 dark:bg-gray-900 px-1 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             [matMenuTriggerFor]="listMenu">
                             <span class="sr-only">List Menu</span>
                             <mat-icon class="h-8 w-8">more_vert</mat-icon>
@@ -44,8 +45,86 @@
                     </div>
                 </div>
                 <!-- Cards -->
-                <div class="mt-2 rounded-xl bg-white dark:bg-gray-900">
+                <div class="mt-2 rounded-xl  bg-gray-50 dark:bg-gray-900 bg-opacity-12">
+                    <div [id]="listBoard.id" class="p-3 pb-0" cdkDropList [cdkDropListData]="listBoard.cards"
+                        (cdkDropListDropped)="cardDropped($event)">
 
+                        <!-- Card -->
+                        <ng-container *ngFor="let card of listBoard.cards; trackBy: trackByFn">
+                            <div class="flex flex-col items-start mb-3 px-5 pt-5 space-y-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg overflow-hidden"
+                                cdkDrag>
+                                <!-- Cover image -->
+                                <ng-container *ngIf="card.coverImage">
+                                    <div class="-mx-5 -mt-5 mb-2">
+                                        <img class="w-full object-cover" [src]="card.coverImage">
+                                    </div>
+                                </ng-container>
+                                <!-- Title -->
+                                <div class="font-medium leading-5">{{card.name}}</div>
+                                <!-- Labels -->
+                                <ng-container *ngIf="card.labels.length">
+                                    <div>
+                                        <div class="flex flex-wrap -mx-1 -mb-2">
+                                            <ng-container *ngFor="let label of card.labels; trackBy: trackByFn">
+                                                <div class="mx-1 mb-2 py-0.5 px-3 rounded-full text-sm font-medium"
+                                                    [class]="label.colour.colour"
+                                                    [ngClass]="label.colour.colour === 'bg-white' ? 'border border-gray-200 dark:border-transparent text-gray-900' : 'text-white'">
+                                                    {{label.name}}
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <div class="flex items-center mb-12 -mx-4">
+                                    <!-- Due date -->
+                                    <ng-container *ngIf="card.dueDate">
+                                        <div class="flex items-center py-4 mx-4  rounded text-xs font-medium leading-5 text-gray-400"
+                                            [ngClass]="{'text-red-600': isOverdue(card.dueDate)}">
+                                            <mat-icon>schedule</mat-icon>
+                                            <div class="ml-1">
+                                                {{card.dueDate | date: 'longDate'}}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <!-- Card check items count -->
+                                    <ng-container *ngIf="card.checklistItemsCount">
+                                        <div
+                                            class="flex items-center py-4 mx-4 rounded text-xs font-medium leading-5 text-yellow-500">
+                                            <mat-icon>checklist</mat-icon>
+                                            <div class="ml-1">
+                                                {{card.checklistItemsDoneCount}}/{{card.checklistItemsCount}}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                
+                                <div class="flex items-center mb-12 -mx-4">
+                                    <!-- Card attachments count -->
+                                    <ng-container *ngIf="card.attachmentsCount">
+                                        <div class="flex items-center py-4 ml-4 rounded text-xs font-medium leading-5 text-gray-400">
+                                            <mat-icon>attachment</mat-icon>
+                                            <div class="ml-1">
+                                                {{card.attachmentsCount}}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <!-- Card comments count -->
+                                    <ng-container *ngIf="card.commentsCount">
+                                        <div
+                                            class="flex items-center py-4 ml-2 rounded text-xs font-medium leading-5 text-gray-400">
+                                            <mat-icon>comment</mat-icon>
+                                            <div class="ml-1">
+                                                {{card.commentsCount}}
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
         </ng-container>

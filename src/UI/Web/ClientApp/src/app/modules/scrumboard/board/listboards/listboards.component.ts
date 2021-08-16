@@ -1,22 +1,28 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ListBoardDetailDto } from 'src/app/swagger';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { CardDto, ListBoardDto } from 'src/app/swagger';
 
 @Component({
   selector: 'scrumboard-listboards',
   templateUrl: './listboards.component.html',
   styleUrls: ['./listboards.component.scss']
 })
-export class ListBoardsComponent {
-
-  private readonly _positionStep: number = 0;
+export class ListBoardsComponent implements OnInit {
+  private readonly _positionStep: number = 65536;
   private readonly _maxListCount: number = 200;
+  private readonly _maxPosition: number = this._positionStep * 500;
 
   @Input() boardId: number;
-  @Input() listBoards: ListBoardDetailDto[];
-  @Output() listBoardsChange = new EventEmitter<ListBoardDetailDto[]>();
+  @Input() listBoards: ListBoardDto[];
+  @Output() listBoardsChange = new EventEmitter<ListBoardDto[]>();
 
   constructor() {
+  }
+
+  ngOnInit(): void {
+    // Sort the cards
+    this.listBoards.forEach(listboard => listboard.cards.sort((a, b) => a.position - b.position));
   }
 
   /**
@@ -29,11 +35,11 @@ export class ListBoardsComponent {
     // Get the items
     let items = event.container.data;
     const currentItem = items[event.currentIndex];
-    const previousItem = items[event.currentIndex - 1] || null;
+    const prevItem = items[event.currentIndex - 1] || null;
     const nextItem = items[event.currentIndex + 1] || null;
 
     // If the item moved to the top...
-    if (!previousItem) {
+    if (!prevItem) {
       // If the item moved to an empty container
       if (!nextItem)
         currentItem.position = this._positionStep;
@@ -42,16 +48,16 @@ export class ListBoardsComponent {
     }
     // If the item moved to the bottom...
     else if (!nextItem)
-      currentItem.position = previousItem.position + this._positionStep;
+      currentItem.position = prevItem.position + this._positionStep;
     // If the item moved in between other items...
     else
-      currentItem.position = (previousItem.position + nextItem.position) / 2;
+      currentItem.position = (prevItem.position + nextItem.position) / 2;
 
     // Check if all item positions need to be updated
-    if (!Number.isInteger(currentItem.position) || currentItem.position >= (this._maxListCount - 1)) {
+    if (!Number.isInteger(currentItem.position) || currentItem.position >= this._maxPosition) {
       // Re-calculate all orders
       items = items.map((value, index) => {
-        value.position = index + this._positionStep;
+        value.position = (index + 1) * this._positionStep;
         return value;
       });
 
@@ -69,7 +75,7 @@ export class ListBoardsComponent {
   * @param event
   * @param list
   */
-  editListBoardName(event: any, list: ListBoardDetailDto): void {
+  editListBoardName(event: any, list: ListBoardDto): void {
     // Gets the target element
     const element: HTMLInputElement = event.target;
 
@@ -113,9 +119,9 @@ export class ListBoardsComponent {
     if (this.listBoards.length >= this._maxListCount)
       return;
 
-    const list: ListBoardDetailDto = {
+    const list: ListBoardDto = {
       name: name,
-      position: this.listBoards.length ? this.listBoards[this.listBoards.length - 1].position + 1 : 0,
+      position: this.listBoards.length ? this.listBoards[this.listBoards.length - 1].position + this._positionStep : this._positionStep,
       cards: [],
     };
 
@@ -144,7 +150,7 @@ export class ListBoardsComponent {
   *
   * @param event
   */
-  listBoardDropped(event: CdkDragDrop<ListBoardDetailDto[]>): void {
+  listBoardDropped(event: CdkDragDrop<ListBoardDto[]>): void {
     // Moves the item
     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
 
@@ -160,6 +166,47 @@ export class ListBoardsComponent {
     this.listBoardsChange.emit(this.listBoards);
   }
 
+  /**
+  * Card dropped
+  *
+  * @param event
+  */
+  cardDropped(event: CdkDragDrop<CardDto[]>): void {
+    // Move or transfer the item
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    }
+    else {
+      // Transfer the item inside another list board
+      transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+
+      // Update the card's list it
+      event.container.data[event.currentIndex].listBoardId = +event.container.id;
+    }
+
+    // Calculate the positions
+    const updatedCards = this._calculatePositions(event);
+
+    // Go through the updated cards
+    updatedCards.forEach((updatedCard) => {
+      const listBoardIndex = this.listBoards.findIndex(listBoard => listBoard.id === updatedCard.listBoardId);
+      const cardIndex = this.listBoards[listBoardIndex].cards.findIndex(item => item.id === updatedCard.id);
+
+      // Update the card
+      this.listBoards[listBoardIndex].cards[cardIndex] = updatedCard;
+    });
+
+    this.listBoardsChange.emit(this.listBoards);
+  }
+
+  /**
+  * Check if the given ISO_8601 date string is overdue
+  *
+  * @param date
+  */
+  isOverdue(date: string): boolean {
+    return moment(date, moment.ISO_8601).isBefore(moment(), 'days');
+  }
 
   /**
   * Tracks by function for ngFor loops.

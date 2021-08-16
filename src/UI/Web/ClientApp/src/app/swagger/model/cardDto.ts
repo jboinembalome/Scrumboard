@@ -18,6 +18,7 @@ export interface CardDto {
     suscribed?: boolean;
     dueDate?: Date;
     position?: number;
+    listBoardId?: number;
     labels?: Array<LabelDto>;
     adherents?: Array<AdherentDto>;
     attachmentsCount?: number;

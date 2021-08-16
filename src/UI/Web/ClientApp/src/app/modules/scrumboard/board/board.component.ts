@@ -3,7 +3,6 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BoardDetailDto, UpdateBoardCommand, BoardsService } from 'src/app/swagger';
-import { ListBoardDto } from 'src/app/swagger/model/listBoardDto';
 
 @Component({
   selector: 'scrumboard-board',
@@ -76,18 +75,12 @@ export class BoardComponent implements OnInit, OnDestroy {
   * Updates the board.
   */
   updateBoard(): void {
-    const listboards: ListBoardDto[] = this.board.listBoards.map(listboard => ({
-      id: listboard.id,
-      name: listboard.name,
-      position: listboard.position
-    }));
-
     const updateBoardCommand: UpdateBoardCommand = {
       boardId: this.id,
       name: this.board.name,
       uri: this.board.uri,
       boardSetting: this.board.boardSetting,
-      listBoards: listboards
+      listBoards: this.board.listBoards
     };
 
     this.boardSubscription = this._boardsService.apiBoardsIdPut(updateBoardCommand.boardId, updateBoardCommand).subscribe();

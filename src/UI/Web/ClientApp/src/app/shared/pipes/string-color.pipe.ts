@@ -11,14 +11,11 @@ export class StringColorPipe implements PipeTransform {
    * @returns {string}
    */
   transform(color: ColourDto, stringColor: string = null): string {
-    if (!color) {
+    if (!color)
       return '';
-    }
 
-    if (stringColor) {
-        console.log("toto")
+    if (stringColor)
       return stringColor;
-    }
 
    return this.formatColor(color);
   }

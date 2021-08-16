@@ -10,7 +10,7 @@ namespace Scrumboard.Application.Dto
         public AdherentDto Adherent { get; set; }
         public TeamDto Team { get; set; }
         public BoardSettingDto BoardSetting { get; set; }
-        public IEnumerable<ListBoardDetailDto> ListBoards { get; set; }
+        public IEnumerable<ListBoardDto> ListBoards { get; set; }
         public IEnumerable<LabelDto> Labels { get; set; }
     }
 }

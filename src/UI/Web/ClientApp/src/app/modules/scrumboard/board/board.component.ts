@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { BoardDetailDto, UpdateBoardCommand, BoardsService } from 'src/app/swagger';
+import { BoardDetailDto, UpdateBoardCommand, BoardsService, ListBoardDto, CardDto } from 'src/app/swagger';
 
 @Component({
   selector: 'scrumboard-board',
@@ -40,6 +40,37 @@ export class BoardComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.boardSubscription != undefined)
       this.boardSubscription.unsubscribe();
+  }
+
+  /**
+   * Updates the id of listBoards that are undefined.
+   * @param listBoardsToBeUpdated 
+   * @param updatedListBoards 
+   */
+  private updateListBoardsId(listBoardsToBeUpdated: ListBoardDto[], updatedListBoards: ListBoardDto[]): void {
+    updatedListBoards.forEach((updatedListBoard) => {
+      const listBoardIndex = listBoardsToBeUpdated.findIndex(listBoard => listBoard.name === updatedListBoard.name);
+
+      if (!this.board.listBoards[listBoardIndex].id)
+        listBoardsToBeUpdated[listBoardIndex].id = updatedListBoard.id;
+
+      this.updateCardsId(listBoardIndex, listBoardsToBeUpdated, updatedListBoard.cards);
+    });
+  }
+
+  /**
+   * Updates the id of cards that are undefined.
+   * @param listBoardIndex 
+   * @param listBoardsToBeUpdated 
+   * @param updatedCards 
+   */
+  private updateCardsId(listBoardIndex: number, listBoardsToBeUpdated: ListBoardDto[], updatedCards: CardDto[]): void {
+    updatedCards.forEach((updatedCard: { name: string; id: number; }) => {
+      const cardIndex = listBoardsToBeUpdated[listBoardIndex].cards.findIndex(card => card.name === updatedCard.name);
+
+      if (!listBoardsToBeUpdated[listBoardIndex].cards[cardIndex].id)
+        listBoardsToBeUpdated[listBoardIndex].cards[cardIndex].id = updatedCard.id;
+    });
   }
 
   /**
@@ -83,7 +114,9 @@ export class BoardComponent implements OnInit, OnDestroy {
       listBoards: this.board.listBoards
     };
 
-    this.boardSubscription = this._boardsService.apiBoardsIdPut(updateBoardCommand.boardId, updateBoardCommand).subscribe();
+    this.boardSubscription = this._boardsService.apiBoardsIdPut(updateBoardCommand.boardId, updateBoardCommand).subscribe(response => {
+      this.updateListBoardsId(this.board.listBoards, response.listBoards);
+    }, error => console.error(error));
   }
 
   /**

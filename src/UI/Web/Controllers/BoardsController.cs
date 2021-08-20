@@ -79,9 +79,9 @@ namespace Scrumboard.Web.Controllers
             if (id != command.BoardId)
                 return BadRequest();
 
-            await Mediator.Send(command);
+            var dto = await Mediator.Send(command);
 
-            return NoContent();
+            return Ok(dto);
         }
 
         /// <summary>

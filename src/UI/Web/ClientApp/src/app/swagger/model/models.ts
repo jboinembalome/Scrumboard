@@ -12,4 +12,5 @@ export * from './problemDetails';
 export * from './teamDto';
 export * from './updatePinnedBoardCommand';
 export * from './updateBoardCommand';
+export * from './updateBoardCommandResponse';
 export * from './weatherForecast';

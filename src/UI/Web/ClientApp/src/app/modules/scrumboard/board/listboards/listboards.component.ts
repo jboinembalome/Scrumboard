@@ -146,6 +146,22 @@ export class ListBoardsComponent implements OnInit {
   }
 
   /**
+  * Adds new card
+  */
+  addCard(listBoard: ListBoardDto, name: string): void {
+    // Create a new card model
+    const card : CardDto = {
+      listBoardId: listBoard.id,
+      position: listBoard.cards.length ? listBoard.cards[listBoard.cards.length - 1].position + this._positionStep : this._positionStep,
+      name: name
+    };
+
+    listBoard.cards.push(card);
+
+    this.listBoardsChange.emit(this.listBoards);
+  }
+
+  /**
   * List board dropped.
   *
   * @param event

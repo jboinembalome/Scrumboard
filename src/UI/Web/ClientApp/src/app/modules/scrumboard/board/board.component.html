@@ -3,7 +3,7 @@
         <scrumboard-board-setting [boardSetting]="board.boardSetting" (boardSettingChange)="updateBoard()"  (closeSettingPanel)="closeSettingPanel()">
         </scrumboard-board-setting>
     </mat-drawer>
-    <mat-drawer-content class="p-1">
+    <mat-drawer-content class="flex flex-col p-1">
         <!-- Header -->
         <div class="flex flex-col md:flex-row flex-0 md:items-center md:justify-between">
             <!-- Board name -->
@@ -45,8 +45,8 @@
         </div>
         <div>
             <!-- Replace with your content -->
-            <div class="py-4">
-                <div class="overflow-y-auto shadow rounded-lg h-96" [class]="board.boardSetting.colour.colour">
+            <div class="pt-4 pb-0">
+                <div cdkScrollable class="drag-n-drop-boundary overflow-y-hidden overflow-x-auto shadow rounded-lg" [class]="board.boardSetting.colour.colour">
                     <!-- Lists -->
                     <scrumboard-listboards [listBoards]="board.listBoards" (listBoardsChange)="updateBoard()"></scrumboard-listboards>
                 </div>

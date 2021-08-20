@@ -2,13 +2,13 @@
     (cdkDropListDropped)="listBoardDropped($event)">
 
     <!-- Group all cdkDropList's after this point together so that the cards can be transferred between lists -->
-    <div class="flex items-start" cdkDropListGroup>
+    <div class="flex items-start m-2" cdkDropListGroup>
 
         <ng-container *ngFor="let listBoard of listBoards; trackBy: trackByFn">
             <!-- List -->
-            <div class="flex-0 w-72 p-2 m-2 rounded-2xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
-                cdkDrag [cdkDragLockAxis]="'x'">
-
+            <div class="flex-col w-72 p-2 m-2 rounded-2xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+                cdkDragBoundary=".drag-n-drop-boundary" cdkDrag [cdkDragLockAxis]="'x'">
+                <!-- Header -->
                 <div class="flex items-center justify-between cursor-grab" cdkDragHandle>
                     <div class="flex items-center w-full py-2 px-3 rounded-md border border-transparent">
 
@@ -45,12 +45,20 @@
                     </div>
                 </div>
                 <!-- Cards -->
-                <div class="mt-2 rounded-xl  bg-gray-50 dark:bg-gray-900 bg-opacity-12">
-                    <div [id]="listBoard.id" class="p-3 pb-0" cdkDropList [cdkDropListData]="listBoard.cards"
+                <div cdkScrollable class="mt-2 rounded-xl max-h-64 sm:max-h-72 overflow-y-auto bg-gray-50 dark:bg-gray-900 bg-opacity-12">
+                    <div [id]="listBoard.id" class="px-2 pb-0 " cdkDropList [cdkDropListData]="listBoard.cards"
                         (cdkDropListDropped)="cardDropped($event)">
                         <ng-container *ngFor="let card of listBoard.cards; trackBy: trackByFn">
                             <scrumboard-card [card]="card"></scrumboard-card>
                         </ng-container>
+                    </div>
+
+
+                    <!-- New card -->
+                    <div class="px-3 pb-0">
+                        <scrumboard-board-card-add (saved)="addCard(listBoard, $event)"
+                            [buttonTitle]="listBoard.cards.length ? 'Add another card' : 'Add a card'">
+                        </scrumboard-board-card-add>
                     </div>
                 </div>
             </div>

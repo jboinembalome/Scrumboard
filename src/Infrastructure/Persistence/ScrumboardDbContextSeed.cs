@@ -68,7 +68,7 @@ namespace Scrumboard.Infrastructure.Persistence
             {
                 new BoardSetting
                 {
-                    Colour = Colour.Red,
+                    Colour = Colour.Black,
                     CardCoverImage = true,
                     Subscribed = true
                 },
@@ -114,7 +114,7 @@ namespace Scrumboard.Infrastructure.Persistence
                     Name = "Create login page",
                     Description = "Create login page with social network authenfication.",
                     Suscribed = false,
-                    DueDate = null,
+                    DueDate = DateTime.Now,
                     Position = 65536,
                     Labels = new Collection<Label> { labels[0], labels[1] },
                     Adherents = new Collection<Adherent> { adherent },

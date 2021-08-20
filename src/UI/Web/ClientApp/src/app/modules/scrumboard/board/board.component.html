@@ -46,7 +46,7 @@
         <div>
             <!-- Replace with your content -->
             <div class="pt-4 pb-0">
-                <div cdkScrollable class="drag-n-drop-boundary overflow-y-hidden overflow-x-auto shadow rounded-lg" [class]="board.boardSetting.colour.colour">
+                <div cdkScrollable class="drag-n-drop-boundary overflow-y-hidden overflow-x-auto shadow rounded-lg h-80 sm:h-98" [class]="board.boardSetting.colour.colour">
                     <!-- Lists -->
                     <scrumboard-listboards [listBoards]="board.listBoards" (listBoardsChange)="updateBoard()"></scrumboard-listboards>
                 </div>

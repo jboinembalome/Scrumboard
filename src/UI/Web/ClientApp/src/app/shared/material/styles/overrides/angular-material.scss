@@ -23,12 +23,55 @@
     @apply text-gray-900 dark:text-gray-100 #{'!important'};
 }
 
-[type='text'], [type='email'], [type='url'], [type='date'], [type='search'], [type='time'], [multiple], textarea, select {
-
-     border-color: transparent !important;
-     border-width: 0px !important; 
+.mat-form-field-appearance-outline .mat-form-field-outline-start {
+    @apply bg-white dark:bg-gray-800 #{'!important'};
 }
 
+.mat-form-field-appearance-outline .mat-form-field-outline-gap {
+    @apply bg-white dark:bg-gray-800 #{'!important'};
+}
+.mat-form-field-appearance-outline .mat-form-field-outline-end {
+    @apply bg-white dark:bg-gray-800 #{'!important'};
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0 0 0.5em 0 !important; // Maybe update this
+}
+
+[type="text"],
+[type="email"],
+[type="url"],
+[type="date"],
+[type="search"],
+[type="time"],
+[multiple],
+textarea,
+select {
+    border-color: transparent !important;
+    border-width: 0px !important;
+}
+
+[type="text"]:focus,
+[type="email"]:focus,
+[type="url"]:focus,
+[type="password"]:focus,
+[type="number"]:focus,
+[type="date"]:focus,
+[type="search"]:focus,
+[type="time"]:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+    --tw-ring-color: transparent !important;
+    border-color: transparent !important;
+}
+
+// Dialog
+.custom-dialog-container .mat-dialog-container {
+    padding: 0;
+    border-radius: 1rem;
+    background-color: transparent;
+}
 
 // CDK Drag and Drop
 .cdk-drag-preview {

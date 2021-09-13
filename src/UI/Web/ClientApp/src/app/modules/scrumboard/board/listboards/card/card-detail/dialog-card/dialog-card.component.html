@@ -1,0 +1,112 @@
+<!-- Header -->
+<div class="bg-indigo-600 p-4">
+  <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+    <div class="ml-4 mt-2">
+      <h3 class="text-lg leading-6 font-medium text-gray-100">
+        Card
+      </h3>
+    </div>
+    <div class="ml-4 mt-2 flex-shrink-0">
+      <!-- [disabled]="!cardForm.valid" -->
+      <button mat-dialog-close
+        class="bg-gray-100 dark:bg-gray-900 px-1 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <span class="sr-only">Close card</span>
+        <mat-icon class="h-8 w-8">close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Content -->
+<mat-dialog-content class="mat-typography p-4 m-0 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <nav class="flex" aria-label="Breadcrumb">
+    <ol role="list" class="flex items-center space-x-2">
+      <li>
+        <div>
+          <a href="#" class="text-gray-400 hover:text-gray-500">
+            <mat-icon class="flex-shrink-0">home</mat-icon>
+            <span class="sr-only">Home</span>
+          </a>
+        </div>
+      </li>
+
+      <li>
+        <div class="flex items-center">
+          <mat-icon class="flex-shrink-0 text-gray-400">chevron_right</mat-icon>
+          <a href="#" class="ml-1 text-sm font-medium text-gray-500 hover:text-gray-700">Scrumboard Frontend</a>
+        </div>
+      </li>
+
+      <li>
+        <div class="flex items-center">
+          <mat-icon class="flex-shrink-0 text-gray-400">chevron_right</mat-icon>
+          <a href="#" class="ml-1 text-sm font-medium text-gray-500 hover:text-gray-700">Design</a>
+        </div>
+      </li>
+
+    </ol>
+  </nav>
+  <div class="flex">
+    <div class="flex-grow p-2 w-full">
+      <!-- Card form -->
+      <form class="flex flex-col flex-0 items-start w-full space-y-1" [formGroup]="cardForm">
+        <!-- Name -->
+        <div class="w-full">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Name*</label>
+          <mat-form-field class="w-full" appearance="outline">
+            <textarea matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'name'" [rows]="1" matTextareaAutosize [matAutosizeMinRows]="1">
+            </textarea>
+            <mat-error>Name is required.</mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Description -->
+        <div class="w-full">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Description</label>
+          <mat-form-field class="w-full" appearance="outline">
+            <textarea matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'description'" [rows]="6" matTextareaAutosize [matAutosizeMinRows]="1">
+            </textarea>
+          </mat-form-field>
+        </div>
+      
+      </form>
+    </div>
+    <div class="flex-grow-0 w-48 sm:w-96 p-2">
+      <dt class="text-sm font-medium text-gray-700 dark:text-gray-200 truncate mb-2">
+        Add to card
+      </dt>
+      <div class="flex-row space-y-2">
+        <button type="button"
+          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <mat-icon class="mr-1">person</mat-icon>
+          Members
+        </button>
+        <button type="button"
+          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <mat-icon class="mr-1">label</mat-icon>
+          Labels
+        </button>
+        <button type="button"
+          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <mat-icon class="mr-1">checklist</mat-icon>
+          Checklists
+        </button>
+        <button type="button"
+          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <mat-icon class="mr-1">event</mat-icon>
+          Due date
+        </button>
+        <button type="button"
+          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <mat-icon class="mr-1">attachment</mat-icon>
+          Attachments
+        </button>
+        <button type="button"
+          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <mat-icon class="mr-1">image</mat-icon>
+          Cover
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

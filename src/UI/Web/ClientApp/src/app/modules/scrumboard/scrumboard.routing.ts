@@ -1,23 +1,24 @@
 import { Route } from '@angular/router';
 import { BoardComponent } from './board/board.component';
+import { BoardResolver } from './board/board.resolvers';
 import { CardDetailComponent } from './board/listboards/card/card-detail/card-detail.component';
 import { BoardsComponent } from './boards/boards.component';
 
 export const scrumboardRoutes: Route[] = [
     {
-        path     : '',
-        component: BoardsComponent
+        path: '',
+        component: BoardsComponent,
     },
     {
-        path     : ':id',
+        path: ':boardId',
         component: BoardComponent,
-        children : [
+        resolve: {
+            board: BoardResolver
+        },
+        children: [
             {
-                path     : 'card/:cardId',
+                path: 'card/:cardId',
                 component: CardDetailComponent,
-                //resolve  : {
-                //    card: ScrumboardCardResolver
-                //}
             }
         ]
     },

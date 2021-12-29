@@ -1,0 +1,83 @@
+<div class="w-full">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <mat-icon class="mr-4 text-primary">check_box</mat-icon>
+      <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
+        {{checklist.name}}</p>
+    </div>
+    <button class="inline-flex items-center justify-center relative" mat-icon-button
+      [matMenuTriggerFor]="checklistActionsMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #checklistActionsMenu="matMenu">
+      <button mat-menu-item (click)="checklistRemoved.emit(checklist)">
+        <mat-icon class="text-red-500">delete</mat-icon>
+        <span>Remove Checklist</span>
+      </button>
+    </mat-menu>
+  </div>
+
+  <div class="w-full">
+
+    <!-- Progress bar -->
+    <div class="flex-row items-center mb-4">
+
+      <span class="mr-4 font-semibold whitespace-nowrap">
+        {{checklistItemsChecked}} / {{checklist.checklistItems.length}}
+      </span>
+
+      <mat-progress-bar color="primary" mode="determinate"
+        value="{{100 * checklistItemsChecked / checklist.checklistItems.length}}">
+      </mat-progress-bar>
+
+    </div>
+
+    <div>
+      <!-- Checklist items -->
+      <div class="flex-row content-between items-center" *ngFor="let checkItem of checklist.checklistItems">
+
+        <div class="w-full check-item flex-row items-center content-start">
+
+          <mat-form-field class="w-full" appearance="outline">
+            <input matInput #updateItemInput [value]="checkItem.name"
+              (focusout)="updateCheckItem($event.value, checkItem, checklist)"
+              (keydown.enter)="updateItemInput.blur()">
+            <mat-checkbox color="primary" matPrefix [checked]="checkItem.isChecked"
+              (change)="toggleCheckItem(checklist, checkItem, $event.checked)" aria-label="{{checkItem.name}}">
+            </mat-checkbox>
+            <button mat-icon-button matSuffix class="relative"
+              (click)="removeChecklistItem(checkItem, checklist)">
+              <mat-icon class="text-red-500 hover:text-red-700 secondary-text">delete</mat-icon>
+            </button>
+          </mat-form-field>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!-- Checklist item Form -->
+    <div name="newCheckItemForm" class="flex-row items-center content-start">
+
+      <div class="w-full flex flex-row items-center content-start">
+
+        <mat-form-field appearance="outline" class="w-full">
+          <input matInput #checkItemInput
+            (keydown.enter)="addCheckItem(checkItemInput.value, checklist); checkItemInput.blur(); checkItemInput.value = ''"
+            name="checkItemInput" autocomplete="off" placeholder="New checklist item">
+        </mat-form-field>
+
+      </div>
+
+      <button type="button" (click)="addCheckItem(checkItemInput.value, checklist); checkItemInput.value = ''"
+        [disabled]="!checkItemInput.value" aria-label="Add item"
+        class="inline-flex items-center px-2 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:bg-gray-300 disabled:text-gray-500">
+        <mat-icon class="mr-1">add</mat-icon>
+        Add Item
+      </button>
+
+    </div>
+
+  </div>
+</div>

@@ -35,12 +35,12 @@ namespace Scrumboard.Infrastructure.Persistence
                 new Label
                 {
                     Name = "Design",
-                    Colour = Colour.White
+                    Colour = Colour.Violet
                 },
                 new Label
                 {
                     Name = "App",
-                    Colour = Colour.Black
+                    Colour = Colour.Gray
                 },
                 new Label
                 {
@@ -68,7 +68,7 @@ namespace Scrumboard.Infrastructure.Persistence
             {
                 new BoardSetting
                 {
-                    Colour = Colour.Black,
+                    Colour = Colour.Violet,
                     CardCoverImage = true,
                     Subscribed = true
                 },
@@ -277,7 +277,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     Adherent = adherent,
                     Team = team,
                     ListBoards = new Collection<ListBoard> { listboards[0], listboards[1], listboards[2], listboards[3] },
-                    Labels = new Collection<Label> { labels[0], labels[1], labels[2] },
                     BoardSetting = boardSettings[0]
                 },
                 new Board
@@ -288,7 +287,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     Adherent = adherent,
                     Team = team,
                     ListBoards = new Collection<ListBoard> { listboards[4] },
-                    Labels = new Collection<Label> { labels[3], labels[4], labels[5] },
                     BoardSetting = boardSettings[1]
 
                 },

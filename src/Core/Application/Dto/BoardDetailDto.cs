@@ -11,6 +11,5 @@ namespace Scrumboard.Application.Dto
         public TeamDto Team { get; set; }
         public BoardSettingDto BoardSetting { get; set; }
         public IEnumerable<ListBoardDto> ListBoards { get; set; }
-        public IEnumerable<LabelDto> Labels { get; set; }
     }
 }

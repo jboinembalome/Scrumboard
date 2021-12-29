@@ -46,12 +46,8 @@ export class StringColorPipe implements PipeTransform {
             return "Green";
         case "bg-teal-500":
             return "Teal";
-        case "bg-gray-900":
-            return "Black";
         case "bg-gray-500":
             return "Gray";
-        case "bg-white":
-            return "White";
         default:
             return color.colour;
     }

@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-2">
+  <ng-container *ngFor="let label of labels; trackBy: trackByFn">
+    <div class="flex items-center justify-between">
+      <mat-checkbox [color]="'primary'" [checked]="hasLabel(label)"
+        (change)="toggleLabel(label, $event.checked)" (click)="$event.stopPropagation()">
+        <span class="text-sm dark:text-gray-100">{{label.name}}</span>
+      </mat-checkbox>
+      <blouppy-simple-color-picker [color]="label.colour" [stopPropagation]="true"
+        (colorChange)="updateLabelColor($event, label)">
+      </blouppy-simple-color-picker>
+    </div>
+  </ng-container>
+</div>

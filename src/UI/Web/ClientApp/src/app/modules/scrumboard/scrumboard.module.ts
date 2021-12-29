@@ -21,15 +21,33 @@ import { ListBoardAddComponent } from './board/listboards/listboard-add/listboar
 import { BoardsFilterPipe } from './boards/boards.pipe';
 import { StringColorPipe } from 'src/app/shared/pipes/string-color.pipe';
 import { SettingComponent } from './board/setting/setting.component';
+import { ChecklistAddComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklist/checklist-add/checklist-add.component';
+import { LabelSelectorComponent } from './board/listboards/card/card-detail/dialog-card/label/label-selector/label-selector.component';
+import { LabelAddComponent } from './board/listboards/card/card-detail/dialog-card/label/label-add/label-add.component';
+import { ChecklistComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklist/checklist.component';
+import { ChecklistsComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklists.component';
+import { MemberSelectorComponent } from './board/listboards/card/card-detail/dialog-card/member/memberl-selector/member-selector.component';
+import { CommentsComponent } from './board/listboards/card/card-detail/dialog-card/comments/comments.component';
+import { CommentComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment.component';
+import { CommentAddComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment-add/comment-add.component';
 
 @NgModule({
     declarations: [
         ScrumboardComponent,
         BoardComponent,
         BoardsComponent,
+        LabelAddComponent,
+        LabelSelectorComponent,
         ListBoardsComponent,
+        MemberSelectorComponent,
         CardComponent,
         CardAddComponent,
+        ChecklistComponent,
+        ChecklistsComponent,
+        ChecklistAddComponent,
+        CommentComponent,
+        CommentAddComponent,
+        CommentsComponent,
         DialogCardComponent,
         CardDetailComponent,
         ListBoardAddComponent,

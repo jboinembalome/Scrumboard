@@ -1,0 +1,26 @@
+<button type="button" [matMenuTriggerFor]="colourMenu" #menuTrigger="matMenuTrigger" (click)="callStopPropagation($event)"
+  class="w-10 h-10 rounded-full inline-flex p-2 shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+  [class]="color.colour">
+  <mat-icon class="fill-current text-indigo-100">colorize</mat-icon>
+</button>
+
+
+<!-- Menu dropdown-->
+<mat-menu #colourMenu="matMenu" class="dark:bg-gray-600">
+  <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="callStopPropagation($event)">
+    <button (click)="menuTrigger.closeMenu()"
+      class="inline-flex items-center px-2 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <mat-icon class="mr-1">arrow_back</mat-icon>
+      Back
+    </button>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Colors</label>
+    <div class="flex flex-wrap w-36 h-36">
+      <div *ngFor="let pickerColor of colors" class="px-2">
+        <div (click)="updateColor(pickerColor, $event)"
+          class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200"
+          [class]="color.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-menu>

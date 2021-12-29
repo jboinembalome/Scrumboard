@@ -2,14 +2,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ColourDto } from 'src/app/swagger';
 
 @Component({
-    selector: 'blouppy-color-picker',
-    templateUrl: './color-picker.component.html',
+    selector: 'blouppy-simple-color-picker',
+    templateUrl: './simple-color-picker.component.html',
 })
-export class ColorPickerComponent {
+export class SimpleColorPickerComponent {
     @Input() color: ColourDto = { colour: 'bg-white' };
+    @Input() stopPropagation: boolean = false;
     @Output() colorChange = new EventEmitter<ColourDto>();
-    @Input() label: string = 'Select Color';
-    @Input() placeholder: string = 'Pick a color';
 
     isOpen: boolean = false;
     colors: ColourDto[] =
@@ -26,14 +25,22 @@ export class ColorPickerComponent {
             { colour: 'bg-amber-500' },
             { colour: 'bg-green-500' },
             { colour: 'bg-teal-500' },
-            { colour: 'bg-gray-500' }
+            { colour: 'bg-gray-500' },
         ];
 
     constructor() {
     }
 
-    updateColor(color: ColourDto): void {
+    updateColor(color: ColourDto, event): void {
         this.color = color;
         this.colorChange.emit(this.color);
+
+        this.callStopPropagation(event);
+    }
+
+    callStopPropagation(event): void {
+        if (this.stopPropagation) {
+            event.stopPropagation();
+        }
     }
 }

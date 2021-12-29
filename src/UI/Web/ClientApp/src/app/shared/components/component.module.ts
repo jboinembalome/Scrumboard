@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ColorPickerComponent } from './color-picker/color-picker.component';
+import { SimpleColorPickerComponent } from './color-picker/simple-color-picker/simple-color-picker.component';
 import { TitleComponent } from './title/title.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { SelectComponent } from './selects/select/select.component';
@@ -13,6 +14,7 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 @NgModule({
     declarations: [
         ColorPickerComponent,
+        SimpleColorPickerComponent,
         TitleComponent,
         ToggleComponent,
         SelectComponent,
@@ -27,6 +29,7 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
     ],
     exports: [
         ColorPickerComponent,
+        SimpleColorPickerComponent,
         TitleComponent,
         ToggleComponent,
         SelectComponent,

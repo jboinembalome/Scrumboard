@@ -27,10 +27,6 @@ namespace Scrumboard.Domain.ValueObjects
             return colour;
         }
 
-        public static Colour Black => new("bg-gray-900");
-
-        public static Colour White => new("bg-white");
-
         public static Colour Gray => new("bg-gray-500");
 
         public static Colour Teal => new("bg-teal-500");
@@ -69,8 +65,6 @@ namespace Scrumboard.Domain.ValueObjects
         {
             get
             {
-                yield return Black;
-                yield return White;
                 yield return Gray;
                 yield return Teal;
                 yield return Green;

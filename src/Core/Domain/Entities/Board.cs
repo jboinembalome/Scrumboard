@@ -14,6 +14,5 @@ namespace Scrumboard.Domain.Entities
         public Team Team { get; set; }
         public BoardSetting BoardSetting { get; set; }
         public ICollection<ListBoard> ListBoards { get; set; }
-        public ICollection<Label> Labels { get; set; }
     }
 }

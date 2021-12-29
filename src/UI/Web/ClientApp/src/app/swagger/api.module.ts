@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { BoardsService } from './api/boards.service';
+import { CardsService } from './api/cards.service';
+import { LabelsService } from './api/labels.service';
 import { OidcConfigurationService } from './api/oidcConfiguration.service';
 import { WeatherForecastService } from './api/weatherForecast.service';
 
@@ -13,6 +15,8 @@ import { WeatherForecastService } from './api/weatherForecast.service';
   exports:      [],
   providers: [
     BoardsService,
+    CardsService,
+    LabelsService,
     OidcConfigurationService,
     WeatherForecastService ]
 })

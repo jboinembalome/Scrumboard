@@ -1,7 +1,16 @@
 .mat-drawer-content {
-    position: relative;
-    z-index: 1;
-    display: block;
-    height: 100%;
-    overflow:hidden; 
+    position: initial;
 }
+
+.drag-n-drop-boundary{
+    
+}
+
+// It is not necessary to add this class to the tailwind configuration because it is
+// only used for the board size and nothing else. 
+@media (min-width: 640px) {
+    .sm\:h-98 {
+        height: 26rem !important;
+    }
+}
+

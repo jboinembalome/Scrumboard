@@ -23,8 +23,114 @@
     @apply text-gray-900 dark:text-gray-100 #{'!important'};
 }
 
-[type='text'], [type='email'], [type='url'], [type='date'], [type='search'], [type='time'], [multiple], textarea, select {
+.mat-form-field-appearance-outline .mat-form-field-outline-start {
+    @apply bg-white dark:bg-gray-800 #{'!important'};
+}
 
-     border-color: transparent !important;
-     border-width: 0px !important; 
+.mat-form-field-appearance-outline .mat-form-field-outline-gap {
+    @apply bg-white dark:bg-gray-800 #{'!important'};
+}
+.mat-form-field-appearance-outline .mat-form-field-outline-end {
+    @apply bg-white dark:bg-gray-800 #{'!important'};
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0 0 0.5em 0 !important; // Maybe update this
+}
+
+[type="text"],
+[type="email"],
+[type="url"],
+[type="date"],
+[type="search"],
+[type="time"],
+[multiple],
+textarea,
+select {
+    border-color: transparent !important;
+    border-width: 0px !important;
+}
+
+[type="text"]:focus,
+[type="email"]:focus,
+[type="url"]:focus,
+[type="password"]:focus,
+[type="number"]:focus,
+[type="date"]:focus,
+[type="search"]:focus,
+[type="time"]:focus,
+[multiple]:focus,
+textarea:focus,
+select:focus {
+    --tw-ring-color: transparent !important;
+    border-color: transparent !important;
+}
+
+// Dialog
+.custom-dialog-container .mat-dialog-container {
+    padding: 0;
+    border-radius: 1rem;
+    background-color: transparent;
+}
+
+// Menu
+.mat-menu-panel {
+    min-width: 144px !important;
+
+    .mat-menu-content {
+
+        .mat-menu-item {
+            display: flex;
+            align-items: center;
+
+            &.mat-menu-item-submenu-trigger {
+                padding-right: 40px;
+            }
+
+            .mat-icon {
+                margin-right: 12px;
+            }
+        }
+
+        /* Divider within mat-menu */
+        mat-divider {
+            margin: 8px 0;
+        }
+    }
+}
+
+// Checkbox
+
+/* To have a multiline checkbox*/
+.mat-checkbox-layout {
+    white-space: normal !important;
+}
+
+.mat-checkbox-inner-container {
+    margin-top : 3px  !important;
+}
+
+// Datepicker
+/* Hover and active cell content background opacity */
+.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover,
+.cdk-keyboard-focused .mat-calendar-body-active,
+.cdk-program-focused .mat-calendar-body-active {
+    & > .mat-calendar-body-cell-content {
+        &:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+            @apply bg-gray-100 dark:bg-gray-900 bg-opacity-30 #{'!important'};
+        }
+    }
+}
+
+// CDK Drag and Drop
+.cdk-drag-preview {
+    @apply shadow-2xl;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging div:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

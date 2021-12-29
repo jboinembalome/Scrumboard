@@ -26,9 +26,7 @@ export class ColorPickerComponent {
             { colour: 'bg-amber-500' },
             { colour: 'bg-green-500' },
             { colour: 'bg-teal-500' },
-            { colour: 'bg-gray-900' },
-            { colour: 'bg-gray-500' },
-            { colour: 'bg-white' }
+            { colour: 'bg-gray-500' }
         ];
 
     constructor() {

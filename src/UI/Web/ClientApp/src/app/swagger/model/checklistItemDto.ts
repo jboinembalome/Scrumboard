@@ -9,11 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { CardDto } from './cardDto';
 
-export interface ListBoardDetailDto { 
+export interface ChecklistItemDto { 
     id?: number;
     name?: string;
-    position?: number;
-    cards?: Array<CardDto>;
+    isChecked?: boolean;
 }

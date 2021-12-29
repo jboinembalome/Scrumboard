@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Scrumboard.Application.Features.Boards.Commands.UpdateBoard
 {
-    public class UpdateBoardCommand : IRequest
+    public class UpdateBoardCommand : IRequest<UpdateBoardCommandResponse>
     {
         public int BoardId { get; set; }
         public string Name { get; set; }

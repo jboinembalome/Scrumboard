@@ -2,19 +2,21 @@
     (cdkDropListDropped)="listBoardDropped($event)">
 
     <!-- Group all cdkDropList's after this point together so that the cards can be transferred between lists -->
-    <div class="flex items-start" cdkDropListGroup>
+    <div class="flex items-start m-2" cdkDropListGroup>
 
         <ng-container *ngFor="let listBoard of listBoards; trackBy: trackByFn">
             <!-- List -->
-            <div class="flex-0 w-72 p-2 m-2 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" cdkDrag [cdkDragLockAxis]="'x'">
-
+            <div class="flex-col w-72 p-2 m-2 rounded-2xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+                cdkDragBoundary=".drag-n-drop-boundary" cdkDrag [cdkDragLockAxis]="'x'">
+                <div class="list-custom-placeholder" *cdkDragPlaceholder></div>
+                <!-- Header -->
                 <div class="flex items-center justify-between cursor-grab" cdkDragHandle>
                     <div class="flex items-center w-full py-2 px-3 rounded-md border border-transparent">
 
                         <input [value]="listBoard.name" [spellcheck]="'false'"
                             (focusout)="editListBoardName($event, listBoard)" (keydown.enter)="listNameInput.blur()"
                             #listNameInput
-                            class="bg-white dark:bg-gray-900 cursor-text p-2 w-full font-medium sm:min-h sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="bg-gray-50 dark:bg-gray-900 cursor-text p-2 w-full font-medium sm:min-h sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     </div>
                     <div class="flex items-center">
                         <span
@@ -24,7 +26,7 @@
                     </div>
                     <div class="ml-1">
                         <button
-                            class="bg-white dark:bg-gray-900 px-1 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            class="bg-gray-50 dark:bg-gray-900 px-1 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             [matMenuTriggerFor]="listMenu">
                             <span class="sr-only">List Menu</span>
                             <mat-icon class="h-8 w-8">more_vert</mat-icon>
@@ -44,8 +46,21 @@
                     </div>
                 </div>
                 <!-- Cards -->
-                <div class="mt-2 rounded-xl bg-white dark:bg-gray-900">
+                <div cdkScrollable class="rounded-xl max-h-64 sm:max-h-72 overflow-y-auto bg-gray-50 dark:bg-gray-900 bg-opacity-12">
+                    <div [id]="listBoard.id" class="p-3 pb-0 " cdkDropList [cdkDropListData]="listBoard.cards"
+                        (cdkDropListDropped)="cardDropped($event)">
+                        <ng-container *ngFor="let card of listBoard.cards; trackBy: trackByFn">
+                            <scrumboard-card [card]="card"></scrumboard-card>
+                        </ng-container>
+                    </div>
 
+
+                    <!-- New card -->
+                    <div class="px-3 pb-0">
+                        <scrumboard-board-card-add (saved)="addCard(listBoard, $event)"
+                            [buttonTitle]="listBoard.cards.length ? 'Add another card' : 'Add a card'">
+                        </scrumboard-board-card-add>
+                    </div>
                 </div>
             </div>
         </ng-container>

@@ -11,14 +11,11 @@ export class StringColorPipe implements PipeTransform {
    * @returns {string}
    */
   transform(color: ColourDto, stringColor: string = null): string {
-    if (!color) {
+    if (!color)
       return '';
-    }
 
-    if (stringColor) {
-        console.log("toto")
+    if (stringColor)
       return stringColor;
-    }
 
    return this.formatColor(color);
   }
@@ -49,12 +46,8 @@ export class StringColorPipe implements PipeTransform {
             return "Green";
         case "bg-teal-500":
             return "Teal";
-        case "bg-gray-900":
-            return "Black";
         case "bg-gray-500":
             return "Gray";
-        case "bg-white":
-            return "White";
         default:
             return color.colour;
     }

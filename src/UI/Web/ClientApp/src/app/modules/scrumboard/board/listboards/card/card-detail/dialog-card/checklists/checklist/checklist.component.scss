@@ -1,0 +1,17 @@
+.check-item {
+    mat-checkbox {
+        position: relative;
+        top: -5px;
+        margin: 0 12px 0 3px;
+
+        .mat-label {
+            font-size: 14px;
+        }
+
+        &.mat-checked {
+            .mat-label {
+                text-decoration: line-through;
+            }
+        }
+    }
+}

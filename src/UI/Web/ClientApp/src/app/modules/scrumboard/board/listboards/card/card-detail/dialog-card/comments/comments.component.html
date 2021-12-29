@@ -1,0 +1,5 @@
+<div class="pb-2" *ngFor="let comment of comments">
+ <comment [comment]="comment" 
+        (commentUpdated)="updateComment($event)"
+        (commentRemoved)="removeComment($event)"></comment>
+</div>

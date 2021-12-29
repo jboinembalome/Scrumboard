@@ -1,0 +1,22 @@
+<form class="flex-col items-end content-end justify-start" [formGroup]="commentForm" (submit)="addComment()">
+
+  <div class="flex space-x-3">
+    <div class="flex-shrink-0">
+      <img class="h-10 w-10 rounded-full" src="assets/images/avatars/jimmy.jpg" alt="">
+    </div>
+    <div class="min-w-0 flex-1">
+      <mat-form-field class="w-full" appearance="outline">
+        <input matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'message'" [autocomplete]="'off'">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div>
+    <button [disabled]="!commentForm.get('message').value"
+      class="order-0 inline-flex items-center px-2 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:bg-gray-300 disabled:text-gray-500 sm:order-1">
+      <mat-icon class="mr-1">add</mat-icon>
+      Add Comment
+    </button>
+  </div>
+
+</form>

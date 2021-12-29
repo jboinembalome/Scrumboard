@@ -5,9 +5,9 @@ using Scrumboard.Application.Extensions;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
+using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
-using System;
 using System.Linq;
 
 namespace Scrumboard.Application.Profiles
@@ -16,7 +16,8 @@ namespace Scrumboard.Application.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<Adherent, AdherentDto>();
+            CreateMap<Adherent, AdherentDto>()
+                .ReverseMap();
 
             CreateMap<Board, BoardDto>()
                 .ForMember(d => d.Initials, opt => opt.MapFrom(c => GetInitials(c.Name)))
@@ -38,19 +39,49 @@ namespace Scrumboard.Application.Profiles
                 .ReverseMap();
 
             CreateMap<Card, CardDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ForMember(d => d.ListBoardId, opt => opt.MapFrom(c => c.ListBoard.Id))
                 .ForMember(d => d.ChecklistItemsCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count()))
-                .ForMember(d => d.ChecklistItemsDoneCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)));
+                .ForMember(d => d.ChecklistItemsDoneCount, opt => opt.MapFrom(c => c.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)))
+                .ReverseMap();
+
+            CreateMap<Card, CardDetailDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ForMember(d => d.ListBoardName, opt => opt.MapFrom(c => c.ListBoard.Name))
+                .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.ListBoard.Board.Id))
+                .ReverseMap();
+
+            CreateMap<Card, UpdateCardCommand>()
+                .ReverseMap();
+
+            CreateMap<Checklist, ChecklistDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ReverseMap();
+
+            CreateMap<ChecklistItem, ChecklistItemDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ReverseMap();
+
+            CreateMap<Comment, CommentDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ReverseMap();
+
+            CreateMap<Attachment, AttachmentDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+               .ReverseMap();
 
             CreateMap<Colour, ColourDto>()
                 .ForMember(d => d.Colour, opt => opt.MapFrom(c => c.Code))
                 .ReverseMap();
 
-            CreateMap<Label, LabelDto>();
+            CreateMap<Label, LabelDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ForMember(d => d.CardIds, opt => opt.MapFrom(c => c.Cards.Select(c => c.Id)))
+                .ReverseMap();
 
             CreateMap<ListBoard, ListBoardDto>()
                 .EqualityComparison((d, opt) => d.Id == opt.Id)
                 .ReverseMap();
-            CreateMap<ListBoard, ListBoardDetailDto>();
 
             CreateMap<Team, TeamDto>()
                 .ReverseMap();

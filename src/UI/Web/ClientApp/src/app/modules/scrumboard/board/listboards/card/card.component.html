@@ -1,0 +1,67 @@
+<!-- Card -->
+<a [routerLink]="['card', card.id]"
+    class="flex flex-col items-start mb-3 p-2 space-y-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg overflow-hidden"
+    cdkDragBoundary=".drag-n-drop-boundary" cdkDrag>
+    <div class="card-custom-placeholder" *cdkDragPlaceholder></div>
+
+    <!-- Cover image -->
+    <!-- <ng-container *ngIf="card.coverImage">
+            <div class="-mx-5 -mt-5 mb-2">
+                <img class="w-full object-cover" [src]="card.coverImage">
+            </div>
+         </ng-container> 
+    -->
+    <!-- Card Name -->
+    <div class="font-normal text-sm text-gray-900 dark:text-white">{{card.name}}</div>
+    <!-- Labels -->
+    <ng-container *ngIf="card.labels?.length">
+        <div>
+            <div class="flex flex-wrap -mx-1 -mb-2">
+                <ng-container *ngFor="let label of card.labels; trackBy: trackByFn">
+                    <div class="mx-1 mb-2 py-0.5 px-2 rounded-full text-xs font-medium" [class]="label.colour.colour"
+                        [ngClass]="label.colour.colour === 'bg-white' ? 'border border-gray-200 dark:border-transparent text-gray-900' : 'text-white'">
+                        {{label.name}}
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+
+    <div *ngIf="card.dueDate || card.attachmentsCount || card.commentsCount || card.checklistItemsCount"
+        class="flex items-center p-1 pl-0">
+
+        <!-- Due date -->
+        <div *ngIf="card.dueDate" class="flex items-center ml-2 rounded text-xs"
+            [class]="isOverdue(card.dueDate) ? 'text-red-600' : 'text-gray-400'">
+            <mat-icon class="text-base">schedule</mat-icon>
+            <div class="ml-0">
+                {{card.dueDate | date: 'mediumDate'}}
+            </div>
+        </div>
+
+        <!-- Card attachments count -->
+        <div *ngIf="card.attachmentsCount" class="flex items-center ml-2 rounded text-xs text-gray-400">
+            <mat-icon class="text-base">attachment</mat-icon>
+            <div class="ml-0">
+                {{card.attachmentsCount}}
+            </div>
+        </div>
+
+        <!-- Card comments count -->
+        <div *ngIf="card.commentsCount" class="flex items-center ml-2 rounded text-xs text-gray-400">
+            <mat-icon class="text-base">comment</mat-icon>
+            <div class="ml-0">
+                {{card.commentsCount}}
+            </div>
+        </div>
+
+        <!-- Card check items count -->
+        <div *ngIf="card.checklistItemsCount" class="flex items-center ml-2 rounded text-xs"
+            [class]="card.checklistItemsDoneCount === card.checklistItemsCount ? 'text-green-400' : 'text-gray-400'">
+            <mat-icon class="text-base">checklist</mat-icon>
+            <div class="ml-0">
+                {{card.checklistItemsDoneCount}}/{{card.checklistItemsCount}}
+            </div>
+        </div>
+    </div>
+</a>

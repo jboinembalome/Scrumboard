@@ -35,12 +35,12 @@ namespace Scrumboard.Infrastructure.Persistence
                 new Label
                 {
                     Name = "Design",
-                    Colour = Colour.White
+                    Colour = Colour.Violet
                 },
                 new Label
                 {
                     Name = "App",
-                    Colour = Colour.Orange
+                    Colour = Colour.Gray
                 },
                 new Label
                 {
@@ -50,17 +50,17 @@ namespace Scrumboard.Infrastructure.Persistence
                 new Label
                 {
                     Name = "Log",
-                    Colour = Colour.White
+                    Colour = Colour.Blue
                 },
                 new Label
                 {
                     Name = "Documentation",
-                    Colour = Colour.Orange
+                    Colour = Colour.Rose
                 },
                 new Label
                 {
                     Name = "Persitence",
-                    Colour = Colour.Red
+                    Colour = Colour.Yellow
                 }
             };
 
@@ -68,7 +68,7 @@ namespace Scrumboard.Infrastructure.Persistence
             {
                 new BoardSetting
                 {
-                    Colour = Colour.Red,
+                    Colour = Colour.Violet,
                     CardCoverImage = true,
                     Subscribed = true
                 },
@@ -114,8 +114,8 @@ namespace Scrumboard.Infrastructure.Persistence
                     Name = "Create login page",
                     Description = "Create login page with social network authenfication.",
                     Suscribed = false,
-                    DueDate = null,
-                    Position = 0,
+                    DueDate = DateTime.Now,
+                    Position = 65536,
                     Labels = new Collection<Label> { labels[0], labels[1] },
                     Adherents = new Collection<Adherent> { adherent },
                     Activities =  new Collection<Activity> { activities[0] },
@@ -169,7 +169,7 @@ namespace Scrumboard.Infrastructure.Persistence
                     Description = null,
                     Suscribed = false,
                     DueDate = null,
-                    Position = 1,
+                    Position = 131072,
                     Labels = new Collection<Label> { labels[0] },
                     Activities =  new Collection<Activity> { activities[1] }
                 },
@@ -179,7 +179,7 @@ namespace Scrumboard.Infrastructure.Persistence
                     Description = "",
                     Suscribed = true,
                     DueDate = new DateTime(2021, 5, 15),
-                    Position = 0,
+                    Position = 65536,
                     Labels = new Collection<Label> { labels[1] },
                     Activities =  new Collection<Activity> { activities[2] }
                 },
@@ -189,7 +189,7 @@ namespace Scrumboard.Infrastructure.Persistence
                     Description = "",
                     Suscribed = false,
                     DueDate = null,
-                    Position = 0,
+                    Position = 65536,
                     Labels = new Collection<Label> { labels[2] },
                     Adherents = new Collection<Adherent> { adherent },
                     Activities =  new Collection<Activity> { activities[3] }
@@ -201,30 +201,30 @@ namespace Scrumboard.Infrastructure.Persistence
                 new ListBoard
                 {
                     Name = "Design",
-                    Position = 0,
+                    Position = 65536,
                     Cards = new Collection<Card>{ cards[0], cards[1] }
                 },
                 new ListBoard
                 {
                     Name = "Development",
-                    Position = 1,
+                    Position = 131072,
                     Cards = new Collection<Card> { cards[2] }
                 },
                 new ListBoard
                 {
                     Name = "Upcoming Features",
-                    Position = 2,
+                    Position = 196608,
                     Cards = new Collection<Card> { cards[3] }
                 },
                 new ListBoard
                 {
                     Name = "Known Bugs",
-                    Position = 3,
+                    Position = 262144,
                 },
                 new ListBoard
                 {
                     Name = "Backlog",
-                    Position = 0,
+                    Position = 65536,
                     Cards = new Collection<Card>
                     {
                         new Card
@@ -233,7 +233,7 @@ namespace Scrumboard.Infrastructure.Persistence
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            Position = 0,
+                            Position = 65536,
                             Labels = new Collection<Label> { labels[4] },
                             Adherents = new Collection<Adherent> { adherent },
                             Activities =  new Collection<Activity>
@@ -251,7 +251,7 @@ namespace Scrumboard.Infrastructure.Persistence
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            Position = 1,
+                            Position = 131072,
                             Labels = new Collection<Label> { labels[3] },
                             Adherents = new Collection<Adherent> { },
                             Activities =  new Collection<Activity>
@@ -277,7 +277,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     Adherent = adherent,
                     Team = team,
                     ListBoards = new Collection<ListBoard> { listboards[0], listboards[1], listboards[2], listboards[3] },
-                    Labels = new Collection<Label> { labels[0], labels[1], labels[2] },
                     BoardSetting = boardSettings[0]
                 },
                 new Board
@@ -288,7 +287,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     Adherent = adherent,
                     Team = team,
                     ListBoards = new Collection<ListBoard> { listboards[4] },
-                    Labels = new Collection<Label> { labels[3], labels[4], labels[5] },
                     BoardSetting = boardSettings[1]
 
                 },

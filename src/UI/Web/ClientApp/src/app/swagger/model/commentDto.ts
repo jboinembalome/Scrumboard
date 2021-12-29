@@ -10,16 +10,11 @@
  * Do not edit the class manually.
  */
 import { AdherentDto } from './adherentDto';
-import { BoardSettingDto } from './boardSettingDto';
-import { ListBoardDto } from './listBoardDto';
-import { TeamDto } from './teamDto';
 
-export interface BoardDetailDto { 
+export interface CommentDto { 
     id?: number;
-    name?: string;
-    uri?: string;
+    message?: string;
+    createdDate?: Date;
+    modifiedDate?: Date;
     adherent?: AdherentDto;
-    team?: TeamDto;
-    boardSetting?: BoardSettingDto;
-    listBoards?: Array<ListBoardDto>;
 }

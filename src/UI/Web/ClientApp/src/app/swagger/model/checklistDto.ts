@@ -9,11 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ColourDto } from './colourDto';
+import { ChecklistItemDto } from './checklistItemDto';
 
-export interface LabelDto { 
+export interface ChecklistDto { 
     id?: number;
     name?: string;
-    colour?: ColourDto;
-    cardIds?: Array<number>;
+    checklistItems?: Array<ChecklistItemDto>;
 }

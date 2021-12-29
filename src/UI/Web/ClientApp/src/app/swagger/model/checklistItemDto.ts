@@ -9,11 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ColourDto } from './colourDto';
 
-export interface LabelDto { 
+export interface ChecklistItemDto { 
     id?: number;
     name?: string;
-    colour?: ColourDto;
-    cardIds?: Array<number>;
+    isChecked?: boolean;
 }

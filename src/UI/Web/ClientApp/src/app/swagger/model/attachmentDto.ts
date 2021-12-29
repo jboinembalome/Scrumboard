@@ -9,11 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ColourDto } from './colourDto';
+import { AttachmentType } from './attachmentType';
 
-export interface LabelDto { 
+export interface AttachmentDto { 
     id?: number;
     name?: string;
-    colour?: ColourDto;
-    cardIds?: Array<number>;
+    url?: string;
+    attachmentType?: AttachmentType;
 }

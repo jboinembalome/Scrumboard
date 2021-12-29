@@ -1,7 +1,11 @@
 export * from './boards.service';
 import { BoardsService } from './boards.service';
+export * from './cards.service';
+import { CardsService } from './cards.service';
+export * from './labels.service';
+import { LabelsService } from './labels.service';
 export * from './oidcConfiguration.service';
 import { OidcConfigurationService } from './oidcConfiguration.service';
 export * from './weatherForecast.service';
 import { WeatherForecastService } from './weatherForecast.service';
-export const APIS = [BoardsService, OidcConfigurationService, WeatherForecastService];
+export const APIS = [BoardsService, CardsService, LabelsService, OidcConfigurationService, WeatherForecastService];

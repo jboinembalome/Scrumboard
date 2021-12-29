@@ -9,11 +9,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ColourDto } from './colourDto';
 
-export interface LabelDto { 
-    id?: number;
-    name?: string;
-    colour?: ColourDto;
-    cardIds?: Array<number>;
+import { CardDetailDto } from "..";
+
+export interface UpdateCardCommandResponse { 
+    success?: boolean;
+    message?: string;
+    validationErrors?: Array<string>;
+    card?: CardDetailDto;
 }

@@ -13,8 +13,6 @@ namespace Scrumboard.Application.Features.Boards.Specifications
             Query.Include(b => b.BoardSetting)
                  .ThenInclude(bs => bs.Colour);
 
-            Query.Include(b => b.Labels);
-
             Query.Include(b => b.ListBoards)
                     .ThenInclude(l => l.Cards)
                     .ThenInclude(c => c.Checklists)

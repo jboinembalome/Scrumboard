@@ -2,6 +2,8 @@
 <a [routerLink]="['card', card.id]"
     class="flex flex-col items-start mb-3 p-2 space-y-1 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg overflow-hidden"
     cdkDragBoundary=".drag-n-drop-boundary" cdkDrag>
+    <div class="card-custom-placeholder" *cdkDragPlaceholder></div>
+
     <!-- Cover image -->
     <!-- <ng-container *ngIf="card.coverImage">
             <div class="-mx-5 -mt-5 mb-2">

@@ -2,11 +2,10 @@
 
 namespace Scrumboard.Application.Dto
 {
-    public class LabelDto
+    public class ChecklistDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ColourDto Colour { get; set; }
-        public IEnumerable<int> CardIds { get; set; }
+        public ICollection<ChecklistItemDto> ChecklistItems { get; set; }
     }
 }

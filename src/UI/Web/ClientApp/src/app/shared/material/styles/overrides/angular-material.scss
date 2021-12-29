@@ -73,13 +73,58 @@ select:focus {
     background-color: transparent;
 }
 
+// Menu
+.mat-menu-panel {
+    min-width: 144px !important;
+
+    .mat-menu-content {
+
+        .mat-menu-item {
+            display: flex;
+            align-items: center;
+
+            &.mat-menu-item-submenu-trigger {
+                padding-right: 40px;
+            }
+
+            .mat-icon {
+                margin-right: 12px;
+            }
+        }
+
+        /* Divider within mat-menu */
+        mat-divider {
+            margin: 8px 0;
+        }
+    }
+}
+
+// Checkbox
+
+/* To have a multiline checkbox*/
+.mat-checkbox-layout {
+    white-space: normal !important;
+}
+
+.mat-checkbox-inner-container {
+    margin-top : 3px  !important;
+}
+
+// Datepicker
+/* Hover and active cell content background opacity */
+.mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover,
+.cdk-keyboard-focused .mat-calendar-body-active,
+.cdk-program-focused .mat-calendar-body-active {
+    & > .mat-calendar-body-cell-content {
+        &:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+            @apply bg-gray-100 dark:bg-gray-900 bg-opacity-30 #{'!important'};
+        }
+    }
+}
+
 // CDK Drag and Drop
 .cdk-drag-preview {
     @apply shadow-2xl;
-}
-
-.cdk-drag-placeholder {
-    opacity: 0;
 }
 
 .cdk-drag-animating {

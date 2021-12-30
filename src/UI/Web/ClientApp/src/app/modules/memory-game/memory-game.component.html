@@ -1,0 +1,35 @@
+<blouppy-title text="Memory Game"></blouppy-title>
+
+<div>
+    <!-- Replace with your content -->
+    <div class="py-4">
+        <p class="dark:text-gray-200">This is a simple memory game for fun.</p>
+
+        <div class="flex items-center justify-between py-4 border-b border-gray-200 dark:border-gray-900">
+            <div class="flex-1 min-w-0">
+                <button type="button" [disabled]="disablePlay" (click)="playGame()"
+                    class="order-0 inline-flex items-center px-4 py-2 mr-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:bg-gray-200 disabled:text-gray-500 sm:order-1 sm:ml-3">
+                    Play
+                </button>
+                <ng-container *ngIf="displayTimer">
+                    <mat-icon class="dark:text-gray-100">schedule</mat-icon>
+                    <countdown #countdown class="dark:text-gray-100" [config]="config" (event)="onTimerFinished($event)"></countdown>
+                </ng-container>    
+            </div>
+        </div>
+
+        <div *ngIf="cards" class="flex flex-col items-center">
+            <memory-game-score [score]="score"></memory-game-score>
+
+            <div class="memory flex flex-wrap p-2 select-none">
+                <ng-container *ngFor="let card of cards; trackBy: trackByFn">
+                    <memory-game-card [card]="card" (cardClick)="handleCardClick($event)"></memory-game-card>
+                </ng-container>
+            </div>
+
+            <memory-game-results *ngIf="won && results !== null" [results]="results"></memory-game-results>
+
+            <memory-game-high-score-input *ngIf="won && results == null" [score]="score" (onStored)="displayResults($event)"></memory-game-high-score-input>
+        </div>
+    </div>
+</div>

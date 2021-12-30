@@ -1,0 +1,10 @@
+<div class="card flex ring-2 ring-offset-2 ring-gray-500 rounded cursor-pointer" 
+    [ngClass]="{'bg-gray-900': card.feedback === 'masked',
+                'bg-gray-100 ring-green-500 pointer-events-none': card.feedback === 'justMatched',
+                'bg-gray-100 ring-red-500': card.feedback === 'justMismatched',
+                'bg-gray-100 cursor-not-allowed pointer-events-none': card.feedback === 'visible'}"
+    (click)="cardClick.emit(card.index)">
+    <span class="text-center h-12 w-10">
+      {{card.feedback === 'masked' ? MASKED_SYMBOL : card.symbol}}
+    </span>
+</div>

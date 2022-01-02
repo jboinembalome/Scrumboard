@@ -6,6 +6,7 @@ using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
 using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
+using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
 using System.Linq;
@@ -19,15 +20,20 @@ namespace Scrumboard.Application.Profiles
             CreateMap<Adherent, AdherentDto>()
                 .ReverseMap();
 
+            CreateMap<IUser, AdherentDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.IdentityGuid)
+                .ForMember(d => d.Id, opt => opt.Ignore())
+                .ForMember(d => d.IdentityGuid, opt => opt.UseDestinationValue());
+
             CreateMap<Board, BoardDto>()
                 .ForMember(d => d.Initials, opt => opt.MapFrom(c => GetInitials(c.Name)))
                 .ForMember(d => d.LastActivity, opt => opt.MapFrom(c => c.LastModifiedDate))
                 .ForMember(d => d.Members, opt => opt.MapFrom(c => c.Team.Adherents.Count));
             CreateMap<Board, CreateBoardCommand>()
-                .ForMember(d => d.UserId, opt => opt.MapFrom(c => c.Adherent.IdentityGuid))
+                .ForMember(d => d.UserId, opt => opt.MapFrom(c => c.Adherent.IdentityId))
                 .ReverseMap();
             CreateMap<Board, UpdateBoardCommand>()
-                .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))       
+                .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))
                 .ReverseMap();
             CreateMap<Board, UpdatePinnedBoardCommand>()
                 .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.Id))

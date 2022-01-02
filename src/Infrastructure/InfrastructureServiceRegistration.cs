@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +42,8 @@ namespace Scrumboard.Infrastructure
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ScrumboardDbContext>();
+
+            services.AddTransient<IProfileService, ProfileService>();
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();

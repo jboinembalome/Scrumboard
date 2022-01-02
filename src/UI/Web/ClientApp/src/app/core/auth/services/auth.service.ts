@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
+import { IdentityService } from './identity.service';
 import { ApplicationPaths, ApplicationName } from '../auth.constants';
 import { AuthResultStatus } from '../models/auth-result-status.enum';
 import { IAuthResult } from '../models/auth-result.model';
@@ -19,11 +20,26 @@ export class AuthService {
   private userManager: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
 
+  constructor(private _identityService: IdentityService) {
+    
+  }
+
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
   }
 
+  /**
+   * Get the User object for the currently authenticated user.
+   */
   public getUser(): Observable<IUser | null> {
+    return this._identityService.apiUserInfoGet();
+  }
+
+  /**
+   * Get the User object for the currently authenticated user.
+   ** Warning: This object is not refreshed when the user updates their profile.
+   */
+  public getUserInUserManager(): Observable<IUser | null> {
     return concat(
       this.userSubject.pipe(take(1), filter(u => !!u)),
       this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.userSubject.next(u))),
@@ -166,6 +182,7 @@ export class AuthService {
   }
 
   private getUserFromStorage(): Observable<IUser> {
+    this.getAccessToken().subscribe(t => console.log(t));
     return from(this.ensureUserManagerInitialized())
       .pipe(
         mergeMap(() => this.userManager.getUser()),

@@ -27,7 +27,7 @@ namespace Scrumboard.Application.Behaviours
             string userName = string.Empty;
 
             if (!string.IsNullOrEmpty(userId))
-                userName = await _identityService.GetUserNameAsync(userId);
+                userName = await _identityService.GetUserNameAsync(userId, cancellationToken);
 
             _logger.LogInformation("Scrumboard API Request: {Name} {@UserId} {@UserName} {@Request}",
                 requestName, userId, userName, request);

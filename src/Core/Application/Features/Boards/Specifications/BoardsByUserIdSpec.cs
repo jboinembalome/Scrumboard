@@ -8,7 +8,7 @@ namespace Scrumboard.Application.Specifications
     {
         public BoardsByUserIdSpec(string userId)
         {
-            Query.Where(b => b.Adherent.IdentityGuid == userId)
+            Query.Where(b => b.Adherent.IdentityId == userId)
                 .Include(b => b.Adherent)
                 .Include(b => b.Team)
                  .ThenInclude(t => t.Adherents)

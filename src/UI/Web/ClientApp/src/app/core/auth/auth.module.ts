@@ -5,6 +5,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './auth.constants';
 import { HttpClientModule } from '@angular/common/http';
+import { IdentityService } from './services/identity.service';
 
 @NgModule({
   declarations: [LoginComponent, LogoutComponent],
@@ -23,6 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
         { path: ApplicationPaths.LogOutCallback, component: LogoutComponent }
       ]
     )
+  ],
+  providers:[
+    IdentityService
   ],
   exports: [LoginComponent, LogoutComponent]
 })

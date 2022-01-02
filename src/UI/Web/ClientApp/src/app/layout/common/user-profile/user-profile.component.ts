@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { IUser } from 'src/app/core/auth/models/user.model';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 
 @Component({
@@ -11,26 +12,34 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 export class UserProfileComponent implements OnInit {
 
   isAuthenticated: Observable<boolean>;
-  avatar: string = ""; // ex: assets/images/avatars/jimmy.jpg
   status: string = ""; // ex: online
 
   checkedDarkMode: boolean = false;
 
-  userName: Observable<string>;
-  
+  currentUser: Observable<IUser>;
+
   @Output() toggleTheme = new EventEmitter<void>();
   @Output() toggleDir = new EventEmitter<void>();
-  
-  constructor(private _authService: AuthService) { 
+
+  constructor(private _authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.isAuthenticated = this._authService.isAuthenticated();
-    this.userName = this._authService.getUser().pipe(map(u => u && u.name));
+    this.currentUser = this._authService.getUser();
   }
 
   updateChecked() {
     this.checkedDarkMode = !this.checkedDarkMode;
     this.toggleTheme.emit();
+  }
+
+  UseDefaultAvatar() {
+    this.currentUser.pipe(
+      map(user => ({
+        ...user,
+        picture: null
+      })),
+    );
   }
 }

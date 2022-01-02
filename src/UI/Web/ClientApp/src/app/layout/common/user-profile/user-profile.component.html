@@ -6,15 +6,26 @@
       id="user-menu-button" aria-expanded="false" aria-haspopup="true">
       <span class="inline-block relative">
         <span class="sr-only">Open user menu</span>
-        <img class="p-px h-10 w-10 rounded-full" *ngIf="isAuthenticated && avatar" [src]="avatar">
-        <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full" [ngClass]="{'mr-px mb-px': !isAuthenticated || !avatar,
-                          'ring-2 ring-white bg-green-500': status === 'online',
-                          'ring-2 ring-white bg-amber-500': status === 'away',
-                          'ring-2 ring-white bg-red-500': status === 'busy',
-                          'ring-2 ring-white bg-gray-400': status === 'not-visible'}"></span>
-        <span *ngIf="!isAuthenticated || !avatar" class="h-10 w-10 rounded-full">
+        <ng-container *ngIf="isAuthenticated | async">
+          <img class="p-px h-10 w-10 rounded-full" *ngIf="(currentUser | async)?.picture"
+            [src]="(currentUser | async)?.picture" (onerror)="setPicture()">
+          <span *ngIf="!(currentUser | async)?.picture" class="h-10 w-10 rounded-full">
+            <mat-icon class="text-5xl -ml-1 pt-1.5 text-gray-300">account_circle</mat-icon>
+          </span>
+        </ng-container>
+        <!-- <ng-container *ngIf="!isAuthenticated | async">
+          <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full" 
+                [ngClass]="{'mr-px mb-px': !(currentUser | async)?.picture,
+          'ring-2 ring-white bg-green-500': status === 'online',
+          'ring-2 ring-white bg-amber-500': status === 'away',
+          'ring-2 ring-white bg-red-500': status === 'busy',
+          'ring-2 ring-white bg-gray-400': status === 'not-visible'}"></span>
+        </ng-container> -->
+
+        <span *ngIf="!(isAuthenticated | async)" class="h-10 w-10 rounded-full">
           <mat-icon class="text-5xl -ml-1 pt-1.5 text-gray-300">account_circle</mat-icon>
         </span>
+
       </span>
     </button>
   </div>
@@ -27,19 +38,20 @@
     <div>
       <span class="flex flex-col leading-none px-4 py-2 mx-2">
         <span class="text-xs text-gray-500 dark:text-gray-100">Signed in as</span>
-        <span class="mt-1.5 text-sm font-medium dark:text-gray-100">{{userName | async}}</span>
+        <span class="mt-1.5 text-sm font-medium dark:text-gray-100">{{(currentUser | async)?.name}}</span>
       </span>
     </div>
     <mat-divider class="my-2"></mat-divider>
   </div>
 
-  <blouppy-toggle class="cursor-pointer group flex items-center px-4 py-2 text-sm" text="Dark mode" [checked]="checkedDarkMode" (click)="updateChecked()">
+  <blouppy-toggle class="cursor-pointer group flex items-center px-4 py-2 text-sm" text="Dark mode"
+    [checked]="checkedDarkMode" (click)="updateChecked()">
     <span class="mr-3">
       <div class="group flex items-center">
         <mat-icon class="h-6 w-6 mr-1.5 ">dark_mode</mat-icon>
         <span class="text-sm font-medium">Dark mode</span>
       </div>
-    </span>   
+    </span>
   </blouppy-toggle>
   <ng-container *ngIf="isAuthenticated | async">
     <a [routerLink]='["/auth/authentication/profile"]'

@@ -7,7 +7,7 @@ namespace Scrumboard.Application.Specifications
     {
         public AdherentByUserIdSpec(string userId)
         {
-            Query.Where(a => a.IdentityGuid == userId);
+            Query.Where(a => a.IdentityId == userId);
         }
     }
 }

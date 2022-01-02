@@ -9,7 +9,7 @@ namespace Scrumboard.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Adherent> builder)
         {
-            builder.Property(a => a.IdentityGuid)
+            builder.Property(a => a.IdentityId)
                 .IsRequired();
 
             builder.HasMany(x => x.Cards)

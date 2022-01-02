@@ -18,7 +18,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
             var adherent1Model = new Adherent 
             { 
                 Id = 1, 
-                IdentityGuid = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
+                IdentityId = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
             };
 
             var team1 = new Team { Id = 1, Name = "Developer Team" };
@@ -351,7 +351,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
             var adherent1Model = new Adherent
             {
                 Id = 1,
-                IdentityGuid = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
+                IdentityId = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
             };
         
             var adherents = new List<Adherent> { adherent1Model };

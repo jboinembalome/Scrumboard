@@ -16,13 +16,13 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Specifications
             var adherent1Model = new Adherent
             {
                 Id = 1,
-                IdentityGuid = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
+                IdentityId = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
             };
 
             var adherent2Model = new Adherent
             {
                 Id = 2,
-                IdentityGuid = "3cd08f87-33a6-4cbc-a0de-71d428986b85"
+                IdentityId = "3cd08f87-33a6-4cbc-a0de-71d428986b85"
             };
 
             var board1 = new Board { Adherent = adherent1Model };
@@ -31,7 +31,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Specifications
 
             var boards = new List<Board>() { board1, board2, board3 };
 
-            var specification = new BoardsByUserIdSpec(adherent1Model.IdentityGuid);
+            var specification = new BoardsByUserIdSpec(adherent1Model.IdentityId);
 
             // Act
             var filteredBoard = specification.Evaluate(boards).ToList();

@@ -6,7 +6,7 @@ namespace Scrumboard.Domain.Entities
     public class Adherent: IEntity<int>
     {
         public int Id { get; set; }
-        public string IdentityGuid { get; set; }
+        public string IdentityId { get; set; }
         public ICollection<Board> Boards { get; set; }
         public ICollection<Card> Cards { get; set; }
         public ICollection<Activity> Activities { get; set; }

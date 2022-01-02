@@ -14,21 +14,58 @@ namespace Scrumboard.Infrastructure.Persistence
     {
         private const string ADMIN_USER_ID = "31a7ffcf-d099-4637-bd58-2a87641d1aaf";
         private const string ADHERENT_USER_ID = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+        private const string ADHERENT_USER_ID_2 = "633f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+        private const string ADHERENT_USER_ID_3 = "635f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+        private const string ADHERENT_USER_ID_4 = "637f27ad-d3e8-4fe7-9259-ee4ef713dbea";
 
         public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            await CreateUser(userManager, roleManager, "Administrator", ADMIN_USER_ID, "administrator@localhost", "administrator@localhost", "Administrator1!");
-            await CreateUser(userManager, roleManager, "Adherent", ADHERENT_USER_ID, "adherent@localhost", "adherent@localhost", "Adherent1!");
+            var roles = new[] { "Administrator", "Adherent" };
+            var administrator = new ApplicationUser { Id = ADMIN_USER_ID, UserName = "administrator@localhost", Email = "administrator@localhost" };
+            var adherent = new ApplicationUser { Id = ADHERENT_USER_ID, FirstName = "Jimmy", LastName = "Boinembalome", UserName = "adherent@localhost", Email = "adherent@localhost", Job = "Software Engineer" };
+            var adherent2 = new ApplicationUser { Id = ADHERENT_USER_ID_2, FirstName = "Guyliane", LastName = "De Jesus Pimenta", UserName = "gpimenta", Email = "adherent2@localhost", Job = "Software Engineer" };
+            var adherent3 = new ApplicationUser { Id = ADHERENT_USER_ID_3, FirstName = "Corentin", LastName = "Hugot", UserName = "chugot", Email = "adherent3@localhost", Job = "Systems and Networks Engineer" };
+            var adherent4 = new ApplicationUser { Id = ADHERENT_USER_ID_4, FirstName = "Patrice", LastName = "Fouque", UserName = "pfouque", Email = "adherent4@localhost", Job = "Software Engineer" };
+
+            await CreateUser(userManager, administrator, "Administrator1!");
+            await AddUserToRole(userManager, roleManager, roles[0], administrator);
+
+            await CreateUser(userManager, adherent, "Adherent1!");
+            await AddUserToRoles(userManager, roleManager, roles, adherent);
+
+            await CreateUser(userManager, adherent2, "Adherent2!");
+            await AddUserToRole(userManager, roleManager, roles[1], adherent2);
+
+            await CreateUser(userManager, adherent3, "Adherent3!");
+            await AddUserToRole(userManager, roleManager, roles[1], adherent3);
+
+            await CreateUser(userManager, adherent4, "Adherent4!");
+            await AddUserToRole(userManager, roleManager, roles[1], adherent4);
         }
 
         public static async Task SeedSampleDataAsync(ScrumboardDbContext context)
         {
             var adherent = new Adherent
             {
-                IdentityGuid = ADHERENT_USER_ID
+                IdentityId = ADHERENT_USER_ID
             };
 
-            var team = new Team { Name = "Developer Team", Adherents = new Collection<Adherent>() { adherent} };
+            var adherent2 = new Adherent
+            {
+                IdentityId = ADHERENT_USER_ID_2
+            };
+
+            var adherent3 = new Adherent
+            {
+                IdentityId = ADHERENT_USER_ID_3
+            };
+
+            var adherent4 = new Adherent
+            {
+                IdentityId = ADHERENT_USER_ID_4
+            };
+
+            var team = new Team { Name = "Developer Team", Adherents = new Collection<Adherent>() { adherent, adherent2, adherent3, adherent4 } };
 
             var labels = new Collection<Label>
             {
@@ -75,7 +112,7 @@ namespace Scrumboard.Infrastructure.Persistence
                 new BoardSetting
                 {
                     Colour = Colour.Yellow,
-                }, 
+                },
                 new BoardSetting
                 {
                     Colour = Colour.Blue,
@@ -308,20 +345,35 @@ namespace Scrumboard.Infrastructure.Persistence
             }
         }
 
-        private static async Task CreateUser(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, string role, string userId, string userName, string userMail, string userPassword)
+        private static async Task CreateUser(UserManager<ApplicationUser> userManager, ApplicationUser user, string userPassword)
         {
-            var identityRole = new IdentityRole(role);
-
-            if (roleManager.Roles.All(r => r.Name != identityRole.Name))
-                await roleManager.CreateAsync(identityRole);
-
-            var administrator = new ApplicationUser { Id = userId, UserName = userName, Email = userMail };
-
-            if (userManager.Users.All(u => u.UserName != administrator.UserName))
-            {
-                var test = await userManager.CreateAsync(administrator, userPassword);
-                await userManager.AddToRolesAsync(administrator, new[] { identityRole.Name });
-            }
+            if (userManager.Users.All(u => u.UserName != user.UserName))
+                await userManager.CreateAsync(user, userPassword);
         }
+
+        private static async Task AddUserToRoles(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, string[] roles, ApplicationUser user)
+        {
+            foreach (var role in roles)
+                await AddUserToRole(userManager, roleManager, role, user);
+        }
+
+        private static async Task AddUserToRole(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, string role, ApplicationUser user)
+        {
+            IdentityRole identityRole;
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                identityRole = new IdentityRole(role);
+
+                await roleManager.CreateAsync(identityRole);
+            }
+            else
+            {
+                identityRole = await roleManager.FindByNameAsync(role);
+            }
+
+            if (!await userManager.IsInRoleAsync(user, identityRole.Name))
+                await userManager.AddToRoleAsync(user, identityRole.Name);
+        }
+
     }
 }

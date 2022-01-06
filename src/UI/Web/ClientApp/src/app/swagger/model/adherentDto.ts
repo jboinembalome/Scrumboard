@@ -12,7 +12,7 @@
 
 export interface AdherentDto { 
     id?: number;
-    identityGuid?: string;
+    identityId?: string;
     firstName?: string;
     lastName?: string;
     job?: string;

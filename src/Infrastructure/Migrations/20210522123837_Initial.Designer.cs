@@ -322,7 +322,7 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<int?>("CardId")
                         .HasColumnType("int");
 
-                    b.Property<string>("IdentityGuid")
+                    b.Property<string>("IdentityId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

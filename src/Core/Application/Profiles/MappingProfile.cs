@@ -21,9 +21,9 @@ namespace Scrumboard.Application.Profiles
                 .ReverseMap();
 
             CreateMap<IUser, AdherentDto>()
-                .EqualityComparison((d, opt) => d.Id == opt.IdentityGuid)
+                .EqualityComparison((d, opt) => d.Id == opt.IdentityId)
                 .ForMember(d => d.Id, opt => opt.Ignore())
-                .ForMember(d => d.IdentityGuid, opt => opt.UseDestinationValue());
+                .ForMember(d => d.IdentityId, opt => opt.UseDestinationValue());
 
             CreateMap<Board, BoardDto>()
                 .ForMember(d => d.Initials, opt => opt.MapFrom(c => GetInitials(c.Name)))

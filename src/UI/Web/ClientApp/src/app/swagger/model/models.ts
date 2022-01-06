@@ -15,9 +15,7 @@ export * from './labelDto';
 export * from './listBoardDto';
 export * from './problemDetails';
 export * from './teamDto';
-export * from './updateBoardCommand'
-export * from './updateBoardCommandResponse';
+export * from './updateBoardCommand';
 export * from './updateCardCommand';
-export * from './updateCardCommandResponse';
 export * from './updatePinnedBoardCommand';
 export * from './weatherForecast';

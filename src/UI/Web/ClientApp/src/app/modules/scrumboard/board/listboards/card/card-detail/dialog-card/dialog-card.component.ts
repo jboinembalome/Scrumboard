@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
-import { BoardDetailDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, LabelsService, UpdateCardCommand, UpdateCardCommandResponse } from 'src/app/swagger';
+import { BoardDetailDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, LabelsService, UpdateCardCommand } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -149,8 +149,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
             };
 
             // Update the card on the server
-            this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand).subscribe((response: UpdateCardCommandResponse) => {
-              this.card = response.card;
+            this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand).subscribe(() => {
             }, error => console.error(error));
           });
 

@@ -1,3 +1,5 @@
+export * from './adherents.service';
+import { AdherentsService } from './adherents.service';
 export * from './boards.service';
 import { BoardsService } from './boards.service';
 export * from './cards.service';
@@ -8,4 +10,4 @@ export * from './oidcConfiguration.service';
 import { OidcConfigurationService } from './oidcConfiguration.service';
 export * from './weatherForecast.service';
 import { WeatherForecastService } from './weatherForecast.service';
-export const APIS = [BoardsService, CardsService, LabelsService, OidcConfigurationService, WeatherForecastService];
+export const APIS = [AdherentsService, BoardsService, CardsService, LabelsService, OidcConfigurationService, WeatherForecastService];

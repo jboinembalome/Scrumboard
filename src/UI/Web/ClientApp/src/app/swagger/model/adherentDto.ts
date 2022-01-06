@@ -12,5 +12,8 @@
 
 export interface AdherentDto { 
     id?: number;
-    readonly identityGuid?: string;
+    identityGuid?: string;
+    firstName?: string;
+    lastName?: string;
+    job?: string;
 }

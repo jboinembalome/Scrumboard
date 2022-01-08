@@ -18,12 +18,14 @@ namespace Scrumboard.Application.Profiles
         public MappingProfile()
         {
             CreateMap<Adherent, AdherentDto>()
+                .EqualityComparison((d, opt) => d.Id == opt.Id)
                 .ReverseMap();
 
             CreateMap<IUser, AdherentDto>()
                 .EqualityComparison((d, opt) => d.Id == opt.IdentityId)
                 .ForMember(d => d.Id, opt => opt.Ignore())
-                .ForMember(d => d.IdentityId, opt => opt.UseDestinationValue());
+                .ForMember(d => d.IdentityId, opt => opt.UseDestinationValue())
+                .ForMember(d => d.HasAvatar, opt => opt.MapFrom(c => c.Avatar.Any()));
 
             CreateMap<Board, BoardDto>()
                 .ForMember(d => d.Initials, opt => opt.MapFrom(c => GetInitials(c.Name)))

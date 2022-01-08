@@ -8,5 +8,6 @@ namespace Scrumboard.Application.Dto
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Job { get; set; }
+        public bool HasAvatar { get; set; }
     }
 }

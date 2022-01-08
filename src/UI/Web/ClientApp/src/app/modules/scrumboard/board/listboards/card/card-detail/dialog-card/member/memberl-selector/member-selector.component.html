@@ -5,11 +5,12 @@
         (change)="toggleMember(member, $event.checked)" (click)="$event.stopPropagation()">
         <div class="flex items-center space-x-3">
           <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" [src]="member.avatar" alt="">
+            <img  *ngIf="member.hasAvatar" class="h-10 w-10 rounded-full" [src]="urlAvatar + member.identityId" alt="">
+            <img  *ngIf="!member.hasAvatar" class="h-10 w-10 rounded-full" src="assets/images/avatars/profile.jpg">
           </div>
           <div class="flex-1 min-w-0">
               <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                {{member.name}}
+                {{member.firstName}}
               </p>
               <p class="text-sm text-gray-500 truncate">
                 {{member.job}}

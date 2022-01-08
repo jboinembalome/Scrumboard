@@ -2,9 +2,9 @@ import { ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable, Subject } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
-import { BoardDetailDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, LabelsService, UpdateCardCommand } from 'src/app/swagger';
+import { AdherentDto, AdherentsService, BoardDetailDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, LabelsService, UpdateCardCommand } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -21,17 +21,20 @@ export class DialogCardComponent implements OnInit, OnDestroy {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   id: any;
+  boardId: any;
   card: CardDetailDto;
   cardForm: FormGroup;
 
+  urlAvatar: string = location.origin + "/api/adherents/avatar/";
+
   canModify: boolean;
+  separatorKeysCodes: number[] = [ENTER];
 
   @ViewChild('checklistMenuTrigger') checklistMenu: MatMenuTrigger;
 
   /*** Labels ***/
   selectableLabel = true;
   removableLabel = true;
-  separatorKeysCodes: number[] = [ENTER];
   labelCtrl = new FormControl();
   filteredLabels: Observable<LabelDto[]>;
   allLabels: LabelDto[] = [];
@@ -41,39 +44,32 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   selectableMember = true;
   removableMember = true;
   memberCtrl = new FormControl();
-  filteredMembers: Observable<any[]>;
-  members: any[] = [
-    //{ name: 'Jimmy', avatar: 'assets/images/avatars/jimmy.jpg' }
-  ];
-  allMembers: any[] = [
-    { name: 'adherent@localhost', job: 'Software Ingineer', avatar: 'assets/images/avatars/jimmy.jpg' },
-    { name: 'Gwendoline', job: 'Software Tester', avatar: 'assets/images/avatars/gwendoline.jpg' },
-    { name: 'Guyliane', job: 'Software Ingineer', avatar: 'assets/images/avatars/guyliane.jpg' },
-    { name: 'Corentin', job: 'Systems and Networks Engineer', avatar: 'assets/images/avatars/corentin.jpg' },
-    { name: 'Patrice', job: 'Software Ingineer', avatar: 'assets/images/avatars/patrice.jpg' },
-    { name: 'Cédric', job: 'Software Tester', avatar: 'assets/images/avatars/profile.jpg' },
-  ];
+  filteredMembers: Observable<AdherentDto[]>;
+  members: AdherentDto[] = [];
+  allMembers: AdherentDto[] = [];
+
   @ViewChild('memberInput') memberInput: ElementRef<HTMLInputElement>;
 
   constructor(
     public matDialogRef: MatDialogRef<DialogCardComponent>,
     @Inject(MAT_DIALOG_DATA) data: { route: ActivatedRoute },
+    private _adherentsService: AdherentsService,
     private _labelsService: LabelsService,
     private _cardsService: CardsService,
     private _formBuilder: FormBuilder) {
     this.id = data.route.snapshot.paramMap.get('cardId');
-
+    this.boardId = data.route.parent.snapshot.paramMap.get('boardId');
     this.filteredLabels = this.labelCtrl.valueChanges.pipe(
       startWith(<string>null),
       map((label: string | null) => label
         ? this.filterLabel(label)
-        : this.allLabels.filter(label => this.card.labels.every(l => l.name !== label.name))));
+        : this.allLabels.filter(label => this.card.labels.every(l => l.id !== label.id))));
 
     this.filteredMembers = this.memberCtrl.valueChanges.pipe(
       startWith(<string>null),
       map((member: string | null) => member
         ? this.filterMember(member)
-        : this.allMembers.filter(member => this.members.every(m => m.name !== member.name))));
+        : this.allMembers.filter(member => this.card.adherents.every(m => m.id !== member.id))));
   }
 
   ngOnInit(): void {
@@ -96,71 +92,72 @@ export class DialogCardComponent implements OnInit, OnDestroy {
       name: ['', Validators.required],
       description: [''],
       labels: [[]],
+      members: [[]],
       checklists: [[]],
       comments: [[]],
       dueDate: [null]
     });
 
-    // Get the card details
-    this._cardsService.apiCardsIdGet(this.id).pipe(
-      mergeMap((card) => {
-        this.card = card;
+    forkJoin(
+      this._cardsService.apiCardsIdGet(this.id),
+      this._labelsService.apiLabelsBoardsBoardIdGet(this.boardId),
+    ).pipe(mergeMap(([card, labels]) => {
+      this.card = card;
 
-        // Fill the form
-        this.cardForm.setValue({
-          id: this.card.id,
-          name: this.card.name,
-          description: this.card.description,
-          labels: this.card.labels,
-          checklists: this.card.checklists,
-          comments: this.card.comments,
-          dueDate: this.card.dueDate
+      // Fill the form
+      this.cardForm.setValue({
+        id: this.card.id,
+        name: this.card.name,
+        description: this.card.description,
+        labels: this.card.labels,
+        members: this.card.adherents,
+        checklists: this.card.checklists,
+        comments: this.card.comments,
+        dueDate: this.card.dueDate
+      });
+
+      // Update card when there is a value change on the card form
+      this.cardForm.valueChanges
+        .pipe(
+          tap((value) => {
+            // Update the card object (Maybe use lodash? like below)
+            //this.card = assign(this.card, value);
+
+            this.card.id = value.id;
+            this.card.name = value.name;
+            this.card.description = value.description;
+            this.card.labels = value.labels;
+            this.card.adherents = value.members;
+            this.card.checklists = value.checklists;
+            this.card.dueDate = value.dueDate;
+          }),
+          debounceTime(300),
+          takeUntil(this._unsubscribeAll)
+        )
+        .subscribe((value) => {
+          const updateCardCommand: UpdateCardCommand = {
+            id: value.id,
+            name: value.name,
+            description: value.description,
+            suscribed: value.suscribed,
+            dueDate: value.dueDate,
+            labels: value.labels,
+            adherents: value.members,
+            attachments: null,
+            checklists: value.checklists,
+            comments: value.comments
+          };
+
+          // Update the card on the server
+          this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand).subscribe(() => {
+          }, error => console.error(error));
         });
 
-        // Update card when there is a value change on the card form
-        this.cardForm.valueChanges
-          .pipe(
-            tap((value) => {
-              // Update the card object (Maybe use lodash? like below)
-              //this.card = assign(this.card, value);
-
-              this.card.id = value.id;
-              this.card.name = value.name;
-              this.card.description = value.description;
-              this.card.labels = value.labels;
-              this.card.checklists = value.checklists;
-              this.card.dueDate = value.dueDate;
-            }),
-            debounceTime(300),
-            takeUntil(this._unsubscribeAll)
-          )
-          .subscribe((value) => {
-            const updateCardCommand: UpdateCardCommand = {
-              id: value.id,
-              name: value.name,
-              description: value.description,
-              suscribed: value.suscribed,
-              dueDate: value.dueDate,
-              labels: value.labels,
-              adherents: null,
-              attachments: null,
-              checklists: value.checklists,
-              comments: value.comments
-            };
-
-            // Update the card on the server
-            this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand).subscribe(() => {
-            }, error => console.error(error));
-          });
-
-        // Get all labels in board
-        return this._labelsService.apiLabelsBoardsBoardIdGet(card.boardId);
-      })
-    ).subscribe((labels) => {
       this.allLabels = labels;
+      return this._adherentsService.apiAdherentsTeamsTeamIdGet(1);
+    })).subscribe((adherents) => {
+      this.allMembers = adherents;
     });
-
-
   }
 
   ngOnDestroy(): void {
@@ -234,24 +231,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     this.labelCtrl.setValue(null);
   }
 
-  addMemberChip(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    // Add our member
-    if (value) {
-      const index = this.allMembers.findIndex(m => m.name.toLowerCase() === value.toLowerCase());
-
-      if (index >= 0)
-        this.addMemberToCard(this.allMembers[index]);
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-    this.memberCtrl.setValue(null);
-  }
-
-  removeMemberChip(member: any): void {
+  removeMemberChip(member: AdherentDto): void {
     this.removeMemberFromCard(member);
 
     // Hack to update the member list regarding the autocompletion
@@ -259,21 +239,32 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   }
 
   selectedMemberChip(event: MatAutocompleteSelectedEvent): void {
-    this.members.push(event.option.value);
+    this.card.adherents.push(event.option.value);
+
+    // Update the card form data
+    this.cardForm.get('members').patchValue(this.card.adherents);
+
     this.memberInput.nativeElement.value = '';
     this.memberCtrl.setValue(null);
   }
 
-  addMember(member: any): void {
-    const index = this.members.findIndex(m => m.name === member.name);
+  addMember(member: AdherentDto): void {
+    const index = this.card.adherents.findIndex(m => m.id === member.id);
     if (index < 0)
-      this.members.push(member);
+    this.card.adherents.push(member);
+
+    // Update the card form data
+    this.cardForm.get('members').patchValue(this.card.adherents);
 
     this.memberCtrl.setValue(null);
   }
 
-  updateMembers(members: any[]): void {
-    this.members = members;
+  updateMembers(members: AdherentDto[]): void {
+    this.card.adherents = members;
+
+    // Update the card form data
+    this.cardForm.get('members').patchValue(this.card.adherents);
+
     this.memberCtrl.setValue(null);
   }
 
@@ -328,10 +319,10 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     return this.allLabels.filter(label => this.card.labels.every(l => l.name !== label.name) && label.name.toLowerCase().includes(filterValue));
   }
 
-  private filterMember(value: string | any): LabelDto[] {
-    const filterValue = (<any>value).name ? (<any>value).name.toLowerCase() : (<string>value).toLowerCase();
+  private filterMember(value: string | AdherentDto): AdherentDto[] {
+    const filterValue = (<AdherentDto>value).firstName ? (<AdherentDto>value).firstName.toLowerCase() : (<string>value).toLowerCase();
 
-    return this.allMembers.filter(member => this.card.labels.every(m => m.name !== member.name) && member.name.toLowerCase().includes(filterValue));
+    return this.allMembers.filter(member => this.card.adherents.every(m => m.firstName !== member.firstName) && member.firstName.toLowerCase().includes(filterValue));
   }
 
   private addLabelToCard(label: LabelDto): void {
@@ -353,20 +344,19 @@ export class DialogCardComponent implements OnInit, OnDestroy {
         label.cardIds.splice(cardIdIndex, 1);
 
       this.card.labels.splice(index, 1);
-      
+
       // Update the card form data
       this.cardForm.get('labels').patchValue(this.card.labels);
     }
   }
 
-  private addMemberToCard(member: any): void {
-    this.members.unshift(member);
-  }
-
   private removeMemberFromCard(member: LabelDto): void {
-    const index = this.members.findIndex(m => m === member);
+    const index = this.card.adherents.findIndex(m => m === member);
 
     if (index >= 0)
-      this.members.splice(index, 1);
+    this.card.adherents.splice(index, 1);
+
+    // Update the card form data
+    this.cardForm.get('members').patchValue(this.card.adherents);
   }
 }

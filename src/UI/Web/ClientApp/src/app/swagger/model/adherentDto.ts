@@ -16,4 +16,5 @@ export interface AdherentDto {
     firstName?: string;
     lastName?: string;
     job?: string;
+    hasAvatar?: boolean;
 }

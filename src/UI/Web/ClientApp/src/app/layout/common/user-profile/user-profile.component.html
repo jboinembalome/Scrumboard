@@ -9,9 +9,8 @@
         <ng-container *ngIf="isAuthenticated | async">
           <img class="p-px h-10 w-10 rounded-full" *ngIf="(currentUser | async)?.picture"
             [src]="(currentUser | async)?.picture" (onerror)="setPicture()">
-          <span *ngIf="!(currentUser | async)?.picture" class="h-10 w-10 rounded-full">
-            <mat-icon class="text-5xl -ml-1 pt-1.5 text-gray-300">account_circle</mat-icon>
-          </span>
+          <img class="p-px h-10 w-10 rounded-full" *ngIf="!(currentUser | async)?.picture"
+            src="assets/images/avatars/profile.jpg">
         </ng-container>
         <!-- <ng-container *ngIf="!isAuthenticated | async">
           <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full" 

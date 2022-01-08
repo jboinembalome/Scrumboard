@@ -10,13 +10,13 @@ namespace Scrumboard.Application.Features.Cards.Specifications
             Query.Where(c => c.Id == cardId);
 
             Query.Include(b => b.ListBoard)
-                .ThenInclude(l => l.Board)
-                .ThenInclude(b => b.Adherent);
+                .ThenInclude(l => l.Board);
 
             Query.Include(b => b.Labels)
                 .ThenInclude(l => l.Cards);
 
-            Query.Include(c => c.Adherents);
+            Query.Include(c => c.Adherents)
+                .ThenInclude(l => l.Cards);
             
             Query.Include(b => b.Attachments);
 

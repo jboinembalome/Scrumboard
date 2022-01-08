@@ -359,7 +359,7 @@ namespace Scrumboard.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdentityGuid = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdentityId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CardId = table.Column<int>(type: "int", nullable: true),
                     TeamId = table.Column<int>(type: "int", nullable: true)
                 },

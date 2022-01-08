@@ -109,7 +109,7 @@
         </div>
 
         <!-- Members -->
-        <div class="w-full" *ngIf="members.length > 0">
+        <div class="w-full" *ngIf="card.adherents.length > 0">
           <div class="flex items-center justify-between pb-1">
             <div class="flex items-center">
               <mat-icon class="mr-4 text-primary">group</mat-icon>
@@ -119,27 +119,28 @@
           </div>
           <mat-form-field class="w-full" appearance="outline">
             <mat-chip-list #memberChipList aria-label="member selection">
-              <mat-chip class="pl-0" *ngFor="let member of members" [selectable]="selectableMember" [removable]="removableMember"
+              <mat-chip class="pl-0" *ngFor="let member of card.adherents" [selectable]="selectableMember" [removable]="removableMember"
                 (removed)="removeMemberChip(member)">
                 <div class="flex items-center justify-items-start space-x-2">
-                    <img class="h-8 w-8 rounded-full" [src]="member.avatar" alt="">
-                    <span>{{member.name}}</span>                
+                    <img  *ngIf="member.hasAvatar" class="h-8 w-8 rounded-full" [src]="urlAvatar + member.identityId" alt="">
+                    <img  *ngIf="!member.hasAvatar" class="h-8 w-8 rounded-full" src="assets/images/avatars/profile.jpg">
+                    <span>{{member.firstName}}</span>                
                 </div>
                 <mat-icon matChipRemove *ngIf="removableMember">cancel</mat-icon>
               </mat-chip>
               <input placeholder="New member..." #memberInput [formControl]="memberCtrl" [matAutocomplete]="auto"
-                [matChipInputFor]="memberChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="addMemberChip($event)">
+                [matChipInputFor]="memberChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
             </mat-chip-list>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMemberChip($event)">
               <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
                 <div class="flex items-center space-x-3">
                   <div class="flex-shrink-0">
-                    <img class="h-10 w-10 rounded-full" [src]="member.avatar" alt="">
+                    <img  *ngIf="member.hasAvatar" class="h-10 w-10 rounded-full" [src]="urlAvatar + member.identityId" alt="">
+                    <img  *ngIf="!member.hasAvatar" class="h-10 w-10 rounded-full" src="assets/images/avatars/profile.jpg">        
                   </div>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                      {{member.name}}
+                      {{member.firstName}}
                     </p>
                     <p class="text-sm text-gray-500 truncate">
                       {{member.job}}
@@ -220,7 +221,7 @@
 
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
             <!-- Members -->
-            <member-selector [selectedMembers]="members" [members]="allMembers" (memberUpdated)="updateMembers($event)">
+            <member-selector [selectedMembers]="card.adherents" [members]="allMembers" (memberUpdated)="updateMembers($event)">
             </member-selector>
           </div>
         </mat-menu>

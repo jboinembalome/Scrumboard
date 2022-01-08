@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Scrumboard.Web.Controllers
 {
-    //[Authorize]
+    //[Authorize] // TODO: Add Angular pipe to use Authorize (to add the token when we use <img> with src)
     [ApiController]
     public class AdherentsController : ApiControllerBase
     {
@@ -38,7 +38,7 @@ namespace Scrumboard.Web.Controllers
         /// <returns></returns>
         [HttpGet("teams/{teamId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<LabelDto>>> GetByBoardId(int teamId)
+        public async Task<ActionResult<IEnumerable<AdherentDto>>> GetByTeamId(int teamId)
         {
             var dto = await Mediator.Send(new GetAdherentsByTeamIdQuery { TeamId = teamId });
 

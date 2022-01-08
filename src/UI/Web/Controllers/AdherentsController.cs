@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Scrumboard.Web.Controllers
 {
-    [Authorize]
+    //[Authorize] // TODO: Add Angular pipe to use Authorize (to add the token when we use <img> with src)
     [ApiController]
     public class AdherentsController : ApiControllerBase
     {

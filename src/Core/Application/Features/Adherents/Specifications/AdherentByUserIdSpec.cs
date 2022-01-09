@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Entities;
 
-namespace Scrumboard.Application.Specifications
+namespace Scrumboard.Application.Features.Adherents.Specifications
 {
     public class AdherentByUserIdSpec : Specification<Adherent>
     {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Dto;
+using Scrumboard.Application.Features.Adherents.Specifications;
 using Scrumboard.Application.Interfaces.Persistence;
-using Scrumboard.Application.Specifications;
 using Scrumboard.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;

@@ -9,12 +9,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AdherentDto } from './adherentDto';
 
-export interface CommentDto { 
+export interface UpdateCommentCommand { 
     id?: number;
     message?: string;
-    createdDate?: Date;
-    lastModifiedDate?: Date;
-    adherent?: AdherentDto;
 }

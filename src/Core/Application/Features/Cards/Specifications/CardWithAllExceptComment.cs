@@ -3,9 +3,9 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Application.Features.Cards.Specifications
 {
-    public class CardWithAllSpec : Specification<Card>, ISingleResultSpecification
+    public class CardWithAllExceptComment : Specification<Card>, ISingleResultSpecification
     {
-        public CardWithAllSpec(int cardId)
+        public CardWithAllExceptComment(int cardId)
         {
             Query.Where(c => c.Id == cardId);
 
@@ -22,9 +22,6 @@ namespace Scrumboard.Application.Features.Cards.Specifications
 
             Query.Include(b => b.Checklists)
                     .ThenInclude(l => l.ChecklistItems);
-
-            Query.Include(b => b.Comments)
-                .ThenInclude(c => c.Adherent);
         }
     }
 }

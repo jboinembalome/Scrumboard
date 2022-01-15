@@ -36,7 +36,7 @@ namespace Scrumboard.Application.Features.Cards.Commands.UpdateCard
         {
             var updateCardCommandResponse = new UpdateCardCommandResponse();
 
-            var specification = new CardWithAllSpec(request.Id);
+            var specification = new CardWithAllExceptComment(request.Id);
             var cardToUpdate = await _cardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
             if (cardToUpdate == null)

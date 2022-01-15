@@ -16,6 +16,5 @@ namespace Scrumboard.Application.Features.Cards.Commands.UpdateCard
         public IEnumerable<AdherentDto> Adherents { get; set; }
         public IEnumerable<AttachmentDto> Attachments { get; set; }
         public IEnumerable<ChecklistDto> Checklists { get; set; }
-        public IEnumerable<CommentDto> Comments { get; set; }
     }
 }

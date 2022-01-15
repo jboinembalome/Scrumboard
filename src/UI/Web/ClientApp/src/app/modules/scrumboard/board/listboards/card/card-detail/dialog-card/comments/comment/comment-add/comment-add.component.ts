@@ -1,8 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { IUser } from 'src/app/core/auth/models/user.model';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { BlouppyUtils } from 'src/app/shared/utils/blouppyUtils';
-import { CommentDto } from 'src/app/swagger';
+import { CardDetailDto, CommentDto, CommentsService } from 'src/app/swagger';
+import { CreateCommentCommand } from 'src/app/swagger/model/createCommentCommand';
 
 
 @Component({
@@ -11,18 +14,19 @@ import { CommentDto } from 'src/app/swagger';
 })
 export class CommentAddComponent implements OnInit {
   commentForm: FormGroup;
-  userName: string;
+  @Input() card: CardDetailDto;
   @Output() commentAdded = new EventEmitter<CommentDto>();
 
+  currentUser: Observable<IUser>;
+
   constructor(
-    private _authService: AuthService, 
+    private _authService: AuthService,
+    private _commentsService: CommentsService, 
     private _formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this._authService.getUser().subscribe(user => {
-      this.userName = user.name;
-    })
+    this.currentUser = this._authService.getUser();
 
     // Prepare the comment form
     this.commentForm = this._formBuilder.group({
@@ -36,11 +40,14 @@ export class CommentAddComponent implements OnInit {
   }
 
   addComment(): void {
-    const comment: CommentDto = {
+    const createCommentCommand: CreateCommentCommand = {
       message: this.commentForm.get('message').value,
+      cardId: this.card.id,
     };
 
-    this.commentAdded.emit(comment);
-    this.commentForm.reset();
+    this._commentsService.apiCommentsPost(createCommentCommand).subscribe(response => {
+      this.commentAdded.emit(response.comment);
+      this.commentForm.reset();
+    });
   }
 }

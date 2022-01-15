@@ -9,12 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AdherentDto } from './adherentDto';
+import { CommentDto } from './commentDto';
 
-export interface CommentDto { 
-    id?: number;
+export interface CreateCommentCommandResponse { 
+    success?: boolean;
     message?: string;
-    createdDate?: Date;
-    lastModifiedDate?: Date;
-    adherent?: AdherentDto;
+    validationErrors?: Array<string>;
+    comment?: CommentDto;
 }

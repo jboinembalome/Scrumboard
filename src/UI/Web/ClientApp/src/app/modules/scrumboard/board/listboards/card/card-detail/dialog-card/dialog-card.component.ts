@@ -4,12 +4,11 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
-import { AdherentDto, AdherentsService, BoardDetailDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, LabelsService, UpdateCardCommand } from 'src/app/swagger';
+import { AdherentDto, AdherentsService, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, LabelsService, UpdateCardCommand } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 
 
@@ -73,19 +72,6 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    /*         // Get the board
-            this._scrumboardService.board$
-                .pipe(takeUntil(this._unsubscribeAll))
-                .subscribe((board) => {
-    
-                    // Board data
-                    this.board = board;
-    
-                    // Get the labels
-                    this.labels = this.filteredLabels = board.labels;
-                });
-     */
-
     // Prepare the card form
     this.cardForm = this._formBuilder.group({
       id: [''],
@@ -94,7 +80,6 @@ export class DialogCardComponent implements OnInit, OnDestroy {
       labels: [[]],
       members: [[]],
       checklists: [[]],
-      comments: [[]],
       dueDate: [null]
     });
 
@@ -112,7 +97,6 @@ export class DialogCardComponent implements OnInit, OnDestroy {
         labels: this.card.labels,
         members: this.card.adherents,
         checklists: this.card.checklists,
-        comments: this.card.comments,
         dueDate: this.card.dueDate
       });
 
@@ -145,7 +129,6 @@ export class DialogCardComponent implements OnInit, OnDestroy {
             adherents: value.members,
             attachments: null,
             checklists: value.checklists,
-            comments: value.comments
           };
 
           // Update the card on the server
@@ -286,14 +269,10 @@ export class DialogCardComponent implements OnInit, OnDestroy {
 
   addComment(comment: CommentDto): void {
     this.card.comments.push(comment);
-
-    this.cardForm.get('comments').patchValue(this.card.comments);
   }
 
   updateComments(comments: CommentDto[]): void {
     this.card.comments = comments;
-
-    this.cardForm.get('comments').patchValue(this.card.comments);
   }
 
   /**

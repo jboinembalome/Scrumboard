@@ -9,12 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AdherentDto } from './adherentDto';
+import { CardDetailDto } from './cardDetailDto';
 
-export interface CommentDto { 
-    id?: number;
+export interface CreateCommentCommand { 
     message?: string;
-    createdDate?: Date;
-    lastModifiedDate?: Date;
-    adherent?: AdherentDto;
+    cardId?: number;
 }

@@ -43,7 +43,27 @@ namespace Scrumboard.Application.Features.Cards.Queries.GetCardDetail
                 _mapper.Map(users, cardDto.Adherents);
             }
 
+            if (cardDto.Comments.Any())
+            {
+                var users = await _identityService.GetListAsync(card.Comments.Select(c => c.Adherent.IdentityId), cancellationToken);
+                var adherentDtos = cardDto.Comments.Select(c => c.Adherent).ToList();
+
+                MapUsers(users, adherentDtos);
+            }
+
             return cardDto;
+        }
+
+        public void MapUsers(IEnumerable<IUser> users, IEnumerable<AdherentDto> adherents)
+        {
+            foreach (var adherent in adherents)
+            {
+                var user = users.FirstOrDefault(u => u.Id == adherent.IdentityId);
+                if (user == null)
+                    continue;
+
+                _mapper.Map(user, adherent);
+            }
         }
     }
 }

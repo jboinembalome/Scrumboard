@@ -34,6 +34,7 @@ namespace Scrumboard.Infrastructure.Identity
                 : string.Empty;
             var claims = new List<Claim> {
                 // Here you can include other properties such as id, email, address, etc. as part of the jwt claim types
+                new Claim(JwtClaimTypes.Id, user.Id),
                 new Claim(JwtClaimTypes.Email, user.Email),
                 new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
                 new Claim(JwtClaimTypes.Picture, avatarPath)

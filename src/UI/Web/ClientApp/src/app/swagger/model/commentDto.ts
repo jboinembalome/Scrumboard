@@ -15,6 +15,6 @@ export interface CommentDto {
     id?: number;
     message?: string;
     createdDate?: Date;
-    modifiedDate?: Date;
+    lastModifiedDate?: Date;
     adherent?: AdherentDto;
 }

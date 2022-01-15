@@ -49,8 +49,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     case EntityState.Added:
                         entry.Entity.CreatedBy = _currentUserService.UserId;
                         entry.Entity.CreatedDate = _dateTime.Now;
-                        entry.Entity.LastModifiedBy = entry.Entity.CreatedBy;
-                        entry.Entity.LastModifiedDate = entry.Entity.CreatedDate;
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModifiedBy = _currentUserService.UserId;

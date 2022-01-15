@@ -23,7 +23,8 @@ namespace Scrumboard.Application.Features.Cards.Specifications
             Query.Include(b => b.Checklists)
                     .ThenInclude(l => l.ChecklistItems);
 
-            Query.Include(b => b.Comments);
+            Query.Include(b => b.Comments)
+                .ThenInclude(c => c.Adherent);
         }
     }
 }

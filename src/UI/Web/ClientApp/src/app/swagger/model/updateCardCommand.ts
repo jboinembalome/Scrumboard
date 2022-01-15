@@ -12,7 +12,6 @@
 import { AdherentDto } from './adherentDto';
 import { AttachmentDto } from './attachmentDto';
 import { ChecklistDto } from './checklistDto';
-import { CommentDto } from './commentDto';
 import { LabelDto } from './labelDto';
 
 export interface UpdateCardCommand { 
@@ -25,5 +24,4 @@ export interface UpdateCardCommand {
     adherents?: Array<AdherentDto>;
     attachments?: Array<AttachmentDto>;
     checklists?: Array<ChecklistDto>;
-    comments?: Array<CommentDto>;
 }

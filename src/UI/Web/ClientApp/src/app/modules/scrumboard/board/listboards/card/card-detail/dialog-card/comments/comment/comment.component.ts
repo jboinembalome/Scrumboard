@@ -17,6 +17,7 @@ export class CommentComponent implements OnInit {
   canModify: boolean = false;
   editCommentCliked: boolean;
 
+  urlAvatar: string = location.origin + "/api/adherents/avatar/";
 
   constructor(
     private _authService: AuthService, 
@@ -25,12 +26,12 @@ export class CommentComponent implements OnInit {
 
   ngOnInit(): void {
     // Load the current user's data to check if we can update or remove the comment
-    // this._authService.getUser().subscribe(user => {
-    //   if (this.comment.member.name === user.name)
-    //     this.canModify = true;
-    //   else
-    //     this.canModify = false;
-    // })
+    this._authService.getUser().subscribe(user => {
+      if (this.comment.adherent.identityId === user.id)
+        this.canModify = true;
+      else
+        this.canModify = false;
+    })
 
     // Prepare the comment form
     this.commentForm = this._formBuilder.group({

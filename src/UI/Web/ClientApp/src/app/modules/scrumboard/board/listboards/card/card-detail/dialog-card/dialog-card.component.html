@@ -194,7 +194,7 @@
                 Comments</p>
             </div>
           </div>
-          <comment-add (commentAdded)="addComment($event)"></comment-add>
+          <comment-add [card]="card" (commentAdded)="addComment($event)"></comment-add>
         </div>
 
         <!-- Comments -->

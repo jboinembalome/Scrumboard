@@ -2,7 +2,10 @@
 
   <div class="flex space-x-3">
     <div class="flex-shrink-0">
-      <img class="h-10 w-10 rounded-full" src="assets/images/avatars/jimmy.jpg" alt="">
+      <img class="h-10 w-10 rounded-full" *ngIf="(currentUser | async)?.picture" 
+        [src]="(currentUser | async)?.picture" (onerror)="setPicture()">
+      <img class="h-10 w-10 rounded-full" *ngIf="!(currentUser | async)?.picture"
+        src="assets/images/avatars/profile.jpg">
     </div>
     <div class="min-w-0 flex-1">
       <mat-form-field class="w-full" appearance="outline">

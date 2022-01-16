@@ -221,8 +221,8 @@
 
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
             <!-- Members -->
-            <member-selector [selectedMembers]="card.adherents" [members]="allMembers" (memberUpdated)="updateMembers($event)">
-            </member-selector>
+            <adherent-selector [selectedAdherents]="card.adherents" [adherents]="allMembers" (adherentUpdated)="updateMembers($event)">
+            </adherent-selector>
           </div>
         </mat-menu>
         <button type="button" [matMenuTriggerFor]="labelMenu" #labelMenuTrigger="matMenuTrigger"

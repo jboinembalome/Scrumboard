@@ -4,6 +4,7 @@ using Scrumboard.Application.Dto;
 using Scrumboard.Application.Features.Adherents.Specifications;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +36,8 @@ namespace Scrumboard.Application.Features.Boards.Commands.CreateBoard
             var board = _mapper.Map<Board>(request);
             board.Adherent = adherent;
             board.BoardSetting = new BoardSetting();
+            board.Team = new Team { Adherents = new Collection<Adherent>() };
+            board.Team.Adherents.Add(adherent);
 
             board = await _boardRepository.AddAsync(board, cancellationToken);
 

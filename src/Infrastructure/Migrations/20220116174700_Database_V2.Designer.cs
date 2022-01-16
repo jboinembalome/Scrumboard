@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scrumboard.Infrastructure.Persistence;
 
 namespace Scrumboard.Infrastructure.Migrations
 {
     [DbContext(typeof(ScrumboardDbContext))]
-    partial class ScrumboardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220116174700_Database_V2")]
+    partial class Database_V2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -20,4 +20,5 @@ export * from './updateBoardCommand';
 export * from './updateCardCommand';
 export * from './updateCommentCommandResponse';
 export * from './updatePinnedBoardCommand';
+export * from './updateTeamCommand';
 export * from './weatherForecast';

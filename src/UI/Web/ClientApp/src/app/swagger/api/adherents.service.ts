@@ -17,6 +17,7 @@
  
  import { Observable }                                        from 'rxjs';
  
+ import { AdherentDto } from '../model/adherentDto';
  
  import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
  import { Configuration }                                     from '../configuration';
@@ -90,6 +91,47 @@
          ];
  
          return this.httpClient.request<any>('get',`${this.basePath}/api/Adherents/avatar/${encodeURIComponent(String(identityId))}`,
+             {
+                 withCredentials: this.configuration.withCredentials,
+                 headers: headers,
+                 observe: observe,
+                 reportProgress: reportProgress
+             }
+         );
+     }
+ 
+     /**
+      * Get all the adherents.
+      * 
+      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+      * @param reportProgress flag to report request and response progress.
+      */
+     public apiAdherentsGet(observe?: 'body', reportProgress?: boolean): Observable<Array<AdherentDto>>;
+     public apiAdherentsGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<AdherentDto>>>;
+     public apiAdherentsGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<AdherentDto>>>;
+     public apiAdherentsGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+ 
+         let headers = this.defaultHeaders;
+ 
+         // authentication (Bearer) required
+         if (this.configuration.apiKeys && this.configuration.apiKeys["Authorization"]) {
+             headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+         }
+ 
+         // to determine the Accept header
+         let httpHeaderAccepts: string[] = [
+             'application/json'
+         ];
+         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+         if (httpHeaderAcceptSelected != undefined) {
+             headers = headers.set('Accept', httpHeaderAcceptSelected);
+         }
+ 
+         // to determine the Content-Type header
+         const consumes: string[] = [
+         ];
+ 
+         return this.httpClient.request<Array<AdherentDto>>('get',`${this.basePath}/api/Adherents`,
              {
                  withCredentials: this.configuration.withCredentials,
                  headers: headers,

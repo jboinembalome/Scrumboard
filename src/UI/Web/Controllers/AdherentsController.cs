@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Scrumboard.Application.Dto;
+using Scrumboard.Application.Features.Adherents.Queries.GetAdherents;
 using Scrumboard.Application.Features.Adherents.Queries.GetAvatarByIdentityId;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Scrumboard.Web.Controllers
@@ -12,6 +15,19 @@ namespace Scrumboard.Web.Controllers
     {
         public AdherentsController()
         {
+        }
+
+        /// <summary>
+        /// Get all the adherents.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<AdherentDto>>> Get()
+        {
+            var dtos = await Mediator.Send(new GetAdherentsQuery());
+
+            return Ok(dtos);
         }
 
         /// <summary>

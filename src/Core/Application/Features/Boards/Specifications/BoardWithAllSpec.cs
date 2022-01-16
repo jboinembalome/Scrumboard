@@ -1,6 +1,5 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Entities;
-using System;
 
 namespace Scrumboard.Application.Features.Boards.Specifications
 {
@@ -29,6 +28,11 @@ namespace Scrumboard.Application.Features.Boards.Specifications
             Query.Include(b => b.ListBoards)
                    .ThenInclude(l => l.Cards)
                    .ThenInclude(c => c.Attachments);
+
+            Query.Include(b => b.Team)
+                   .ThenInclude(t => t.Adherents);
+
+            Query.Include(b => b.Adherent);
         }
     }
 }

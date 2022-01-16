@@ -27,6 +27,16 @@
         </div>
     </ng-container>
 
+    <!-- Card members -->
+    <div *ngIf="card.adherents" class="flex space-x-1 overflow-hidden">
+        <ng-container *ngFor="let adherent of card.adherents; trackBy: trackByFn">
+            <img *ngIf="adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
+                class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + adherent.identityId">
+            <img *ngIf="!adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
+                class="inline-block h-6 w-6 rounded-full" src="assets/images/avatars/profile.jpg">
+        </ng-container>
+    </div>
+
     <div *ngIf="card.dueDate || card.attachmentsCount || card.commentsCount || card.checklistItemsCount"
         class="flex items-center p-1 pl-0">
 

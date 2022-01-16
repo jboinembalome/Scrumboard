@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
-using Scrumboard.Application.Features.Labels.Queries.GetLabelsByBoardId;
+using Scrumboard.Application.Features.Adherents.Queries.GetAdherentsByTeamId;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,22 +10,22 @@ namespace Scrumboard.Web.Controllers
 {
     [Authorize]
     [ApiController]
-    public class LabelsController : ApiControllerBase
+    public class TeamsController : ApiControllerBase
     {
-        public LabelsController()
+        public TeamsController()
         {
         }
 
         /// <summary>
-        /// Get labels by board id.
+        /// Get a team by id.
         /// </summary>
-        /// <param name="boardId">Id of the board.</param>
+        /// <param name="id">Id of the team.</param>
         /// <returns></returns>
-        [HttpGet("boards/{boardId}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<LabelDto>>> GetByBoardId(int boardId)
+        public async Task<ActionResult<IEnumerable<AdherentDto>>> GetByTeamId(int id)
         {
-            var dto = await Mediator.Send(new GetLabelsByBoardIdQuery { BoardId = boardId });
+            var dto = await Mediator.Send(new GetAdherentsByTeamIdQuery { TeamId = id });
 
             return Ok(dto);
         }

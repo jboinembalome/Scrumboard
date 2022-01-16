@@ -8,6 +8,7 @@ using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardsByUserId;
+using Scrumboard.Application.Features.Labels.Queries.GetLabelsByBoardId;
 using Scrumboard.Application.Interfaces.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -116,6 +117,20 @@ namespace Scrumboard.Web.Controllers
             await Mediator.Send(new DeleteBoardCommand { BoardId = id });
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Get labels by board id.
+        /// </summary>
+        /// <param name="id">Id of the board.</param>
+        /// <returns></returns>
+        [HttpGet("{id}/labels")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<LabelDto>>> GetByBoardId(int id)
+        {
+            var dto = await Mediator.Send(new GetLabelsByBoardIdQuery { BoardId = id });
+
+            return Ok(dto);
         }
     }
 }

@@ -17,7 +17,6 @@
  
  import { Observable }                                        from 'rxjs';
  
- import { AdherentDto } from '../model/adherentDto';
  
  import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
  import { Configuration }                                     from '../configuration';
@@ -91,52 +90,6 @@
          ];
  
          return this.httpClient.request<any>('get',`${this.basePath}/api/Adherents/avatar/${encodeURIComponent(String(identityId))}`,
-             {
-                 withCredentials: this.configuration.withCredentials,
-                 headers: headers,
-                 observe: observe,
-                 reportProgress: reportProgress
-             }
-         );
-     }
- 
-     /**
-      * Get adherents by team id.
-      * 
-      * @param teamId Id of the team.
-      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-      * @param reportProgress flag to report request and response progress.
-      */
-     public apiAdherentsTeamsTeamIdGet(teamId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<AdherentDto>>;
-     public apiAdherentsTeamsTeamIdGet(teamId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<AdherentDto>>>;
-     public apiAdherentsTeamsTeamIdGet(teamId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<AdherentDto>>>;
-     public apiAdherentsTeamsTeamIdGet(teamId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
- 
-         if (teamId === null || teamId === undefined) {
-             throw new Error('Required parameter teamId was null or undefined when calling apiAdherentsTeamsTeamIdGet.');
-         }
- 
-         let headers = this.defaultHeaders;
- 
-         // authentication (Bearer) required
-         if (this.configuration.apiKeys && this.configuration.apiKeys["Authorization"]) {
-             headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
-         }
- 
-         // to determine the Accept header
-         let httpHeaderAccepts: string[] = [
-             'application/json'
-         ];
-         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-         if (httpHeaderAcceptSelected != undefined) {
-             headers = headers.set('Accept', httpHeaderAcceptSelected);
-         }
- 
-         // to determine the Content-Type header
-         const consumes: string[] = [
-         ];
- 
-         return this.httpClient.request<Array<AdherentDto>>('get',`${this.basePath}/api/Adherents/teams/${encodeURIComponent(String(teamId))}`,
              {
                  withCredentials: this.configuration.withCredentials,
                  headers: headers,

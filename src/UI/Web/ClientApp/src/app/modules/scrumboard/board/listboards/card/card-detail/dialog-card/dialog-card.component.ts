@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
-import { AdherentDto, AdherentsService, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, LabelsService, UpdateCardCommand } from 'src/app/swagger';
+import { AdherentDto, AdherentsService, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -53,8 +53,9 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     public matDialogRef: MatDialogRef<DialogCardComponent>,
     @Inject(MAT_DIALOG_DATA) data: { route: ActivatedRoute },
     private _adherentsService: AdherentsService,
-    private _labelsService: LabelsService,
+    private _boardsService: BoardsService,
     private _cardsService: CardsService,
+    private _teamsService: TeamsService,
     private _formBuilder: FormBuilder) {
     this.id = data.route.snapshot.paramMap.get('cardId');
     this.boardId = data.route.parent.snapshot.paramMap.get('boardId');
@@ -85,7 +86,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
 
     forkJoin(
       this._cardsService.apiCardsIdGet(this.id),
-      this._labelsService.apiLabelsBoardsBoardIdGet(this.boardId),
+      this._boardsService.apiBoardsIdLabelsGet(this.boardId),
     ).pipe(mergeMap(([card, labels]) => {
       this.card = card;
 
@@ -137,7 +138,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
         });
 
       this.allLabels = labels;
-      return this._adherentsService.apiAdherentsTeamsTeamIdGet(1);
+      return this._teamsService.apiTeamsIdGet(1); // Get the team in scrumboardService (store the team or add the team in board)
     })).subscribe((adherents) => {
       this.allMembers = adherents;
     });

@@ -3,13 +3,14 @@ import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@an
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Observable, Subject } from 'rxjs';
-import { tap, debounceTime, takeUntil, startWith, map, mergeMap } from 'rxjs/operators';
+import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap } from 'rxjs/operators';
 import { AdherentDto, AdherentsService, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ActivatedRoute } from '@angular/router';
+import { ScrumboardService } from 'src/app/modules/scrumboard/scrumboard.service';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     private _boardsService: BoardsService,
     private _cardsService: CardsService,
     private _teamsService: TeamsService,
+    private _scrumboardService: ScrumboardService,
     private _formBuilder: FormBuilder) {
     this.id = data.route.snapshot.paramMap.get('cardId');
     this.boardId = data.route.parent.snapshot.paramMap.get('boardId');
@@ -138,7 +140,9 @@ export class DialogCardComponent implements OnInit, OnDestroy {
         });
 
       this.allLabels = labels;
-      return this._teamsService.apiTeamsIdGet(1); // Get the team in scrumboardService (store the team or add the team in board)
+
+      return this._scrumboardService.board$
+        .pipe(mergeMap(b => this._teamsService.apiTeamsIdGet(b.team.id)));
     })).subscribe((adherents) => {
       this.allMembers = adherents;
     });
@@ -235,7 +239,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   addMember(member: AdherentDto): void {
     const index = this.card.adherents.findIndex(m => m.id === member.id);
     if (index < 0)
-    this.card.adherents.push(member);
+      this.card.adherents.push(member);
 
     // Update the card form data
     this.cardForm.get('members').patchValue(this.card.adherents);
@@ -334,7 +338,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     const index = this.card.adherents.findIndex(m => m === member);
 
     if (index >= 0)
-    this.card.adherents.splice(index, 1);
+      this.card.adherents.splice(index, 1);
 
     // Update the card form data
     this.cardForm.get('members').patchValue(this.card.adherents);

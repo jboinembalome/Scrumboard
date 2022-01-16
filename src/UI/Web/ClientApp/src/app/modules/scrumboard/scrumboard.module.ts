@@ -26,7 +26,6 @@ import { LabelSelectorComponent } from './board/listboards/card/card-detail/dial
 import { LabelAddComponent } from './board/listboards/card/card-detail/dialog-card/label/label-add/label-add.component';
 import { ChecklistComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklist/checklist.component';
 import { ChecklistsComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklists.component';
-import { MemberSelectorComponent } from './board/listboards/card/card-detail/dialog-card/member/memberl-selector/member-selector.component';
 import { CommentsComponent } from './board/listboards/card/card-detail/dialog-card/comments/comments.component';
 import { CommentComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment.component';
 import { CommentAddComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment-add/comment-add.component';
@@ -39,7 +38,6 @@ import { CommentAddComponent } from './board/listboards/card/card-detail/dialog-
         LabelAddComponent,
         LabelSelectorComponent,
         ListBoardsComponent,
-        MemberSelectorComponent,
         CardComponent,
         CardAddComponent,
         ChecklistComponent,

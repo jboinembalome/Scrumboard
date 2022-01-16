@@ -8,6 +8,7 @@ using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
 using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
 using Scrumboard.Application.Features.Comments.Commands.CreateComment;
 using Scrumboard.Application.Features.Comments.Commands.UpdateComment;
+using Scrumboard.Application.Features.Teams.Commands.UpdateTeam;
 using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
@@ -100,6 +101,9 @@ namespace Scrumboard.Application.Profiles
                 .ReverseMap();
 
             CreateMap<Team, TeamDto>()
+                .ReverseMap();
+
+            CreateMap<Team, UpdateTeamCommand>()
                 .ReverseMap();
         }
 

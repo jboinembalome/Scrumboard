@@ -23,9 +23,9 @@ namespace Scrumboard.Infrastructure.Persistence
             var roles = new[] { "Administrator", "Adherent" };
             var administrator = new ApplicationUser { Id = ADMIN_USER_ID, UserName = "administrator@localhost", Email = "administrator@localhost" };
             var adherent = new ApplicationUser { Id = ADHERENT_USER_ID, FirstName = "Jimmy", LastName = "Boinembalome", UserName = "adherent@localhost", Email = "adherent@localhost", Job = "Software Engineer" };
-            var adherent2 = new ApplicationUser { Id = ADHERENT_USER_ID_2, FirstName = "Guyliane", LastName = "De Jesus Pimenta", UserName = "gpimenta", Email = "adherent2@localhost", Job = "Software Engineer" };
-            var adherent3 = new ApplicationUser { Id = ADHERENT_USER_ID_3, FirstName = "Corentin", LastName = "Hugot", UserName = "chugot", Email = "adherent3@localhost", Job = "Systems and Networks Engineer" };
-            var adherent4 = new ApplicationUser { Id = ADHERENT_USER_ID_4, FirstName = "Patrice", LastName = "Fouque", UserName = "pfouque", Email = "adherent4@localhost", Job = "Software Engineer" };
+            var adherent2 = new ApplicationUser { Id = ADHERENT_USER_ID_2, FirstName = "Guyliane", LastName = "De Jesus Pimenta", UserName = "adherent2@localhost", Email = "adherent2@localhost", Job = "Software Engineer" };
+            var adherent3 = new ApplicationUser { Id = ADHERENT_USER_ID_3, FirstName = "Corentin", LastName = "Hugot", UserName = "adherent3@localhost", Email = "adherent3@localhost", Job = "Systems and Networks Engineer" };
+            var adherent4 = new ApplicationUser { Id = ADHERENT_USER_ID_4, FirstName = "Patrice", LastName = "Fouque", UserName = "adherent4@localhost", Email = "adherent4@localhost", Job = "Software Engineer" };
 
             await CreateUser(userManager, administrator, "Administrator1!");
             await AddUserToRole(userManager, roleManager, roles[0], administrator);
@@ -66,6 +66,7 @@ namespace Scrumboard.Infrastructure.Persistence
             };
 
             var team = new Team { Name = "Developer Team", Adherents = new Collection<Adherent>() { adherent, adherent2, adherent3, adherent4 } };
+            var team2 = new Team { Name = "Test Team", Adherents = new Collection<Adherent>() {  adherent2 } };
 
             var labels = new Collection<Label>
             {
@@ -331,7 +332,8 @@ namespace Scrumboard.Infrastructure.Persistence
                 {
                     Name = "Scrumboard Test",
                     Uri = "scrumboard-test",
-                    Adherent = adherent,
+                    Adherent = adherent2,
+                    Team = team2,
                     BoardSetting = boardSettings[2]
                 }
             };

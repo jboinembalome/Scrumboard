@@ -23,6 +23,10 @@ namespace Scrumboard.Application.Features.Boards.Specifications
 
             Query.Include(b => b.ListBoards)
                     .ThenInclude(l => l.Cards)
+                    .ThenInclude(c => c.Adherents);
+
+            Query.Include(b => b.ListBoards)
+                    .ThenInclude(l => l.Cards)
                     .ThenInclude(c => c.Comments);
 
             Query.Include(b => b.ListBoards)

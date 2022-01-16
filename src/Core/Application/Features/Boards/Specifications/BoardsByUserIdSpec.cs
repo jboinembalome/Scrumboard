@@ -1,6 +1,6 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Entities;
-using System;
+using System.Linq;
 
 namespace Scrumboard.Application.Specifications
 {
@@ -8,7 +8,7 @@ namespace Scrumboard.Application.Specifications
     {
         public BoardsByUserIdSpec(string userId)
         {
-            Query.Where(b => b.Adherent.IdentityId == userId)
+            Query.Where(b => b.Team.Adherents.Any(a => a.IdentityId == userId))
                 .Include(b => b.Adherent)
                 .Include(b => b.Team)
                  .ThenInclude(t => t.Adherents)

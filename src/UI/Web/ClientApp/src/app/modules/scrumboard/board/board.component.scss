@@ -6,11 +6,3 @@
     
 }
 
-// It is not necessary to add this class to the tailwind configuration because it is
-// only used for the board size and nothing else. 
-@media (min-width: 640px) {
-    .sm\:h-98 {
-        height: 26rem !important;
-    }
-}
-

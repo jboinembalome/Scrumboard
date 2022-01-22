@@ -4,9 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PluralPipe } from "./pipes/plural.pipe";
 import { OrderByPipe } from './pipes/orderby.pipe';
 import { StringColorPipe } from './pipes/string-color.pipe';
+import { InitialPipe } from './pipes/initial.pipe';
 
 @NgModule({
     declarations: [
+        InitialPipe,
         PluralPipe,
         OrderByPipe,
         StringColorPipe
@@ -20,6 +22,7 @@ import { StringColorPipe } from './pipes/string-color.pipe';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        InitialPipe,
         PluralPipe,
         OrderByPipe,
         StringColorPipe

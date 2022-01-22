@@ -33,13 +33,4 @@ export class UserProfileComponent implements OnInit {
     this.checkedDarkMode = !this.checkedDarkMode;
     this.toggleTheme.emit();
   }
-
-  UseDefaultAvatar() {
-    this.currentUser.pipe(
-      map(user => ({
-        ...user,
-        picture: null
-      })),
-    );
-  }
 }

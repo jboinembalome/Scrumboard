@@ -10,6 +10,8 @@ import { CardDto } from 'src/app/swagger';
 export class CardComponent {
   @Input() card: CardDto;
 
+  urlAvatar: string = location.origin + "/api/adherents/avatar/";
+  
   constructor() {
   }
 

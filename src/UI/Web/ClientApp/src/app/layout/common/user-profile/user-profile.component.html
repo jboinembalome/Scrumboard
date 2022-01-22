@@ -7,10 +7,11 @@
       <span class="inline-block relative">
         <span class="sr-only">Open user menu</span>
         <ng-container *ngIf="isAuthenticated | async">
-          <img class="p-px h-10 w-10 rounded-full" *ngIf="(currentUser | async)?.picture"
+          <img *ngIf="(currentUser | async)?.picture" class="p-px h-10 w-10 rounded-full"
             [src]="(currentUser | async)?.picture" (onerror)="setPicture()">
-          <img class="p-px h-10 w-10 rounded-full" *ngIf="!(currentUser | async)?.picture"
-            src="assets/images/avatars/profile.jpg">
+          <span *ngIf="!(currentUser | async)?.picture" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
+            <span class="font-medium leading-none text-white">{{((currentUser | async)?.name | initial)}}</span>
+          </span>
         </ng-container>
         <!-- <ng-container *ngIf="!isAuthenticated | async">
           <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full" 

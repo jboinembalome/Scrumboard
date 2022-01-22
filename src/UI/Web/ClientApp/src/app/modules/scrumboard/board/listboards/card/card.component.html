@@ -32,8 +32,9 @@
         <ng-container *ngFor="let adherent of card.adherents; trackBy: trackByFn">
             <img *ngIf="adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
                 class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + adherent.identityId">
-            <img *ngIf="!adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
-                class="inline-block h-6 w-6 rounded-full" src="assets/images/avatars/profile.jpg">
+            <span *ngIf="!adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}" class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
+                <span class="text-xs font-medium leading-none text-white">{{(adherent.firstName + " " + adherent.lastName) | initial}}</span>
+            </span>
         </ng-container>
     </div>
 

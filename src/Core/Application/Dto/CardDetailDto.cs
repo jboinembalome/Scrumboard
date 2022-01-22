@@ -10,6 +10,8 @@ namespace Scrumboard.Application.Dto
         public string Description { get; set; }
         public bool Suscribed { get; set; }
         public DateTime? DueDate { get; set; }
+        public int Position { get; set; }
+        public int ListBoardId { get; set; }
         public string ListBoardName { get; set; }
         public int BoardId { get; set; }
         public IEnumerable<LabelDto> Labels { get; set; }

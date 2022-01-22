@@ -1,14 +1,15 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
-import { CardDto, ListBoardDto } from 'src/app/swagger';
+import { Subscription } from 'rxjs';
+import { CardDto, CardsService, CreateCardCommand, ListBoardDto } from 'src/app/swagger';
 
 @Component({
   selector: 'scrumboard-listboards',
   templateUrl: './listboards.component.html',
   styleUrls: ['./listboards.component.scss']
 })
-export class ListBoardsComponent implements OnInit {
+export class ListBoardsComponent implements OnInit, OnDestroy {
   private readonly _positionStep: number = 65536;
   private readonly _maxListCount: number = 200;
   private readonly _maxPosition: number = this._positionStep * 500;
@@ -17,12 +18,19 @@ export class ListBoardsComponent implements OnInit {
   @Input() listBoards: ListBoardDto[];
   @Output() listBoardsChange = new EventEmitter<ListBoardDto[]>();
 
-  constructor() {
+  private cardSubscription: Subscription;
+
+  constructor(private _cardsService: CardsService,) {
   }
 
   ngOnInit(): void {
     // Sort the cards
     this.listBoards.forEach(listboard => listboard.cards.sort((a, b) => a.position - b.position));
+  }
+
+  ngOnDestroy() {
+    if (this.cardSubscription != undefined)
+      this.cardSubscription.unsubscribe();
   }
 
   /**
@@ -150,15 +158,18 @@ export class ListBoardsComponent implements OnInit {
   */
   addCard(listBoard: ListBoardDto, name: string): void {
     // Create a new card model
-    const card : CardDto = {
+    const card : CreateCardCommand = {
       listBoardId: listBoard.id,
       position: listBoard.cards.length ? listBoard.cards[listBoard.cards.length - 1].position + this._positionStep : this._positionStep,
       name: name
     };
 
-    listBoard.cards.push(card);
+    this.cardSubscription = this._cardsService.apiCardsPost(card).subscribe(response => {
+      listBoard.cards.push(response.card as CardDto);
+    }, error => console.error(error));
 
-    this.listBoardsChange.emit(this.listBoards);
+
+    //this.listBoardsChange.emit(this.listBoards);
   }
 
   /**

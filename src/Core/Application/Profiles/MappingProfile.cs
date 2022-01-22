@@ -5,6 +5,7 @@ using Scrumboard.Application.Extensions;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Features.Boards.Commands.UpdatePinnedBoard;
+using Scrumboard.Application.Features.Cards.Commands.CreateCard;
 using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
 using Scrumboard.Application.Features.Comments.Commands.CreateComment;
 using Scrumboard.Application.Features.Comments.Commands.UpdateComment;
@@ -58,8 +59,12 @@ namespace Scrumboard.Application.Profiles
 
             CreateMap<Card, CardDetailDto>()
                 .EqualityComparison((d, opt) => d.Id == opt.Id)
+                .ForMember(d => d.ListBoardId, opt => opt.MapFrom(c => c.ListBoard.Id))
                 .ForMember(d => d.ListBoardName, opt => opt.MapFrom(c => c.ListBoard.Name))
                 .ForMember(d => d.BoardId, opt => opt.MapFrom(c => c.ListBoard.Board.Id))
+                .ReverseMap();
+      
+            CreateMap<Card, CreateCardCommand>()
                 .ReverseMap();
 
             CreateMap<Card, UpdateCardCommand>()

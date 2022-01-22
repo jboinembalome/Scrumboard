@@ -21,6 +21,8 @@ export interface CardDetailDto {
     description?: string;
     suscribed?: boolean;
     dueDate?: Date;
+    position?: number;
+    listBoardId?: number;
     listBoardName?: string;
     boardId?: number;
     labels?: Array<LabelDto>;

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
+using Scrumboard.Application.Features.Cards.Commands.CreateCard;
 using Scrumboard.Application.Features.Cards.Commands.DeleteCard;
 using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
 using Scrumboard.Application.Features.Cards.Queries.GetCardDetail;
@@ -15,6 +16,19 @@ namespace Scrumboard.Web.Controllers
     {
         public CardsController()
         {
+        }
+
+        /// <summary>
+        /// Create a card.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<CreateCardCommandResponse>> Create(CreateCardCommand command)
+        {
+            var response = await Mediator.Send(command);
+
+            return CreatedAtAction(nameof(Get), new { id = response.Card.Id }, response);
         }
 
         /// <summary>

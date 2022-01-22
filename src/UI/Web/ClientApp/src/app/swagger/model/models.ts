@@ -11,6 +11,8 @@ export * from './checklistItemDto';
 export * from './colourDto';
 export * from './commentDto';
 export * from './createBoardCommandResponse';
+export * from './createCardCommand';
+export * from './createCardCommandResponse';
 export * from './createCommentCommandResponse';
 export * from './labelDto';
 export * from './listBoardDto';

@@ -47,7 +47,7 @@
                 </div>
                 <!-- Cards -->
                 <div cdkScrollable class="rounded-xl max-h-64 sm:max-h-72 overflow-y-auto bg-gray-50 dark:bg-gray-900 bg-opacity-12">
-                    <div [id]="listBoard.id" class="p-3 pb-0 " cdkDropList [cdkDropListData]="listBoard.cards"
+                    <div [id]="listBoard.id" class="p-3 pt-0 pb-0 " cdkDropList [cdkDropListData]="listBoard.cards"
                         (cdkDropListDropped)="cardDropped($event)">
                         <ng-container *ngFor="let card of listBoard.cards; trackBy: trackByFn">
                             <scrumboard-card [card]="card"></scrumboard-card>

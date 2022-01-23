@@ -11,6 +11,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ActivatedRoute } from '@angular/router';
 import { ScrumboardService } from 'src/app/modules/scrumboard/scrumboard.service';
+import { BlouppyConfirmationService } from 'src/app/shared/services/confirmation';
 
 
 @Component({
@@ -58,6 +59,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     private _cardsService: CardsService,
     private _teamsService: TeamsService,
     private _scrumboardService: ScrumboardService,
+    private _blouppyConfirmationService: BlouppyConfirmationService,
     private _formBuilder: FormBuilder) {
     this.id = data.route.snapshot.paramMap.get('cardId');
     this.boardId = data.route.parent.snapshot.paramMap.get('boardId');
@@ -152,6 +154,32 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+
+  deleteCard(card: CardDetailDto): void {
+    // Open the confirmation dialog
+    const confirmation = this._blouppyConfirmationService.open({
+      title: 'Delete card',
+      message: 'Are you sure you want to remove this card? This action is irreversible!',
+      actions: {
+        confirm: {
+          label: 'Delete'
+        }
+      },
+      dismissible: true
+    });
+
+    // Subscribe to the confirmation dialog closed action
+    confirmation.afterClosed().subscribe((result) => {
+
+      // If the confirm button pressed then remove the card
+      if (result === 'confirmed') {
+        this._cardsService.apiCardsIdDelete(card.id).subscribe(() => {
+          this.matDialogRef.close();
+        }, error => console.error(error));
+      }
+    });
+
   }
 
   addLabelChip(event: MatChipInputEvent): void {

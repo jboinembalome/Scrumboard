@@ -29,6 +29,7 @@ import { ChecklistsComponent } from './board/listboards/card/card-detail/dialog-
 import { CommentsComponent } from './board/listboards/card/card-detail/dialog-card/comments/comments.component';
 import { CommentComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment.component';
 import { CommentAddComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment-add/comment-add.component';
+import { BlouppyConfirmationModule } from 'src/app/shared/services/confirmation';
 
 @NgModule({
     declarations: [
@@ -58,6 +59,7 @@ import { CommentAddComponent } from './board/listboards/card/card-detail/dialog-
         DragDropModule,
         ScrollingModule,
         ComponentModule,
+        BlouppyConfirmationModule,
         SharedModule,
         MaterialModule
     ],

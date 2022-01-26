@@ -1,6 +1,5 @@
-<div class="pt-6 h-full" [class]="board.boardSetting.colour.colour">
-    <div class="max-w-7xl mx-auto h-full">
-        <mat-drawer-container *ngIf="board" class="bg-transparent h-full" (backdropClick)="closeSettingPanel()">
+
+        <mat-drawer-container *ngIf="board" class="pt-6 h-full" [class]="board.boardSetting.colour.colour" (backdropClick)="closeSettingPanel()">
             <mat-drawer mode="over" [opened]="false" [position]="'end'" [disableClose]="true" #matDrawer class="w-full h-full md:w-72">
                 <scrumboard-board-setting [boardSetting]="board.boardSetting" (boardSettingChange)="updateBoard()"
                     (closeSettingPanel)="closeSettingPanel()">
@@ -94,7 +93,5 @@
                 </div>
             </mat-drawer-content>
         </mat-drawer-container>
-    </div>
     <!-- Invisible router-outlet for ScrumboardCard component -->
     <router-outlet></router-outlet>
-</div>

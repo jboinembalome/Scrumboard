@@ -27,10 +27,18 @@ export class LabelSelectorComponent {
     this.labelUpdated.emit(this.selectedLabels);
   }
 
-  updateLabelColor(colour: ColourDto, label: LabelDto): void {
-    label.colour = colour;
+  updateLabel(label: LabelDto): void {
+    const updatedLabel = this.selectedLabels.find(l => l.id === label.id);
+    updatedLabel.name = label.name;
+    updatedLabel.colour = label.colour;
+    console.log(updatedLabel);
+    console.log(this.selectedLabels);
 
-    this.selectedLabels.find(l => l.id === label.id).colour = colour;
+    this.labelUpdated.emit(this.selectedLabels);
+  }
+
+  deleteLabel(label: LabelDto): void {
+    this.selectedLabels = this.selectedLabels.filter(l => l.id !== label.id);
 
     this.labelUpdated.emit(this.selectedLabels);
   }

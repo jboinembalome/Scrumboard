@@ -24,6 +24,7 @@ import { SettingComponent } from './board/setting/setting.component';
 import { ChecklistAddComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklist/checklist-add/checklist-add.component';
 import { LabelSelectorComponent } from './board/listboards/card/card-detail/dialog-card/label/label-selector/label-selector.component';
 import { LabelAddComponent } from './board/listboards/card/card-detail/dialog-card/label/label-add/label-add.component';
+import { LabelUpdateComponent } from './board/listboards/card/card-detail/dialog-card/label/label-update/label-update.component';
 import { ChecklistComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklist/checklist.component';
 import { ChecklistsComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklists.component';
 import { CommentsComponent } from './board/listboards/card/card-detail/dialog-card/comments/comments.component';
@@ -38,6 +39,7 @@ import { BlouppyConfirmationModule } from 'src/app/shared/services/confirmation'
         BoardsComponent,
         LabelAddComponent,
         LabelSelectorComponent,
+        LabelUpdateComponent,
         ListBoardsComponent,
         CardComponent,
         CardAddComponent,

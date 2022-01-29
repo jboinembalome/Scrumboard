@@ -18,7 +18,7 @@
 </div>
 
 <!-- Content -->
-<mat-dialog-content class="mat-typography p-4 m-0 bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<mat-dialog-content class="mat-typography p-4 m-0 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
   <!-- This example requires Tailwind CSS v2.0+ -->
   <nav class="flex " aria-label="Breadcrumb">
     <ol role="list" class="flex items-center space-x-2">
@@ -216,7 +216,7 @@
           <mat-icon class="mr-1">person</mat-icon>
           Members
         </button>
-        <mat-menu #memberMenu="matMenu" [overlapTrigger]="false" class="bg-gray-100 dark:bg-gray-900">
+        <mat-menu #memberMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
           <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="$event.stopPropagation()">
 
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
@@ -230,7 +230,7 @@
           <mat-icon class="mr-1">label</mat-icon>
           Labels
         </button>
-        <mat-menu #labelMenu="matMenu" [overlapTrigger]="false" class="bg-gray-100 dark:bg-gray-900">
+        <mat-menu #labelMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
           <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="$event.stopPropagation()">
 
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Labels</label>
@@ -251,7 +251,7 @@
           <mat-icon class="mr-1">checklist</mat-icon>
           Checklists
         </button>
-        <mat-menu #checklistMenu="matMenu" [overlapTrigger]="false" class="bg-gray-100 dark:bg-gray-900">
+        <mat-menu #checklistMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
           <!-- Checklist Form -->
           <checklist-add (checklistAdded)="addChecklist($event)" (checklistCanceled)="checklistMenuTrigger.closeMenu()"
             (click)="$event.stopPropagation()"></checklist-add>

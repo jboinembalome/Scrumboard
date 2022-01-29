@@ -34,6 +34,37 @@
     @apply bg-white dark:bg-gray-800 #{'!important'};
 }
 
+// new code
+//input outline color
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    @apply text-gray-300 dark:text-gray-700 #{'!important'};
+}
+
+//mat-input focused color
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    @apply text-indigo-600 #{'!important'};
+}
+
+// mat-input error outline color
+.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick{
+    @apply text-red-500 #{'!important'};
+}
+
+// mat-label normal state style
+.mat-form-field-label {
+    @apply text-gray-300 dark:text-gray-700 #{'!important'};
+}
+
+// mat-label focused style
+.mat-form-field.mat-focused .mat-form-field-label {
+    @apply text-red-500 #{'!important'};
+}
+
+// mat-label error style
+.mat-form-field.mat-form-field-invalid .mat-form-field-label {
+    @apply text-red-500 #{'!important'};
+}
+
 .mat-form-field-appearance-outline .mat-form-field-infix {
     padding: 0 0 0.5em 0 !important; // Maybe update this
 }

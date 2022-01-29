@@ -7,6 +7,7 @@ import { AdherentsService } from './api/adherents.service';
 import { BoardsService } from './api/boards.service';
 import { CardsService } from './api/cards.service';
 import { CommentsService } from './api/comments.service';
+import { LabelsService } from './api/labels.service';
 import { OidcConfigurationService } from './api/oidcConfiguration.service';
 import { TeamsService } from './api/teams.service';
 import { WeatherForecastService } from './api/weatherForecast.service';
@@ -20,6 +21,7 @@ import { WeatherForecastService } from './api/weatherForecast.service';
     BoardsService,
     CardsService,
     CommentsService,
+    LabelsService,
     OidcConfigurationService,
     TeamsService,
     WeatherForecastService ]

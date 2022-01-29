@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ColourDto, LabelDto } from 'src/app/swagger';
+import { LabelDto } from 'src/app/swagger';
+import { LabelsService } from 'src/app/swagger/api/labels.service';
 
 @Component({
   selector: 'label-selector',
@@ -10,8 +11,9 @@ export class LabelSelectorComponent {
   @Input() selectedLabels: LabelDto[];
   @Input() labels: LabelDto[];
   @Output() labelUpdated = new EventEmitter<LabelDto[]>();
+  @Output() labelCompletelyDeleted = new EventEmitter<LabelDto>();
 
-  constructor() {
+  constructor(private _labelsService: LabelsService) {
   }
 
   hasLabel(label: LabelDto): boolean {
@@ -27,12 +29,22 @@ export class LabelSelectorComponent {
     this.labelUpdated.emit(this.selectedLabels);
   }
 
-  updateLabelColor(colour: ColourDto, label: LabelDto): void {
-    label.colour = colour;
-
-    this.selectedLabels.find(l => l.id === label.id).colour = colour;
+  updateLabel(label: LabelDto): void {
+    const updatedLabel = this.selectedLabels.find(l => l.id === label.id);
+    updatedLabel.name = label.name;
+    updatedLabel.colour = label.colour;
 
     this.labelUpdated.emit(this.selectedLabels);
+  }
+
+  deleteLabel(label: LabelDto): void {
+    this.selectedLabels = this.selectedLabels.filter(l => l.id !== label.id);
+    this.labels = this.labels.filter(l => l.id !== label.id);
+
+    this._labelsService.apiLabelsIdDelete(label.id).subscribe(() => {
+      this.removeLabelFromCard(label);
+      this.labelCompletelyDeleted.emit(label);
+    });
   }
 
   /**

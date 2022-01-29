@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap } from 'rxjs/operators';
-import { AdherentDto, AdherentsService, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand } from 'src/app/swagger';
+import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -54,7 +54,6 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   constructor(
     public matDialogRef: MatDialogRef<DialogCardComponent>,
     @Inject(MAT_DIALOG_DATA) data: { route: ActivatedRoute },
-    private _adherentsService: AdherentsService,
     private _boardsService: BoardsService,
     private _cardsService: CardsService,
     private _teamsService: TeamsService,
@@ -245,6 +244,13 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     this.cardForm.get('labels').patchValue(this.card.labels);
 
     this.labelCtrl.setValue(null);
+  }
+
+  deletedLabelFromCtrl(label: LabelDto): void {
+    // Here we don't update the cardForm because it will update 
+    // the card from the server but the card (and of course all the others 
+    // that contain the deleted label) is already updated in the label-selector component.
+    this.card.labels = this.card.labels.filter(l => l.id !== label.id);
   }
 
   removeMemberChip(member: AdherentDto): void {

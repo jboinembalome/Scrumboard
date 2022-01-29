@@ -1,0 +1,54 @@
+<button type="button" [matMenuTriggerFor]="labelMenu" #menuTrigger="matMenuTrigger"
+  class="w-10 h-10 rounded-full inline-flex p-2 shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+  [class]="label.colour.colour">
+  <mat-icon class="fill-current text-indigo-100">colorize</mat-icon>
+</button>
+
+
+<!-- Menu dropdown-->
+<mat-menu #labelMenu="matMenu" class="dark:bg-gray-900">
+  <div class="pl-2 inline-flex items-center">
+    <!-- Close Menu -->
+    <button mat-icon-button class="text-gray-700 dark:text-gray-200" (click)="menuTrigger.closeMenu()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Edit Label</label>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="$event.stopPropagation()">
+    <!-- Update label name -->
+    <form class="flex-col items-end content-end justify-start" [formGroup]="labelForm">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Label Name</label>
+      <mat-form-field class="w-full" appearance="outline">
+        <input matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'name'"
+          (click)="$event.stopPropagation()">
+        <mat-error>Label name is required.</mat-error>
+      </mat-form-field>
+    </form>
+
+    <!-- Colour list -->
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Colors</label>
+    <div class="flex flex-wrap w-48 h-36">
+      <div *ngFor="let pickerColor of colors" class="px-2">
+        <div (click)="updateLabelColor(pickerColor); $event.stopPropagation()"
+          class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200 dark:border-gray-700"
+          [class]="label.colour.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Delete label -->
+  <div class="flex flex-col">
+    <button type="button" (click)="labelDeleted.emit()"
+      class="inline-flex items-center m-2 p-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1">
+      <mat-icon class="mr-2">delete</mat-icon>
+      Delete
+    </button>
+  </div>
+
+</mat-menu>

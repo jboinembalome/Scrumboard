@@ -17,7 +17,6 @@
  
  import { Observable }                                        from 'rxjs';
  
- import { LabelDto } from '../model/labelDto';
  
  import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
  import { Configuration }                                     from '../configuration';
@@ -56,19 +55,19 @@
  
  
      /**
-      * Get labels by board id.
-      * 
-      * @param boardId Id of the board.
+      * Delete a label on a board.
+      * Delete the label from all cards in the board.
+      * @param id Id of the label.
       * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
       * @param reportProgress flag to report request and response progress.
       */
-     public apiLabelsBoardsBoardIdGet(boardId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<LabelDto>>;
-     public apiLabelsBoardsBoardIdGet(boardId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<LabelDto>>>;
-     public apiLabelsBoardsBoardIdGet(boardId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<LabelDto>>>;
-     public apiLabelsBoardsBoardIdGet(boardId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+     public apiLabelsIdDelete(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+     public apiLabelsIdDelete(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+     public apiLabelsIdDelete(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+     public apiLabelsIdDelete(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
  
-         if (boardId === null || boardId === undefined) {
-             throw new Error('Required parameter boardId was null or undefined when calling apiLabelsBoardsBoardIdGet.');
+         if (id === null || id === undefined) {
+             throw new Error('Required parameter id was null or undefined when calling apiLabelsIdDelete.');
          }
  
          let headers = this.defaultHeaders;
@@ -80,7 +79,6 @@
  
          // to determine the Accept header
          let httpHeaderAccepts: string[] = [
-             'application/json'
          ];
          const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
          if (httpHeaderAcceptSelected != undefined) {
@@ -91,7 +89,7 @@
          const consumes: string[] = [
          ];
  
-         return this.httpClient.request<Array<LabelDto>>('get',`${this.basePath}/api/Labels/boards/${encodeURIComponent(String(boardId))}`,
+         return this.httpClient.request<any>('delete',`${this.basePath}/api/Labels/${encodeURIComponent(String(id))}`,
              {
                  withCredentials: this.configuration.withCredentials,
                  headers: headers,

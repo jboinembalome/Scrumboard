@@ -235,7 +235,7 @@
 
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Labels</label>
             <!-- Labels -->
-            <label-selector [selectedLabels]="card.labels" [labels]="allLabels" (labelUpdated)="updateLabels($event)">
+            <label-selector [selectedLabels]="card.labels" [labels]="allLabels" (labelUpdated)="updateLabels($event)" (labelCompletelyDeleted)="deletedLabelFromCtrl($event)">
             </label-selector>
 
             <mat-divider class="my-2"></mat-divider>

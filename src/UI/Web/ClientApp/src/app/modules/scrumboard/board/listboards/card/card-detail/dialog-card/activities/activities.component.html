@@ -1,0 +1,43 @@
+<ol>
+  <!-- Activities -->
+  <ng-container
+    *ngFor="let activity of activities; let i = index; let first = first; let last = last; trackBy: trackByFn">
+
+    <!-- Activity -->
+    <li class="relative flex py-1">
+      <!-- Line -->
+      <ng-container *ngIf="!last && isSameDay(activity.createdDate, activities[i + 1].createdDate)">
+        <div class="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300 dark:bg-gray-600"></div>
+      </ng-container>
+
+      <div class="relative flex flex-auto">
+        <!-- Icon -->
+        <ng-container>
+          <div class="flex flex-shrink-0 items-center justify-center w-10 h-10 mr-4 rounded-full bg-gray-400" [ngClass]="{
+                  'bg-blue-400': activity.activityType == 'Added',
+                  'bg-red-400': activity.activityType == 'Removed',
+                  'bg-amber-400': activity.activityType == 'Updated',
+                  'bg-green-400': activity.activityType == 'Finished',
+                  'bg-gray-400': activity.activityType == 'NotFinished',
+                  'bg-indigo-400': activity.activityType == 'Checked' || activity.activityType == 'Unchecked'}">
+            <mat-icon class="icon-size-5 text-white">
+              {{getIcon(activity)}}
+            </mat-icon>
+          </div>
+        </ng-container>
+
+        <!-- Content -->
+        <div class="flex flex-col flex-auto items-start">
+          <!-- Description -->
+          <div [innerHTML]="getDescription(activity)"></div>
+          <div class="flex flex-col sm:flex-row sm:items-center mt-2 sm:mt-1 sm:space-x-2 text-md leading-5">
+            <!-- Date -->
+            <div class="text-secondary">
+              {{activity.createdDate | date:'MMM dd, h:mm a'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ng-container>
+</ol>

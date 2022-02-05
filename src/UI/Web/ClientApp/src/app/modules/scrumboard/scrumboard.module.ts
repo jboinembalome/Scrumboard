@@ -31,10 +31,12 @@ import { CommentsComponent } from './board/listboards/card/card-detail/dialog-ca
 import { CommentComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment.component';
 import { CommentAddComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment-add/comment-add.component';
 import { BlouppyConfirmationModule } from 'src/app/shared/services/confirmation';
+import { ActivitiesComponent } from './board/listboards/card/card-detail/dialog-card/activities/activities.component';
 
 @NgModule({
     declarations: [
         ScrumboardComponent,
+        ActivitiesComponent,
         BoardComponent,
         BoardsComponent,
         LabelAddComponent,

@@ -2,9 +2,9 @@ import { ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { forkJoin, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap } from 'rxjs/operators';
-import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand } from 'src/app/swagger';
+import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand, ActivityDto } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -51,6 +51,9 @@ export class DialogCardComponent implements OnInit, OnDestroy {
 
   @ViewChild('memberInput') memberInput: ElementRef<HTMLInputElement>;
 
+  /*** Actitivies ***/
+  activitiesEmitter$ = new BehaviorSubject<ActivityDto[]>(null);
+  showActivities = false;
   constructor(
     public matDialogRef: MatDialogRef<DialogCardComponent>,
     @Inject(MAT_DIALOG_DATA) data: { route: ActivatedRoute },
@@ -92,6 +95,9 @@ export class DialogCardComponent implements OnInit, OnDestroy {
       this._boardsService.apiBoardsIdLabelsGet(this.boardId),
     ).pipe(mergeMap(([card, labels]) => {
       this.card = card;
+
+      if (this.card.activities)
+        this.activitiesEmitter$.next(this.card.activities);
 
       // Fill the form
       this.cardForm.setValue({
@@ -136,7 +142,9 @@ export class DialogCardComponent implements OnInit, OnDestroy {
           };
 
           // Update the card on the server
-          this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand).subscribe(() => {
+          this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand).subscribe(response => {
+            this.card.activities = response.card.activities;
+            this.activitiesEmitter$.next(this.card.activities);
           }, error => console.error(error));
         });
 
@@ -312,6 +320,14 @@ export class DialogCardComponent implements OnInit, OnDestroy {
 
   updateComments(comments: CommentDto[]): void {
     this.card.comments = comments;
+  }
+
+  toogleActivities(): void {
+    this.showActivities = !this.showActivities;
+
+    if(this.showActivities) {
+      // call api to get all activities in the card
+    }
   }
 
   /**

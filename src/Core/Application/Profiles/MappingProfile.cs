@@ -21,6 +21,12 @@ namespace Scrumboard.Application.Profiles
     {
         public MappingProfile()
         {
+            CreateMap<Activity, ActivityDto>()
+                .ForMember(d => d.ActivityType, opt => opt.MapFrom(c => c.ActivityType.ToString()));
+
+            CreateMap<ActivityField, ActivityFieldDto>()
+               .ReverseMap();
+
             CreateMap<Adherent, AdherentDto>()
                 .EqualityComparison((d, opt) => d.Id == opt.Id)
                 .ReverseMap();

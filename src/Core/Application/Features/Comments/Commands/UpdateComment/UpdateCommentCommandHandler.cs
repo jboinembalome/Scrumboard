@@ -31,7 +31,7 @@ namespace Scrumboard.Application.Features.Comments.Commands.UpdateComment
         {
             var updateCommentCommandResponse = new UpdateCommentCommandResponse();
 
-            var specification = new CommentWithAdherentSpec(request.Id);
+            var specification = new CommentWithAdherentAndCardSpec(request.Id);
             var commentToUpdate = await _commentRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
             if (commentToUpdate == null)

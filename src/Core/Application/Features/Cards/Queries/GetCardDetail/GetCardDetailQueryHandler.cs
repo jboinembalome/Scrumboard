@@ -51,6 +51,14 @@ namespace Scrumboard.Application.Features.Cards.Queries.GetCardDetail
                 MapUsers(users, adherentDtos);
             }
 
+            if (cardDto.Activities.Any())
+            {
+                var users = await _identityService.GetListAsync(card.Activities.Select(c => c.Adherent.IdentityId), cancellationToken);
+                var adherentDtos = cardDto.Activities.Select(c => c.Adherent).ToList();
+
+                MapUsers(users, adherentDtos);
+            }
+
             return cardDto;
         }
 

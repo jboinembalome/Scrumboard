@@ -19,5 +19,6 @@ namespace Scrumboard.Application.Dto
         public IEnumerable<AttachmentDto> Attachments { get; set; }
         public IEnumerable<ChecklistDto> Checklists { get; set; }
         public IEnumerable<CommentDto> Comments { get; set; }
+        public IEnumerable<ActivityDto> Activities { get; set; }
     }
 }

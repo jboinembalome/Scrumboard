@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Dto;
+using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Features.Adherents.Specifications;
 using Scrumboard.Application.Features.Cards.Specifications;
 using Scrumboard.Application.Interfaces.Common;
 using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Enums;
+using Scrumboard.Domain.ValueObjects;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,14 +38,22 @@ namespace Scrumboard.Application.Features.Comments.Commands.CreateComment
         {
             var createCommentCommandResponse = new CreateCommentCommandResponse();
 
-            var card = await _cardRepository.GetByIdAsync(request.CardId, cancellationToken);
+            var cardSpecification = new CardWithActivitiesSpec(request.CardId);
+            var card = await _cardRepository.FirstOrDefaultAsync(cardSpecification, cancellationToken);
+
+            if (card == null)
+                throw new NotFoundException(nameof(Card), request.CardId);
 
             var specification = new AdherentByUserIdSpec(_currentUserService.UserId);
-            var adherent = await _adherentRepository.FirstOrDefaultAsync(specification, cancellationToken);
+            var adherent = await _adherentRepository.FirstAsync(specification, cancellationToken);
 
             var comment = _mapper.Map<Comment>(request);
             comment.Adherent = adherent;
             comment.Card = card;
+
+            var activity = new Activity(ActivityType.Added, ActivityField.Comment, string.Empty, request.Message);
+            activity.Adherent = adherent;
+            comment.Card.Activities.Add(activity);
 
             comment = await _commentRepository.AddAsync(comment, cancellationToken);
 

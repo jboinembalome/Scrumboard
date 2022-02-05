@@ -25,6 +25,8 @@ namespace Scrumboard.Application.Features.Cards.Specifications
 
             Query.Include(b => b.Comments)
                 .ThenInclude(c => c.Adherent);
+
+            Query.Include(b => b.Activities);
         }
     }
 }

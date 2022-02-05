@@ -22,6 +22,8 @@ namespace Scrumboard.Application.Features.Cards.Specifications
 
             Query.Include(b => b.Checklists)
                     .ThenInclude(l => l.ChecklistItems);
+
+            Query.Include(b => b.Activities);
         }
     }
 }

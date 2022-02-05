@@ -59,8 +59,9 @@
             <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
               Due date</p>
           </div>
-          <div class="relative flex items-center mt-1.5 mb-3 px-4 leading-9 rounded-full" [ngClass]="{'text-green-800 bg-green-200 dark:text-green-100 dark:bg-green-500': card.dueDate && !isOverdue(card.dueDate),
-                        'text-red-800 bg-red-200 dark:text-red-100 dark:bg-red-500': card.dueDate && isOverdue(card.dueDate)}">
+          <div class="relative flex items-center mt-1.5 mb-3 px-4 leading-9 rounded-full"
+            [ngClass]="{'text-green-800 bg-green-200 dark:text-green-100 dark:bg-green-500': card.dueDate && !isOverdue(card.dueDate),
+                            'text-red-800 bg-red-200 dark:text-red-100 dark:bg-red-500': card.dueDate && isOverdue(card.dueDate)}">
             <mat-icon class=" text-current">event</mat-icon>
             <span class="ml-2 text-md font-medium">{{card.dueDate | date:'longDate'}}</span>
             <button (click)="dueDatePicker.select(null)"
@@ -87,7 +88,7 @@
           <mat-form-field class="w-full" appearance="outline">
             <textarea matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'name'" [rows]="1"
               matTextareaAutosize [matAutosizeMinRows]="1">
-            </textarea>
+                </textarea>
             <mat-error>Name is required.</mat-error>
           </mat-form-field>
         </div>
@@ -104,7 +105,7 @@
           <mat-form-field class="w-full" appearance="outline">
             <textarea matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'description'" [rows]="6"
               matTextareaAutosize [matAutosizeMinRows]="1">
-            </textarea>
+                </textarea>
           </mat-form-field>
         </div>
 
@@ -119,12 +120,13 @@
           </div>
           <mat-form-field class="w-full" appearance="outline">
             <mat-chip-list #memberChipList aria-label="member selection">
-              <mat-chip class="pl-0" *ngFor="let member of card.adherents" [selectable]="selectableMember" [removable]="removableMember"
-                (removed)="removeMemberChip(member)">
+              <mat-chip class="pl-0" *ngFor="let member of card.adherents" [selectable]="selectableMember"
+                [removable]="removableMember" (removed)="removeMemberChip(member)">
                 <div class="flex items-center justify-items-start space-x-2">
-                    <img  *ngIf="member.hasAvatar" class="h-8 w-8 rounded-full" [src]="urlAvatar + member.identityId" alt="">
-                    <img  *ngIf="!member.hasAvatar" class="h-8 w-8 rounded-full" src="assets/images/avatars/profile.jpg">
-                    <span>{{member.firstName}}</span>                
+                  <img *ngIf="member.hasAvatar" class="h-8 w-8 rounded-full" [src]="urlAvatar + member.identityId"
+                    alt="">
+                  <img *ngIf="!member.hasAvatar" class="h-8 w-8 rounded-full" src="assets/images/avatars/profile.jpg">
+                  <span>{{member.firstName}}</span>
                 </div>
                 <mat-icon matChipRemove *ngIf="removableMember">cancel</mat-icon>
               </mat-chip>
@@ -135,8 +137,10 @@
               <mat-option *ngFor="let member of filteredMembers | async" [value]="member">
                 <div class="flex items-center space-x-3">
                   <div class="flex-shrink-0">
-                    <img  *ngIf="member.hasAvatar" class="h-10 w-10 rounded-full" [src]="urlAvatar + member.identityId" alt="">
-                    <img  *ngIf="!member.hasAvatar" class="h-10 w-10 rounded-full" src="assets/images/avatars/profile.jpg">        
+                    <img *ngIf="member.hasAvatar" class="h-10 w-10 rounded-full" [src]="urlAvatar + member.identityId"
+                      alt="">
+                    <img *ngIf="!member.hasAvatar" class="h-10 w-10 rounded-full"
+                      src="assets/images/avatars/profile.jpg">
                   </div>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -198,10 +202,33 @@
         </div>
 
         <!-- Comments -->
-        <div class="w-full"  *ngIf="card.comments.length > 0">
+        <div class="w-full" *ngIf="card.comments.length > 0">
           <comments [comments]="card.comments" (commentsUpdated)="updateComments($event)"></comments>
         </div>
 
+        <!-- Activities -->
+        <div class="w-full pt-1">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <mat-icon class="mr-4 text-primary">list</mat-icon>
+              <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
+                Activity</p>
+            </div>
+            <button type="button" (click)="toogleActivities()"
+              class="inline-flex items-center justify-center relative px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <mat-icon class="mr-1">history</mat-icon>
+              {{!showActivities ? 'Show': 'Hide'}}
+            </button>
+          </div>
+          <div class="w-full" *ngIf="showActivities">
+            <ng-container *ngIf="(activitiesEmitter$ | async) as activities">
+              <activities *ngIf="activities && activities.length > 0; else noActivities" [activities]="activities"></activities>
+              <ng-template #noActivities>
+                <div class="p-8 text-2xl font-semibold text-center">There are no activities!</div>
+              </ng-template>
+            </ng-container>
+          </div>
+        </div>
       </form>
     </div>
     <div class="col-span-2 px-4">
@@ -221,7 +248,8 @@
 
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
             <!-- Members -->
-            <adherent-selector [selectedAdherents]="card.adherents" [adherents]="allMembers" (adherentUpdated)="updateMembers($event)">
+            <adherent-selector [selectedAdherents]="card.adherents" [adherents]="allMembers"
+              (adherentUpdated)="updateMembers($event)">
             </adherent-selector>
           </div>
         </mat-menu>
@@ -235,7 +263,8 @@
 
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Labels</label>
             <!-- Labels -->
-            <label-selector [selectedLabels]="card.labels" [labels]="allLabels" (labelUpdated)="updateLabels($event)" (labelCompletelyDeleted)="deletedLabelFromCtrl($event)">
+            <label-selector [selectedLabels]="card.labels" [labels]="allLabels" (labelUpdated)="updateLabels($event)"
+              (labelCompletelyDeleted)="deletedLabelFromCtrl($event)">
             </label-selector>
 
             <mat-divider class="my-2"></mat-divider>
@@ -254,7 +283,8 @@
         <mat-menu #checklistMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
           <!-- Checklist Form -->
           <checklist-add (checklistAdded)="addChecklist($event)" (checklistCanceled)="checklistMenuTrigger.closeMenu()"
-            (click)="$event.stopPropagation()"></checklist-add>
+            (click)="$event.stopPropagation()">
+          </checklist-add>
         </mat-menu>
 
         <button type="button" (click)="dueDatePicker.open()"
@@ -278,15 +308,15 @@
           </mat-datepicker-actions>
         </mat-datepicker>
         <!-- <button type="button"
-          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <mat-icon class="mr-1">attachment</mat-icon>
-          Attachments
-        </button>
-        <button type="button"
-          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          <mat-icon class="mr-1">image</mat-icon>
-          Cover
-        </button> -->
+              class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <mat-icon class="mr-1">attachment</mat-icon>
+              Attachments
+            </button>
+            <button type="button"
+              class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <mat-icon class="mr-1">image</mat-icon>
+              Cover
+            </button> -->
         <button type="button" (click)="deleteCard(card)"
           class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           <mat-icon class="mr-1">delete</mat-icon>

@@ -8,8 +8,11 @@ namespace Scrumboard.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Activity> builder)
         {
-            builder.Property(a => a.Message)
+            builder.Property(a => a.ActivityType)
                 .IsRequired();
+
+            builder
+               .OwnsOne(b => b.ActivityField);
         }
     }
 }

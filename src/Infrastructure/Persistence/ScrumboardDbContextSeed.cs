@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Enums;
 using Scrumboard.Domain.ValueObjects;
 using Scrumboard.Infrastructure.Identity;
 using System;
@@ -125,24 +126,12 @@ namespace Scrumboard.Infrastructure.Persistence
             {
                 new Activity
                  {
-                     Message = @"Jimmy Boinembalome moved Add Create login page on Design",
+                     ActivityType = ActivityType.Added,
+                     ActivityField = ActivityField.Card,
+                     OldValue = string.Empty,
+                     NewValue = "Create login page",
                      Adherent = adherent
                  },
-                new Activity
-                {
-                    Message = @"Jimmy Boinembalome added Change background colors on Design",
-                    Adherent = adherent
-                },
-                new Activity
-                {
-                    Message = @"Jimmy Boinembalome added Fix splash screen bugs on Development",
-                    Adherent = adherent
-                },
-                new Activity
-                {
-                    Message = @"Jimmy Boinembalome added Add a notification when a user adds a comment on Upcoming Features",
-                    Adherent = adherent
-                }
             };
 
             var cards = new Collection<Card>
@@ -209,7 +198,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     DueDate = null,
                     Position = 131072,
                     Labels = new Collection<Label> { labels[0] },
-                    Activities =  new Collection<Activity> { activities[1] }
                 },
                 new Card
                 {
@@ -219,7 +207,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     DueDate = new DateTime(2021, 5, 15),
                     Position = 65536,
                     Labels = new Collection<Label> { labels[1] },
-                    Activities =  new Collection<Activity> { activities[2] }
                 },
                 new Card
                 {
@@ -230,7 +217,6 @@ namespace Scrumboard.Infrastructure.Persistence
                     Position = 65536,
                     Labels = new Collection<Label> { labels[2] },
                     Adherents = new Collection<Adherent> { adherent },
-                    Activities =  new Collection<Activity> { activities[3] }
                 },
             };
 
@@ -274,14 +260,6 @@ namespace Scrumboard.Infrastructure.Persistence
                             Position = 65536,
                             Labels = new Collection<Label> { labels[4] },
                             Adherents = new Collection<Adherent> { adherent },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Message = @"Jimmy Boinembalome added Write documentation for the naming convention on Backlog",
-                                    Adherent = adherent
-                                }
-                            }
                         },
                         new Card
                         {
@@ -292,14 +270,6 @@ namespace Scrumboard.Infrastructure.Persistence
                             Position = 131072,
                             Labels = new Collection<Label> { labels[3] },
                             Adherents = new Collection<Adherent> { },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Message = @"Jimmy Boinembalome added Add Serilog for logs on Backlog",
-                                    Adherent = adherent
-                                }
-                            }
                         },
                     }
                 }

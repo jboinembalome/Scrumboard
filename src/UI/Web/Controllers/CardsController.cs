@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
+using Scrumboard.Application.Features.Activities.Queries.GetActivitiesByCardId;
 using Scrumboard.Application.Features.Cards.Commands.CreateCard;
 using Scrumboard.Application.Features.Cards.Commands.DeleteCard;
 using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
 using Scrumboard.Application.Features.Cards.Queries.GetCardDetail;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Scrumboard.Web.Controllers
@@ -76,6 +78,20 @@ namespace Scrumboard.Web.Controllers
             await Mediator.Send(new DeleteCardCommand { CardId = id });
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Get activities by card id.
+        /// </summary>
+        /// <param name="id">Id of the card.</param>
+        /// <returns></returns>
+        [HttpGet("{id}/activities")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ActivityDto>>> GetActivitiesByCardId(int id)
+        {
+            var dto = await Mediator.Send(new GetActivitiesByCardIdQuery { CardId = id });
+
+            return Ok(dto);
         }
     }
 }

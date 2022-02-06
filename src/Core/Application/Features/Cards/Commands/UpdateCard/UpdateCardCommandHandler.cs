@@ -144,7 +144,8 @@ namespace Scrumboard.Application.Features.Cards.Commands.UpdateCard
                 if (oldCard.DueDate.HasValue && !updatedCard.DueDate.HasValue)
                     activities.Add(new Activity(ActivityType.Removed, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), string.Empty));
 
-                activities.Add(new Activity(ActivityType.Removed, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), updatedCard.DueDate.Value.ToShortDateString()));
+                if (oldCard.DueDate.HasValue && updatedCard.DueDate.HasValue && oldCard.DueDate.Value != updatedCard.DueDate.Value)
+                    activities.Add(new Activity(ActivityType.Updated, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), updatedCard.DueDate.Value.ToShortDateString()));
             }
 
             #endregion

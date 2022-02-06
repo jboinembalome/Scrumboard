@@ -3,7 +3,7 @@ import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@an
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
-import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap } from 'rxjs/operators';
+import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap, switchMap } from 'rxjs/operators';
 import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand, ActivityDto } from 'src/app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
@@ -141,11 +141,11 @@ export class DialogCardComponent implements OnInit, OnDestroy {
             checklists: value.checklists,
           };
 
-          // Update the card on the server
-          this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand).subscribe(response => {
-            this.card.activities = response.card.activities;
-            this.activitiesEmitter$.next(this.card.activities);
-          }, error => console.error(error));
+          // Update the card on the server and get the activities
+          this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand)
+            .pipe(
+              switchMap((response: any) => this._cardsService.apiCardsIdActivitiesGet(response.card.id)))
+            .subscribe((activities: ActivityDto[]) => this.activitiesEmitter$.next(activities));
         });
 
       this.allLabels = labels;
@@ -316,16 +316,24 @@ export class DialogCardComponent implements OnInit, OnDestroy {
 
   addComment(comment: CommentDto): void {
     this.card.comments.push(comment);
+    
+    // get the activities
+    this._cardsService.apiCardsIdActivitiesGet(this.card.id)
+      .subscribe((activities: ActivityDto[]) => this.activitiesEmitter$.next(activities));
   }
 
   updateComments(comments: CommentDto[]): void {
     this.card.comments = comments;
+
+    // get the activities
+    this._cardsService.apiCardsIdActivitiesGet(this.card.id)
+    .subscribe((activities: ActivityDto[]) => this.activitiesEmitter$.next(activities));  
   }
 
   toogleActivities(): void {
     this.showActivities = !this.showActivities;
 
-    if(this.showActivities) {
+    if (this.showActivities) {
       // call api to get all activities in the card
     }
   }

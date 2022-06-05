@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scrumboard.Infrastructure.Persistence;
 
-namespace Scrumboard.Infrastructure.Migrations
+namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ScrumboardDbContext))]
-    [Migration("20220116174700_Database_V2")]
-    partial class Database_V2
+    [Migration("20210613133539_Add_IsMember")]
+    partial class Add_IsMember
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -417,9 +417,6 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsPinned")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -497,9 +494,6 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
 
                     b.Property<bool>("Suscribed")
                         .HasColumnType("bit");
@@ -625,6 +619,9 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BoardId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -642,6 +639,8 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
 
                     b.ToTable("Labels");
                 });
@@ -671,9 +670,6 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -718,9 +714,6 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Avatar")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -733,9 +726,6 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -995,6 +985,10 @@ namespace Scrumboard.Infrastructure.Migrations
 
             modelBuilder.Entity("Scrumboard.Domain.Entities.Label", b =>
                 {
+                    b.HasOne("Scrumboard.Domain.Entities.Board", "Board")
+                        .WithMany("Labels")
+                        .HasForeignKey("BoardId");
+
                     b.OwnsOne("Scrumboard.Domain.ValueObjects.Colour", "Colour", b1 =>
                         {
                             b1.Property<int>("LabelId")
@@ -1012,6 +1006,8 @@ namespace Scrumboard.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("LabelId");
                         });
+
+                    b.Navigation("Board");
 
                     b.Navigation("Colour");
                 });
@@ -1036,6 +1032,8 @@ namespace Scrumboard.Infrastructure.Migrations
 
             modelBuilder.Entity("Scrumboard.Domain.Entities.Board", b =>
                 {
+                    b.Navigation("Labels");
+
                     b.Navigation("ListBoards");
                 });
 

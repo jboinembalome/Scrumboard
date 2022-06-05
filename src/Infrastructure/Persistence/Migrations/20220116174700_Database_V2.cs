@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Scrumboard.Infrastructure.Migrations
+namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     public partial class Database_V2 : Migration
     {

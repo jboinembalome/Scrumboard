@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scrumboard.Infrastructure.Persistence;
 
-namespace Scrumboard.Infrastructure.Migrations
+namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ScrumboardDbContext))]
     partial class ScrumboardDbContextModelSnapshot : ModelSnapshot

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Scrumboard.Infrastructure.Migrations
+namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     public partial class Update_Activity : Migration
     {

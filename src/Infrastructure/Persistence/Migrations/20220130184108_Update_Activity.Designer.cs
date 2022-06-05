@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scrumboard.Infrastructure.Persistence;
 
-namespace Scrumboard.Infrastructure.Migrations
+namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ScrumboardDbContext))]
-    [Migration("20210522133225_Add_Adherent")]
-    partial class Add_Adherent
+    [Migration("20220130184108_Update_Activity")]
+    partial class Update_Activity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace Scrumboard.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("AdherentTeam", b =>
+                {
+                    b.Property<int>("AdherentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdherentsId", "TeamsId");
+
+                    b.HasIndex("TeamsId");
+
+                    b.ToTable("AdherentTeam");
+                });
 
             modelBuilder.Entity("CardLabel", b =>
                 {
@@ -137,6 +152,21 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.HasIndex("SubjectId", "SessionId", "Type");
 
                     b.ToTable("PersistedGrants");
+                });
+
+            modelBuilder.Entity("IsMember", b =>
+                {
+                    b.Property<int>("AdherentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdherentId", "CardId");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("IsMember");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -281,6 +311,9 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("ActivityType")
+                        .HasColumnType("int");
+
                     b.Property<int?>("AdherentId")
                         .HasColumnType("int");
 
@@ -299,8 +332,10 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Message")
-                        .IsRequired()
+                    b.Property<string>("NewValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldValue")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -319,21 +354,11 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CardId")
-                        .HasColumnType("int");
-
                     b.Property<string>("IdentityId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CardId");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("Adherents");
                 });
@@ -396,6 +421,9 @@ namespace Scrumboard.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPinned")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
@@ -474,6 +502,9 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Suscribed")
                         .HasColumnType("bit");
@@ -599,9 +630,6 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BoardId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -619,8 +647,6 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BoardId");
 
                     b.ToTable("Labels");
                 });
@@ -650,6 +676,9 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -694,6 +723,9 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("Avatar")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -706,6 +738,9 @@ namespace Scrumboard.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Job")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -757,6 +792,21 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("AdherentTeam", b =>
+                {
+                    b.HasOne("Scrumboard.Domain.Entities.Adherent", null)
+                        .WithMany()
+                        .HasForeignKey("AdherentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Scrumboard.Domain.Entities.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CardLabel", b =>
                 {
                     b.HasOne("Scrumboard.Domain.Entities.Card", null)
@@ -768,6 +818,21 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.HasOne("Scrumboard.Domain.Entities.Label", null)
                         .WithMany()
                         .HasForeignKey("LabelsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IsMember", b =>
+                {
+                    b.HasOne("Scrumboard.Domain.Entities.Adherent", null)
+                        .WithMany()
+                        .HasForeignKey("AdherentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Scrumboard.Domain.Entities.Card", null)
+                        .WithMany()
+                        .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -826,27 +891,36 @@ namespace Scrumboard.Infrastructure.Migrations
             modelBuilder.Entity("Scrumboard.Domain.Entities.Activity", b =>
                 {
                     b.HasOne("Scrumboard.Domain.Entities.Adherent", "Adherent")
-                        .WithMany()
+                        .WithMany("Activities")
                         .HasForeignKey("AdherentId");
 
                     b.HasOne("Scrumboard.Domain.Entities.Card", "Card")
                         .WithMany("Activities")
                         .HasForeignKey("CardId");
 
+                    b.OwnsOne("Scrumboard.Domain.ValueObjects.ActivityField", "ActivityField", b1 =>
+                        {
+                            b1.Property<int>("ActivityId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Field")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ActivityId");
+
+                            b1.ToTable("Activities");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ActivityId");
+                        });
+
+                    b.Navigation("ActivityField");
+
                     b.Navigation("Adherent");
 
                     b.Navigation("Card");
-                });
-
-            modelBuilder.Entity("Scrumboard.Domain.Entities.Adherent", b =>
-                {
-                    b.HasOne("Scrumboard.Domain.Entities.Card", null)
-                        .WithMany("Adherents")
-                        .HasForeignKey("CardId");
-
-                    b.HasOne("Scrumboard.Domain.Entities.Team", null)
-                        .WithMany("Adherents")
-                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("Scrumboard.Domain.Entities.Attachment", b =>
@@ -861,7 +935,7 @@ namespace Scrumboard.Infrastructure.Migrations
             modelBuilder.Entity("Scrumboard.Domain.Entities.Board", b =>
                 {
                     b.HasOne("Scrumboard.Domain.Entities.Adherent", "Adherent")
-                        .WithMany()
+                        .WithMany("Boards")
                         .HasForeignKey("AdherentId");
 
                     b.HasOne("Scrumboard.Domain.Entities.BoardSetting", "BoardSetting")
@@ -932,7 +1006,7 @@ namespace Scrumboard.Infrastructure.Migrations
             modelBuilder.Entity("Scrumboard.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("Scrumboard.Domain.Entities.Adherent", "Adherent")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("AdherentId");
 
                     b.HasOne("Scrumboard.Domain.Entities.Card", "Card")
@@ -946,10 +1020,6 @@ namespace Scrumboard.Infrastructure.Migrations
 
             modelBuilder.Entity("Scrumboard.Domain.Entities.Label", b =>
                 {
-                    b.HasOne("Scrumboard.Domain.Entities.Board", "Board")
-                        .WithMany("Labels")
-                        .HasForeignKey("BoardId");
-
                     b.OwnsOne("Scrumboard.Domain.ValueObjects.Colour", "Colour", b1 =>
                         {
                             b1.Property<int>("LabelId")
@@ -968,8 +1038,6 @@ namespace Scrumboard.Infrastructure.Migrations
                                 .HasForeignKey("LabelId");
                         });
 
-                    b.Navigation("Board");
-
                     b.Navigation("Colour");
                 });
 
@@ -982,10 +1050,17 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Navigation("Board");
                 });
 
+            modelBuilder.Entity("Scrumboard.Domain.Entities.Adherent", b =>
+                {
+                    b.Navigation("Activities");
+
+                    b.Navigation("Boards");
+
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("Scrumboard.Domain.Entities.Board", b =>
                 {
-                    b.Navigation("Labels");
-
                     b.Navigation("ListBoards");
                 });
 
@@ -997,8 +1072,6 @@ namespace Scrumboard.Infrastructure.Migrations
             modelBuilder.Entity("Scrumboard.Domain.Entities.Card", b =>
                 {
                     b.Navigation("Activities");
-
-                    b.Navigation("Adherents");
 
                     b.Navigation("Attachments");
 
@@ -1019,8 +1092,6 @@ namespace Scrumboard.Infrastructure.Migrations
 
             modelBuilder.Entity("Scrumboard.Domain.Entities.Team", b =>
                 {
-                    b.Navigation("Adherents");
-
                     b.Navigation("Boards");
                 });
 #pragma warning restore 612, 618

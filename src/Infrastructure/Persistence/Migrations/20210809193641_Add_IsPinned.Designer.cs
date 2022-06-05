@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scrumboard.Infrastructure.Persistence;
 
-namespace Scrumboard.Infrastructure.Migrations
+namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ScrumboardDbContext))]
-    [Migration("20210813095621_Add_Position")]
-    partial class Add_Position
+    [Migration("20210809193641_Add_IsPinned")]
+    partial class Add_IsPinned
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -498,9 +498,6 @@ namespace Scrumboard.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Suscribed")
                         .HasColumnType("bit");
 
@@ -676,9 +673,6 @@ namespace Scrumboard.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

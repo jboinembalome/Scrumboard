@@ -32,7 +32,7 @@ namespace Scrumboard.Application.UnitTests.Behaviours
 
             await loggingBehaviour.Process(new CreateBoardCommand { UserId = _currentUserService.Object.UserId }, new CancellationToken());
 
-            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>()), Times.Once);
+            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>(), default), Times.Once);
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace Scrumboard.Application.UnitTests.Behaviours
 
             await requestLogger.Process(new CreateBoardCommand(), new CancellationToken());
 
-            _identityService.Verify(i => i.GetUserNameAsync(null), Times.Never);
+            _identityService.Verify(i => i.GetUserNameAsync(null, default), Times.Never);
         }
 
     }

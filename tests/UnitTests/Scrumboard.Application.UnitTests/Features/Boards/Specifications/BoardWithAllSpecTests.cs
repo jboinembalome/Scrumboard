@@ -26,9 +26,6 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Specifications
             // Assert
             firstBoard.Id.Should().Be(boardId1);
 
-            firstBoard.Labels.Count().Should().Be(1);
-            firstBoard.Labels.FirstOrDefault().Should().NotBeNull();
-
             firstBoard.ListBoards.Count.Should().Be(1);
             firstBoard.ListBoards.FirstOrDefault().Should().NotBeNull();
 
@@ -58,10 +55,6 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Specifications
             var board1 = new Board
             {
                 Id = boardId1,
-                Labels = new Collection<Label>
-                {
-                    new Label { Name = "Label1"}
-                },
                 ListBoards = new Collection<ListBoard>
                 {
                     new ListBoard

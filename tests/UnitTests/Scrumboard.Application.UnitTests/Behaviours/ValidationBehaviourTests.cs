@@ -40,7 +40,7 @@ namespace Scrumboard.Application.UnitTests.Behaviours
         {
             var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
             var updateBoardCommand = new UpdateBoardCommand { Name = boardName, BoardId = 1 };
-            var validationBehavior = new ValidationBehaviour<UpdateBoardCommand, MediatR.Unit>(new List<UpdateBoardCommandValidator>()
+             var validationBehavior = new ValidationBehaviour<UpdateBoardCommand, UpdateBoardCommandResponse>(new List<UpdateBoardCommandValidator>()
             {
                 new UpdateBoardCommandValidator()
             });

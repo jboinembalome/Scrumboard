@@ -4,6 +4,7 @@ using Moq;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardDetail;
+using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
@@ -20,10 +21,12 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Queries
     {
         private readonly IMapper _mapper;
         private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
+        private readonly Mock<IIdentityService> _identityService;
 
         public GetBoardDetailQueryHandlerTests()
         {
             _mockBoardRepository = RepositoryMocks.GetBoardRepository();
+            _identityService = new Mock<IIdentityService>();
             var configurationProvider = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();
@@ -36,7 +39,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Queries
         public async Task GetBoardDetailTest_ExistingBoardId_ReturnsDetailsOfBoard()
         {
             // Arrange
-            var handler = new GetBoardDetailQueryHandler(_mapper, _mockBoardRepository.Object);
+            var handler = new GetBoardDetailQueryHandler(_mapper, _mockBoardRepository.Object, _identityService.Object);
             var getBoardDetailQuery = new GetBoardDetailQuery { BoardId = 1 };
 
             // Act
@@ -60,7 +63,7 @@ namespace Scrumboard.Application.UnitTests.Features.Boards.Queries
         public async Task GetBoardDetailTest_NoExistingBoardId_ThrowsAnExceptionNotFound()
         {
             // Arrange
-            var handler = new GetBoardDetailQueryHandler(_mapper, _mockBoardRepository.Object);
+            var handler = new GetBoardDetailQueryHandler(_mapper, _mockBoardRepository.Object, _identityService.Object);
             var getBoardDetailQuery = new GetBoardDetailQuery { BoardId = 0 };
 
             // Act

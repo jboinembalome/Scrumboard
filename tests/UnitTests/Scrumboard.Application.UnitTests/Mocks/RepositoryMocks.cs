@@ -30,7 +30,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                 {
                     Id = 1,
                     Name = "Design",
-                    Colour = Colour.White
+                    Colour = Colour.Blue
                 },
                 new Label
                 {
@@ -74,7 +74,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                                     new Activity
                                     {
                                         Id = 1,
-                                        Message = @"Jimmy Boinembalome moved Add Create login page on Design",
+                                        NewValue = @"Jimmy Boinembalome moved Add Create login page on Design",
                                         Adherent = adherent1Model
                                     }
                                 },
@@ -142,7 +142,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                                     new Activity
                                     {
                                         Id = 2,
-                                        Message = @"Jimmy Boinembalome added Change background colors on Design",
+                                        NewValue = @"Jimmy Boinembalome added Change background colors on Design",
                                         Adherent = adherent1Model
                                     }
                                 }
@@ -169,7 +169,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                                     new Activity
                                     {
                                         Id = 3,
-                                        Message = @"Jimmy Boinembalome added Fix splash screen bugs on Development",
+                                        NewValue = @"Jimmy Boinembalome added Fix splash screen bugs on Development",
                                         Adherent = adherent1Model
                                     }
                                 }
@@ -196,7 +196,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                                     new Activity
                                     {
                                         Id = 4,
-                                        Message = @"Jimmy Boinembalome added Add a notification when a user adds a comment on Upcoming Features",
+                                        NewValue = @"Jimmy Boinembalome added Add a notification when a user adds a comment on Upcoming Features",
                                         Adherent = adherent1Model
                                     }
                                 }
@@ -210,7 +210,6 @@ namespace Scrumboard.Application.UnitTests.Mocks
                         Cards = new Collection<Card>{ }
                     }
                 },
-                Labels = labelsForFrontEndScrumboard
             };
             #endregion
 
@@ -221,7 +220,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                 {
                     Id = 4,
                     Name = "Log",
-                    Colour = Colour.White
+                    Colour = Colour.Blue
                 },
                 new Label
                 {
@@ -265,7 +264,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                                     new Activity
                                     {
                                         Id = 5,
-                                        Message = @"Jimmy Boinembalome added Write documentation for the naming convention on Backlog",
+                                        NewValue = @"Jimmy Boinembalome added Write documentation for the naming convention on Backlog",
                                         Adherent = adherent1Model
                                     }
                                 }
@@ -284,7 +283,7 @@ namespace Scrumboard.Application.UnitTests.Mocks
                                     new Activity
                                     {
                                         Id = 6,
-                                        Message = @"Jimmy Boinembalome added Add Serilog for logs on Backlog",
+                                        NewValue = @"Jimmy Boinembalome added Add Serilog for logs on Backlog",
                                         Adherent = adherent1Model
                                     }
                                 }
@@ -292,7 +291,6 @@ namespace Scrumboard.Application.UnitTests.Mocks
                         }
                     }
                 },
-                Labels = labelsForBackEndScrumboard
             };
             #endregion
 

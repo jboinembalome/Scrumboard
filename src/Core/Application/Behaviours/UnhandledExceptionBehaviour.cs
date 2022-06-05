@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Scrumboard.Application.Behaviours
 {
-    public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+        where TRequest : IRequest<TResponse>
     {
         private readonly IAppLogger<TRequest> _logger;
 

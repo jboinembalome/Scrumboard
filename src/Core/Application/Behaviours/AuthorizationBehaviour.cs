@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace Scrumboard.Application.Behaviours
 {
     public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IIdentityService _identityService;

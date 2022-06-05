@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Scrumboard.Application.Behaviours
 {
     public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
         private readonly Stopwatch _timer;
         private readonly IAppLogger<TRequest> _logger;

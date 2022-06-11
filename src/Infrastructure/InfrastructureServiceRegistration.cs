@@ -60,6 +60,8 @@ namespace Scrumboard.Infrastructure
             //    options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator"));
             //});
 
+            services.AddSignalR();
+
             return services;
         }
     }

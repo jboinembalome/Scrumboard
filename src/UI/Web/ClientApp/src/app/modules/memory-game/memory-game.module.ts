@@ -11,6 +11,7 @@ import { HighScoreInputComponent } from './high-score-input/high-score-input.com
 
 import { counterRoutes } from './memory-game.routing';
 import { MaterialModule } from 'src/app/shared/material/material.module';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
         CardComponent,
         ScoreComponent,
         ResultsComponent,
-        HighScoreInputComponent
+        HighScoreInputComponent,
+        ChatComponent
     ],
     imports     : [
         RouterModule.forChild(counterRoutes),

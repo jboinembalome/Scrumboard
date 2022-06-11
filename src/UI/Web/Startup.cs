@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Scrumboard.Application;
 using Scrumboard.Application.Interfaces.Common;
 using Scrumboard.Infrastructure;
+using Scrumboard.Infrastructure.Notification.Hubs;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Web.Filters;
 using Scrumboard.Web.Services;
@@ -104,6 +105,7 @@ namespace Scrumboard.Web
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
 
             app.UseSpa(spa =>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Features.Boards.Commands.DeleteBoard;
@@ -10,6 +11,7 @@ using Scrumboard.Application.Features.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Features.Boards.Queries.GetBoardsByUserId;
 using Scrumboard.Application.Features.Labels.Queries.GetLabelsByBoardId;
 using Scrumboard.Application.Interfaces.Common;
+using Scrumboard.Infrastructure.Notification.Hubs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,10 +22,12 @@ namespace Scrumboard.Web.Controllers
     public class BoardsController : ApiControllerBase
     {
         private readonly ICurrentUserService _currentUserService;
+        private readonly IHubContext<BoardHub> _boardHubContext;
 
-        public BoardsController(ICurrentUserService currentUserService)
+        public BoardsController(ICurrentUserService currentUserService, IHubContext<BoardHub> boardHubContext)
         {
             _currentUserService = currentUserService;
+            _boardHubContext = boardHubContext;
         }
 
         /// <summary>
@@ -81,6 +85,8 @@ namespace Scrumboard.Web.Controllers
                 return BadRequest();
 
             var dto = await Mediator.Send(command);
+
+            await _boardHubContext.Clients.All.SendAsync("UpdatedBoard", dto);
 
             return Ok(dto);
         }

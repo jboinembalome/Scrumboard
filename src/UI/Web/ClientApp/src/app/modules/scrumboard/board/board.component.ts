@@ -6,7 +6,9 @@ import { map, takeUntil } from 'rxjs/operators';
 import { IUser } from 'src/app/core/auth/models/user.model';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { BoardDetailDto, UpdateBoardCommand, BoardsService, ListBoardDto, CardDto, AdherentDto, UpdateTeamCommand, TeamsService, AdherentsService } from 'src/app/swagger';
+import { UpdateBoardCommandResponse } from 'src/app/swagger/model/updateBoardCommandResponse';
 import { ScrumboardService } from '../scrumboard.service';
+import { SignalrService } from '../signalr.service';
 
 @Component({
   selector: 'scrumboard-board',
@@ -37,7 +39,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     private _boardsService: BoardsService,
     private _teamsService: TeamsService,
     private _adherentsService: AdherentsService,
-    private _authService: AuthService) {
+    private _authService: AuthService,
+    private _signalrService: SignalrService) {
   }
 
   ngOnInit(): void {
@@ -58,6 +61,22 @@ export class BoardComponent implements OnInit, OnDestroy {
     // Get all the adherents
     this.allAdherents = this._adherentsService.apiAdherentsGet()
       .pipe(map(a => a.filter(a => a.id !== this.board.adherent.id)));
+
+    // Init signalr the connection
+    this._signalrService.initiateSignalrConnection();
+
+    // Subscribe to the board update
+    this._signalrService.hubUpdatedBoard
+      .subscribe((updateBoard: UpdateBoardCommandResponse) => {
+        if (updateBoard) {
+          this.board.listBoards = updateBoard.listBoards;
+
+          // Sort the board lists
+          this.board.listBoards.sort((a, b) => a.position - b.position);
+          // Sort the cards
+          this.board.listBoards.forEach(listboard => listboard.cards.sort((a, b) => a.position - b.position));
+        }
+      });
   }
 
   ngOnDestroy() {

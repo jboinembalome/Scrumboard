@@ -106,6 +106,7 @@ namespace Scrumboard.Web
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<BoardHub>("/boardHub");
             });
 
             app.UseSpa(spa =>

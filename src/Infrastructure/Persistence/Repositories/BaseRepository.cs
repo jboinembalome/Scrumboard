@@ -45,7 +45,7 @@ namespace Scrumboard.Infrastructure.Persistence.Repositories
 
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
-            await _dbContext.Set<T>().AddAsync(entity, cancellationToken);
+            _dbContext.Set<T>().Add(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return entity;

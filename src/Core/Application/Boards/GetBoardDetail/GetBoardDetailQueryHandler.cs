@@ -4,14 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Boards;
 
-namespace Scrumboard.Application.Boards.Queries.GetBoardDetail;
+namespace Scrumboard.Application.Boards.GetBoardDetail;
 
 public class GetBoardDetailQueryHandler : IRequestHandler<GetBoardDetailQuery, BoardDetailDto>
 {

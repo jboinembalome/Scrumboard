@@ -6,7 +6,7 @@ using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Boards;
 
-namespace Scrumboard.Application.Boards.Commands.DeleteBoard;
+namespace Scrumboard.Application.Boards.DeleteBoard;
 
 public class DeleteBoardHandler : IRequestHandler<DeleteBoardCommand>
 {

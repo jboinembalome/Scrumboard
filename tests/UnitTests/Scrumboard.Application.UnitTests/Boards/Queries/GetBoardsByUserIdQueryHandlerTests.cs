@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using Moq;
-using Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
+using Scrumboard.Application.Boards.GetBoardsByUserId;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;

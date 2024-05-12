@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Scrumboard.Application.Boards.Commands.DeleteBoard;
+namespace Scrumboard.Application.Boards.DeleteBoard;
 
 public class DeleteBoardCommand : IRequest
 {

@@ -5,7 +5,7 @@ using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using Moq;
-using Scrumboard.Application.Boards.Commands.DeleteBoard;
+using Scrumboard.Application.Boards.DeleteBoard;
 using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Application.Profiles;

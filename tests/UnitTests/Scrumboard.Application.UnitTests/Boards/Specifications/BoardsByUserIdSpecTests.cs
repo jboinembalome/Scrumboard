@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Scrumboard.Application.Boards.Specifications;
+using Scrumboard.Application.Boards.GetBoardsByUserId;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Entities;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards.Specifications;

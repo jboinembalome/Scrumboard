@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Scrumboard.Application.Boards.Commands.CreateBoard;
+namespace Scrumboard.Application.Boards.CreateBoard;
 
 public class CreateBoardCommand : IRequest<CreateBoardCommandResponse>
 {

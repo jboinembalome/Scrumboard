@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using Moq;
-using Scrumboard.Application.Boards.Queries.GetBoardDetail;
+using Scrumboard.Application.Boards.GetBoardDetail;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Interfaces.Identity;

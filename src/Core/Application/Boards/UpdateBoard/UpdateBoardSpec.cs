@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Boards;
 
-namespace Scrumboard.Application.Boards.Specifications;
+namespace Scrumboard.Application.Boards.UpdateBoard;
 
 public class UpdateBoardSpec : Specification<Board>, ISingleResultSpecification
 {

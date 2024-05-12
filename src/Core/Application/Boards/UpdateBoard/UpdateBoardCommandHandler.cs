@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Boards.Specifications;
+using Scrumboard.Application.Boards.UpdateBoard;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Exceptions;
 using Scrumboard.Application.Interfaces.Persistence;

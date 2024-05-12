@@ -2,7 +2,7 @@
 using MediatR;
 using Scrumboard.Application.Dto;
 
-namespace Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
+namespace Scrumboard.Application.Boards.GetBoardsByUserId;
 
 public class GetBoardsByUserIdQuery : IRequest<IEnumerable<BoardDto>>
 {

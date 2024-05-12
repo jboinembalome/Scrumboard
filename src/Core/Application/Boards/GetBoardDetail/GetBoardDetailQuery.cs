@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Scrumboard.Application.Dto;
 
-namespace Scrumboard.Application.Boards.Queries.GetBoardDetail;
+namespace Scrumboard.Application.Boards.GetBoardDetail;
 
 public class GetBoardDetailQuery : IRequest<BoardDetailDto>
 {

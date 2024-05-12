@@ -3,12 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Boards;
 
-namespace Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
+namespace Scrumboard.Application.Boards.GetBoardsByUserId;
 
 public class GetBoardsByUserIdQueryHandler : IRequestHandler<GetBoardsByUserIdQuery, IEnumerable<BoardDto>>
 {

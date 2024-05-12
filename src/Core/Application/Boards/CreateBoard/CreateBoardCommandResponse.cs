@@ -1,7 +1,7 @@
 ﻿using Scrumboard.Application.Dto;
 using Scrumboard.Application.Responses;
 
-namespace Scrumboard.Application.Boards.Commands.CreateBoard;
+namespace Scrumboard.Application.Boards.CreateBoard;
 
 public class CreateBoardCommandResponse : BaseResponse
 {

@@ -3,9 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Scrumboard.Application.Boards.CreateBoard;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Features.Adherents.Specifications;
 using Scrumboard.Application.Interfaces.Persistence;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Entities;
 

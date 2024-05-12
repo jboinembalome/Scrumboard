@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Scrumboard.Domain.Interfaces;
+using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ValueObjects;
 
 namespace Scrumboard.Domain.Boards;

@@ -1,8 +1,11 @@
-﻿using Scrumboard.Domain.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Common;
+using Scrumboard.Domain.Entities;
 
-namespace Scrumboard.Domain.Entities;
+namespace Scrumboard.Domain.Adherents;
 
 public class Adherent: IEntity<int>
 {

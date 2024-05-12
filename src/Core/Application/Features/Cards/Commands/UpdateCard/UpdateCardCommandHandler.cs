@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Application.Features.Cards.Commands.UpdateCard
 {

@@ -1,11 +1,11 @@
 ﻿using Moq;
 using Scrumboard.Application.Behaviours;
-using Scrumboard.Application.Features.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Interfaces.Common;
 using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Application.Interfaces.Logging;
 using System.Threading;
 using System.Threading.Tasks;
+using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Behaviours

@@ -1,6 +1,7 @@
 ﻿using Scrumboard.Domain.Common;
 using Scrumboard.Domain.Interfaces;
 using System.Collections.Generic;
+using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Domain.Entities
 {

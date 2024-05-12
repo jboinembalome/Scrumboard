@@ -2,7 +2,6 @@
 using MediatR;
 using Scrumboard.Application.Dto;
 using Scrumboard.Application.Exceptions;
-using Scrumboard.Application.Features.Boards.Specifications;
 using Scrumboard.Application.Features.Cards.Specifications;
 using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Application.Interfaces.Persistence;

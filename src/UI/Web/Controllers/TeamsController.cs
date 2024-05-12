@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
-using Scrumboard.Application.Features.Adherents.Queries.GetAdherentsByTeamId;
-using Scrumboard.Application.Features.Teams.Commands.UpdateTeam;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Scrumboard.Application.Adherents.GetAdherentsByTeamId;
+using Scrumboard.Application.Teams.UpdateTeam;
 
 namespace Scrumboard.Web.Controllers
 {

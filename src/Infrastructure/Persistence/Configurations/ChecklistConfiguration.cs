@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Infrastructure.Persistence.Configurations

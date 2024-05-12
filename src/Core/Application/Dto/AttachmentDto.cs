@@ -1,4 +1,4 @@
-﻿using Scrumboard.Domain.Enums;
+﻿using Scrumboard.Domain.Cards.Attachments;
 
 namespace Scrumboard.Application.Dto
 {

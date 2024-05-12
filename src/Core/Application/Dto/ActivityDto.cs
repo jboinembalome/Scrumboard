@@ -1,6 +1,4 @@
-﻿
-using Scrumboard.Domain.Enums;
-using System;
+﻿using System;
 
 namespace Scrumboard.Application.Dto
 {

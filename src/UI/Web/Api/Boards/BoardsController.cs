@@ -10,8 +10,8 @@ using Scrumboard.Application.Boards.DeleteBoard;
 using Scrumboard.Application.Boards.GetBoardDetail;
 using Scrumboard.Application.Boards.GetBoardsByUserId;
 using Scrumboard.Application.Dto;
-using Scrumboard.Application.Features.Labels.Queries.GetLabelsByBoardId;
 using Scrumboard.Application.Interfaces.Common;
+using Scrumboard.Application.Labels.GetLabelsByBoardId;
 using Scrumboard.Web.Controllers;
 
 namespace Scrumboard.Web.Api.Boards;

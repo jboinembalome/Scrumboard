@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.Domain.Entities;
 using System.Collections.Generic;
+using Scrumboard.Domain.Adherents;
+using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Configurations
 {

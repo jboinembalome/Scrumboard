@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Dto;
-using Scrumboard.Application.Extensions;
-using Scrumboard.Application.Features.Cards.Commands.CreateCard;
-using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
-using Scrumboard.Application.Features.Comments.Commands.CreateComment;
-using Scrumboard.Application.Features.Comments.Commands.UpdateComment;
-using Scrumboard.Application.Features.Teams.Commands.UpdateTeam;
 using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
@@ -14,7 +8,19 @@ using System.Linq;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Boards.Commands.UpdatePinnedBoard;
+using Scrumboard.Application.Boards.CreateBoard;
+using Scrumboard.Application.Cards.CreateCard;
+using Scrumboard.Application.Cards.UpdateCard;
+using Scrumboard.Application.Comments.CreateComment;
+using Scrumboard.Application.Comments.UpdateComment;
+using Scrumboard.Application.Teams.UpdateTeam;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Cards.Attachments;
+using Scrumboard.Domain.Cards.Checklists;
+using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Application.Profiles
 {
@@ -39,7 +45,7 @@ namespace Scrumboard.Application.Profiles
                 .ForMember(d => d.HasAvatar, opt => opt.MapFrom(c => c.Avatar.Any()));
 
             CreateMap<Board, BoardDto>()
-                .ForMember(d => d.Initials, opt => opt.MapFrom(c => GetInitials(c.Name)))
+                .ForMember(d => d.Initials, opt => opt.MapFrom(c => GetInitials(c)))
                 .ForMember(d => d.LastActivity, opt => opt.MapFrom(c => c.LastModifiedDate))
                 .ForMember(d => d.Members, opt => opt.MapFrom(c => c.Team.Adherents.Count));
             CreateMap<Board, CreateBoardCommand>()
@@ -120,11 +126,13 @@ namespace Scrumboard.Application.Profiles
         }
 
         // Gets only the first two characters of the initials.
-        private string GetInitials(string name)
+        private static string GetInitials(Board board)
         {
-            var initials = name.GetInitials();
+            var initials = board.GetInitials();
 
-            return !string.IsNullOrEmpty(initials) && initials.Length <= 2 ? initials : initials.Substring(0, 2);
+            return !string.IsNullOrEmpty(initials) && initials.Length <= 2 
+                ? initials 
+                : initials.Substring(0, 2);
         }
     }
 }

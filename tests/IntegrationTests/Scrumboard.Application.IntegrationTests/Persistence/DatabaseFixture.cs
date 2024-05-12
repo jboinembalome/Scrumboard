@@ -10,6 +10,7 @@ using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Persistence.Repositories;
 using System;
 using System.Threading.Tasks;
+using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Application.IntegrationTests.Persistence;
 
@@ -31,7 +32,7 @@ public class DatabaseFixture : IDisposable
         _mockDateTime.Setup(m => m.Now).Returns(DateTime.Now);          
     }  
 
-    public IAsyncRepository<T, TId> GetRepository<T, TId>(bool inMemoryDatabase = false) where T : class, Domain.Interfaces.IEntity<TId>
+    public IAsyncRepository<T, TId> GetRepository<T, TId>(bool inMemoryDatabase = false) where T : class, IEntity<TId>
     {      
         if (DbContext == null)
             SetDbContext(inMemoryDatabase);

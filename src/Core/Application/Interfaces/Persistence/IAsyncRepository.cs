@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Scrumboard.Application.Interfaces.Persistence
 {
-    public interface IAsyncRepository<T, TId> where T : class, Domain.Interfaces.IEntity<TId>
+    public interface IAsyncRepository<T, TId> where T : class, Domain.Common.IEntity<TId>
     {
         Task<T> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
         Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken = default);

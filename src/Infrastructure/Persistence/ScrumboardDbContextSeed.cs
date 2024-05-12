@@ -1,14 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Entities;
-using Scrumboard.Domain.Enums;
 using Scrumboard.Domain.ValueObjects;
 using Scrumboard.Infrastructure.Identity;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Cards.Attachments;
+using Scrumboard.Domain.Cards.Checklists;
+using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
@@ -153,13 +158,13 @@ public static class ScrumboardDbContextSeed
                     {
                         Name = "Image.png",
                         Url = "urlOfimage",
-                        AttachmentType = Domain.Enums.AttachmentType.Image
+                        AttachmentType = AttachmentType.Image
                     },
                     new Attachment
                     {
                         Name = "Image2.png",
                         Url = "urlOfimage2",
-                        AttachmentType = Domain.Enums.AttachmentType.Image
+                        AttachmentType = AttachmentType.Image
                     },
                 },
                 Checklists = new Collection<Checklist>

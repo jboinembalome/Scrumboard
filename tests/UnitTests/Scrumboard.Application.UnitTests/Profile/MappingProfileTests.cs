@@ -4,7 +4,7 @@ using Scrumboard.Application.Dto;
 using Scrumboard.Application.Profiles;
 using System;
 using System.Runtime.Serialization;
-using Scrumboard.Application.Boards.Commands.CreateBoard;
+using Scrumboard.Application.Boards.CreateBoard;
 using Scrumboard.Domain.Boards;
 using Xunit;
 

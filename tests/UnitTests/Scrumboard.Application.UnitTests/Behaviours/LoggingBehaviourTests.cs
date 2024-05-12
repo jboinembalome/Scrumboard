@@ -5,7 +5,7 @@ using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Application.Interfaces.Logging;
 using System.Threading;
 using System.Threading.Tasks;
-using Scrumboard.Application.Boards.Commands.CreateBoard;
+using Scrumboard.Application.Boards.CreateBoard;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Behaviours

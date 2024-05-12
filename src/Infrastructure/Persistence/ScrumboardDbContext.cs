@@ -9,7 +9,13 @@ using Scrumboard.Infrastructure.Identity;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Cards.Attachments;
+using Scrumboard.Domain.Cards.Checklists;
+using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Infrastructure.Persistence;
 

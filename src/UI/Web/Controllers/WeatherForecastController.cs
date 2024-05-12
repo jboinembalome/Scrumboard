@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Features.WeathForecasts.Queries.GetWeatherForecasts;
 using Scrumboard.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Scrumboard.Application.WeatherForecasts.GetWeatherForecasts;
 
 namespace Scrumboard.Web.Controllers
 {

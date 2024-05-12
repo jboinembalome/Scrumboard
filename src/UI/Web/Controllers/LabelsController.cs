@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Features.Labels.Commands.DeleteLabel;
 using System.Threading.Tasks;
+using Scrumboard.Application.Labels.DeleteLabel;
 
 namespace Scrumboard.Web.Controllers
 {

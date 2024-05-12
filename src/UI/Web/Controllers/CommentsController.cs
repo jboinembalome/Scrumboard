@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Features.Comments.Commands.CreateComment;
-using Scrumboard.Application.Features.Comments.Commands.DeleteComment;
-using Scrumboard.Application.Features.Comments.Commands.UpdateComment;
 using System.Threading.Tasks;
+using Scrumboard.Application.Comments.CreateComment;
+using Scrumboard.Application.Comments.DeleteComment;
+using Scrumboard.Application.Comments.UpdateComment;
 
 namespace Scrumboard.Web.Controllers;
 

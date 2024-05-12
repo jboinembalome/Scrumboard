@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
-using Scrumboard.Application.Features.Adherents.Queries.GetAdherents;
-using Scrumboard.Application.Features.Adherents.Queries.GetAvatarByIdentityId;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Scrumboard.Application.Adherents.GetAdherents;
+using Scrumboard.Application.Adherents.GetAvatarByIdentityId;
 
 namespace Scrumboard.Web.Controllers
 {

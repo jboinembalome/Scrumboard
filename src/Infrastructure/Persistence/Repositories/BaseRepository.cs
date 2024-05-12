@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Scrumboard.Infrastructure.Persistence.Repositories
 {
-    public class BaseRepository<T, TId> : IAsyncRepository<T,TId> where T : class, Domain.Interfaces.IEntity<TId>
+    public class BaseRepository<T, TId> : IAsyncRepository<T,TId> where T : class, Domain.Common.IEntity<TId>
     {
         protected readonly ScrumboardDbContext _dbContext;
         private readonly ISpecificationEvaluator _specificationEvaluator;

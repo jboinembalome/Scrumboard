@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
-using Scrumboard.Application.Features.Activities.Queries.GetActivitiesByCardId;
-using Scrumboard.Application.Features.Cards.Commands.CreateCard;
-using Scrumboard.Application.Features.Cards.Commands.DeleteCard;
-using Scrumboard.Application.Features.Cards.Commands.UpdateCard;
-using Scrumboard.Application.Features.Cards.Queries.GetCardDetail;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Scrumboard.Application.Activities.GetActivitiesByCardId;
+using Scrumboard.Application.Cards.CreateCard;
+using Scrumboard.Application.Cards.DeleteCard;
+using Scrumboard.Application.Cards.GetCardDetail;
+using Scrumboard.Application.Cards.UpdateCard;
 
 namespace Scrumboard.Web.Controllers
 {

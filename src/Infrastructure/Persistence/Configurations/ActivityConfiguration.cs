@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Cards.Activities;
 
 namespace Scrumboard.Infrastructure.Persistence.Configurations
 {

@@ -8,7 +8,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Cards.Attachments;
+using Scrumboard.Domain.Cards.Checklists;
+using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Application.UnitTests.Mocks;
 
@@ -91,14 +97,14 @@ public class RepositoryMocks
                                     Id = 1,
                                     Name = "Image.png",
                                     Url = "urlOfimage",
-                                    AttachmentType = Domain.Enums.AttachmentType.Image
+                                    AttachmentType = AttachmentType.Image
                                 },
                                 new Attachment
                                 {
                                     Id = 2,
                                     Name = "Image2.png",
                                     Url = "urlOfimage2",
-                                    AttachmentType = Domain.Enums.AttachmentType.Image
+                                    AttachmentType = AttachmentType.Image
                                 },
                             },
                             Checklists = new Collection<Checklist>

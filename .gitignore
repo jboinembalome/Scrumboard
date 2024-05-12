@@ -362,3 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /tests/UnitTests/Test report
+
+.idea/.idea.Scrumboard/.idea/projectSettingsUpdater.xml
+
+.idea/.idea.Scrumboard/.idea/workspace.xml

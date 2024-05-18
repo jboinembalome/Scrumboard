@@ -8,7 +8,7 @@ using Moq;
 using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Application.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Application.Profiles;
+using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Identity;

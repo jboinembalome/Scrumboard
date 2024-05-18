@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using Scrumboard.Application.Profiles;
 using System;
 using System.Runtime.Serialization;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Dtos;
+using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Domain.Boards;
 using Xunit;
 

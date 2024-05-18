@@ -7,7 +7,7 @@ using MediatR;
 using Moq;
 using Scrumboard.Application.Boards.Commands.DeleteBoard;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Application.Profiles;
+using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;

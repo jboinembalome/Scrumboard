@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using Moq;
-using Scrumboard.Application.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Threading.Tasks;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Common.Behaviours;
 using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Xunit;

@@ -4,7 +4,7 @@ using AutoMapper;
 using FluentAssertions;
 using Moq;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
-using Scrumboard.Application.Profiles;
+using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;

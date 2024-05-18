@@ -20,7 +20,11 @@ internal sealed class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamComma
     private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
 
-    public UpdateTeamCommandHandler(IMapper mapper, IAsyncRepository<Team, int> teamRepository, ICurrentUserService currentUserService, IIdentityService identityService)
+    public UpdateTeamCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Team, int> teamRepository, 
+        ICurrentUserService currentUserService, 
+        IIdentityService identityService)
     {
         _mapper = mapper;
         _teamRepository = teamRepository;
@@ -28,7 +32,9 @@ internal sealed class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamComma
         _identityService = identityService;
     }
 
-    public async Task<UpdateTeamCommandResponse> Handle(UpdateTeamCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateTeamCommandResponse> Handle(
+        UpdateTeamCommand request, 
+        CancellationToken cancellationToken)
     {
         var updateTeamCommandResponse = new UpdateTeamCommandResponse();
 

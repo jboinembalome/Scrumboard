@@ -47,7 +47,9 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
         _currentUserService = currentUserService;
     }
 
-    public async Task<UpdateCardCommandResponse> Handle(UpdateCardCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateCardCommandResponse> Handle(
+        UpdateCardCommand request, 
+        CancellationToken cancellationToken)
     {
         var updateCardCommandResponse = new UpdateCardCommandResponse();
 

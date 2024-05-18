@@ -29,14 +29,18 @@ internal sealed class IdentityService : IIdentityService
         _authorizationService = authorizationService;
     }
 
-    public async Task<IUser> GetUserAsync(string userId, CancellationToken cancellationToken = default)
+    public async Task<IUser> GetUserAsync(
+        string userId, 
+        CancellationToken cancellationToken = default)
     {
         var user = await _userManager.Users.FirstAsync(u => u.Id == userId, cancellationToken);
 
         return user;
     }
 
-    public async Task<string> GetUserNameAsync(string userId, CancellationToken cancellationToken = default)
+    public async Task<string> GetUserNameAsync(
+        string userId, 
+        CancellationToken cancellationToken = default)
     {
         var user = await _userManager.Users.FirstAsync(u => u.Id == userId, cancellationToken);
 
@@ -57,7 +61,9 @@ internal sealed class IdentityService : IIdentityService
         return (IList<IUser>)users;
     }
 
-    public async Task<IReadOnlyList<IUser>> GetListAsync(IEnumerable<string> userIds, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<IUser>> GetListAsync(
+        IEnumerable<string> userIds, 
+        CancellationToken cancellationToken = default)
     {
         var users = await _userManager.Users.Where(u => userIds.Contains(u.Id)).ToListAsync(cancellationToken);
 

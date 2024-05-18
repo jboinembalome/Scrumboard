@@ -33,24 +33,25 @@ internal sealed class GetActivitiesByCardIdQueryHandler : IRequestHandler<GetAct
         _identityService = identityService;
     }
 
-    public async Task<IEnumerable<ActivityDto>> Handle(GetActivitiesByCardIdQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ActivityDto>> Handle(
+        GetActivitiesByCardIdQuery request, 
+        CancellationToken cancellationToken)
     {
         var specification = new AllActivitiesInCardSpec(request.CardId);
         var activities = await _activityRepository.ListAsync(specification, cancellationToken);
         var activityDtos = _mapper.Map<IEnumerable<ActivityDto>>(activities);
 
-        if (activities.Any())
-        {
-            var users = await _identityService.GetListAsync(activities.Select(a => a.Adherent.IdentityId), cancellationToken);
-            var adherentDtos = activityDtos.Select(c => c.Adherent).ToList();
+        if (!activities.Any()) return activityDtos;
+        
+        var users = await _identityService.GetListAsync(activities.Select(a => a.Adherent.IdentityId), cancellationToken);
+        var adherentDtos = activityDtos.Select(c => c.Adherent).ToList();
 
-            MapUsers(users, adherentDtos);
-        }
+        MapUsers(users, adherentDtos);
 
         return activityDtos;
     }
 
-    public void MapUsers(IEnumerable<IUser> users, IEnumerable<AdherentDto> adherents)
+    private void MapUsers(IEnumerable<IUser> users, IEnumerable<AdherentDto> adherents)
     {
         foreach (var adherent in adherents)
         {

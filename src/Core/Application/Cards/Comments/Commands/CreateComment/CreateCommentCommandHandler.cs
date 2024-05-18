@@ -24,7 +24,13 @@ internal sealed class CreateCommentCommandHandler : IRequestHandler<CreateCommen
     private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
 
-    public CreateCommentCommandHandler(IMapper mapper, IAsyncRepository<Comment, int> commentRepository, IAsyncRepository<Card, int> cardRepository, IAsyncRepository<Adherent, int> adherentRepository, ICurrentUserService currentUserService, IIdentityService identityService)
+    public CreateCommentCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Comment, int> commentRepository, 
+        IAsyncRepository<Card, int> cardRepository, 
+        IAsyncRepository<Adherent, int> adherentRepository, 
+        ICurrentUserService currentUserService, 
+        IIdentityService identityService)
     {
         _mapper = mapper;
         _commentRepository = commentRepository;
@@ -34,14 +40,16 @@ internal sealed class CreateCommentCommandHandler : IRequestHandler<CreateCommen
         _identityService = identityService;
     }
 
-    public async Task<CreateCommentCommandResponse> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
+    public async Task<CreateCommentCommandResponse> Handle(
+        CreateCommentCommand request, 
+        CancellationToken cancellationToken)
     {
         var createCommentCommandResponse = new CreateCommentCommandResponse();
 
         var cardSpecification = new CardWithActivitiesSpec(request.CardId);
         var card = await _cardRepository.FirstOrDefaultAsync(cardSpecification, cancellationToken);
 
-        if (card == null)
+        if (card is null)
             throw new NotFoundException(nameof(Card), request.CardId);
 
         var specification = new AdherentByUserIdSpec(_currentUserService.UserId);

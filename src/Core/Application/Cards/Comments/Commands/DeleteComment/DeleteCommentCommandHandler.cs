@@ -18,7 +18,11 @@ internal sealed class DeleteCommentCommandHandler : IRequestHandler<DeleteCommen
     private readonly ICurrentUserService _currentUserService;
     private readonly IMapper _mapper;
 
-    public DeleteCommentCommandHandler(IMapper mapper, IAsyncRepository<Comment, int> commentRepository, IAsyncRepository<Card, int> cardRepository, ICurrentUserService currentUserService)
+    public DeleteCommentCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Comment, int> commentRepository, 
+        IAsyncRepository<Card, int> cardRepository, 
+        ICurrentUserService currentUserService)
     {
         _mapper = mapper;
         _commentRepository = commentRepository;
@@ -26,7 +30,9 @@ internal sealed class DeleteCommentCommandHandler : IRequestHandler<DeleteCommen
         _currentUserService = currentUserService;
     }
 
-    public async Task<Unit> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(
+        DeleteCommentCommand request, 
+        CancellationToken cancellationToken)
     {
         var specification = new CommentWithAdherentAndCardSpec(request.CommentId);
         var commentToDelete = await _commentRepository.FirstOrDefaultAsync(specification, cancellationToken);

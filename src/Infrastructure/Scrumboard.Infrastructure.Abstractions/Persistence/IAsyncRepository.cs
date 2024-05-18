@@ -12,5 +12,5 @@ public interface IAsyncRepository<T, TId> where T : class, Domain.Common.IEntity
     Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
     Task<int> CountAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
     Task<T> FirstAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
-    Task<T> FirstOrDefaultAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
+    Task<T?> FirstOrDefaultAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
 }

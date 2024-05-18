@@ -18,21 +18,27 @@ internal sealed class CreateBoardCommandHandler : IRequestHandler<CreateBoardCom
     private readonly IAsyncRepository<Adherent, int> _adherentRepository;
     private readonly IMapper _mapper;
 
-    public CreateBoardCommandHandler(IMapper mapper, IAsyncRepository<Board, int> boardRepository, IAsyncRepository<Adherent, int> adherentRepository)
+    public CreateBoardCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Board, int> boardRepository, 
+        IAsyncRepository<Adherent, int> adherentRepository)
     {
         _mapper = mapper;
         _boardRepository = boardRepository;
         _adherentRepository = adherentRepository;
     }
 
-    public async Task<CreateBoardCommandResponse> Handle(CreateBoardCommand request, CancellationToken cancellationToken)
+    public async Task<CreateBoardCommandResponse> Handle(
+        CreateBoardCommand request, 
+        CancellationToken cancellationToken)
     {
         var createBoardCommandResponse = new CreateBoardCommandResponse();
 
         var specification = new AdherentByUserIdSpec(request.UserId);
         var adherent = await _adherentRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
-        if (adherent == null)
+        // TODO: Investigate
+        if (adherent is null)
             await _adherentRepository.AddAsync(adherent, cancellationToken);
 
         var board = _mapper.Map<Board>(request);

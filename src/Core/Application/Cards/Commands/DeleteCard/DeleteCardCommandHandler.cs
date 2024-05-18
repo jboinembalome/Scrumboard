@@ -13,13 +13,17 @@ internal sealed class DeleteCardCommandHandler : IRequestHandler<DeleteCardComma
     private readonly IAsyncRepository<Card, int> _cardRepository;
     private readonly IMapper _mapper;
 
-    public DeleteCardCommandHandler(IMapper mapper, IAsyncRepository<Card, int> cardRepository)
+    public DeleteCardCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Card, int> cardRepository)
     {
         _mapper = mapper;
         _cardRepository = cardRepository;
     }
 
-    public async Task<Unit> Handle(DeleteCardCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(
+        DeleteCardCommand request, 
+        CancellationToken cancellationToken)
     {
         var cardToDelete = await _cardRepository.GetByIdAsync(request.CardId, cancellationToken);
 

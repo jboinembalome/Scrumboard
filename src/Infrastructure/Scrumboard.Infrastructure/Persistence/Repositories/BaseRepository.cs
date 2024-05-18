@@ -9,7 +9,8 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Infrastructure.Persistence.Repositories;
 
-internal class BaseRepository<T, TId> : IAsyncRepository<T, TId> where T : class, Domain.Common.IEntity<TId>
+internal class BaseRepository<T, TId> 
+    : IAsyncRepository<T, TId> where T : class, Domain.Common.IEntity<TId>
 {
     private readonly ScrumboardDbContext _dbContext;
     private readonly ISpecificationEvaluator _specificationEvaluator;
@@ -30,14 +31,18 @@ internal class BaseRepository<T, TId> : IAsyncRepository<T, TId> where T : class
     public async Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken = default) 
         => await _dbContext.Set<T>().ToListAsync(cancellationToken);
 
-    public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<T>> ListAsync(
+        ISpecification<T> spec, 
+        CancellationToken cancellationToken = default)
     {
         var specificationResult = ApplySpecification(spec);
         
         return await specificationResult.ToListAsync(cancellationToken);
     }
 
-    public async Task<int> CountAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
+    public async Task<int> CountAsync(
+        ISpecification<T> spec, 
+        CancellationToken cancellationToken = default)
     {
         var specificationResult = ApplySpecification(spec);
         
@@ -67,14 +72,18 @@ internal class BaseRepository<T, TId> : IAsyncRepository<T, TId> where T : class
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<T> FirstAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
+    public async Task<T> FirstAsync(
+        ISpecification<T> spec, 
+        CancellationToken cancellationToken = default)
     {
         var specificationResult = ApplySpecification(spec);
         
         return await specificationResult.FirstAsync(cancellationToken);
     }
 
-    public async Task<T> FirstOrDefaultAsync(ISpecification<T> spec, CancellationToken cancellationToken = default)
+    public async Task<T> FirstOrDefaultAsync(
+        ISpecification<T> spec, 
+        CancellationToken cancellationToken = default)
     {
         var specificationResult = ApplySpecification(spec);
         

@@ -17,7 +17,9 @@ internal sealed class DeleteLabelCommandHandler : IRequestHandler<DeleteLabelCom
         _labelRepository = labelRepository;
     }
 
-    public async Task<Unit> Handle(DeleteLabelCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(
+        DeleteLabelCommand request, 
+        CancellationToken cancellationToken)
     {
         var labelToDelete = await _labelRepository.GetByIdAsync(request.LabelId, cancellationToken);
 

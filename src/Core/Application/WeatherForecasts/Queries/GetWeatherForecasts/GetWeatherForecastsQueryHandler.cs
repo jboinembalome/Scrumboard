@@ -15,7 +15,9 @@ internal sealed class GetWeatherForecastsQueryHandler : IRequestHandler<GetWeath
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    public Task<IEnumerable<WeatherForecast>> Handle(GetWeatherForecastsQuery request, CancellationToken cancellationToken)
+    public Task<IEnumerable<WeatherForecast>> Handle(
+        GetWeatherForecastsQuery request, 
+        CancellationToken cancellationToken)
     {
         var random = new Random();
 

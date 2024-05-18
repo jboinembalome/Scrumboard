@@ -17,25 +17,31 @@ internal sealed class CreateCardCommandHandler : IRequestHandler<CreateCardComma
     private readonly IAsyncRepository<ListBoard, int> _listBoardRepository;
     private readonly IMapper _mapper;
 
-    public CreateCardCommandHandler(IMapper mapper, IAsyncRepository<Card, int> cardRepository, IAsyncRepository<ListBoard, int> listBoardRepository)
+    public CreateCardCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Card, int> cardRepository, 
+        IAsyncRepository<ListBoard, int> listBoardRepository)
     {
         _mapper = mapper;
         _cardRepository = cardRepository;
         _listBoardRepository = listBoardRepository;
     }
 
-    public async Task<CreateCardCommandResponse> Handle(CreateCardCommand request, CancellationToken cancellationToken)
+    public async Task<CreateCardCommandResponse> Handle(
+        CreateCardCommand request, 
+        CancellationToken cancellationToken)
     {
         var createCardCommandResponse = new CreateCardCommandResponse();
 
         var specification = new ListBoardWithCardsSpec(request.ListBoardId);
         var listBoard = await _listBoardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
-        if (listBoard == null)
+        if (listBoard is null)
             throw new NotFoundException(nameof(ListBoard), request.ListBoardId);
 
         var card = _mapper.Map<Card>(request);
         card.ListBoard = listBoard;
+        
         card = await _cardRepository.AddAsync(card, cancellationToken);
 
         createCardCommandResponse.Card = _mapper.Map<CardDetailDto>(card);

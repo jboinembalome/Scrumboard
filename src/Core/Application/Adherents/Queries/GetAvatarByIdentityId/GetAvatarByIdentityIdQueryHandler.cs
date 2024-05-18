@@ -14,7 +14,9 @@ internal sealed class GetAvatarByIdentityIdQueryHandler : IRequestHandler<GetAva
         _identityService = identityService;
     }
 
-    public async Task<byte[]> Handle(GetAvatarByIdentityIdQuery request, CancellationToken cancellationToken)
+    public async Task<byte[]> Handle(
+        GetAvatarByIdentityIdQuery request, 
+        CancellationToken cancellationToken)
     {
         var user = await _identityService.GetUserAsync(request.IdentityId, cancellationToken);
 

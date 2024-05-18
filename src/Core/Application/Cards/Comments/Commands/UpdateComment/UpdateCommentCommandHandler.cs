@@ -18,7 +18,11 @@ internal sealed class UpdateCommentCommandHandler : IRequestHandler<UpdateCommen
     private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
 
-    public UpdateCommentCommandHandler(IMapper mapper, IAsyncRepository<Comment, int> commentRepository, ICurrentUserService currentUserService, IIdentityService identityService)
+    public UpdateCommentCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Comment, int> commentRepository, 
+        ICurrentUserService currentUserService, 
+        IIdentityService identityService)
     {
         _mapper = mapper;
         _commentRepository = commentRepository;
@@ -26,7 +30,9 @@ internal sealed class UpdateCommentCommandHandler : IRequestHandler<UpdateCommen
         _identityService = identityService;
     }
 
-    public async Task<UpdateCommentCommandResponse> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateCommentCommandResponse> Handle(
+        UpdateCommentCommand request, 
+        CancellationToken cancellationToken)
     {
         var updateCommentCommandResponse = new UpdateCommentCommandResponse();
 

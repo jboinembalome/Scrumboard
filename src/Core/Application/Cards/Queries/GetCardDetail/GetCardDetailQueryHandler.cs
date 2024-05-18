@@ -19,14 +19,19 @@ internal sealed class GetCardDetailQueryHandler : IRequestHandler<GetCardDetailQ
     private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
 
-    public GetCardDetailQueryHandler(IMapper mapper, IAsyncRepository<Card, int> cardRepository, IIdentityService identityService)
+    public GetCardDetailQueryHandler(
+        IMapper mapper, 
+        IAsyncRepository<Card, int> cardRepository, 
+        IIdentityService identityService)
     {
         _mapper = mapper;
         _cardRepository = cardRepository;
         _identityService = identityService;
     }
 
-    public async Task<CardDetailDto> Handle(GetCardDetailQuery request, CancellationToken cancellationToken)
+    public async Task<CardDetailDto> Handle(
+        GetCardDetailQuery request, 
+        CancellationToken cancellationToken)
     {
         var specification = new CardWithAllSpec(request.CardId);
         var card = await _cardRepository.FirstOrDefaultAsync(specification, cancellationToken);

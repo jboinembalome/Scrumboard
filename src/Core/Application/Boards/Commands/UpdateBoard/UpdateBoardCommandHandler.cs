@@ -16,20 +16,24 @@ internal sealed class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCom
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IMapper _mapper;
 
-    public UpdateBoardCommandHandler(IMapper mapper, IAsyncRepository<Board, int> boardRepository)
+    public UpdateBoardCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Board, int> boardRepository)
     {
         _mapper = mapper;
         _boardRepository = boardRepository;
     }
 
-    public async Task<UpdateBoardCommandResponse> Handle(UpdateBoardCommand request, CancellationToken cancellationToken)
+    public async Task<UpdateBoardCommandResponse> Handle(
+        UpdateBoardCommand request, 
+        CancellationToken cancellationToken)
     {
         var updateBoardCommandResponse = new UpdateBoardCommandResponse();
 
         var specification = new UpdateBoardSpec(request.BoardId);
         var boardToUpdate = await _boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
-        if (boardToUpdate == null)
+        if (boardToUpdate is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
         _mapper.Map(request, boardToUpdate, opt => opt.BeforeMap((s, d) => MoveCards(s, d)));
@@ -59,7 +63,7 @@ internal sealed class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCom
         {
             return;
         }
-        
+        // TODO: Refoctor this...
         foreach (var listBoardDto in updateBoardCommand.ListBoards)
         {
             // Loop only on old values, so the id of the card will not be zero.
@@ -81,7 +85,7 @@ internal sealed class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCom
                         //  add it to the new listBoard.
                         oldListBoard.Cards.Remove(card);
 
-                        if (newListBoard != null)
+                        if (newListBoard is not null)
                         {
                             card.ListBoard = newListBoard;
 

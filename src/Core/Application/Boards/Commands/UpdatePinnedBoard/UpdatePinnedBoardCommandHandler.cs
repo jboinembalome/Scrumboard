@@ -13,13 +13,17 @@ internal sealed class UpdatePinnedBoardCommandHandler : IRequestHandler<UpdatePi
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IMapper _mapper;
 
-    public UpdatePinnedBoardCommandHandler(IMapper mapper, IAsyncRepository<Board, int> boardRepository)
+    public UpdatePinnedBoardCommandHandler(
+        IMapper mapper, 
+        IAsyncRepository<Board, int> boardRepository)
     {
         _mapper = mapper;
         _boardRepository = boardRepository;
     }
 
-    public async Task<Unit> Handle(UpdatePinnedBoardCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(
+        UpdatePinnedBoardCommand request, 
+        CancellationToken cancellationToken)
     {
         var boardToUpdate = await _boardRepository.GetByIdAsync(request.BoardId, cancellationToken);
 

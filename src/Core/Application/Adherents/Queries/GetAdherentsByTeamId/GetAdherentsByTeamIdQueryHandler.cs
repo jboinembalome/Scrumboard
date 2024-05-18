@@ -18,18 +18,26 @@ internal sealed class GetAdherentsByTeamIdQueryHandler : IRequestHandler<GetAdhe
     private readonly IIdentityService _identityService;
     private readonly IMapper _mapper;
 
-    public GetAdherentsByTeamIdQueryHandler(IMapper mapper, IAsyncRepository<Adherent, int> adherentRepository, IIdentityService identityService)
+    public GetAdherentsByTeamIdQueryHandler(
+        IMapper mapper, 
+        IAsyncRepository<Adherent, int> adherentRepository, 
+        IIdentityService identityService)
     {
         _mapper = mapper;
         _adherentRepository = adherentRepository;
         _identityService = identityService;
     }
 
-    public async Task<IEnumerable<AdherentDto>> Handle(GetAdherentsByTeamIdQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<AdherentDto>> Handle(
+        GetAdherentsByTeamIdQuery request, 
+        CancellationToken cancellationToken)
     {
         var specification = new AllAdherentsInTeamSpec(request.TeamId);
+        
         var adherents = await _adherentRepository.ListAsync(specification, cancellationToken);
-        var users = await _identityService.GetListAsync(adherents.Select(a => a.IdentityId), cancellationToken);
+
+        var userIds = adherents.Select(a => a.IdentityId);
+        var users = await _identityService.GetListAsync(userIds, cancellationToken);
 
         var adherentDtos = _mapper.Map<IEnumerable<AdherentDto>>(adherents);
 

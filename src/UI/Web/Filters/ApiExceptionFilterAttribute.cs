@@ -5,15 +5,15 @@ using System;
 using System.Collections.Generic;
 using Scrumboard.Application.Common.Exceptions;
 
-namespace Scrumboard.Web.Filters
+namespace Scrumboard.Web.Filters;
+
+public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
-    public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+
+    private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
+
+    public ApiExceptionFilterAttribute()
     {
-
-        private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
-
-        public ApiExceptionFilterAttribute()
-        {
             // Register known exception types and handlers.
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
@@ -24,15 +24,15 @@ namespace Scrumboard.Web.Filters
             };
         }
 
-        public override void OnException(ExceptionContext context)
-        {
+    public override void OnException(ExceptionContext context)
+    {
             HandleException(context);
 
             base.OnException(context);
         }
 
-        private void HandleException(ExceptionContext context)
-        {
+    private void HandleException(ExceptionContext context)
+    {
             Type type = context.Exception.GetType();
             if (_exceptionHandlers.ContainsKey(type))
             {
@@ -49,8 +49,8 @@ namespace Scrumboard.Web.Filters
             HandleUnknownException(context);
         }
 
-        private void HandleValidationException(ExceptionContext context)
-        {
+    private void HandleValidationException(ExceptionContext context)
+    {
             var exception = context.Exception as ValidationException;
 
             var details = new ValidationProblemDetails(exception.Errors)
@@ -63,8 +63,8 @@ namespace Scrumboard.Web.Filters
             context.ExceptionHandled = true;
         }    
 
-        private void HandleNotFoundException(ExceptionContext context)
-        {
+    private void HandleNotFoundException(ExceptionContext context)
+    {
             var exception = context.Exception as NotFoundException;
 
             var details = new ProblemDetails()
@@ -79,8 +79,8 @@ namespace Scrumboard.Web.Filters
             context.ExceptionHandled = true;
         }
 
-        private void HandleUnauthorizedAccessException(ExceptionContext context)
-        {
+    private void HandleUnauthorizedAccessException(ExceptionContext context)
+    {
             var details = new ProblemDetails
             {
                 Status = StatusCodes.Status401Unauthorized,
@@ -96,8 +96,8 @@ namespace Scrumboard.Web.Filters
             context.ExceptionHandled = true;
         }
 
-        private void HandleForbiddenAccessException(ExceptionContext context)
-        {
+    private void HandleForbiddenAccessException(ExceptionContext context)
+    {
             var details = new ProblemDetails
             {
                 Status = StatusCodes.Status403Forbidden,
@@ -113,8 +113,8 @@ namespace Scrumboard.Web.Filters
             context.ExceptionHandled = true;
         }
 
-        private static void HandleInvalidModelStateException(ExceptionContext context)
-        {
+    private static void HandleInvalidModelStateException(ExceptionContext context)
+    {
             var details = new ValidationProblemDetails(context.ModelState)
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
@@ -125,8 +125,8 @@ namespace Scrumboard.Web.Filters
             context.ExceptionHandled = true;
         }
 
-        private static void HandleUnknownException(ExceptionContext context)
-        {
+    private static void HandleUnknownException(ExceptionContext context)
+    {
             var details = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
@@ -141,6 +141,4 @@ namespace Scrumboard.Web.Filters
 
             context.ExceptionHandled = true;
         }
-    }
-
 }

@@ -14,15 +14,15 @@ using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Xunit;
 
-namespace Scrumboard.Application.UnitTests.Behaviours
-{
-    public class ValidationBehaviourTests
-    {
-        private readonly IMapper _mapper;
-        private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
+namespace Scrumboard.Application.UnitTests.Behaviours;
 
-        public ValidationBehaviourTests()
-        {
+public class ValidationBehaviourTests
+{
+    private readonly IMapper _mapper;
+    private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
+
+    public ValidationBehaviourTests()
+    {
             _mockBoardRepository = RepositoryMocks.GetBoardRepository();
             var configurationProvider = new MapperConfiguration(cfg =>
             {
@@ -33,11 +33,11 @@ namespace Scrumboard.Application.UnitTests.Behaviours
         }
 
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("  ")]
-        public async Task Handle_EmptyName_ThrowsAnValidationException(string boardName)
-        {
+    [Theory]
+    [InlineData("")]
+    [InlineData("  ")]
+    public async Task Handle_EmptyName_ThrowsAnValidationException(string boardName)
+    {
             var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
             var updateBoardCommand = new UpdateBoardCommand { Name = boardName, BoardId = 1 };
              var validationBehavior = new ValidationBehaviour<UpdateBoardCommand, UpdateBoardCommandResponse>(new List<UpdateBoardCommandValidator>()
@@ -57,5 +57,4 @@ namespace Scrumboard.Application.UnitTests.Behaviours
             // Assert
             await action.Should().ThrowAsync<ValidationException>();
         }
-    }
 }

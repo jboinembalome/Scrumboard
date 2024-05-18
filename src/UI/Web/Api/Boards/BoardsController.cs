@@ -7,10 +7,10 @@ using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Commands.DeleteBoard;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Boards.Commands.UpdatePinnedBoard;
+using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;
 using Scrumboard.Application.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
-using Scrumboard.Application.Dto;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Web.Controllers;
 

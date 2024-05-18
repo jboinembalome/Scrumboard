@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Application.Dto;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;

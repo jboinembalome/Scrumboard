@@ -9,12 +9,12 @@ using Scrumboard.Infrastructure.Persistence;
 using System;
 using System.Threading.Tasks;
 
-namespace Scrumboard.Web
+namespace Scrumboard.Web;
+
+public class Program
 {
-    public class Program
+    public async static Task Main(string[] args)
     {
-        public async static Task Main(string[] args)
-        {
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -49,11 +49,10 @@ namespace Scrumboard.Web
             await host.RunAsync();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 }

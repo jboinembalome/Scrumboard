@@ -5,21 +5,21 @@ using System.Collections.Generic;
 using Scrumboard.Application.Common.Exceptions;
 using Xunit;
 
-namespace Scrumboard.Application.UnitTests.Exceptions
+namespace Scrumboard.Application.UnitTests.Exceptions;
+
+public class ValidationExceptionTests
 {
-    public class ValidationExceptionTests
+    [Fact]
+    public void ValidationException_DefaultConstructor_CreatesAnEmptyErrorDictionary()
     {
-        [Fact]
-        public void ValidationException_DefaultConstructor_CreatesAnEmptyErrorDictionary()
-        {
             var actual = new ValidationException().Errors;
 
             actual.Keys.Should().BeEquivalentTo(Array.Empty<string>());
         }
 
-        [Fact]
-        public void ValidationException_SingleValidationFailure_CreatesASingleElementErrorDictionary()
-        {
+    [Fact]
+    public void ValidationException_SingleValidationFailure_CreatesASingleElementErrorDictionary()
+    {
             var failures = new List<ValidationFailure>
             {
                 new ValidationFailure("Age", "must be over 18"),
@@ -31,9 +31,9 @@ namespace Scrumboard.Application.UnitTests.Exceptions
             actual["Age"].Should().BeEquivalentTo(new string[] { "must be over 18" });
         }
 
-        [Fact]
-        public void ValidationException_MulitpleValidationFailureForMultipleProperties_CreatesAMultipleElementErrorDictionaryithMultipleValues()
-        {
+    [Fact]
+    public void ValidationException_MulitpleValidationFailureForMultipleProperties_CreatesAMultipleElementErrorDictionaryithMultipleValues()
+    {
             var failures = new List<ValidationFailure>
             {
                 new ValidationFailure("Age", "must be 18 or older"),
@@ -62,5 +62,4 @@ namespace Scrumboard.Application.UnitTests.Exceptions
                 "must contain a digit",
             });
         }
-    }
 }

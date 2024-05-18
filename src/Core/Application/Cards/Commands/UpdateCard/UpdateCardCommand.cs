@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Adherents.Dtos;
+using Scrumboard.Application.Boards.Dtos;
+using Scrumboard.Application.Cards.Dtos;
 
 namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 

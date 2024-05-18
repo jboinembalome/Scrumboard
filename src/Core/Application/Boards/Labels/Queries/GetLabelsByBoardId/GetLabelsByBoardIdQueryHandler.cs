@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;

@@ -1,5 +1,5 @@
-﻿using Scrumboard.Application.Common.Models;
-using Scrumboard.Application.Dto;
+﻿using Scrumboard.Application.Boards.Dtos;
+using Scrumboard.Application.Common.Models;
 
 namespace Scrumboard.Application.Boards.Commands.CreateBoard;
 

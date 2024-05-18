@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Entities;

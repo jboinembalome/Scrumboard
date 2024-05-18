@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace Scrumboard.Web.FunctionalTests.Utilities
+namespace Scrumboard.Web.FunctionalTests.Utilities;
+
+public static class WebApplicationFactoryExtensions
 {
-    public static class WebApplicationFactoryExtensions
+    public static WebApplicationFactory<T> WithAuthentication<T>(this WebApplicationFactory<T> factory, TestClaimsProvider claimsProvider) where T : class
     {
-        public static WebApplicationFactory<T> WithAuthentication<T>(this WebApplicationFactory<T> factory, TestClaimsProvider claimsProvider) where T : class
-        {
             return factory.WithWebHostBuilder(builder =>
             {
                 builder.ConfigureTestServices(services =>
@@ -23,8 +23,8 @@ namespace Scrumboard.Web.FunctionalTests.Utilities
             });
         }
 
-        public static HttpClient CreateClientWithTestAuth<T>(this WebApplicationFactory<T> factory, TestClaimsProvider claimsProvider) where T : class
-        {
+    public static HttpClient CreateClientWithTestAuth<T>(this WebApplicationFactory<T> factory, TestClaimsProvider claimsProvider) where T : class
+    {
             var client = factory.WithAuthentication(claimsProvider).CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false
@@ -34,5 +34,4 @@ namespace Scrumboard.Web.FunctionalTests.Utilities
 
             return client;
         }
-    }
 }

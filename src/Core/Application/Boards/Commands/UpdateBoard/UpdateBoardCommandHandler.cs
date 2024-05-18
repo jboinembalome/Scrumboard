@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.ListBoards.Dtos;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 

@@ -16,12 +16,12 @@ using Scrumboard.Infrastructure.Logging;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Persistence.Repositories;
 
-namespace Scrumboard.Infrastructure
+namespace Scrumboard.Infrastructure;
+
+public static class InfrastructureServiceRegistration
 {
-    public static class InfrastructureServiceRegistration
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
-        {
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ScrumboardDbContext>(options =>
@@ -62,5 +62,4 @@ namespace Scrumboard.Infrastructure
 
             return services;
         }
-    }
 }

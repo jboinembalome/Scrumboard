@@ -1,5 +1,5 @@
 ﻿using Scrumboard.Application.Common.Models;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Teams.Dtos;
 
 namespace Scrumboard.Application.Teams.Commands.UpdateTeam;
 

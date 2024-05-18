@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Teams.Dtos;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Infrastructure.Abstractions.Common;

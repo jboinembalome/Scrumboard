@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Scrumboard.Application.Common.Models;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.ListBoards.Dtos;
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 

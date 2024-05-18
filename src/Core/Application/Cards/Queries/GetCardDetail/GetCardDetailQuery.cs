@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Cards.Dtos;
 
 namespace Scrumboard.Application.Cards.Queries.GetCardDetail;
 

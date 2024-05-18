@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Web.FunctionalTests.Utilities;
 using Xunit;
 

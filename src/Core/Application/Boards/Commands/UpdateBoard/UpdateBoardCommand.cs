@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using MediatR;
-using Scrumboard.Application.Dto;
+using Scrumboard.Application.Boards.Dtos;
+using Scrumboard.Application.ListBoards.Dtos;
+using Scrumboard.Application.Teams.Dtos;
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 

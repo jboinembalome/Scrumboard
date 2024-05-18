@@ -5,7 +5,7 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;
 
-public class GetAvatarByIdentityIdQueryHandler : IRequestHandler<GetAvatarByIdentityIdQuery, byte[]>
+internal sealed class GetAvatarByIdentityIdQueryHandler : IRequestHandler<GetAvatarByIdentityIdQuery, byte[]>
 {
     private readonly IIdentityService _identityService;
 

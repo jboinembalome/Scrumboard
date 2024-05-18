@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;
 
-public class GetAvatarByIdentityIdQuery : IRequest<byte[]>
+public sealed class GetAvatarByIdentityIdQuery : IRequest<byte[]>
 {
     public string IdentityId { get; set; }
 }

@@ -4,7 +4,7 @@ using Scrumboard.Domain.Adherents;
 
 namespace Scrumboard.Application.Adherents.Queries.GetAdherents;
 
-public class AllAdherentsInTeamSpec : Specification<Adherent>, ISingleResultSpecification
+internal sealed class AllAdherentsInTeamSpec : Specification<Adherent>, ISingleResultSpecification
 {
     public AllAdherentsInTeamSpec(int teamId)
     {

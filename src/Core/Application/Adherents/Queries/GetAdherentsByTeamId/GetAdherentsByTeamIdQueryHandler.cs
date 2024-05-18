@@ -12,7 +12,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
 
-public class GetAdherentsByTeamIdQueryHandler : IRequestHandler<GetAdherentsByTeamIdQuery, IEnumerable<AdherentDto>>
+internal sealed class GetAdherentsByTeamIdQueryHandler : IRequestHandler<GetAdherentsByTeamIdQuery, IEnumerable<AdherentDto>>
 {
     private readonly IAsyncRepository<Adherent, int> _adherentRepository;
     private readonly IIdentityService _identityService;

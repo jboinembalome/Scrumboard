@@ -11,7 +11,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Adherents.Queries.GetAdherents;
 
-public class GetAdherentsQueryHandler : IRequestHandler<GetAdherentsQuery, IEnumerable<AdherentDto>>
+internal sealed class GetAdherentsQueryHandler : IRequestHandler<GetAdherentsQuery, IEnumerable<AdherentDto>>
 {
     private readonly IAsyncRepository<Adherent, int> _adherentRepository;
     private readonly IIdentityService _identityService;

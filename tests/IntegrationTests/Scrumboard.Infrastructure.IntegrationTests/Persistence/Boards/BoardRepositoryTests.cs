@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Xunit;
 
-namespace Scrumboard.Application.IntegrationTests.Persistence.Boards;
+namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Boards;
 
 [Collection("Database collection")]
 public class BoardRepositoryTests : IAsyncLifetime

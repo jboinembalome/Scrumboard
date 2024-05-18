@@ -6,7 +6,7 @@ using Scrumboard.Infrastructure.Abstractions.FileExport;
 using Scrumboard.Infrastructure.FileExport;
 using Xunit;
 
-namespace Scrumboard.Application.IntegrationTests.FileExport;
+namespace Scrumboard.Infrastructure.IntegrationTests.FileExport;
 
 public class ExportToCsvTests
 {

@@ -12,7 +12,7 @@ using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
-namespace Scrumboard.Application.IntegrationTests.Persistence;
+namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
 
 public class DatabaseFixture : IDisposable
 {

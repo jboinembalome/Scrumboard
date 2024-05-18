@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Scrumboard.Domain.Boards;
 using Xunit;
 
-namespace Scrumboard.Application.IntegrationTests.Persistence;
+namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
 
 [Collection("Database collection")]
 public class ScrumboardDbContextTests : IAsyncLifetime

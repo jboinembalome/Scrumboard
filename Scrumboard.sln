@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application.UnitTests", "tests\UnitTests\Scrumboard.Application.UnitTests\Scrumboard.Application.UnitTests.csproj", "{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application.IntegrationTests", "tests\IntegrationTests\Scrumboard.Application.IntegrationTests\Scrumboard.Application.IntegrationTests.csproj", "{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure.IntegrationTests", "tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Scrumboard.Infrastructure.IntegrationTests.csproj", "{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web.FunctionalTests", "tests\FunctionalTests\Scrumboard.Web.FunctionalTests\Scrumboard.Web.FunctionalTests.csproj", "{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9}"
 EndProject

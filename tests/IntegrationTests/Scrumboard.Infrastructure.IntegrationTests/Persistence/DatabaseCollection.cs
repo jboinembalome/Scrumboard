@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Scrumboard.Application.IntegrationTests.Persistence;
+namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
 
 [CollectionDefinition("Database collection")]
 public class DatabaseCollection : ICollectionFixture<DatabaseFixture>

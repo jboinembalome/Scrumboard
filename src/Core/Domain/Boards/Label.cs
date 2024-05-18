@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Common;
-using Scrumboard.Domain.ValueObjects;
 
-namespace Scrumboard.Domain.Cards;
+namespace Scrumboard.Domain.Boards;
 
 public class Label : AuditableEntity, IEntity<int>
 {

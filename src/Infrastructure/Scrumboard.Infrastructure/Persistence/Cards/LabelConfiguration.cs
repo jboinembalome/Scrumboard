@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;

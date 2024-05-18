@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Scrumboard.Domain.Adherents;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;

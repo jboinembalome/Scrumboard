@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Entities;
-using Scrumboard.Domain.ValueObjects;
 using Scrumboard.Infrastructure.Identity;
 using System;
 using System.Collections.ObjectModel;
@@ -13,6 +12,7 @@ using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
+using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Infrastructure.Persistence;

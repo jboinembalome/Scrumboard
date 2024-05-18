@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Dto;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
-namespace Scrumboard.Application.Cards.Labels.Queries.GetLabelsByBoardId;
+namespace Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;
 
 public class GetLabelsByBoardIdQueryHandler : IRequestHandler<GetLabelsByBoardIdQuery, IEnumerable<LabelDto>>
 {

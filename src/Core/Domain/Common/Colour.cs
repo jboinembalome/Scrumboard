@@ -1,9 +1,8 @@
-﻿using Scrumboard.Domain.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Scrumboard.Domain.Common.Errors;
 
-namespace Scrumboard.Domain.ValueObjects
+namespace Scrumboard.Domain.Common
 {
     public class Colour : ValueObject
     {

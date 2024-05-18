@@ -2,10 +2,11 @@
 using System.Threading.Tasks;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
-namespace Scrumboard.Application.Cards.Labels.Commands.DeleteLabel;
+namespace Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
 public class DeleteLabelHandler : IRequestHandler<DeleteLabelCommand>
 {

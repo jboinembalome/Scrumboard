@@ -2,7 +2,6 @@
 using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Dto;
 using Scrumboard.Domain.Entities;
-using Scrumboard.Domain.ValueObjects;
 using System.Linq;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
@@ -18,6 +17,7 @@ using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
+using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 

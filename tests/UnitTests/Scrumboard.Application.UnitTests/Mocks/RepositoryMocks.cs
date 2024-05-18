@@ -1,7 +1,6 @@
 ﻿using Ardalis.Specification;
 using Moq;
 using Scrumboard.Domain.Entities;
-using Scrumboard.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,6 +12,7 @@ using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
+using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 

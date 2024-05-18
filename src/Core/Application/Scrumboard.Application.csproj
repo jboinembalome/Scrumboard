@@ -29,8 +29,6 @@
     <Folder Include="Cards\Activities\Queries\" />
     <Folder Include="Cards\Commands\" />
     <Folder Include="Cards\Comments\Commands\" />
-    <Folder Include="Cards\Labels\Commands\" />
-    <Folder Include="Cards\Labels\Queries\" />
     <Folder Include="Cards\Queries\" />
     <Folder Include="Common\" />
     <Folder Include="Teams\Commands\" />

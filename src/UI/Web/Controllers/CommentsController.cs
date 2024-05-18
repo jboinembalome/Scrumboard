@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Scrumboard.Application.Comments.CreateComment;
-using Scrumboard.Application.Comments.DeleteComment;
-using Scrumboard.Application.Comments.UpdateComment;
+using Scrumboard.Application.Cards.Comments.Commands.CreateComment;
+using Scrumboard.Application.Cards.Comments.Commands.DeleteComment;
+using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 
 namespace Scrumboard.Web.Controllers;
 

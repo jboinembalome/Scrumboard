@@ -1,6 +1,5 @@
 ﻿using Ardalis.Specification;
 using Moq;
-using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
 using System;
@@ -15,11 +14,13 @@ using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.ListBoards;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.UnitTests.Mocks;
 
 public class RepositoryMocks
 {
+    // TODO: Move mock
     public static Mock<IAsyncRepository<Board, int>> GetBoardRepository()
     {
         var adherent1Model = new Adherent 

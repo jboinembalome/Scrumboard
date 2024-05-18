@@ -5,12 +5,12 @@ using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using Moq;
-using Scrumboard.Application.Boards.DeleteBoard;
-using Scrumboard.Application.Exceptions;
-using Scrumboard.Application.Interfaces.Persistence;
+using Scrumboard.Application.Boards.Commands.DeleteBoard;
+using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards.Commands;

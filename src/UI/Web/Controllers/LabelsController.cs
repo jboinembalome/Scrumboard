@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Scrumboard.Application.Labels.DeleteLabel;
+using Scrumboard.Application.Cards.Labels.Commands.DeleteLabel;
 
 namespace Scrumboard.Web.Controllers
 {

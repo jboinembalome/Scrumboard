@@ -1,8 +1,7 @@
 ﻿using Ardalis.Specification;
-using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ListBoards;
 
-namespace Scrumboard.Application.Features.ListBoards.Specifications
+namespace Scrumboard.Application.ListBoards
 {
     public class ListBoardWithCardsSpec : Specification<ListBoard>, ISingleResultSpecification
     {

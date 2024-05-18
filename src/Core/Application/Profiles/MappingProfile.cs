@@ -1,19 +1,17 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Dto;
-using Scrumboard.Application.Interfaces.Identity;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ValueObjects;
 using System.Linq;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Boards.Commands.UpdatePinnedBoard;
-using Scrumboard.Application.Boards.CreateBoard;
-using Scrumboard.Application.Cards.CreateCard;
-using Scrumboard.Application.Cards.UpdateCard;
-using Scrumboard.Application.Comments.CreateComment;
-using Scrumboard.Application.Comments.UpdateComment;
-using Scrumboard.Application.Teams.UpdateTeam;
+using Scrumboard.Application.Cards.Commands.CreateCard;
+using Scrumboard.Application.Cards.Commands.UpdateCard;
+using Scrumboard.Application.Cards.Comments.Commands.CreateComment;
+using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
+using Scrumboard.Application.Teams.Commands.UpdateTeam;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
@@ -21,6 +19,7 @@ using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.ListBoards;
+using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Application.Profiles
 {

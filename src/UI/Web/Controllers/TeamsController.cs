@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Scrumboard.Application.Adherents.GetAdherentsByTeamId;
-using Scrumboard.Application.Teams.UpdateTeam;
+using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
+using Scrumboard.Application.Teams.Commands.UpdateTeam;
 
 namespace Scrumboard.Web.Controllers
 {

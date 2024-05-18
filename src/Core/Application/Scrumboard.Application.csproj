@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj" />
     <ProjectReference Include="..\Domain\Scrumboard.Domain.csproj" />
   </ItemGroup>
 
@@ -19,6 +20,21 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.0.2" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Adherents\Queries\" />
+    <Folder Include="Boards\Commands\" />
+    <Folder Include="Boards\Queries\" />
+    <Folder Include="Cards\Activities\Queries\" />
+    <Folder Include="Cards\Commands\" />
+    <Folder Include="Cards\Comments\Commands\" />
+    <Folder Include="Cards\Labels\Commands\" />
+    <Folder Include="Cards\Labels\Queries\" />
+    <Folder Include="Cards\Queries\" />
+    <Folder Include="Common\" />
+    <Folder Include="Teams\Commands\" />
+    <Folder Include="WeatherForecasts\Queries\" />
   </ItemGroup>
 
 </Project>

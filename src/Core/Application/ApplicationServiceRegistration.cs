@@ -2,8 +2,8 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Scrumboard.Application.Behaviours;
 using System.Reflection;
+using Scrumboard.Application.Common.Behaviours;
 
 namespace Scrumboard.Application
 {

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FluentAssertions;
-using Scrumboard.Application.Boards.GetBoardDetail;
+using Scrumboard.Application.Boards.Queries.GetBoardDetail;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Attachments;

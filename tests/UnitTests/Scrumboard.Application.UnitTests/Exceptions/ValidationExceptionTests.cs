@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using FluentValidation.Results;
-using Scrumboard.Application.Exceptions;
 using System;
 using System.Collections.Generic;
+using Scrumboard.Application.Common.Exceptions;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Exceptions

@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using Scrumboard.Application.Interfaces.FileExport;
-using Scrumboard.Infrastructure.FileExport;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Infrastructure.Abstractions.FileExport;
+using Scrumboard.Infrastructure.FileExport;
 using Xunit;
 
 namespace Scrumboard.Application.IntegrationTests.FileExport

@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Scrumboard.Application.Activities.GetActivitiesByCardId;
-using Scrumboard.Application.Cards.CreateCard;
-using Scrumboard.Application.Cards.DeleteCard;
-using Scrumboard.Application.Cards.GetCardDetail;
-using Scrumboard.Application.Cards.UpdateCard;
+using Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
+using Scrumboard.Application.Cards.Commands.CreateCard;
+using Scrumboard.Application.Cards.Commands.DeleteCard;
+using Scrumboard.Application.Cards.Commands.UpdateCard;
+using Scrumboard.Application.Cards.Queries.GetCardDetail;
 
 namespace Scrumboard.Web.Controllers
 {

@@ -6,8 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Scrumboard.Application;
-using Scrumboard.Application.Interfaces.Common;
 using Scrumboard.Infrastructure;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Web.Filters;
@@ -15,8 +13,9 @@ using Scrumboard.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using Scrumboard.Application;
+using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Web
 {

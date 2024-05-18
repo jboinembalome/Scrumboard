@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Scrumboard.Application.Adherents.GetAdherents;
-using Scrumboard.Application.Adherents.GetAvatarByIdentityId;
+using Scrumboard.Application.Adherents.Queries.GetAdherents;
+using Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;
 
 namespace Scrumboard.Web.Controllers
 {

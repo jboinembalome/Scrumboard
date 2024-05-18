@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Domain", "src\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application", "src\Core\Application\Scrumboard.Application.csproj", "{43CE164A-334E-4BD4-8C14-F9DAAF4901B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure", "src\Infrastructure\Scrumboard.Infrastructure.csproj", "{CAD3D0AF-396E-4AEE-A614-2F16D51C53A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure", "src\Infrastructure\Scrumboard.Infrastructure\Scrumboard.Infrastructure.csproj", "{CAD3D0AF-396E-4AEE-A614-2F16D51C53A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application.UnitTests", "tests\UnitTests\Scrumboard.Application.UnitTests\Scrumboard.Application.UnitTests.csproj", "{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web.FunctionalTests", "tests\FunctionalTests\Scrumboard.Web.FunctionalTests\Scrumboard.Web.FunctionalTests.csproj", "{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Web", "src\UI\Web\Scrumboard.Web.csproj", "{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Infrastructure.Abstractions", "src\Infrastructure\Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj", "{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6} = {96D159E9-E1E2-4CDE-BD23-605408E997DE}
 		{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9} = {2E36CE09-18CF-4B44-83E8-AB2A6EC997EE}
 		{65712D3F-45EC-4F44-A2CE-8D50CF18E73C} = {FC400F14-77F3-4B40-B21D-FBBBC53B1474}
+		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C} = {B8D6C760-D88D-443C-8778-540472E6C025}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC39ECCE-AB63-4FAF-AC84-4AC6531F35A4}

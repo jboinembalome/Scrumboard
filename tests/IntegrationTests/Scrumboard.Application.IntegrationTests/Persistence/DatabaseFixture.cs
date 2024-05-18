@@ -4,13 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
 using Respawn;
-using Scrumboard.Application.Interfaces.Common;
-using Scrumboard.Application.Interfaces.Persistence;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Persistence.Repositories;
 using System;
 using System.Threading.Tasks;
 using Scrumboard.Domain.Common;
+using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.IntegrationTests.Persistence;
 

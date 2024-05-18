@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Scrumboard.Application.Interfaces.Common;
 using System.Security.Claims;
+using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Web.Services
 {

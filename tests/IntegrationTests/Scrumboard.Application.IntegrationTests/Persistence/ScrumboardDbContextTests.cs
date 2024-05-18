@@ -1,10 +1,5 @@
 ﻿
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using Scrumboard.Application.Interfaces.Common;
-using Scrumboard.Domain.Entities;
-using Scrumboard.Infrastructure.Persistence;
 using System.Threading.Tasks;
 using Scrumboard.Domain.Boards;
 using Xunit;

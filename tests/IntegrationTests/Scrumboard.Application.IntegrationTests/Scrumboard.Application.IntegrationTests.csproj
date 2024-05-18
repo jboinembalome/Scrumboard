@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Core\Application\Scrumboard.Application.csproj" />
-    <ProjectReference Include="..\..\..\src\Infrastructure\Scrumboard.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Infrastructure\Scrumboard.Infrastructure\Scrumboard.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

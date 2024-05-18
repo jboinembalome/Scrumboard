@@ -1,0 +1,8 @@
+﻿using MediatR;
+
+namespace Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;
+
+public class GetAvatarByIdentityIdQuery : IRequest<byte[]>
+{
+    public string IdentityId { get; set; }
+}

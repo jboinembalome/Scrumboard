@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Scrumboard.Application.Exceptions;
 using System;
 using System.Collections.Generic;
+using Scrumboard.Application.Common.Exceptions;
 
 namespace Scrumboard.Web.Filters
 {

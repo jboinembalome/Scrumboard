@@ -8,12 +8,12 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Commands.DeleteCard;
 
-public class DeleteCardHandler : IRequestHandler<DeleteCardCommand>
+internal sealed class DeleteCardCommandHandler : IRequestHandler<DeleteCardCommand>
 {
     private readonly IAsyncRepository<Card, int> _cardRepository;
     private readonly IMapper _mapper;
 
-    public DeleteCardHandler(IMapper mapper, IAsyncRepository<Card, int> cardRepository)
+    public DeleteCardCommandHandler(IMapper mapper, IAsyncRepository<Card, int> cardRepository)
     {
         _mapper = mapper;
         _cardRepository = cardRepository;

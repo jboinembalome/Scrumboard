@@ -3,7 +3,7 @@ using Scrumboard.Application.Adherents.Dtos;
 
 namespace Scrumboard.Application.Cards.Dtos;
 
-public class CommentDto
+public sealed class CommentDto
 {
     public int Id { get; set; }
     public string Message { get; set; }

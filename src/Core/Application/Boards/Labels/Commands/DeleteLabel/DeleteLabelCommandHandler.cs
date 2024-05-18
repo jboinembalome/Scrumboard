@@ -8,11 +8,11 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
-public class DeleteLabelHandler : IRequestHandler<DeleteLabelCommand>
+internal sealed class DeleteLabelCommandHandler : IRequestHandler<DeleteLabelCommand>
 {
     private readonly IAsyncRepository<Label, int> _labelRepository;
 
-    public DeleteLabelHandler(IAsyncRepository<Label, int> labelRepository)
+    public DeleteLabelCommandHandler(IAsyncRepository<Label, int> labelRepository)
     {
         _labelRepository = labelRepository;
     }

@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
-public class DeleteLabelCommand : IRequest
+public sealed class DeleteLabelCommand : IRequest
 {
     public int LabelId { get; set; }
 }

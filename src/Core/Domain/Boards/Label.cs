@@ -4,7 +4,7 @@ using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Domain.Boards;
 
-public class Label : AuditableEntity, IEntity<int>
+public sealed class Label : AuditableEntity, IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -15,7 +15,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Comments.Commands.CreateComment;
 
-public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, CreateCommentCommandResponse>
+internal sealed class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, CreateCommentCommandResponse>
 {
     private readonly IAsyncRepository<Comment, int> _commentRepository;
     private readonly IAsyncRepository<Card, int> _cardRepository;

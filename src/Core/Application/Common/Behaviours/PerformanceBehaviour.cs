@@ -8,7 +8,7 @@ using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly Stopwatch _timer;

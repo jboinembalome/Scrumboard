@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Domain.Cards.Attachments;
 
-public class Attachment : AuditableEntity, IEntity<int>
+public sealed class Attachment : AuditableEntity, IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -8,7 +8,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards;
 
-public class CardProfile : Profile
+internal sealed class CardProfile : Profile
 {
     public CardProfile()
     {

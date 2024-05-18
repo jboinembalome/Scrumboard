@@ -8,7 +8,7 @@ using ValidationException = Scrumboard.Application.Common.Exceptions.ValidationE
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;

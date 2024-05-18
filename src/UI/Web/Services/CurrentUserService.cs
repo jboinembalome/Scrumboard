@@ -4,7 +4,7 @@ using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Web.Services;
 
-public class CurrentUserService : ICurrentUserService
+internal sealed class CurrentUserService : ICurrentUserService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

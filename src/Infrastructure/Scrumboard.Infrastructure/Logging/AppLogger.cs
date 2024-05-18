@@ -4,7 +4,7 @@ using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Infrastructure.Logging;
 
-public class LoggerAdapter<T> : IAppLogger<T>
+internal sealed class LoggerAdapter<T> : IAppLogger<T>
 {
     private readonly ILogger<T> _logger;
 

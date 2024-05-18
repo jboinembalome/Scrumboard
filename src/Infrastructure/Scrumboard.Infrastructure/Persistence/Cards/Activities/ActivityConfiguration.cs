@@ -4,7 +4,7 @@ using Scrumboard.Domain.Cards.Activities;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Activities;
 
-public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
+internal sealed class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 {
     public void Configure(EntityTypeBuilder<Activity> builder)
     {

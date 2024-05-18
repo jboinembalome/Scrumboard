@@ -7,7 +7,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards.Comments;
 
-public class CommentProfile : Profile
+internal sealed class CommentProfile : Profile
 {
     public CommentProfile()
     {

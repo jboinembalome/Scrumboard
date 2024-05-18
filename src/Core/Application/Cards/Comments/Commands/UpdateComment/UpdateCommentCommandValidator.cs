@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 
-public class UpdateCommentCommandValidator : AbstractValidator<UpdateCommentCommand>
+internal sealed class UpdateCommentCommandValidator : AbstractValidator<UpdateCommentCommand>
 {
     public UpdateCommentCommandValidator()
     {

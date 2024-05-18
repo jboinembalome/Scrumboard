@@ -4,7 +4,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 
-public class CardConfiguration : IEntityTypeConfiguration<Card>
+internal sealed class CardConfiguration : IEntityTypeConfiguration<Card>
 {
     public void Configure(EntityTypeBuilder<Card> builder)
     {

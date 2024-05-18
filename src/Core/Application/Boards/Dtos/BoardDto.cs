@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Boards.Dtos;
 
-public class BoardDto
+public sealed class BoardDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

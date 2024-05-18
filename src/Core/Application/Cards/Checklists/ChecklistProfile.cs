@@ -5,7 +5,7 @@ using Scrumboard.Domain.Cards.Checklists;
 
 namespace Scrumboard.Application.Cards.Checklists;
 
-public class ChecklistProfile : Profile
+internal sealed class ChecklistProfile : Profile
 {
     public ChecklistProfile()
     {

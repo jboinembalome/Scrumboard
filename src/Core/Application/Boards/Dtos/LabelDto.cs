@@ -3,7 +3,7 @@ using Scrumboard.Application.Common.Dtos;
 
 namespace Scrumboard.Application.Boards.Dtos;
 
-public class LabelDto
+public sealed class LabelDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

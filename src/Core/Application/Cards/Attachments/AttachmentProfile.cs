@@ -5,7 +5,7 @@ using Scrumboard.Domain.Cards.Attachments;
 
 namespace Scrumboard.Application.Cards.Attachments;
 
-public class AttachmentProfile : Profile
+internal sealed class AttachmentProfile : Profile
 {
     public AttachmentProfile()
     {

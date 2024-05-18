@@ -3,7 +3,7 @@ using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Application.ListBoards;
 
-public class ListBoardWithCardsSpec : Specification<ListBoard>, ISingleResultSpecification
+internal sealed class ListBoardWithCardsSpec : Specification<ListBoard>, ISingleResultSpecification
 {
     public ListBoardWithCardsSpec(int listBoardId)
     {

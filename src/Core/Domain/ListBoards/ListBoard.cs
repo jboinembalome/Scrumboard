@@ -5,7 +5,7 @@ using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Domain.ListBoards;
 
-public class ListBoard : AuditableEntity, IEntity<int>
+public sealed class ListBoard : AuditableEntity, IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

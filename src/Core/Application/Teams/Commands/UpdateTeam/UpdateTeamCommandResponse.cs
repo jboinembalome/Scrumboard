@@ -3,7 +3,7 @@ using Scrumboard.Application.Teams.Dtos;
 
 namespace Scrumboard.Application.Teams.Commands.UpdateTeam;
 
-public class UpdateTeamCommandResponse : BaseResponse
+public sealed class UpdateTeamCommandResponse : BaseResponse
 {
     public UpdateTeamCommandResponse() : base() { }
        

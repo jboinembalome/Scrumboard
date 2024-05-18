@@ -5,7 +5,7 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Application.Teams;
 
-public class TeamProfile : Profile
+internal sealed class TeamProfile : Profile
 {
     public TeamProfile()
     {

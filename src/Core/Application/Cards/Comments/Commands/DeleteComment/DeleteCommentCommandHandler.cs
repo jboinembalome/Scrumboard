@@ -11,7 +11,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Comments.Commands.DeleteComment;
 
-public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand>
+internal sealed class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand>
 {
     private readonly IAsyncRepository<Comment, int> _commentRepository;
     private readonly IAsyncRepository<Card, int> _cardRepository;

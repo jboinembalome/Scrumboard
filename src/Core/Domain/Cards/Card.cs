@@ -11,7 +11,7 @@ using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Domain.Cards;
 
-public class Card : AuditableEntity, IEntity<int>
+public sealed class Card : AuditableEntity, IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

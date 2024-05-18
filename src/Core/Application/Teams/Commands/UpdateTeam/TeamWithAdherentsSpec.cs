@@ -3,7 +3,7 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Application.Teams.Commands.UpdateTeam;
 
-public class TeamWithAdherentsSpec : Specification<Team>, ISingleResultSpecification
+internal sealed class TeamWithAdherentsSpec : Specification<Team>, ISingleResultSpecification
 {
     public TeamWithAdherentsSpec(int teamId)
     {

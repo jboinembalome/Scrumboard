@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Cards.Commands.CreateCard;
 
-public class CreateCardCommand : IRequest<CreateCardCommandResponse>
+public sealed class CreateCardCommand : IRequest<CreateCardCommandResponse>
 {
     public int ListBoardId { get; set; }
     public string Name { get; set; }

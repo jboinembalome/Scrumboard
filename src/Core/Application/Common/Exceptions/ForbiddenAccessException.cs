@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Common.Exceptions;
 
-public class ForbiddenAccessException : Exception
+public sealed class ForbiddenAccessException : Exception
 {
     public ForbiddenAccessException() 
         : base() { }

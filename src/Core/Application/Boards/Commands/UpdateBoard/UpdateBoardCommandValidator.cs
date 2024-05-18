@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 
-public class UpdateBoardCommandValidator : AbstractValidator<UpdateBoardCommand>
+internal sealed class UpdateBoardCommandValidator : AbstractValidator<UpdateBoardCommand>
 {
     public UpdateBoardCommandValidator()
     {

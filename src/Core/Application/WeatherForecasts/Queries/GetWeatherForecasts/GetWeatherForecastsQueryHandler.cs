@@ -8,7 +8,7 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 
-public class GetWeatherForecastsQueryHandler : IRequestHandler<GetWeatherForecastsQuery, IEnumerable<WeatherForecast>>
+internal sealed class GetWeatherForecastsQueryHandler : IRequestHandler<GetWeatherForecastsQuery, IEnumerable<WeatherForecast>>
 {
     private static readonly string[] Summaries = new[]
     {

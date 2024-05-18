@@ -13,7 +13,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Queries.GetBoardDetail;
 
-public class GetBoardDetailQueryHandler : IRequestHandler<GetBoardDetailQuery, BoardDetailDto>
+internal sealed class GetBoardDetailQueryHandler : IRequestHandler<GetBoardDetailQuery, BoardDetailDto>
 {
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IIdentityService _identityService;

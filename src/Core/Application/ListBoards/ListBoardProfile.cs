@@ -5,7 +5,7 @@ using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Application.ListBoards;
 
-public class ListBoardProfile : Profile
+internal sealed class ListBoardProfile : Profile
 {
     public ListBoardProfile()
     {

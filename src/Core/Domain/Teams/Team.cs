@@ -5,7 +5,7 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Domain.Entities;
 
-public class Team : AuditableEntity, IEntity<int>
+public sealed class Team : AuditableEntity, IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

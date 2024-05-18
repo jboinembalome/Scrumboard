@@ -3,7 +3,7 @@ using Scrumboard.Application.Common.Models;
 
 namespace Scrumboard.Application.Boards.Commands.CreateBoard;
 
-public class CreateBoardCommandResponse : BaseResponse
+public sealed class CreateBoardCommandResponse : BaseResponse
 {
     public CreateBoardCommandResponse() : base() { }
 

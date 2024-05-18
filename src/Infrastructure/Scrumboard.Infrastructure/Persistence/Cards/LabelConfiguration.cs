@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 
-public class LabelConfiguration : IEntityTypeConfiguration<Label>
+internal sealed class LabelConfiguration : IEntityTypeConfiguration<Label>
 {
     public void Configure(EntityTypeBuilder<Label> builder)
     {

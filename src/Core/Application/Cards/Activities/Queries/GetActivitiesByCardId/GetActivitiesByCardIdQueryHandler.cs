@@ -13,7 +13,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
 
-public class GetActivitiesByCardIdQueryHandler : IRequestHandler<GetActivitiesByCardIdQuery, IEnumerable<ActivityDto>>
+internal sealed class GetActivitiesByCardIdQueryHandler : IRequestHandler<GetActivitiesByCardIdQuery, IEnumerable<ActivityDto>>
 {
     private readonly IAsyncRepository<Activity, int> _activityRepository;
     private readonly IAsyncRepository<Adherent, int> _adherentRepository;

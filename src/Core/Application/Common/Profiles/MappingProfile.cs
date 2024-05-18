@@ -4,7 +4,7 @@ using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Application.Common.Profiles;
 
-public class MappingProfile : Profile
+internal sealed class MappingProfile : Profile
 {
     public MappingProfile()
     {

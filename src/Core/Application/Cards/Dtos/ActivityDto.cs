@@ -3,7 +3,7 @@ using Scrumboard.Application.Adherents.Dtos;
 
 namespace Scrumboard.Application.Cards.Dtos;
 
-public class ActivityDto
+public sealed class ActivityDto
 {
     public int Id { get; set; }
     public DateTime CreatedDate { get; set; }

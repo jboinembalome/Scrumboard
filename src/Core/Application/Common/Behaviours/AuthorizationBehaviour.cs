@@ -11,7 +11,7 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
     private readonly ICurrentUserService _currentUserService;

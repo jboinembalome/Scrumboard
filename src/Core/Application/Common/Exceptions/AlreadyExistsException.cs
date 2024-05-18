@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Common.Exceptions;
 
-public class AlreadyExistsException : Exception
+public sealed class AlreadyExistsException : Exception
 {
     public AlreadyExistsException() 
         : base() { }

@@ -5,12 +5,11 @@ using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;
 
-public class GetLabelsByBoardIdQueryHandler : IRequestHandler<GetLabelsByBoardIdQuery, IEnumerable<LabelDto>>
+internal sealed class GetLabelsByBoardIdQueryHandler : IRequestHandler<GetLabelsByBoardIdQuery, IEnumerable<LabelDto>>
 {
     private readonly IAsyncRepository<Label, int> _labelRepository;
     private readonly IMapper _mapper;

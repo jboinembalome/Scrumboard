@@ -3,7 +3,7 @@ using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Domain.Boards;
 
-public class BoardSetting: IEntity<int>
+public sealed class BoardSetting: IEntity<int>
 {
     public int Id { get; set; }
     public Colour Colour { get; set; } = Colour.Gray;

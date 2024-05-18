@@ -8,7 +8,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Commands.UpdatePinnedBoard;
 
-public class UpdatePinnedBoardCommandHandler : IRequestHandler<UpdatePinnedBoardCommand>
+internal sealed class UpdatePinnedBoardCommandHandler : IRequestHandler<UpdatePinnedBoardCommand>
 {
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IMapper _mapper;

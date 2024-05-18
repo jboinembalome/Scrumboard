@@ -19,7 +19,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 
-public class UpdateCardCommandHandler : IRequestHandler<UpdateCardCommand, UpdateCardCommandResponse>
+internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardCommand, UpdateCardCommandResponse>
 {
     private readonly IMapper _mapper;
     private readonly IAsyncRepository<Card, int> _cardRepository;
@@ -51,7 +51,7 @@ public class UpdateCardCommandHandler : IRequestHandler<UpdateCardCommand, Updat
     {
         var updateCardCommandResponse = new UpdateCardCommandResponse();
 
-        var specification = new CardWithAllExceptComment(request.Id);
+        var specification = new CardWithAllExceptCommentSpec(request.Id);
         var cardToUpdate = await _cardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
         if (cardToUpdate == null)

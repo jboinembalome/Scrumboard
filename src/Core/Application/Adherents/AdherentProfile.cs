@@ -7,7 +7,7 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Application.Adherents;
 
-public class AdherentProfile : Profile
+internal sealed class AdherentProfile : Profile
 {
     public AdherentProfile()
     {

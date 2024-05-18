@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Scrumboard.Infrastructure.Identity;
 
-public class ProfileService : IProfileService
+internal sealed class ProfileService : IProfileService
 {
     protected UserManager<ApplicationUser> UserManager;
     private readonly IHttpContextAccessor _httpContextAccessor;

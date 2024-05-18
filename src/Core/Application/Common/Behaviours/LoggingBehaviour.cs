@@ -7,7 +7,7 @@ using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
+internal sealed class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
 {
     private readonly IAppLogger<TRequest> _logger;
     private readonly ICurrentUserService _currentUserService;

@@ -4,6 +4,6 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 
-public class GetWeatherForecastsQuery : IRequest<IEnumerable<WeatherForecast>>
+public sealed class GetWeatherForecastsQuery : IRequest<IEnumerable<WeatherForecast>>
 {
 }

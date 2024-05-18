@@ -5,7 +5,7 @@ using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Domain.Cards.Activities;
 
-public class ActivityField : ValueObject
+public sealed class ActivityField : ValueObject
 {
     static ActivityField()
     {

@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Common.Exceptions;
 
-public class NotFoundException : Exception
+public sealed class NotFoundException : Exception
 {
     public NotFoundException()
         : base() { }

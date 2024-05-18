@@ -8,7 +8,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Commands.DeleteBoard;
 
-public class DeleteBoardHandler : IRequestHandler<DeleteBoardCommand>
+internal sealed class DeleteBoardHandler : IRequestHandler<DeleteBoardCommand>
 {
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IMapper _mapper;

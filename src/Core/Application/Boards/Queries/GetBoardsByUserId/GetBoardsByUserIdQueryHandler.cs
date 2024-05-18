@@ -9,7 +9,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
 
-public class GetBoardsByUserIdQueryHandler : IRequestHandler<GetBoardsByUserIdQuery, IEnumerable<BoardDto>>
+internal sealed class GetBoardsByUserIdQueryHandler : IRequestHandler<GetBoardsByUserIdQuery, IEnumerable<BoardDto>>
 {
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IMapper _mapper;

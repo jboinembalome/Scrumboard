@@ -7,7 +7,7 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Application.Boards;
 
-public class BoardProfile : Profile
+internal sealed class BoardProfile : Profile
 {
     public BoardProfile()
     {

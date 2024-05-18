@@ -6,7 +6,7 @@ using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+internal sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
     where TRequest : IRequest<TResponse>
 {
     private readonly IAppLogger<TRequest> _logger;

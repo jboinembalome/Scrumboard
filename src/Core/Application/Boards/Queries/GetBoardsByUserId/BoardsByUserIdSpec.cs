@@ -4,7 +4,7 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
 
-public class BoardsByUserIdSpec : Specification<Board>
+internal sealed class BoardsByUserIdSpec : Specification<Board>
 {
     public BoardsByUserIdSpec(string userId)
     {

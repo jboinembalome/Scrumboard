@@ -11,7 +11,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 
-public class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCommand, UpdateBoardCommandResponse>
+internal sealed class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCommand, UpdateBoardCommandResponse>
 {
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IMapper _mapper;

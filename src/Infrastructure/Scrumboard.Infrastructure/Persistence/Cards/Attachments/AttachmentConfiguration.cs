@@ -4,7 +4,7 @@ using Scrumboard.Domain.Cards.Attachments;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Attachments;
 
-public class AttachmentConfiguration : IEntityTypeConfiguration<Attachment>
+internal sealed class AttachmentConfiguration : IEntityTypeConfiguration<Attachment>
 {
     public void Configure(EntityTypeBuilder<Attachment> builder)
     {

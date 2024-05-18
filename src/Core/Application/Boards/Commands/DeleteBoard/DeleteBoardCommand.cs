@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Boards.Commands.DeleteBoard;
 
-public class DeleteBoardCommand : IRequest
+public sealed class DeleteBoardCommand : IRequest
 {
     public int BoardId { get; set; }
 }

@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Cards.Dtos;
 
-public class ChecklistDto
+public sealed class ChecklistDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

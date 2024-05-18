@@ -4,7 +4,7 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Domain.Cards.Activities;
 
-public class Activity : AuditableEntity, IEntity<int>
+public sealed class Activity : AuditableEntity, IEntity<int>
 {
     public Activity()
     {

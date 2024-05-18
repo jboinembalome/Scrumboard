@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Domain.Cards.Checklists;
 
-public class ChecklistItem : AuditableEntity, IEntity<int>
+public sealed class ChecklistItem : AuditableEntity, IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }

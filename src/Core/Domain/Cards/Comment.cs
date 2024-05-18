@@ -4,7 +4,7 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Domain.Cards;
 
-public class Comment : AuditableEntity, IEntity<int>
+public sealed class Comment : AuditableEntity, IEntity<int>
 {
     public int Id { get; set; }
     public string Message { get; set; }

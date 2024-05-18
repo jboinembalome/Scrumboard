@@ -7,7 +7,7 @@ using Scrumboard.Application.Cards.Dtos;
 
 namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 
-public class UpdateCardCommand : IRequest<UpdateCardCommandResponse>
+public sealed class UpdateCardCommand : IRequest<UpdateCardCommandResponse>
 {
     public int Id { get; set; }
     public string Name { get; set; }

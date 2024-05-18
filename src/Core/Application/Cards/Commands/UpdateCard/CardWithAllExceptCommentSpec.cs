@@ -3,9 +3,9 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 
-public class CardWithAllExceptComment : Specification<Card>, ISingleResultSpecification
+internal sealed class CardWithAllExceptCommentSpec : Specification<Card>, ISingleResultSpecification
 {
-    public CardWithAllExceptComment(int cardId)
+    public CardWithAllExceptCommentSpec(int cardId)
     {
         Query.Where(c => c.Id == cardId);
 

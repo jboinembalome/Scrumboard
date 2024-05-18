@@ -4,7 +4,7 @@ using Scrumboard.Domain.Cards.Checklists;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Checklists;
 
-public class ChecklistItemConfiguration : IEntityTypeConfiguration<ChecklistItem>
+internal sealed class ChecklistItemConfiguration : IEntityTypeConfiguration<ChecklistItem>
 {
     public void Configure(EntityTypeBuilder<ChecklistItem> builder)
     {

@@ -7,7 +7,7 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Domain.Adherents;
 
-public class Adherent: IEntity<int>
+public sealed class Adherent: IEntity<int>
 {
     public int Id { get; set; }
     public string IdentityId { get; set; }

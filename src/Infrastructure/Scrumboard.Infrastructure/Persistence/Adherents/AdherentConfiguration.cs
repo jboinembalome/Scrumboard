@@ -6,7 +6,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Adherents;
 
-public class AdherentConfiguration : IEntityTypeConfiguration<Adherent>
+internal sealed class AdherentConfiguration : IEntityTypeConfiguration<Adherent>
 {
     public void Configure(EntityTypeBuilder<Adherent> builder)
     {

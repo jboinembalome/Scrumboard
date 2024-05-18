@@ -19,7 +19,7 @@ using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
-public class ScrumboardDbContext : ApiAuthorizationDbContext<ApplicationUser>
+public sealed class ScrumboardDbContext : ApiAuthorizationDbContext<ApplicationUser>
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IDateTime _dateTime;

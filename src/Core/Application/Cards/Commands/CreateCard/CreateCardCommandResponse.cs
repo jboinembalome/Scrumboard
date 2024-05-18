@@ -3,7 +3,7 @@ using Scrumboard.Application.Common.Models;
 
 namespace Scrumboard.Application.Cards.Commands.CreateCard;
 
-public class CreateCardCommandResponse : BaseResponse
+public sealed class CreateCardCommandResponse : BaseResponse
 {
     public CreateCardCommandResponse() : base() { }
 

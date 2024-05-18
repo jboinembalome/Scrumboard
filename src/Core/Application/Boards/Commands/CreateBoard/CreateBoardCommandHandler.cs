@@ -12,7 +12,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Commands.CreateBoard;
 
-public class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, CreateBoardCommandResponse>
+internal sealed class CreateBoardCommandHandler : IRequestHandler<CreateBoardCommand, CreateBoardCommandResponse>
 {
     private readonly IAsyncRepository<Board, int> _boardRepository;
     private readonly IAsyncRepository<Adherent, int> _adherentRepository;

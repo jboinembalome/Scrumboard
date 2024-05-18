@@ -10,7 +10,7 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Infrastructure.Identity;
 
-public class IdentityService : IIdentityService
+internal sealed class IdentityService : IIdentityService
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;

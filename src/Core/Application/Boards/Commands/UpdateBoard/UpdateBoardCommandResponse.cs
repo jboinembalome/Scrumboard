@@ -4,7 +4,7 @@ using Scrumboard.Application.ListBoards.Dtos;
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 
-public class UpdateBoardCommandResponse : BaseResponse
+public sealed class UpdateBoardCommandResponse : BaseResponse
 {
     public UpdateBoardCommandResponse() : base() { }
        

@@ -4,7 +4,7 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards;
 
-public class BoardSettingConfiguration : IEntityTypeConfiguration<BoardSetting>
+internal sealed class BoardSettingConfiguration : IEntityTypeConfiguration<BoardSetting>
 {
     public void Configure(EntityTypeBuilder<BoardSetting> builder)
     {

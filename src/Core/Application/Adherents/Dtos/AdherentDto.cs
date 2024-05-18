@@ -1,7 +1,7 @@
 ﻿
 namespace Scrumboard.Application.Adherents.Dtos;
 
-public class AdherentDto
+public sealed class AdherentDto
 {
     public int Id { get; set; }
     public string IdentityId { get; set; }

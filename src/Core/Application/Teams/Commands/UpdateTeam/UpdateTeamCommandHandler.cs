@@ -13,7 +13,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Teams.Commands.UpdateTeam;
 
-public class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamCommand, UpdateTeamCommandResponse>
+internal sealed class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamCommand, UpdateTeamCommandResponse>
 {
     private readonly IAsyncRepository<Team, int> _teamRepository;
     private readonly ICurrentUserService _currentUserService;

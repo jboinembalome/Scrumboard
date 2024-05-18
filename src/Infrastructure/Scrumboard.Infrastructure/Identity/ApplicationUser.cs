@@ -3,7 +3,7 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Infrastructure.Identity;
 
-public class ApplicationUser : IdentityUser, IUser
+public sealed class ApplicationUser : IdentityUser, IUser
 {
     [PersonalData]
     public string FirstName { get; set; }

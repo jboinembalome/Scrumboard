@@ -6,7 +6,7 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Application.Boards.Labels;
 
-public class LabelProfile : Profile
+internal sealed class LabelProfile : Profile
 {
     public LabelProfile()
     {

@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Application.Cards.Comments.Commands.CreateComment;
 
-public class CreateCommentCommand : IRequest<CreateCommentCommandResponse>
+public sealed class CreateCommentCommand : IRequest<CreateCommentCommandResponse>
 {
     public string Message { get; set; }
 

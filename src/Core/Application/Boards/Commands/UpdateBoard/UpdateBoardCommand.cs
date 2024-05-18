@@ -6,7 +6,7 @@ using Scrumboard.Application.Teams.Dtos;
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 
-public class UpdateBoardCommand : IRequest<UpdateBoardCommandResponse>
+public sealed class UpdateBoardCommand : IRequest<UpdateBoardCommandResponse>
 {
     public int BoardId { get; set; }
     public string Name { get; set; }

@@ -8,7 +8,7 @@ using Scrumboard.Infrastructure.Abstractions.FileExport;
 
 namespace Scrumboard.Infrastructure.FileExport;
 
-public class CsvExporter<T> : ICsvExporter<T> where T : class
+internal sealed class CsvExporter<T> : ICsvExporter<T> where T : class
 {
     public async Task<byte[]> ExportToCsvAsync(IEnumerable<T> records, CancellationToken cancellationToken)
     {

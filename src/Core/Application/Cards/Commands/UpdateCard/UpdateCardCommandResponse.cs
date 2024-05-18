@@ -3,7 +3,7 @@ using Scrumboard.Application.Common.Models;
 
 namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 
-public class UpdateCardCommandResponse : BaseResponse
+public sealed class UpdateCardCommandResponse : BaseResponse
 {
     public UpdateCardCommandResponse() : base() { }
        

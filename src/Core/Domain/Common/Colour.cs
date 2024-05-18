@@ -4,7 +4,7 @@ using Scrumboard.Domain.Common.Errors;
 
 namespace Scrumboard.Domain.Common;
 
-public class Colour : ValueObject
+public sealed class Colour : ValueObject
 {
     static Colour()
     {

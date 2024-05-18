@@ -11,7 +11,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 
-public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, UpdateCommentCommandResponse>
+internal sealed class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, UpdateCommentCommandResponse>
 {
     private readonly IAsyncRepository<Comment, int> _commentRepository;
     private readonly ICurrentUserService _currentUserService;

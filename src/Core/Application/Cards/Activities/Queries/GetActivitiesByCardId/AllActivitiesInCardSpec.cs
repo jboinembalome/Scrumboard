@@ -3,7 +3,7 @@ using Scrumboard.Domain.Cards.Activities;
 
 namespace Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
 
-public class AllActivitiesInCardSpec : Specification<Activity>, ISingleResultSpecification
+internal sealed class AllActivitiesInCardSpec : Specification<Activity>, ISingleResultSpecification
 {
     public AllActivitiesInCardSpec(int cardId)
     {

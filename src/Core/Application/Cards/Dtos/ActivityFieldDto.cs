@@ -1,7 +1,7 @@
 ﻿
 namespace Scrumboard.Application.Cards.Dtos;
 
-public class ActivityFieldDto
+public sealed class ActivityFieldDto
 {
     public string Field { get; set; }
 }

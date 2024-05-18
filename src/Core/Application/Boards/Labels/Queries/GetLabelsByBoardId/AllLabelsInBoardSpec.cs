@@ -5,7 +5,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;
 
-public class AllLabelsInBoardSpec : Specification<Label>, ISingleResultSpecification
+internal sealed class AllLabelsInBoardSpec : Specification<Label>, ISingleResultSpecification
 {
     public AllLabelsInBoardSpec(int boardId)
     {

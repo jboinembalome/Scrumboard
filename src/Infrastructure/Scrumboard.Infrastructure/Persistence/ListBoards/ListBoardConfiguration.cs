@@ -4,7 +4,7 @@ using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Infrastructure.Persistence.ListBoards;
 
-public class ListBoardConfiguration : IEntityTypeConfiguration<ListBoard>
+internal sealed class ListBoardConfiguration : IEntityTypeConfiguration<ListBoard>
 {
     public void Configure(EntityTypeBuilder<ListBoard> builder)
     {

@@ -3,7 +3,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards.Queries.GetCardDetail;
 
-public class CardWithAllSpec : Specification<Card>, ISingleResultSpecification
+internal sealed class CardWithAllSpec : Specification<Card>, ISingleResultSpecification
 {
     public CardWithAllSpec(int cardId)
     {

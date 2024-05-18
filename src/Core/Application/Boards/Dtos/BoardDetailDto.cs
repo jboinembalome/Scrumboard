@@ -5,7 +5,7 @@ using Scrumboard.Application.Teams.Dtos;
 
 namespace Scrumboard.Application.Boards.Dtos;
 
-public class BoardDetailDto
+public sealed class BoardDetailDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

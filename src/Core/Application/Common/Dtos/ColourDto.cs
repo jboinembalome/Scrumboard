@@ -1,7 +1,7 @@
 ﻿
 namespace Scrumboard.Application.Common.Dtos;
 
-public class ColourDto
+public sealed class ColourDto
 {
     public string Colour { get; set; }
 }

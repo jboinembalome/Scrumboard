@@ -4,7 +4,7 @@ using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Infrastructure.Persistence.Teams;
 
-public class TeamConfiguration : IEntityTypeConfiguration<Team>
+internal sealed class TeamConfiguration : IEntityTypeConfiguration<Team>
 {
     public void Configure(EntityTypeBuilder<Team> builder)
     {

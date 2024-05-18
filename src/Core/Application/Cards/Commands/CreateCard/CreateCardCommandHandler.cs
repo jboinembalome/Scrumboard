@@ -11,7 +11,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Commands.CreateCard;
 
-public class CreateCardCommandHandler : IRequestHandler<CreateCardCommand, CreateCardCommandResponse>
+internal sealed class CreateCardCommandHandler : IRequestHandler<CreateCardCommand, CreateCardCommandResponse>
 {
     private readonly IAsyncRepository<Card, int> _cardRepository;
     private readonly IAsyncRepository<ListBoard, int> _listBoardRepository;

@@ -4,7 +4,7 @@ using Scrumboard.Domain.Cards.Activities;
 
 namespace Scrumboard.Application.Cards.Activities;
 
-public class ActivityProfile : Profile
+internal sealed class ActivityProfile : Profile
 {
     public ActivityProfile()
     {

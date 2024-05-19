@@ -1,10 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>Scrumboard.Application</AssemblyName>
-    <RootNamespace>Scrumboard.Application</RootNamespace>
-  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Ardalis.Specification" />
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="AutoMapper.Collection" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj" />
@@ -13,17 +17,6 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Ardalis.Specification" Version="6.0.1" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="FluentValidation" Version="11.0.2" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.0.2" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>

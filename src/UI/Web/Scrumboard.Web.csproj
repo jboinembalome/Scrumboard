@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
@@ -13,25 +12,25 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\boine\source\repos\Scrumboard\src\UI\Web\bin\Debug\net5.0\Scrumboard.Web.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\boine\source\repos\Scrumboard\src\UI\Web\bin\Debug\net8.0\Scrumboard.Web.xml</DocumentationFile>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1701;1702;1591</NoWarn>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.2" />
-	<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
+    <PackageReference Include="FluentValidation.AspNetCore" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="6.0.5" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.1" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" />
   </ItemGroup>
 
   <ItemGroup>

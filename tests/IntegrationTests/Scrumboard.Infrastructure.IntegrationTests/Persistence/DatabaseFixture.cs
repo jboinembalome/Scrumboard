@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Respawn;
 using Scrumboard.Infrastructure.Persistence;
-using Scrumboard.Infrastructure.Persistence.Repositories;
 using System;
 using System.Threading.Tasks;
 using Scrumboard.Domain.Common;

@@ -1,13 +1,13 @@
-﻿using Ardalis.Specification;
-using Ardalis.Specification.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
-namespace Scrumboard.Infrastructure.Persistence.Repositories;
+namespace Scrumboard.Infrastructure.Persistence;
 
 internal class BaseRepository<T, TId> 
     : IAsyncRepository<T, TId> where T : class, Domain.Common.IEntity<TId>

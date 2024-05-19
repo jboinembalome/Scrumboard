@@ -14,7 +14,6 @@ using Scrumboard.Infrastructure.FileExport;
 using Scrumboard.Infrastructure.Identity;
 using Scrumboard.Infrastructure.Logging;
 using Scrumboard.Infrastructure.Persistence;
-using Scrumboard.Infrastructure.Persistence.Repositories;
 
 namespace Scrumboard.Infrastructure;
 

@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Boards;
 
-namespace Scrumboard.Application.Boards.Queries.GetBoardDetail;
+namespace Scrumboard.Application.Boards.Specifications;
 
 internal sealed class BoardWithAllSpec : Specification<Board>, ISingleResultSpecification
 {

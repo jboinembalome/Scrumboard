@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Cards.Activities;
 
-namespace Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
+namespace Scrumboard.Application.Cards.Activities.Specifications;
 
 internal sealed class AllActivitiesInCardSpec : Specification<Activity>, ISingleResultSpecification
 {

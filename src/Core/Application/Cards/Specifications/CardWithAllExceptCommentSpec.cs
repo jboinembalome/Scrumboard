@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Cards;
 
-namespace Scrumboard.Application.Cards.Commands.UpdateCard;
+namespace Scrumboard.Application.Cards.Specifications;
 
 internal sealed class CardWithAllExceptCommentSpec : Specification<Card>, ISingleResultSpecification
 {

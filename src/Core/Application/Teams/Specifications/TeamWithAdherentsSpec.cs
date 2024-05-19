@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Entities;
 
-namespace Scrumboard.Application.Teams.Commands.UpdateTeam;
+namespace Scrumboard.Application.Teams.Specifications;
 
 internal sealed class TeamWithAdherentsSpec : Specification<Team>, ISingleResultSpecification
 {

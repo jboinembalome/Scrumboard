@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Boards.Dtos;
+using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 

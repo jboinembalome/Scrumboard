@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
+using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Xunit;

@@ -2,7 +2,7 @@
 using Ardalis.Specification;
 using Scrumboard.Domain.Adherents;
 
-namespace Scrumboard.Application.Adherents.Queries.GetAdherents;
+namespace Scrumboard.Application.Adherents.Specifications;
 
 internal sealed class AllAdherentsInTeamSpec : Specification<Adherent>, ISingleResultSpecification
 {

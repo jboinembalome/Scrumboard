@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Cards;
 
-namespace Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
+namespace Scrumboard.Application.Cards.Comments.Specifications;
 
 internal sealed class CommentWithAdherentAndCardSpec : Specification<Comment>, ISingleResultSpecification
 {

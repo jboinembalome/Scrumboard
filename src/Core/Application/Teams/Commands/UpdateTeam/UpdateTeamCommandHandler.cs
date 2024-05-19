@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.Teams.Dtos;
+using Scrumboard.Application.Teams.Specifications;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Entities;
 using Scrumboard.Infrastructure.Abstractions.Common;

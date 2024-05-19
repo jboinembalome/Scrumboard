@@ -5,6 +5,7 @@ using MediatR;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.ListBoards;
+using Scrumboard.Application.ListBoards.Specifications;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;

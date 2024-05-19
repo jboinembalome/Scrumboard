@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
+using Scrumboard.Application.Cards.Comments.Specifications;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;

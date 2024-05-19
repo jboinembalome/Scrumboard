@@ -6,6 +6,7 @@ using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Cards.Dtos;
+using Scrumboard.Application.Cards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Scrumboard.Application.Cards.Comments.Specifications;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Cards;

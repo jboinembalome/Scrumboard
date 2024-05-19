@@ -1,9 +1,8 @@
 ﻿using System.Linq;
 using Ardalis.Specification;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Cards;
 
-namespace Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;
+namespace Scrumboard.Application.Boards.Labels.Specifications;
 
 internal sealed class AllLabelsInBoardSpec : Specification<Label>, ISingleResultSpecification
 {

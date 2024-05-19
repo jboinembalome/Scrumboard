@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using Scrumboard.Domain.Cards;
 
-namespace Scrumboard.Application.Cards.Queries.GetCardDetail;
+namespace Scrumboard.Application.Cards.Specifications;
 
 internal sealed class CardWithAllSpec : Specification<Card>, ISingleResultSpecification
 {

@@ -1,10 +1,6 @@
 ﻿using Ardalis.Specification;
 using Moq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
@@ -145,7 +141,7 @@ public class RepositoryMocks
                         {
                             Id = 2,
                             Name = "Change background colors",
-                            Description = null,
+                            Description = null!,
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0] },
@@ -319,7 +315,7 @@ public class RepositoryMocks
                 return boardList;
             });
 
-        mockBoardRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+        mockBoardRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(
             (int id, CancellationToken cancellationToken) =>
             {
                 var board = boards.FirstOrDefault(b => b.Id == id);
@@ -327,9 +323,9 @@ public class RepositoryMocks
             });
 
         mockBoardRepository.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<ISpecification<Board>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-            (ISpecification<Board> specification, CancellationToken cancellationToken) =>
+            (ISpecification<Board?> specification, CancellationToken cancellationToken) =>
             {
-                Board board = specification.Evaluate(boards).FirstOrDefault();
+                Board? board = specification.Evaluate(boards).FirstOrDefault();
                 return board;
             });
 
@@ -377,7 +373,7 @@ public class RepositoryMocks
                 return adherentList;
             });
 
-        mockAdherentRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+        mockAdherentRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(
             (int id, CancellationToken cancellationToken) =>
             {
                 var adherent = adherents.FirstOrDefault(b => b.Id == id);
@@ -385,9 +381,9 @@ public class RepositoryMocks
             });
 
         mockAdherentRepository.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<ISpecification<Adherent>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-            (ISpecification<Adherent> specification, CancellationToken cancellationToken) =>
+            (ISpecification<Adherent?> specification, CancellationToken cancellationToken) =>
             {
-                Adherent adherent = specification.Evaluate(adherents).FirstOrDefault();
+                Adherent? adherent = specification.Evaluate(adherents).FirstOrDefault();
                 return adherent;
             });
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Scrumboard.Domain.Cards.Activities.Errors;
+﻿namespace Scrumboard.Domain.Cards.Activities.Errors;
 
 public sealed class UnsupportedActivityFieldException : Exception
 {

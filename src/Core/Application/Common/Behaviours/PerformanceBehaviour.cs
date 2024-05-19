@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using MediatR;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;
@@ -28,7 +26,7 @@ internal sealed class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehav
         _identityService = identityService;
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         _timer.Start();
 
@@ -48,7 +46,7 @@ internal sealed class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehav
                 userName = await _identityService.GetUserNameAsync(userId);
 
             _logger.LogWarning("Scrumboard API Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
-                requestName, elapsedMilliseconds, userId, userName, request);
+                requestName, elapsedMilliseconds, userId, userName!, request);
         }
 
         return response;

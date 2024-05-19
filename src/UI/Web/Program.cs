@@ -1,13 +1,7 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Scrumboard.Infrastructure.Identity;
 using Scrumboard.Infrastructure.Persistence;
-using System;
-using System.Threading.Tasks;
 
 namespace Scrumboard.Web;
 

@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
 using Scrumboard.Application.Teams.Commands.UpdateTeam;

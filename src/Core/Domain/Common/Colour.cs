@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Scrumboard.Domain.Common.Errors;
+﻿using Scrumboard.Domain.Common.Errors;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Domain.Common;
 
@@ -60,7 +60,7 @@ public sealed class Colour : ValueObject
 
     public override string ToString() => Code;
 
-    protected static IEnumerable<Colour> SupportedColours
+    public static IEnumerable<Colour> SupportedColours
     {
         get
         {

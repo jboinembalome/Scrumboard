@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
@@ -17,7 +15,7 @@ internal sealed class DeleteLabelCommandHandler : IRequestHandler<DeleteLabelCom
         _labelRepository = labelRepository;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         DeleteLabelCommand request, 
         CancellationToken cancellationToken)
     {
@@ -27,7 +25,5 @@ internal sealed class DeleteLabelCommandHandler : IRequestHandler<DeleteLabelCom
             throw new NotFoundException(nameof(Card), request.LabelId);
 
         await _labelRepository.DeleteAsync(labelToDelete, cancellationToken);
-
-        return Unit.Value;
     }
 }

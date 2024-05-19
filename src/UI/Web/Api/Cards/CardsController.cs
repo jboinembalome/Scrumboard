@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
 using Scrumboard.Application.Cards.Commands.CreateCard;
 using Scrumboard.Application.Cards.Commands.DeleteCard;

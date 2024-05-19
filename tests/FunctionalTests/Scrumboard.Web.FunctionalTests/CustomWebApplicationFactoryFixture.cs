@@ -6,19 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrumboard.Infrastructure.Identity;
 using Scrumboard.Infrastructure.Persistence;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Scrumboard.Web.FunctionalTests;
 
 public class CustomWebApplicationFactoryFixture<TStartup>
     : WebApplicationFactory<TStartup> where TStartup : class
 {
-    private static IConfigurationRoot _configuration;
-
-    public ApplicationUser AdministratorUser { get; private set; }
-
+    private static IConfigurationRoot? _configuration;
+    
     public CustomWebApplicationFactoryFixture()
     {
         var configurationBuilder = new ConfigurationBuilder()
@@ -29,49 +24,40 @@ public class CustomWebApplicationFactoryFixture<TStartup>
         _configuration = configurationBuilder.Build();
     }
 
-    protected override void Dispose(bool disposing)
-    {
-
-        using var scope = Services.CreateScope();
-
-        var context = scope.ServiceProvider.GetService<ScrumboardDbContext>();
-
-        context.Database.EnsureDeleted();
-
-        base.Dispose(disposing);
-    }
-
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-
-        builder.UseConfiguration(_configuration);
-
-        builder.ConfigureServices(services =>
+        if (_configuration != null)
         {
-            // Remove the ScrumboardDbContext registration present in Startup.
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ScrumboardDbContext>));
+            builder.UseConfiguration(_configuration);
 
-            if (descriptor != null)
-                services.Remove(descriptor);
-
-            // Add a new ScrumboardDbContext registration.
-            if (_configuration.GetValue<bool>("UseInMemoryDatabase"))
+            builder.ConfigureServices(services =>
             {
-                services.AddDbContext<ScrumboardDbContext>(options =>
-                    options.UseInMemoryDatabase("ScrumboardDb"));
-            }
-            else
-            {
-                services.AddDbContext<ScrumboardDbContext>(options =>
-                    options.UseSqlServer(
-                        _configuration.GetConnectionString("DefaultConnection"),
-                        b => b.MigrationsAssembly(typeof(ScrumboardDbContext).Assembly.FullName)));
-            }
+                // Remove the ScrumboardDbContext registration present in Startup.
+                var descriptor =
+                    services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ScrumboardDbContext>));
 
-            var serviceProvider = services.BuildServiceProvider();
+                if (descriptor != null)
+                    services.Remove(descriptor);
 
-            EnsureDatabase(serviceProvider).Wait();
-        });
+                // Add a new ScrumboardDbContext registration.
+                if (_configuration.GetValue<bool>("UseInMemoryDatabase"))
+                {
+                    services.AddDbContext<ScrumboardDbContext>(options =>
+                        options.UseInMemoryDatabase("ScrumboardDb"));
+                }
+                else
+                {
+                    services.AddDbContext<ScrumboardDbContext>(options =>
+                        options.UseSqlServer(
+                            _configuration.GetConnectionString("DefaultConnection"),
+                            b => b.MigrationsAssembly(typeof(ScrumboardDbContext).Assembly.FullName)));
+                }
+
+                var serviceProvider = services.BuildServiceProvider();
+
+                EnsureDatabase(serviceProvider).Wait();
+            });
+        }
     }
 
     private static async Task EnsureDatabase(ServiceProvider serviceProvider)
@@ -80,10 +66,10 @@ public class CustomWebApplicationFactoryFixture<TStartup>
 
         var context = scope.ServiceProvider.GetService<ScrumboardDbContext>();
 
-        if (!context.Database.IsInMemory())
+        if (context is not null && !context.Database.IsInMemory())
             context.Database.Migrate();
         else
-            context.Database.EnsureCreated();
+            context!.Database.EnsureCreated();
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();

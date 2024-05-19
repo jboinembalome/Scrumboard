@@ -5,48 +5,47 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Respawn;
 using Scrumboard.Infrastructure.Persistence;
-using System;
-using System.Threading.Tasks;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
 
 public class DatabaseFixture : IDisposable
 {
     private const string DEFAULT_SQL_CONNECTION = "Server=(localdb)\\mssqllocaldb;Database=ScrumboardTestDb;Trusted_Connection=True;MultipleActiveResultSets=true;";
-    private readonly Mock<ICurrentUserService> _mockCurrentUserService;
     private readonly Mock<IDateTime> _mockDateTime;
-
+    
+    public readonly Mock<ICurrentUserService> MockCurrentUserService;
     public ScrumboardDbContext DbContext { get; private set; }
 
     public DatabaseFixture()
     {
         var _currentUserService = "00000000-0000-0000-0000-000000000000";
-        _mockCurrentUserService = new Mock<ICurrentUserService>();
-        _mockCurrentUserService.Setup(m => m.UserId).Returns(_currentUserService);
+        MockCurrentUserService = new Mock<ICurrentUserService>();
+        MockCurrentUserService.Setup(m => m.UserId).Returns(_currentUserService);
 
         _mockDateTime = new Mock<IDateTime>();
-        _mockDateTime.Setup(m => m.Now).Returns(DateTime.Now);          
+        _mockDateTime.Setup(m => m.Now).Returns(DateTime.Now);
     }  
 
     public IAsyncRepository<T, TId> GetRepository<T, TId>(bool inMemoryDatabase = false) where T : class, IEntity<TId>
     {      
-        if (DbContext == null)
-            SetDbContext(inMemoryDatabase);
+        SetDbContext(inMemoryDatabase);
 
-        return new BaseRepository<T,TId>(DbContext);
+        return new BaseRepository<T,TId>(DbContext!);
     }
-
-    public static async Task ResetState()
+    
+    public async Task ResetState()
     {
-        Checkpoint checkpoint = new()
+        var checkpoint = await Respawner.CreateAsync(DEFAULT_SQL_CONNECTION, new RespawnerOptions
         {
-            TablesToIgnore = new[] { "__EFMigrationsHistory" }
-        };
+            TablesToIgnore = ["__EFMigrationsHistory"]
+        });
 
-        await checkpoint.Reset(DEFAULT_SQL_CONNECTION);
+        await checkpoint.ResetAsync(DEFAULT_SQL_CONNECTION);
     }
 
     private static DbContextOptions<ScrumboardDbContext> CreateNewContextOptions(bool inMemoryDatabase)
@@ -86,7 +85,7 @@ public class DatabaseFixture : IDisposable
         var options = CreateNewContextOptions(inMemoryDatabase);
         var operationalStoreOptions = Options.Create(new OperationalStoreOptions());
 
-        DbContext = new ScrumboardDbContext(options, operationalStoreOptions, _mockCurrentUserService.Object, _mockDateTime.Object);
+        DbContext = new ScrumboardDbContext(options, operationalStoreOptions, MockCurrentUserService.Object, _mockDateTime.Object);
         if (!inMemoryDatabase)
             DbContext.Database.Migrate();
         else

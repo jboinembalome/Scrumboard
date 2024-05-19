@@ -4,11 +4,11 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    string returnUrl = null;
+    string returnUrl = null!;
     var query = ViewContext.HttpContext.Request.Query;
     if (query.ContainsKey("returnUrl"))
     {
-        returnUrl = query["returnUrl"];
+        returnUrl = query["returnUrl"]!;
     }
 }
 

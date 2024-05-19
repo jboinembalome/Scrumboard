@@ -1,6 +1,4 @@
 ﻿using Moq;
-using System.Threading;
-using System.Threading.Tasks;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Common.Behaviours;
 using Scrumboard.Infrastructure.Abstractions.Common;
@@ -42,7 +40,7 @@ public class LoggingBehaviourTests
 
             await requestLogger.Process(new CreateBoardCommand(), new CancellationToken());
 
-            _identityService.Verify(i => i.GetUserNameAsync(null, default), Times.Never);
+            _identityService.Verify(i => i.GetUserNameAsync(null!, default), Times.Never);
         }
 
 }

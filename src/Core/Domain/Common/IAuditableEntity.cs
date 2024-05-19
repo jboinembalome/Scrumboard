@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Scrumboard.Domain.Common;
+﻿namespace Scrumboard.Domain.Common;
 
 public interface IAuditableEntity
 {

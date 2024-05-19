@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
@@ -21,7 +19,7 @@ internal sealed class UpdatePinnedBoardCommandHandler : IRequestHandler<UpdatePi
         _boardRepository = boardRepository;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         UpdatePinnedBoardCommand request, 
         CancellationToken cancellationToken)
     {
@@ -33,7 +31,5 @@ internal sealed class UpdatePinnedBoardCommandHandler : IRequestHandler<UpdatePi
         _mapper.Map(request, boardToUpdate, typeof(UpdatePinnedBoardCommand), typeof(Board));
 
         await _boardRepository.UpdateAsync(boardToUpdate, cancellationToken);
-
-        return Unit.Value;
     }
 }

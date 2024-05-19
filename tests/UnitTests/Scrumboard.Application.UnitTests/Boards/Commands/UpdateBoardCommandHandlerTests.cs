@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using Moq;
+using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.Common.Profiles;
@@ -26,6 +24,7 @@ public class UpdateBoardCommandHandlerTests
         var configurationProvider = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<MappingProfile>();
+            cfg.AddProfile<BoardProfile>();
         });
 
         _mapper = configurationProvider.CreateMapper();
@@ -43,8 +42,7 @@ public class UpdateBoardCommandHandlerTests
         var updatedBoard = await _mockBoardRepository.Object.GetByIdAsync(1, CancellationToken.None);
 
         // Assert
-        result.Should().Be(Unit.Value);
-        updatedBoard.Name.Should().Be("My new name");
+        updatedBoard!.Name.Should().Be("My new name");
     }
 
     [Fact]

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Application.Boards.Specifications;

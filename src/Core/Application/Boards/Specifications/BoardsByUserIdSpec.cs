@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Ardalis.Specification;
+﻿using Ardalis.Specification;
 using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Application.Boards.Specifications;

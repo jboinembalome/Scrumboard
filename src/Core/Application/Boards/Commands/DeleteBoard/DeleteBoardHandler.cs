@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
@@ -21,7 +19,7 @@ internal sealed class DeleteBoardHandler : IRequestHandler<DeleteBoardCommand>
         _boardRepository = boardRepository;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         DeleteBoardCommand request, 
         CancellationToken cancellationToken)
     {
@@ -31,7 +29,5 @@ internal sealed class DeleteBoardHandler : IRequestHandler<DeleteBoardCommand>
             throw new NotFoundException(nameof(Board), request.BoardId);
 
         await _boardRepository.DeleteAsync(boardToDelete, cancellationToken);
-
-        return Unit.Value;
     }
 }

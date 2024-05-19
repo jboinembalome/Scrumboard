@@ -1,6 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Adherents.Specifications;
@@ -39,14 +37,14 @@ internal sealed class CreateBoardCommandHandler : IRequestHandler<CreateBoardCom
 
         // TODO: Investigate
         if (adherent is null)
-            await _adherentRepository.AddAsync(adherent, cancellationToken);
+            await _adherentRepository.AddAsync(adherent!, cancellationToken);
 
         var board = _mapper.Map<Board>(request);
-        board.Adherent = adherent;
+        board.Adherent = adherent!;
         board.BoardSetting = new BoardSetting();
         // TODO: Update code for team name
         board.Team = new Team { Name = "Team 1", Adherents = new Collection<Adherent>() };
-        board.Team.Adherents.Add(adherent);
+        board.Team.Adherents.Add(adherent!);
 
         board = await _boardRepository.AddAsync(board, cancellationToken);
 

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
 using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Infrastructure.Logging;

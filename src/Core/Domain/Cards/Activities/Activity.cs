@@ -1,6 +1,7 @@
-﻿using System;
-using Scrumboard.Domain.Adherents;
+﻿using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Common;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Domain.Cards.Activities;
 
@@ -8,7 +9,6 @@ public sealed class Activity : IAuditableEntity, IEntity<int>
 {
     public Activity()
     {
-
     }
 
     public Activity(ActivityType activityType, ActivityField activityField, string oldValue, string newValue)

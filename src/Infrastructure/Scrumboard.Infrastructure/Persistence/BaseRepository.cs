@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Ardalis.Specification;
+﻿using Ardalis.Specification;
 using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
@@ -21,9 +17,9 @@ internal class BaseRepository<T, TId>
         _specificationEvaluator = SpecificationEvaluator.Default;
     }
 
-    public virtual async Task<T> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
+    public virtual async Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
+        var keyValues = new object[] { id! };
         
         return await _dbContext.Set<T>().FindAsync(keyValues, cancellationToken);
     }
@@ -81,7 +77,7 @@ internal class BaseRepository<T, TId>
         return await specificationResult.FirstAsync(cancellationToken);
     }
 
-    public async Task<T> FirstOrDefaultAsync(
+    public async Task<T?> FirstOrDefaultAsync(
         ISpecification<T> spec, 
         CancellationToken cancellationToken = default)
     {

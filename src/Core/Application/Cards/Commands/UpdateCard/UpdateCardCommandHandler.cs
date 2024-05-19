@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Adherents.Dtos;
@@ -64,12 +60,13 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
         var adherent = await _adherentRepository.FirstOrDefaultAsync(adherentSpecification, cancellationToken);
         var newActivities = await GetNewActivities(cardToUpdate, request, cancellationToken);
 
-        newActivities.ForEach(a =>
+        foreach (var activity in newActivities)
         {
-            a.Adherent = adherent;
+            activity.Adherent = adherent!;
+            
             if (cardToUpdate.Activities.Any())
-                cardToUpdate.Activities.Add(a);
-        });
+                cardToUpdate.Activities.Add(activity);
+        }
 
         if (!cardToUpdate.Activities.Any())
             cardToUpdate.Activities = new Collection<Activity>(newActivities);

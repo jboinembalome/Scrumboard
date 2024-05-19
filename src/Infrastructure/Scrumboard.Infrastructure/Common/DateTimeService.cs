@@ -1,5 +1,4 @@
-﻿using System;
-using Scrumboard.Infrastructure.Abstractions.Common;
+﻿using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Infrastructure.Common;
 

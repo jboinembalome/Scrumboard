@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Application.Common.Behaviours;
@@ -16,7 +13,7 @@ internal sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipeli
         _logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,  CancellationToken cancellationToken)
     {
         try
         {

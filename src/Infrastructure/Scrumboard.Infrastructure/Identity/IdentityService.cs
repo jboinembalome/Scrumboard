@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Scrumboard.Application.Common.Models;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 
@@ -38,7 +34,7 @@ internal sealed class IdentityService : IIdentityService
         return user;
     }
 
-    public async Task<string> GetUserNameAsync(
+    public async Task<string?> GetUserNameAsync(
         string userId, 
         CancellationToken cancellationToken = default)
     {
@@ -87,7 +83,7 @@ internal sealed class IdentityService : IIdentityService
     {
         var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
-        return await _userManager.IsInRoleAsync(user, role);
+        return user != null && await _userManager.IsInRoleAsync(user, role);
     }
 
     public async Task AddUserToRolesAsync(string userId, IEnumerable<string> roles)
@@ -95,25 +91,36 @@ internal sealed class IdentityService : IIdentityService
         var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
         foreach (var role in roles)
-            await AddUserToRole(user, role);
+            if (user != null)
+            {
+                await AddUserToRole(user, role);
+            }
     }
 
     public async Task AddUserToRoleAsync(string userId, string role)
     {
         var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
-        await AddUserToRole(user, role);
+        if (user != null)
+        {
+            await AddUserToRole(user, role);
+        }
     }
 
     public async Task<bool> AuthorizeAsync(string userId, string policyName)
     {
         var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
 
-        var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
+        if (user != null)
+        {
+            var principal = await _userClaimsPrincipalFactory.CreateAsync(user);
 
-        var result = await _authorizationService.AuthorizeAsync(principal, policyName);
+            var result = await _authorizationService.AuthorizeAsync(principal, policyName);
 
-        return result.Succeeded;
+            return result.Succeeded;
+        }
+
+        return false;
     }
 
     public async Task<Result> DeleteUserAsync(string userId)
@@ -135,7 +142,7 @@ internal sealed class IdentityService : IIdentityService
 
     private async Task AddUserToRole(ApplicationUser user, string role)
     {
-        IdentityRole identityRole;
+        IdentityRole? identityRole;
         if (!await _roleManager.RoleExistsAsync(role))
         {
             identityRole = new IdentityRole(role);
@@ -147,8 +154,8 @@ internal sealed class IdentityService : IIdentityService
             identityRole = await _roleManager.FindByNameAsync(role);
         }
 
-        if (!await _userManager.IsInRoleAsync(user, identityRole.Name))
-            await _userManager.AddToRoleAsync(user, identityRole.Name);
+        if (!await _userManager.IsInRoleAsync(user, identityRole!.Name!))
+            await _userManager.AddToRoleAsync(user, identityRole.Name!);
     }
 
 }

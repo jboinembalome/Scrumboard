@@ -19,6 +19,8 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" />
     <PackageReference Include="FluentValidation.AspNetCore" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" />

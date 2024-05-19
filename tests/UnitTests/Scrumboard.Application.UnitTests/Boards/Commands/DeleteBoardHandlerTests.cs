@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -39,11 +36,10 @@ public class DeleteBoardHandlerTests
         var deleteBoardCommand = new DeleteBoardCommand { BoardId = 1 };
 
         // Act
-        var result = await handler.Handle(deleteBoardCommand, CancellationToken.None);
+        await handler.Handle(deleteBoardCommand, CancellationToken.None);
         var allBoards = await _mockBoardRepository.Object.ListAllAsync(CancellationToken.None);
 
         // Assert
-        result.Should().Be(Unit.Value);
         allBoards.Count.Should().Be(1);
     }
 

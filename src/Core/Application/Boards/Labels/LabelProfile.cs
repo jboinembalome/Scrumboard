@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Domain.Boards;

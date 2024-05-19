@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.FileExport;
 using Scrumboard.Infrastructure.FileExport;

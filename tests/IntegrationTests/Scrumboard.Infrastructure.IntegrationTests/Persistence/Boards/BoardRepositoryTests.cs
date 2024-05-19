@@ -1,7 +1,9 @@
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Common;
+using Scrumboard.Domain.Teams;
 using Xunit;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Boards;
@@ -16,7 +18,7 @@ public class BoardRepositoryTests : IAsyncLifetime
         _database = database;
     }
 
-    public async Task DisposeAsync() =>  await DatabaseFixture.ResetState();
+    public async Task DisposeAsync() =>  await _database.ResetState();
 
     public Task InitializeAsync() => Task.CompletedTask;
     
@@ -25,7 +27,22 @@ public class BoardRepositoryTests : IAsyncLifetime
     {           
         // Arrange
         var testBoardName = "testBoard";
-        var board = new Board { Name = testBoardName };
+        var board = new Board
+        {
+            Name = testBoardName,
+            BoardSetting = new BoardSetting
+            {
+                Colour = Colour.Gray
+            },
+            Adherent = new Adherent
+            {
+                IdentityId = _database.MockCurrentUserService.Object.UserId
+            },
+            Team = new Team
+            {
+                Name = "Team 1"
+            }
+        };
         var boardRepository =  _database.GetRepository<Board, int>();
 
         // Act
@@ -42,7 +59,22 @@ public class BoardRepositoryTests : IAsyncLifetime
     {           
         // Arrange
         var testBoardName = "testBoard";
-        var board = new Board { Name = testBoardName };
+        var board = new Board
+        {
+            Name = testBoardName,
+            BoardSetting = new BoardSetting
+            {
+                Colour = Colour.Gray
+            },
+            Adherent = new Adherent
+            {
+                IdentityId = _database.MockCurrentUserService.Object.UserId
+            },
+            Team = new Team
+            {
+                Name = "Team 1"
+            }
+        };
         var boardRepository =  _database.GetRepository<Board, int>();
 
         _database.DbContext.Boards.Add(board);
@@ -61,7 +93,23 @@ public class BoardRepositoryTests : IAsyncLifetime
     {           
         // Arrange
         var testBoardName = "testBoard";
-        var board = new Board { Name = testBoardName };
+        
+        var board = new Board
+        {
+            Name = testBoardName,
+            BoardSetting = new BoardSetting
+            {
+                Colour = Colour.Gray
+            },
+            Adherent = new Adherent
+            {
+                IdentityId = _database.MockCurrentUserService.Object.UserId
+            },
+            Team = new Team
+            {
+                Name = "Team 1"
+            }
+        };
         var boardRepository =  _database.GetRepository<Board, int>();
 
         _database.DbContext.Boards.Add(board);
@@ -73,7 +121,7 @@ public class BoardRepositoryTests : IAsyncLifetime
         var boardRetrived = await boardRepository.GetByIdAsync(boardId);
 
         // Assert
-        boardRetrived.Name.Should().Be(board.Name);
+        boardRetrived!.Name.Should().Be(board.Name);
         boardRetrived.Id.Should().BeGreaterThan(0);
     }
     
@@ -82,7 +130,22 @@ public class BoardRepositoryTests : IAsyncLifetime
     {           
         // Arrange
         var testBoardName = "testBoard";
-        var board = new Board { Name = testBoardName };
+        var board = new Board
+        {
+            Name = testBoardName,
+            BoardSetting = new BoardSetting
+            {
+                Colour = Colour.Gray
+            },
+            Adherent = new Adherent
+            {
+                IdentityId = _database.MockCurrentUserService.Object.UserId
+            },
+            Team = new Team
+            {
+                Name = "Team 1"
+            }
+        };
         var boardRepository =  _database.GetRepository<Board, int>();
 
         _database.DbContext.Boards.Add(board);
@@ -96,7 +159,7 @@ public class BoardRepositoryTests : IAsyncLifetime
 
         // Assert
         boardUpdated.Should().NotBeNull();
-        boardUpdated.Id.Should().Be(board.Id);
+        boardUpdated!.Id.Should().Be(board.Id);
         boardUpdated.Name.Should().Be(board.Name);        
     }
 }

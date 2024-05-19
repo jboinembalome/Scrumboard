@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using FluentAssertions;
 using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Domain.Boards;
@@ -28,7 +26,7 @@ public class BoardWithAllSpecTests
         var firstBoard = specification.Evaluate(boards).FirstOrDefault();
 
         // Assert
-        firstBoard.Id.Should().Be(boardId1);
+        firstBoard!.Id.Should().Be(boardId1);
 
         firstBoard.ListBoards.Count.Should().Be(1);
         firstBoard.ListBoards.FirstOrDefault().Should().NotBeNull();

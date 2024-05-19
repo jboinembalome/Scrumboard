@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
+
 namespace Scrumboard.Infrastructure.Identity;
 
 public sealed class ApplicationUser : IdentityUser, IUser

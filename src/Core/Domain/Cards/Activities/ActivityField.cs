@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Scrumboard.Domain.Cards.Activities.Errors;
+﻿using Scrumboard.Domain.Cards.Activities.Errors;
 using Scrumboard.Domain.Common;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Domain.Cards.Activities;
 
@@ -53,7 +53,7 @@ public sealed class ActivityField : ValueObject
 
     public override string ToString() => Field;
 
-    protected static IEnumerable<ActivityField> SupportedActivityFields
+    public static IEnumerable<ActivityField> SupportedActivityFields
     {
         get
         {

@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using Moq;
+using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
 using Scrumboard.Application.Common.Profiles;
@@ -25,6 +23,7 @@ public class GetBoardsByUserIdQueryHandlerTests
         var configurationProvider = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<MappingProfile>();
+            cfg.AddProfile<BoardProfile>();
         });
 
         _mapper = configurationProvider.CreateMapper();

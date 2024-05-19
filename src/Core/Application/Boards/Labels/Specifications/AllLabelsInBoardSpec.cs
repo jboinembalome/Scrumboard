@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using Ardalis.Specification;
+﻿using Ardalis.Specification;
 using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Application.Boards.Labels.Specifications;
 
-internal sealed class AllLabelsInBoardSpec : Specification<Label>, ISingleResultSpecification
+internal sealed class AllLabelsInBoardSpec : Specification<Label>, ISingleResultSpecification<Label>
 {
     public AllLabelsInBoardSpec(int boardId)
     {

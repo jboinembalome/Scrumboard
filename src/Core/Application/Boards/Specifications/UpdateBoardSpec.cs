@@ -3,7 +3,7 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Application.Boards.Specifications;
 
-internal sealed class UpdateBoardSpec : Specification<Board>, ISingleResultSpecification
+internal sealed class UpdateBoardSpec : Specification<Board>, ISingleResultSpecification<Board>
 {
     public UpdateBoardSpec(int boardId)
     {

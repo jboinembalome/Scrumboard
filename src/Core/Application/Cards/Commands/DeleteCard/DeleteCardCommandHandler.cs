@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Cards;
@@ -21,7 +19,7 @@ internal sealed class DeleteCardCommandHandler : IRequestHandler<DeleteCardComma
         _cardRepository = cardRepository;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         DeleteCardCommand request, 
         CancellationToken cancellationToken)
     {
@@ -31,7 +29,5 @@ internal sealed class DeleteCardCommandHandler : IRequestHandler<DeleteCardComma
             throw new NotFoundException(nameof(Card), request.CardId);
 
         await _cardRepository.DeleteAsync(cardToDelete, cancellationToken);
-
-        return Unit.Value;
     }
 }

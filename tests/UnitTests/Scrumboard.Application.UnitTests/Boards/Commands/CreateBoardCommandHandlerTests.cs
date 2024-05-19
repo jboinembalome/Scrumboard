@@ -1,8 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using Moq;
+using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
@@ -26,6 +25,7 @@ public class CreateBoardCommandHandlerTests
         var configurationProvider = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<MappingProfile>();
+            cfg.AddProfile<BoardProfile>();
         });
 
         _mapper = configurationProvider.CreateMapper();

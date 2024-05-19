@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Identity;
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
@@ -28,11 +25,11 @@ public static class ScrumboardDbContextSeed
     public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         var roles = new[] { "Administrator", "Adherent" };
-        var administrator = new ApplicationUser { Id = ADMIN_USER_ID, UserName = "administrator@localhost", Email = "administrator@localhost" };
-        var adherent = new ApplicationUser { Id = ADHERENT_USER_ID, FirstName = "Jimmy", LastName = "Boinembalome", UserName = "adherent@localhost", Email = "adherent@localhost", Job = "Software Engineer" };
-        var adherent2 = new ApplicationUser { Id = ADHERENT_USER_ID_2, FirstName = "Guyliane", LastName = "De Jesus Pimenta", UserName = "adherent2@localhost", Email = "adherent2@localhost", Job = "Software Engineer" };
-        var adherent3 = new ApplicationUser { Id = ADHERENT_USER_ID_3, FirstName = "Corentin", LastName = "Hugot", UserName = "adherent3@localhost", Email = "adherent3@localhost", Job = "Systems and Networks Engineer" };
-        var adherent4 = new ApplicationUser { Id = ADHERENT_USER_ID_4, FirstName = "Patrice", LastName = "Fouque", UserName = "adherent4@localhost", Email = "adherent4@localhost", Job = "Software Engineer" };
+        var administrator = new ApplicationUser { Id = ADMIN_USER_ID, UserName = "administrator@localhost", Email = "administrator@localhost", FirstName = "Admin", LastName = "Istrator", Job = "Administrator", Avatar = [] };
+        var adherent = new ApplicationUser { Id = ADHERENT_USER_ID, FirstName = "Jimmy", LastName = "Boinembalome", UserName = "adherent@localhost", Email = "adherent@localhost", Job = "Software Engineer", Avatar = []};
+        var adherent2 = new ApplicationUser { Id = ADHERENT_USER_ID_2, FirstName = "Guyliane", LastName = "De Jesus Pimenta", UserName = "adherent2@localhost", Email = "adherent2@localhost", Job = "Software Engineer", Avatar = [] };
+        var adherent3 = new ApplicationUser { Id = ADHERENT_USER_ID_3, FirstName = "Corentin", LastName = "Hugot", UserName = "adherent3@localhost", Email = "adherent3@localhost", Job = "Systems and Networks Engineer", Avatar = [] };
+        var adherent4 = new ApplicationUser { Id = ADHERENT_USER_ID_4, FirstName = "Patrice", LastName = "Fouque", UserName = "adherent4@localhost", Email = "adherent4@localhost", Job = "Software Engineer", Avatar = [] };
 
         await CreateUser(userManager, administrator, "Administrator1!");
         await AddUserToRole(userManager, roleManager, roles[0], administrator);
@@ -199,7 +196,7 @@ public static class ScrumboardDbContextSeed
             new Card
             {
                 Name = "Change background colors",
-                Description = null,
+                Description = null!,
                 Suscribed = false,
                 DueDate = null,
                 Position = 131072,
@@ -302,7 +299,6 @@ public static class ScrumboardDbContextSeed
                 Team = team,
                 ListBoards = new Collection<ListBoard> { listboards[4] },
                 BoardSetting = boardSettings[1]
-
             },
             new Board
             {
@@ -337,7 +333,7 @@ public static class ScrumboardDbContextSeed
 
     private static async Task AddUserToRole(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, string role, ApplicationUser user)
     {
-        IdentityRole identityRole;
+        IdentityRole? identityRole;
         if (!await roleManager.RoleExistsAsync(role))
         {
             identityRole = new IdentityRole(role);
@@ -349,8 +345,8 @@ public static class ScrumboardDbContextSeed
             identityRole = await roleManager.FindByNameAsync(role);
         }
 
-        if (!await userManager.IsInRoleAsync(user, identityRole.Name))
-            await userManager.AddToRoleAsync(user, identityRole.Name);
+        if (!await userManager.IsInRoleAsync(user, identityRole!.Name!))
+            await userManager.AddToRoleAsync(user, identityRole.Name!);
     }
 
 }

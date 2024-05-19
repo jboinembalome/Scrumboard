@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
 using Scrumboard.Application.Cards.Dtos;
 
 namespace Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;

@@ -6,7 +6,7 @@ public interface IIdentityService
 {
     Task<IUser> GetUserAsync(string userId, CancellationToken cancellationToken = default);
 
-    Task<string> GetUserNameAsync(string userId, CancellationToken cancellationToken = default);
+    Task<string?> GetUserNameAsync(string userId, CancellationToken cancellationToken = default);
 
     Task<IReadOnlyList<IUser>> GetListAllAsync(CancellationToken cancellationToken = default);
 

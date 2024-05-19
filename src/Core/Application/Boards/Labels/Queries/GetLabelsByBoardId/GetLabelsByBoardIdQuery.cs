@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
 using Scrumboard.Application.Boards.Dtos;
 
 namespace Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;

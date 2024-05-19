@@ -2,10 +2,6 @@
 using FluentAssertions;
 using Moq;
 using Scrumboard.Application.UnitTests.Mocks;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Common.Behaviours;
 using Scrumboard.Application.Common.Exceptions;
@@ -48,10 +44,10 @@ public class ValidationBehaviourTests
             // Act
             Func<Task> action = async () =>
             {
-                await validationBehavior.Handle(updateBoardCommand, new CancellationToken(), () =>
-                {
-                    return handler.Handle(updateBoardCommand, new CancellationToken());
-                });
+                await validationBehavior.Handle(
+                    updateBoardCommand, 
+                    () => handler.Handle(updateBoardCommand, new CancellationToken()), 
+                    new CancellationToken());
             };
 
             // Assert

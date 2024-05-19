@@ -1,18 +1,10 @@
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Scrumboard.Infrastructure;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Web.Filters;
 using Scrumboard.Web.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using Scrumboard.Application;
 using Scrumboard.Infrastructure.Abstractions.Common;
@@ -42,9 +34,14 @@ public class Startup
         services.AddHealthChecks()
             .AddDbContextCheck<ScrumboardDbContext>();
 
-        services.AddControllersWithViews(options =>
+        services.AddControllersWithViews(options => 
                 options.Filters.Add<ApiExceptionFilterAttribute>())
-            .AddFluentValidation();
+            .ConfigureApplicationPartManager(apm => {
+                apm.ApplicationParts
+                    .Remove(apm.ApplicationParts.Single(ap => ap.Name == "Microsoft.AspNetCore.ApiAuthorization.IdentityServer"));
+            });
+        services.AddFluentValidationAutoValidation()
+            .AddFluentValidationClientsideAdapters();
 
         services.AddRazorPages();
 

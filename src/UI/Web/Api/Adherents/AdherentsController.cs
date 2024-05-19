@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherents;
 using Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;

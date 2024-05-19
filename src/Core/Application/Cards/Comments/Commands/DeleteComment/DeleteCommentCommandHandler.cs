@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Cards.Comments.Specifications;
 using Scrumboard.Application.Common.Exceptions;
@@ -30,7 +28,7 @@ internal sealed class DeleteCommentCommandHandler : IRequestHandler<DeleteCommen
         _currentUserService = currentUserService;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         DeleteCommentCommand request, 
         CancellationToken cancellationToken)
     {
@@ -48,7 +46,5 @@ internal sealed class DeleteCommentCommandHandler : IRequestHandler<DeleteCommen
         commentToDelete.Card.Activities.Add(activity);
 
         await _commentRepository.DeleteAsync(commentToDelete, cancellationToken);
-
-        return Unit.Value;
     }
 }

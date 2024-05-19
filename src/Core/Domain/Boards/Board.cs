@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Scrumboard.Domain.Adherents;
+﻿using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Domain.Boards;
 

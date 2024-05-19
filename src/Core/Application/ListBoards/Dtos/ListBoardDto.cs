@@ -1,6 +1,6 @@
-﻿
-using System.Collections.Generic;
-using Scrumboard.Application.Cards.Dtos;
+﻿using Scrumboard.Application.Cards.Dtos;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Application.ListBoards.Dtos;
 

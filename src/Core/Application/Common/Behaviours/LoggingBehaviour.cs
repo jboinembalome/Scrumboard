@@ -1,13 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR.Pipeline;
+﻿using MediatR.Pipeline;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-internal sealed class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
+internal sealed class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
 {
     private readonly IAppLogger<TRequest> _logger;
     private readonly ICurrentUserService _currentUserService;
@@ -24,12 +22,12 @@ internal sealed class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest
     {
         var requestName = typeof(TRequest).Name;
         var userId = _currentUserService.UserId ?? string.Empty;
-        string userName = string.Empty;
+        var userName = string.Empty;
 
         if (!string.IsNullOrEmpty(userId))
             userName = await _identityService.GetUserNameAsync(userId, cancellationToken);
 
         _logger.LogInformation("Scrumboard API Request: {Name} {@UserId} {@UserName} {@Request}",
-            requestName, userId, userName, request);
+            requestName, userId, userName!, request);
     }
 }

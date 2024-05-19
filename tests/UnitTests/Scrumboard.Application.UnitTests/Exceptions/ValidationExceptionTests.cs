@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
 using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
 using Scrumboard.Application.Common.Exceptions;
 using Xunit;
 

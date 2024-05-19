@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Linq;
 using Scrumboard.Application.Common.Models;
 
 namespace Scrumboard.Infrastructure.Identity;

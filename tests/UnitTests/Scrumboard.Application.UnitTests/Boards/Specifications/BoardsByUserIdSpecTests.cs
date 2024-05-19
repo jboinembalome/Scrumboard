@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Teams;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards.Specifications;
@@ -26,11 +25,11 @@ public class BoardsByUserIdSpecTests
             IdentityId = "3cd08f87-33a6-4cbc-a0de-71d428986b85"
         };
 
-        var board1 = new Board { Adherent = adherent1Model };
-        var board2 = new Board { Adherent = adherent1Model };
-        var board3 = new Board { Adherent = adherent2Model };
-
-        var boards = new List<Board>() { board1, board2, board3 };
+        var board1 = new Board { Team = new Team { Adherents = [adherent1Model]} };
+        var board2 = new Board { Team = new Team { Adherents = [adherent1Model]} };
+        var board3 = new Board { Team = new Team { Adherents = [adherent2Model]} };
+        
+        var boards = new List<Board> { board1, board2, board3 };
 
         var specification = new BoardsByUserIdSpec(adherent1Model.IdentityId);
 

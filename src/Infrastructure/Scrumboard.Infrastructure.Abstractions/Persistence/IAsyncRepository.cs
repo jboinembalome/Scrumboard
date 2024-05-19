@@ -4,7 +4,7 @@ namespace Scrumboard.Infrastructure.Abstractions.Persistence;
 
 public interface IAsyncRepository<T, TId> where T : class, Domain.Common.IEntity<TId>
 {
-    Task<T> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
+    Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
     Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec, CancellationToken cancellationToken = default);
     Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);

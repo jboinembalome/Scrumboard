@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Cards.Commands.CreateCard;
 using Scrumboard.Application.Cards.Commands.UpdateCard;

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Scrumboard.Domain.Adherents;
+﻿using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Domain.Cards;
 

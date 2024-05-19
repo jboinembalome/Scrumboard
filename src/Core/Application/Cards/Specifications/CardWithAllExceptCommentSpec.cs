@@ -3,7 +3,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards.Specifications;
 
-internal sealed class CardWithAllExceptCommentSpec : Specification<Card>, ISingleResultSpecification
+internal sealed class CardWithAllExceptCommentSpec : Specification<Card>, ISingleResultSpecification<Card>
 {
     public CardWithAllExceptCommentSpec(int cardId)
     {

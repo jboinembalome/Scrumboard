@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Scrumboard.Domain.Common.Errors;
+﻿namespace Scrumboard.Domain.Common.Errors;
 
 public class UnsupportedColourException : Exception
 {

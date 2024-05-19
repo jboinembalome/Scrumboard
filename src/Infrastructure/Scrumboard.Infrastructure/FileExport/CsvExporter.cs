@@ -1,9 +1,5 @@
 ﻿using CsvHelper;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 using Scrumboard.Infrastructure.Abstractions.FileExport;
 
 namespace Scrumboard.Infrastructure.FileExport;

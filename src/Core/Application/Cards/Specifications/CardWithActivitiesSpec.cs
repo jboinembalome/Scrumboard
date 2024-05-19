@@ -3,7 +3,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards.Specifications;
 
-internal sealed class CardWithActivitiesSpec : Specification<Card>, ISingleResultSpecification
+internal sealed class CardWithActivitiesSpec : Specification<Card>, ISingleResultSpecification<Card>
 {
     public CardWithActivitiesSpec(int cardId)
     {

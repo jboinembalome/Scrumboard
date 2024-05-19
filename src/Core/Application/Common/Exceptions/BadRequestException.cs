@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Scrumboard.Application.Common.Exceptions;
+﻿namespace Scrumboard.Application.Common.Exceptions;
 
 public sealed class BadRequestException : ApplicationException
 {

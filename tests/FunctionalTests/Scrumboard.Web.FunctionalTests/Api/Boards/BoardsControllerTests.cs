@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
@@ -109,7 +106,8 @@ public class BoardsControllerTests : IClassFixture<CustomWebApplicationFactoryFi
         var board = JsonConvert.DeserializeObject<CreateBoardCommandResponse>(responseString);
 
         // Assert
-        board.Board.Should().NotBeNull();
+        board.Should().NotBeNull();
+        board!.Board.Should().NotBeNull();
         board.Board.Id.Should().BePositive();
         board.Board.Name.Should().Be("Untitled Board");
     }

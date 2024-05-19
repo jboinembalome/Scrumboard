@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
 using Scrumboard.Application.Common.Exceptions;
 
 namespace Scrumboard.Web.Filters;
@@ -53,7 +50,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
             var exception = context.Exception as ValidationException;
 
-            var details = new ValidationProblemDetails(exception.Errors)
+            var details = new ValidationProblemDetails(exception!.Errors)
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
             };
@@ -71,7 +68,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             {
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 Title = "The specified resource was not found.",
-                Detail = exception.Message
+                Detail = exception!.Message
             };
 
             context.Result = new NotFoundObjectResult(details);

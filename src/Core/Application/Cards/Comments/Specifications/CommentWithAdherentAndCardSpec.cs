@@ -3,7 +3,7 @@ using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards.Comments.Specifications;
 
-internal sealed class CommentWithAdherentAndCardSpec : Specification<Comment>, ISingleResultSpecification
+internal sealed class CommentWithAdherentAndCardSpec : Specification<Comment>, ISingleResultSpecification<Comment>
 {
     public CommentWithAdherentAndCardSpec(int commentId)
     {

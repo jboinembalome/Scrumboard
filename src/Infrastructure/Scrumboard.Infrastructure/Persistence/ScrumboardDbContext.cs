@@ -15,6 +15,7 @@ using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.ListBoards;
+using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Infrastructure.Persistence;
@@ -49,7 +50,7 @@ public sealed class ScrumboardDbContext : ApiAuthorizationDbContext<ApplicationU
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+        foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
         {
             switch (entry.State)
             {

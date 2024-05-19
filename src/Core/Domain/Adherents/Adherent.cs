@@ -3,7 +3,7 @@ using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Common;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Teams;
 
 namespace Scrumboard.Domain.Adherents;
 

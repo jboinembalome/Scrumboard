@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Adherents.Dtos;
-using Scrumboard.Application.Adherents.Queries.GetAdherents;
 using Scrumboard.Application.Adherents.Specifications;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Infrastructure.Abstractions.Identity;

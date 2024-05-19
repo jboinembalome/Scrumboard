@@ -2,9 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
 using Scrumboard.Application.Adherents.Specifications;
-using Scrumboard.Application.Cards.Commands.CreateCard;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Cards.Specifications;
 using Scrumboard.Application.Common.Exceptions;

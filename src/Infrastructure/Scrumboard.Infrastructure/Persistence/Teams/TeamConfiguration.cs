@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Teams;
 
 namespace Scrumboard.Infrastructure.Persistence.Teams;
 

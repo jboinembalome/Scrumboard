@@ -3,12 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
 using Scrumboard.Application.Adherents.Specifications;
 using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Commands.CreateBoard;

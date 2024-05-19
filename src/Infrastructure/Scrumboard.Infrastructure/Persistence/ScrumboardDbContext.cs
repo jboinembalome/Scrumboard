@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Scrumboard.Domain.Common;
-using Scrumboard.Domain.Entities;
 using Scrumboard.Infrastructure.Identity;
 using System.Reflection;
 using System.Threading;

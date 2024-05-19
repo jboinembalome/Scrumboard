@@ -1,6 +1,5 @@
 ﻿using Ardalis.Specification;
 using Moq;
-using Scrumboard.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +13,7 @@ using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
+using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.UnitTests.Mocks;

@@ -1,7 +1,6 @@
 ﻿using System;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Common;
-using Scrumboard.Domain.Entities;
 
 namespace Scrumboard.Domain.Cards.Activities;
 

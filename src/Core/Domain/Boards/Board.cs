@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Common;
-using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
 

@@ -1,5 +1,5 @@
 ﻿using Ardalis.Specification;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Teams;
 
 namespace Scrumboard.Application.Teams.Specifications;
 

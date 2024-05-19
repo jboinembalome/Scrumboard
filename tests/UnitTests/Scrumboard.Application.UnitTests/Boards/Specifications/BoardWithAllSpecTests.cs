@@ -2,13 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FluentAssertions;
-using Scrumboard.Application.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
-using Scrumboard.Domain.Entities;
 using Scrumboard.Domain.ListBoards;
 using Xunit;
 

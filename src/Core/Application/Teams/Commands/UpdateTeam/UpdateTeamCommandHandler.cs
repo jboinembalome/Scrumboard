@@ -7,7 +7,7 @@ using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.Teams.Dtos;
 using Scrumboard.Application.Teams.Specifications;
 using Scrumboard.Domain.Cards;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence;

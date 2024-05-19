@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Scrumboard.Application.Common.Models;
+﻿namespace Scrumboard.Application.Common.Models;
 
 public class Result
 {

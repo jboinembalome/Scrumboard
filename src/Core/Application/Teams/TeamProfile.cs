@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Scrumboard.Application.Teams.Commands.UpdateTeam;
 using Scrumboard.Application.Teams.Dtos;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Teams;
 
 namespace Scrumboard.Application.Teams;
 

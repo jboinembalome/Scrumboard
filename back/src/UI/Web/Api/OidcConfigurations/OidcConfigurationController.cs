@@ -1,8 +1,7 @@
-﻿
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Scrumboard.Web.Controllers;
+namespace Scrumboard.Web.Api.OidcConfigurations;
 
 public class OidcConfigurationController : Controller
 {

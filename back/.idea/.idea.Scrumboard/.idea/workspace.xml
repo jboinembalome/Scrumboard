@@ -8,14 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cbdd740-996d-4220-83db-68229f86bb38" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Boards/BoardsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Boards/BoardsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Boards/Labels/LabelsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Boards/Labels/LabelsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Cards/CardsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Cards/CardsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Cards/Comments/CommentsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Cards/Comments/CommentsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Teams/TeamsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Teams/TeamsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/FunctionalTests/Scrumboard.Web.FunctionalTests/Api/Boards/BoardsControllerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/FunctionalTests/Scrumboard.Web.FunctionalTests/Api/Boards/BoardsControllerTests.cs" afterDir="false" />
-    </list>
+    <list default="true" id="0cbdd740-996d-4220-83db-68229f86bb38" name="Changes" comment="Move angular app into front folder" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -153,6 +146,7 @@
       <workItem from="1716121662449" duration="31139000" />
       <workItem from="1716220061644" duration="4372000" />
       <workItem from="1716227525483" duration="1099000" />
+      <workItem from="1716228710448" duration="589000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -322,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716227682941</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Move angular app into front folder">
+      <option name="closed" value="true" />
+      <created>1716228967689</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1716228967689</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -351,7 +353,8 @@
     <MESSAGE value="Add Solution Items" />
     <MESSAGE value="WIP" />
     <MESSAGE value="Add back and front folders" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add back and front folders" />
+    <MESSAGE value="Move angular app into front folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Move angular app into front folder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

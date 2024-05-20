@@ -4,24 +4,19 @@ using ValidationException = Scrumboard.Application.Common.Exceptions.ValidationE
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-internal sealed class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class ValidationBehaviour<TRequest, TResponse>(
+    IEnumerable<IValidator<TRequest>> validators)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
-
-    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
-    {
-        _validators = validators;
-    }
-
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (_validators.Any())
+        if (validators.Any())
         {
             var context = new ValidationContext<TRequest>(request);
 
             var validationResults = await Task.WhenAll(
-                _validators.Select(v =>
+                validators.Select(v =>
                     v.ValidateAsync(context, cancellationToken)));
 
             var failures = validationResults

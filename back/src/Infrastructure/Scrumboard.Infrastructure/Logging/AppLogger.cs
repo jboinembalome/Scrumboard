@@ -3,14 +3,9 @@ using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Infrastructure.Logging;
 
-internal sealed class LoggerAdapter<T> : IAppLogger<T>
+internal sealed class LoggerAdapter<T>(ILoggerFactory loggerFactory) : IAppLogger<T>
 {
-    private readonly ILogger<T> _logger;
-
-    public LoggerAdapter(ILoggerFactory loggerFactory)
-    {
-        _logger = loggerFactory.CreateLogger<T>();
-    }
+    private readonly ILogger<T> _logger = loggerFactory.CreateLogger<T>();
 
     public void LogWarning(string message, params object[] args) 
         => _logger.LogWarning(message, args);

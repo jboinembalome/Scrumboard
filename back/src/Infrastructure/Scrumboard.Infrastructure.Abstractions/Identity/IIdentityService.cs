@@ -1,6 +1,4 @@
-﻿using Scrumboard.Application.Common.Models;
-
-namespace Scrumboard.Infrastructure.Abstractions.Identity;
+﻿namespace Scrumboard.Infrastructure.Abstractions.Identity;
 
 public interface IIdentityService
 {

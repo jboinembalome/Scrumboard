@@ -2,8 +2,8 @@
 
 public sealed class AlreadyExistsException : Exception
 {
-    public AlreadyExistsException() 
-        : base() { }
+    public AlreadyExistsException()
+    { }
 
     public AlreadyExistsException(string message) 
         : base(message) { }

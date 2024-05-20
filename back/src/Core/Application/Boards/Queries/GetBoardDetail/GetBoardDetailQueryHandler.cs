@@ -10,39 +10,29 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Queries.GetBoardDetail;
 
-internal sealed class GetBoardDetailQueryHandler : IRequestHandler<GetBoardDetailQuery, BoardDetailDto>
+internal sealed class GetBoardDetailQueryHandler(
+    IMapper mapper,
+    IAsyncRepository<Board, int> boardRepository,
+    IIdentityService identityService)
+    : IRequestHandler<GetBoardDetailQuery, BoardDetailDto>
 {
-    private readonly IAsyncRepository<Board, int> _boardRepository;
-    private readonly IIdentityService _identityService;
-    private readonly IMapper _mapper;
-
-    public GetBoardDetailQueryHandler(
-        IMapper mapper, 
-        IAsyncRepository<Board, int> boardRepository, 
-        IIdentityService identityService)
-    {
-        _mapper = mapper;
-        _boardRepository = boardRepository;
-        _identityService = identityService;
-    }
-
     public async Task<BoardDetailDto> Handle(
         GetBoardDetailQuery request, 
         CancellationToken cancellationToken)
     {
         var specification = new BoardWithAllSpec(request.BoardId);
-        var board = await _boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        var board = await boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
         if (board is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
         var userIds = board.Team.Adherents.Select(a => a.IdentityId);
-        var users = await _identityService.GetListAsync(userIds, cancellationToken);
+        var users = await identityService.GetListAsync(userIds, cancellationToken);
         
-        var adherentDtos = _mapper.Map<IEnumerable<AdherentDto>>(board.Team.Adherents);    
+        var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(board.Team.Adherents);    
 
-        var boardDto = _mapper.Map<BoardDetailDto>(board);
-        boardDto.Team.Adherents = _mapper.Map(users, adherentDtos);
+        var boardDto = mapper.Map<BoardDetailDto>(board);
+        boardDto.Team.Adherents = mapper.Map(users, adherentDtos);
         boardDto.Adherent = adherentDtos.First(a => a.Id == board.Adherent.Id);
 
         var adherentDtosInBoard = boardDto.ListBoards
@@ -64,7 +54,7 @@ internal sealed class GetBoardDetailQueryHandler : IRequestHandler<GetBoardDetai
             if (user == null)
                 continue;
 
-            _mapper.Map(user, adherent);
+            mapper.Map(user, adherent);
         }
     }
 }

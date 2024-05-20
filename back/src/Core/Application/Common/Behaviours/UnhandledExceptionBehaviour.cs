@@ -3,16 +3,11 @@ using Scrumboard.Infrastructure.Abstractions.Logging;
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-internal sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+internal sealed class UnhandledExceptionBehaviour<TRequest, TResponse>(
+    IAppLogger<TRequest> logger)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly IAppLogger<TRequest> _logger;
-
-    public UnhandledExceptionBehaviour(IAppLogger<TRequest> logger)
-    {
-        _logger = logger;
-    }
-
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,  CancellationToken cancellationToken)
     {
         try
@@ -23,7 +18,7 @@ internal sealed class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipeli
         {
             var requestName = typeof(TRequest).Name;
 
-            _logger.LogError(ex, "Scrumboard API Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+            logger.LogError(ex, "Scrumboard API Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
 
             throw;
         }

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Scrumboard.Domain.Entities;
+using Scrumboard.Domain.Weathers;
 
 namespace Scrumboard.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 

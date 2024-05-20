@@ -1,19 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Cards.Comments.Commands.CreateComment;
 using Scrumboard.Application.Cards.Comments.Commands.DeleteComment;
 using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 
-namespace Scrumboard.Web.Controllers;
+namespace Scrumboard.Web.Api.Cards.Comments;
 
 //[Authorize]
 [ApiController]
 public class CommentsController : ApiControllerBase
 {
-    public CommentsController()
-    {
-    }
-
     /// <summary>
     /// Create a comment on a card.
     /// </summary>

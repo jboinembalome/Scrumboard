@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Scrumboard.Web.Controllers;
+namespace Scrumboard.Web.Api;
 
 /// <summary>
 /// Base controller that must be used on every controller working with MediatR.

@@ -1,4 +1,4 @@
-﻿namespace Scrumboard.Domain.Entities;
+﻿namespace Scrumboard.Domain.Weathers;
 
 public sealed class WeatherForecast
 {

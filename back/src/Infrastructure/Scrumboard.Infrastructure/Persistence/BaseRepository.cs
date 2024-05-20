@@ -5,27 +5,20 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
-internal class BaseRepository<T, TId> 
-    : IAsyncRepository<T, TId> where T : class, Domain.Common.IEntity<TId>
+internal class BaseRepository<T, TId>(ScrumboardDbContext dbContext) : IAsyncRepository<T, TId>
+    where T : class, Domain.Common.IEntity<TId>
 {
-    private readonly ScrumboardDbContext _dbContext;
-    private readonly ISpecificationEvaluator _specificationEvaluator;
-
-    public BaseRepository(ScrumboardDbContext dbContext)
-    {
-        _dbContext = dbContext;
-        _specificationEvaluator = SpecificationEvaluator.Default;
-    }
+    private readonly ISpecificationEvaluator _specificationEvaluator = SpecificationEvaluator.Default;
 
     public virtual async Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id! };
         
-        return await _dbContext.Set<T>().FindAsync(keyValues, cancellationToken);
+        return await dbContext.Set<T>().FindAsync(keyValues, cancellationToken);
     }
 
     public async Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken = default) 
-        => await _dbContext.Set<T>().ToListAsync(cancellationToken);
+        => await dbContext.Set<T>().ToListAsync(cancellationToken);
 
     public async Task<IReadOnlyList<T>> ListAsync(
         ISpecification<T> spec, 
@@ -47,25 +40,25 @@ internal class BaseRepository<T, TId>
 
     public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        _dbContext.Set<T>().Add(entity);
+        dbContext.Set<T>().Add(entity);
         
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return entity;
     }
 
     public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
-        _dbContext.Entry(entity).State = EntityState.Modified;
+        dbContext.Entry(entity).State = EntityState.Modified;
         
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
-        _dbContext.Set<T>().Remove(entity);
+        dbContext.Set<T>().Remove(entity);
         
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task<T> FirstAsync(
@@ -87,5 +80,5 @@ internal class BaseRepository<T, TId>
     }
 
     private IQueryable<T> ApplySpecification(ISpecification<T> spec) 
-        => _specificationEvaluator.GetQuery(_dbContext.Set<T>().AsQueryable(), spec);
+        => _specificationEvaluator.GetQuery(dbContext.Set<T>().AsQueryable(), spec);
 }

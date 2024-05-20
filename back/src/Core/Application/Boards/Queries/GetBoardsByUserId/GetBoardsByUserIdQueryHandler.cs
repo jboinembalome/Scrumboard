@@ -7,27 +7,19 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
 
-internal sealed class GetBoardsByUserIdQueryHandler : IRequestHandler<GetBoardsByUserIdQuery, IEnumerable<BoardDto>>
+internal sealed class GetBoardsByUserIdQueryHandler(
+    IMapper mapper,
+    IAsyncRepository<Board, int> boardRepository)
+    : IRequestHandler<GetBoardsByUserIdQuery, IEnumerable<BoardDto>>
 {
-    private readonly IAsyncRepository<Board, int> _boardRepository;
-    private readonly IMapper _mapper;
-
-    public GetBoardsByUserIdQueryHandler(
-        IMapper mapper, 
-        IAsyncRepository<Board, int> boardRepository)
-    {
-        _mapper = mapper;
-        _boardRepository = boardRepository;
-    }
-
     public async Task<IEnumerable<BoardDto>> Handle(
         GetBoardsByUserIdQuery request, 
         CancellationToken cancellationToken)
     {
         var specification = new BoardsByUserIdSpec(request.UserId);
         
-        var boards = await _boardRepository.ListAsync(specification, cancellationToken);
+        var boards = await boardRepository.ListAsync(specification, cancellationToken);
 
-        return _mapper.Map<IEnumerable<BoardDto>>(boards);
+        return mapper.Map<IEnumerable<BoardDto>>(boards);
     }
 }

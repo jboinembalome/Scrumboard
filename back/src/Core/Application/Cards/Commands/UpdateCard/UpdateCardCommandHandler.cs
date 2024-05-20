@@ -16,34 +16,14 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 
-internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardCommand, UpdateCardCommandResponse>
+internal sealed class UpdateCardCommandHandler(
+    IMapper mapper,
+    IAsyncRepository<Card, int> cardRepository,
+    IAsyncRepository<Adherent, int> adherentRepository,
+    IIdentityService identityService,
+    ICurrentUserService currentUserService)
+    : IRequestHandler<UpdateCardCommand, UpdateCardCommandResponse>
 {
-    private readonly IMapper _mapper;
-    private readonly IAsyncRepository<Card, int> _cardRepository;
-    private readonly IAsyncRepository<Label, int> _labelRepository;
-    private readonly IAsyncRepository<Board, int> _boardRepository;
-    private readonly IAsyncRepository<Adherent, int> _adherentRepository;
-    private readonly IIdentityService _identityService;
-    private readonly ICurrentUserService _currentUserService;
-
-    public UpdateCardCommandHandler(
-        IMapper mapper,
-        IAsyncRepository<Card, int> cardRepository,
-        IAsyncRepository<Label, int> labelRepository,
-        IAsyncRepository<Board, int> boardRepository,
-        IAsyncRepository<Adherent, int> adherentRepository,
-        IIdentityService identityService,
-        ICurrentUserService currentUserService)
-    {
-        _mapper = mapper;
-        _cardRepository = cardRepository;
-        _labelRepository = labelRepository;
-        _boardRepository = boardRepository;
-        _adherentRepository = adherentRepository;
-        _identityService = identityService;
-        _currentUserService = currentUserService;
-    }
-
     public async Task<UpdateCardCommandResponse> Handle(
         UpdateCardCommand request, 
         CancellationToken cancellationToken)
@@ -51,13 +31,13 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
         var updateCardCommandResponse = new UpdateCardCommandResponse();
 
         var specification = new CardWithAllExceptCommentSpec(request.Id);
-        var cardToUpdate = await _cardRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        var cardToUpdate = await cardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
         if (cardToUpdate == null)
             throw new NotFoundException(nameof(Card), request.Id);
 
-        var adherentSpecification = new AdherentByUserIdSpec(_currentUserService.UserId);
-        var adherent = await _adherentRepository.FirstOrDefaultAsync(adherentSpecification, cancellationToken);
+        var adherentSpecification = new AdherentByUserIdSpec(currentUserService.UserId);
+        var adherent = await adherentRepository.FirstOrDefaultAsync(adherentSpecification, cancellationToken);
         var newActivities = await GetNewActivities(cardToUpdate, request, cancellationToken);
 
         foreach (var activity in newActivities)
@@ -71,21 +51,21 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
         if (!cardToUpdate.Activities.Any())
             cardToUpdate.Activities = new Collection<Activity>(newActivities);
           
-        _mapper.Map(request, cardToUpdate, typeof(UpdateCardCommand), typeof(Card));
+        mapper.Map(request, cardToUpdate, typeof(UpdateCardCommand), typeof(Card));
 
-        await _cardRepository.UpdateAsync(cardToUpdate, cancellationToken);
+        await cardRepository.UpdateAsync(cardToUpdate, cancellationToken);
 
-        updateCardCommandResponse.Card = _mapper.Map<CardDetailDto>(cardToUpdate);
+        updateCardCommandResponse.Card = mapper.Map<CardDetailDto>(cardToUpdate);
 
         if (updateCardCommandResponse.Card.Adherents.Any())
         {
-            var users = await _identityService.GetListAsync(cardToUpdate.Adherents.Select(a => a.IdentityId), cancellationToken);
-            _mapper.Map(users, updateCardCommandResponse.Card.Adherents);
+            var users = await identityService.GetListAsync(cardToUpdate.Adherents.Select(a => a.IdentityId), cancellationToken);
+            mapper.Map(users, updateCardCommandResponse.Card.Adherents);
         }
 
         if (updateCardCommandResponse.Card.Comments.Any())
         {
-            var users = await _identityService.GetListAsync(cardToUpdate.Comments.Select(c => c.Adherent.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(cardToUpdate.Comments.Select(c => c.Adherent.IdentityId), cancellationToken);
             var adherentDtos = updateCardCommandResponse.Card.Comments.Select(c => c.Adherent).ToList();
 
             MapUsers(users, adherentDtos);
@@ -93,7 +73,7 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
 
         if (updateCardCommandResponse.Card.Activities.Any())
         {
-            var users = await _identityService.GetListAsync(cardToUpdate.Activities.Select(c => c.Adherent.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(cardToUpdate.Activities.Select(c => c.Adherent.IdentityId), cancellationToken);
             var adherentDtos = updateCardCommandResponse.Card.Activities.Select(c => c.Adherent).ToList();
 
             MapUsers(users, adherentDtos);
@@ -111,7 +91,7 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
             if (user == null)
                 continue;
 
-            _mapper.Map(user, adherent);
+            mapper.Map(user, adherent);
         }
     }
 
@@ -161,7 +141,7 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
         if (oldCard.Adherents.Any() && !updatedCard.Adherents.Any())
         {
             var adherent = oldCard.Adherents.First();
-            var user = await _identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
+            var user = await identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
             activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
 
@@ -174,7 +154,7 @@ internal sealed class UpdateCardCommandHandler : IRequestHandler<UpdateCardComma
         if (oldCard.Adherents.Count > updatedCard.Adherents.Count())
         {
             var adherent = oldCard.Adherents.First(l => !updatedCard.Adherents.Select(o => o.Id).Contains(l.Id));
-            var user = await _identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
+            var user = await identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
             activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
         #endregion

@@ -9,21 +9,14 @@ using Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;
 using Scrumboard.Application.Boards.Queries.GetBoardDetail;
 using Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
 using Scrumboard.Infrastructure.Abstractions.Common;
-using Scrumboard.Web.Controllers;
 
 namespace Scrumboard.Web.Api.Boards;
 
 //[Authorize]
 [ApiController]
-public class BoardsController : ApiControllerBase
+public class BoardsController(
+    ICurrentUserService currentUserService) : ApiControllerBase
 {
-    private readonly ICurrentUserService _currentUserService;
-
-    public BoardsController(ICurrentUserService currentUserService)
-    {
-        _currentUserService = currentUserService;
-    }
-
     /// <summary>
     /// Get the boards of the current user.
     /// </summary>
@@ -32,7 +25,7 @@ public class BoardsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<BoardDto>>>Get()
     {
-        var dtos = await Mediator.Send(new GetBoardsByUserIdQuery { UserId = _currentUserService.UserId });
+        var dtos = await Mediator.Send(new GetBoardsByUserIdQuery { UserId = currentUserService.UserId });
 
         return Ok(dtos);
     }
@@ -59,7 +52,7 @@ public class BoardsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CreateBoardCommandResponse>> Create()
     {
-        var response = await Mediator.Send(new CreateBoardCommand { UserId = _currentUserService.UserId });
+        var response = await Mediator.Send(new CreateBoardCommand { UserId = currentUserService.UserId });
 
         return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, response);
     }

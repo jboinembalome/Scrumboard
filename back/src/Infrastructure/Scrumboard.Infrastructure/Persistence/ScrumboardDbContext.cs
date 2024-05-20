@@ -20,23 +20,13 @@ using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
-public sealed class ScrumboardDbContext : IdentityDbContext<ApplicationUser>, IPersistedGrantDbContext
+public sealed class ScrumboardDbContext(
+    DbContextOptions options,
+    IOptions<OperationalStoreOptions> operationalStoreOptions,
+    ICurrentUserService currentUserService,
+    IDateTime dateTime)
+    : IdentityDbContext<ApplicationUser>(options), IPersistedGrantDbContext
 {
-    private readonly IOptions<OperationalStoreOptions> _operationalStoreOptions;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTime _dateTime;
-
-    public ScrumboardDbContext(
-        DbContextOptions options, 
-        IOptions<OperationalStoreOptions> operationalStoreOptions, 
-        ICurrentUserService currentUserService,
-        IDateTime dateTime) : base(options)
-    {
-        _operationalStoreOptions = operationalStoreOptions;
-        _currentUserService = currentUserService;
-        _dateTime = dateTime;
-    }
-
     public DbSet<Activity> Activities { get; set; }
     public DbSet<Adherent> Adherents { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
@@ -64,12 +54,12 @@ public sealed class ScrumboardDbContext : IdentityDbContext<ApplicationUser>, IP
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _currentUserService.UserId ?? string.Empty;
-                    entry.Entity.CreatedDate = _dateTime.Now;
+                    entry.Entity.CreatedBy = currentUserService.UserId ?? string.Empty;
+                    entry.Entity.CreatedDate = dateTime.Now;
                     break;
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = _currentUserService.UserId ?? string.Empty;
-                    entry.Entity.LastModifiedDate = _dateTime.Now;
+                    entry.Entity.LastModifiedBy = currentUserService.UserId ?? string.Empty;
+                    entry.Entity.LastModifiedDate = dateTime.Now;
                     break;
             }
         }
@@ -83,6 +73,6 @@ public sealed class ScrumboardDbContext : IdentityDbContext<ApplicationUser>, IP
 
         base.OnModelCreating(builder);
         
-        builder.ConfigurePersistedGrantContext(_operationalStoreOptions.Value);
+        builder.ConfigurePersistedGrantContext(operationalStoreOptions.Value);
     }
 }

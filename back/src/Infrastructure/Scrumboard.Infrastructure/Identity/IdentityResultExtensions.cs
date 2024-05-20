@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Scrumboard.Application.Common.Models;
+using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Infrastructure.Identity;
 

@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
-namespace Scrumboard.Web.Controllers;
+namespace Scrumboard.Web.Api.Boards.Labels;
 
 //[Authorize]
 [ApiController]
@@ -10,7 +9,7 @@ public class LabelsController : ApiControllerBase
 {
     public LabelsController()
     {
-        }
+    }
 
     /// <summary>
     /// Delete a label on a board.
@@ -22,8 +21,8 @@ public class LabelsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id)
     {
-            await Mediator.Send(new DeleteLabelCommand { LabelId = id });
+        await Mediator.Send(new DeleteLabelCommand { LabelId = id });
 
-            return NoContent();
-        }
+        return NoContent();
+    }
 }

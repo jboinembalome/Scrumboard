@@ -6,24 +6,18 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
-internal sealed class DeleteLabelCommandHandler : IRequestHandler<DeleteLabelCommand>
+internal sealed class DeleteLabelCommandHandler(IAsyncRepository<Label, int> labelRepository)
+    : IRequestHandler<DeleteLabelCommand>
 {
-    private readonly IAsyncRepository<Label, int> _labelRepository;
-
-    public DeleteLabelCommandHandler(IAsyncRepository<Label, int> labelRepository)
-    {
-        _labelRepository = labelRepository;
-    }
-
     public async Task Handle(
         DeleteLabelCommand request, 
         CancellationToken cancellationToken)
     {
-        var labelToDelete = await _labelRepository.GetByIdAsync(request.LabelId, cancellationToken);
+        var labelToDelete = await labelRepository.GetByIdAsync(request.LabelId, cancellationToken);
 
         if (labelToDelete == null)
             throw new NotFoundException(nameof(Card), request.LabelId);
 
-        await _labelRepository.DeleteAsync(labelToDelete, cancellationToken);
+        await labelRepository.DeleteAsync(labelToDelete, cancellationToken);
     }
 }

@@ -7,20 +7,12 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Application.Common.Behaviours;
 
-internal sealed class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class AuthorizationBehaviour<TRequest, TResponse>(
+    ICurrentUserService currentUserService,
+    IIdentityService identityService)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IIdentityService _identityService;
-
-    public AuthorizationBehaviour(
-        ICurrentUserService currentUserService,
-        IIdentityService identityService)
-    {
-        _currentUserService = currentUserService;
-        _identityService = identityService;
-    }
-
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();
@@ -28,7 +20,7 @@ internal sealed class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBeh
         if (authorizeAttributes.Any())
         {
             // Must be authenticated user
-            if (_currentUserService.UserId == null)
+            if (currentUserService.UserId == null)
                 throw new UnauthorizedAccessException();
 
             // Role-based authorization
@@ -41,7 +33,7 @@ internal sealed class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBeh
                 {
                     foreach (var role in roles)
                     {
-                        var isInRole = await _identityService.IsInRoleAsync(_currentUserService.UserId, role.Trim());
+                        var isInRole = await identityService.IsInRoleAsync(currentUserService.UserId, role.Trim());
                         if (isInRole)
                         {
                             authorized = true;
@@ -61,7 +53,7 @@ internal sealed class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBeh
             {
                 foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
                 {
-                    var authorized = await _identityService.AuthorizeAsync(_currentUserService.UserId, policy);
+                    var authorized = await identityService.AuthorizeAsync(currentUserService.UserId, policy);
 
                     if (!authorized)
                         throw new ForbiddenAccessException();

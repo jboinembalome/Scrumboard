@@ -12,12 +12,12 @@ using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards.Commands;
 
-public class DeleteBoardHandlerTests
+public class DeleteBoardCommandHandlerTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
 
-    public DeleteBoardHandlerTests()
+    public DeleteBoardCommandHandlerTests()
     {
         _mockBoardRepository = RepositoryMocks.GetBoardRepository();
         var configurationProvider = new MapperConfiguration(cfg =>
@@ -32,7 +32,7 @@ public class DeleteBoardHandlerTests
     public async Task DeleteBoardTest_ExistingBoardId_BoardDeleted()
     {
         // Arrange
-        var handler = new DeleteBoardHandler(_mapper, _mockBoardRepository.Object);
+        var handler = new DeleteBoardCommandHandler(_mapper, _mockBoardRepository.Object);
         var deleteBoardCommand = new DeleteBoardCommand { BoardId = 1 };
 
         // Act
@@ -47,7 +47,7 @@ public class DeleteBoardHandlerTests
     public async Task DeleteBoardTest_NoExistingBoardId_ThrowsAnExceptionNotFound()
     {
         // Arrange
-        var handler = new DeleteBoardHandler(_mapper, _mockBoardRepository.Object);
+        var handler = new DeleteBoardCommandHandler(_mapper, _mockBoardRepository.Object);
         var deleteBoardCommand = new DeleteBoardCommand { BoardId = 0 };
 
         // Act

@@ -8,19 +8,11 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 
-internal sealed class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCommand, UpdateBoardCommandResponse>
+internal sealed class UpdateBoardCommandHandler(
+    IMapper mapper,
+    IAsyncRepository<Board, int> boardRepository)
+    : IRequestHandler<UpdateBoardCommand, UpdateBoardCommandResponse>
 {
-    private readonly IAsyncRepository<Board, int> _boardRepository;
-    private readonly IMapper _mapper;
-
-    public UpdateBoardCommandHandler(
-        IMapper mapper, 
-        IAsyncRepository<Board, int> boardRepository)
-    {
-        _mapper = mapper;
-        _boardRepository = boardRepository;
-    }
-
     public async Task<UpdateBoardCommandResponse> Handle(
         UpdateBoardCommand request, 
         CancellationToken cancellationToken)
@@ -28,16 +20,16 @@ internal sealed class UpdateBoardCommandHandler : IRequestHandler<UpdateBoardCom
         var updateBoardCommandResponse = new UpdateBoardCommandResponse();
 
         var specification = new UpdateBoardSpec(request.BoardId);
-        var boardToUpdate = await _boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        var boardToUpdate = await boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
         if (boardToUpdate is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
-        _mapper.Map(request, boardToUpdate, opt => opt.BeforeMap((s, d) => MoveCards(s, d)));
+        mapper.Map(request, boardToUpdate, opt => opt.BeforeMap((s, d) => MoveCards(s, d)));
 
-        await _boardRepository.UpdateAsync(boardToUpdate, cancellationToken);
+        await boardRepository.UpdateAsync(boardToUpdate, cancellationToken);
 
-        updateBoardCommandResponse.ListBoards = _mapper.Map<IEnumerable<ListBoardDto>>(boardToUpdate.ListBoards);
+        updateBoardCommandResponse.ListBoards = mapper.Map<IEnumerable<ListBoardDto>>(boardToUpdate.ListBoards);
 
         return updateBoardCommandResponse;
 

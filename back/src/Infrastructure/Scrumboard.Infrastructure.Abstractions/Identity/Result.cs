@@ -1,4 +1,4 @@
-﻿namespace Scrumboard.Application.Common.Models;
+﻿namespace Scrumboard.Infrastructure.Abstractions.Identity;
 
 public class Result
 {

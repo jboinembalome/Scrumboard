@@ -13,31 +13,15 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Comments.Commands.CreateComment;
 
-internal sealed class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, CreateCommentCommandResponse>
+internal sealed class CreateCommentCommandHandler(
+    IMapper mapper,
+    IAsyncRepository<Comment, int> commentRepository,
+    IAsyncRepository<Card, int> cardRepository,
+    IAsyncRepository<Adherent, int> adherentRepository,
+    ICurrentUserService currentUserService,
+    IIdentityService identityService)
+    : IRequestHandler<CreateCommentCommand, CreateCommentCommandResponse>
 {
-    private readonly IAsyncRepository<Comment, int> _commentRepository;
-    private readonly IAsyncRepository<Card, int> _cardRepository;
-    private readonly IAsyncRepository<Adherent, int> _adherentRepository;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IIdentityService _identityService;
-    private readonly IMapper _mapper;
-
-    public CreateCommentCommandHandler(
-        IMapper mapper, 
-        IAsyncRepository<Comment, int> commentRepository, 
-        IAsyncRepository<Card, int> cardRepository, 
-        IAsyncRepository<Adherent, int> adherentRepository, 
-        ICurrentUserService currentUserService, 
-        IIdentityService identityService)
-    {
-        _mapper = mapper;
-        _commentRepository = commentRepository;
-        _cardRepository = cardRepository;
-        _adherentRepository = adherentRepository;
-        _currentUserService = currentUserService;
-        _identityService = identityService;
-    }
-
     public async Task<CreateCommentCommandResponse> Handle(
         CreateCommentCommand request, 
         CancellationToken cancellationToken)
@@ -45,15 +29,15 @@ internal sealed class CreateCommentCommandHandler : IRequestHandler<CreateCommen
         var createCommentCommandResponse = new CreateCommentCommandResponse();
 
         var cardSpecification = new CardWithActivitiesSpec(request.CardId);
-        var card = await _cardRepository.FirstOrDefaultAsync(cardSpecification, cancellationToken);
+        var card = await cardRepository.FirstOrDefaultAsync(cardSpecification, cancellationToken);
 
         if (card is null)
             throw new NotFoundException(nameof(Card), request.CardId);
 
-        var specification = new AdherentByUserIdSpec(_currentUserService.UserId);
-        var adherent = await _adherentRepository.FirstAsync(specification, cancellationToken);
+        var specification = new AdherentByUserIdSpec(currentUserService.UserId);
+        var adherent = await adherentRepository.FirstAsync(specification, cancellationToken);
 
-        var comment = _mapper.Map<Comment>(request);
+        var comment = mapper.Map<Comment>(request);
         comment.Adherent = adherent;
         comment.Card = card;
 
@@ -61,12 +45,12 @@ internal sealed class CreateCommentCommandHandler : IRequestHandler<CreateCommen
         activity.Adherent = adherent;
         comment.Card.Activities.Add(activity);
 
-        comment = await _commentRepository.AddAsync(comment, cancellationToken);
+        comment = await commentRepository.AddAsync(comment, cancellationToken);
 
-        var user = await _identityService.GetUserAsync(_currentUserService.UserId, cancellationToken);
-        var commentDto = _mapper.Map<CommentDto>(comment);
+        var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
+        var commentDto = mapper.Map<CommentDto>(comment);
 
-        _mapper.Map(user, commentDto.Adherent);
+        mapper.Map(user, commentDto.Adherent);
         createCommentCommandResponse.Comment = commentDto;
 
         return createCommentCommandResponse;

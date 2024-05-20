@@ -1,19 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
 using Scrumboard.Application.Teams.Commands.UpdateTeam;
 
-namespace Scrumboard.Web.Controllers;
+namespace Scrumboard.Web.Api.Teams;
 
 //[Authorize]
 [ApiController]
 public class TeamsController : ApiControllerBase
 {
-    public TeamsController()
-    {
-    }
-
     /// <summary>
     /// Get a team by id.
     /// </summary>

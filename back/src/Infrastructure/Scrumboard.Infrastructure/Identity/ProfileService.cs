@@ -7,26 +7,18 @@ using IdentityModel;
 
 namespace Scrumboard.Infrastructure.Identity;
 
-internal sealed class ProfileService : IProfileService
+internal sealed class ProfileService(
+    UserManager<ApplicationUser> userManager,
+    IHttpContextAccessor httpContextAccessor)
+    : IProfileService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public ProfileService(
-        UserManager<ApplicationUser> userManager, 
-        IHttpContextAccessor httpContextAccessor)
-    {
-        _userManager = userManager;
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     public async Task GetProfileDataAsync(ProfileDataRequestContext context)
     {
-        var user = await _userManager.GetUserAsync(context.Subject);
+        var user = await userManager.GetUserAsync(context.Subject);
 
-        IList<string> roles = await _userManager.GetRolesAsync(user!);
+        IList<string> roles = await userManager.GetRolesAsync(user!);
         
-        var current = _httpContextAccessor.HttpContext;
+        var current = httpContextAccessor.HttpContext;
         
         var avatarPath = $"{current?.Request.Scheme}://{current?.Request.Host}{current?.Request.PathBase}/api/adherents/avatar/{user?.Id}";
         

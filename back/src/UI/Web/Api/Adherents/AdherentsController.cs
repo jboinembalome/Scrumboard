@@ -3,16 +3,12 @@ using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherents;
 using Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;
 
-namespace Scrumboard.Web.Controllers;
+namespace Scrumboard.Web.Api.Adherents;
 
 //[Authorize] // TODO: Add Angular pipe to use Authorize (to add the token when we use <img> with src)
 [ApiController]
 public class AdherentsController : ApiControllerBase
 {
-    public AdherentsController()
-    {
-    }
-
     /// <summary>
     /// Get all the adherents.
     /// </summary>

@@ -10,25 +10,13 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 
-internal sealed class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, UpdateCommentCommandResponse>
+internal sealed class UpdateCommentCommandHandler(
+    IMapper mapper,
+    IAsyncRepository<Comment, int> commentRepository,
+    ICurrentUserService currentUserService,
+    IIdentityService identityService)
+    : IRequestHandler<UpdateCommentCommand, UpdateCommentCommandResponse>
 {
-    private readonly IAsyncRepository<Comment, int> _commentRepository;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IIdentityService _identityService;
-    private readonly IMapper _mapper;
-
-    public UpdateCommentCommandHandler(
-        IMapper mapper, 
-        IAsyncRepository<Comment, int> commentRepository, 
-        ICurrentUserService currentUserService, 
-        IIdentityService identityService)
-    {
-        _mapper = mapper;
-        _commentRepository = commentRepository;
-        _currentUserService = currentUserService;
-        _identityService = identityService;
-    }
-
     public async Task<UpdateCommentCommandResponse> Handle(
         UpdateCommentCommand request, 
         CancellationToken cancellationToken)
@@ -36,22 +24,22 @@ internal sealed class UpdateCommentCommandHandler : IRequestHandler<UpdateCommen
         var updateCommentCommandResponse = new UpdateCommentCommandResponse();
 
         var specification = new CommentWithAdherentAndCardSpec(request.Id);
-        var commentToUpdate = await _commentRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        var commentToUpdate = await commentRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
         if (commentToUpdate == null)
             throw new NotFoundException(nameof(Comment), request.Id);
 
-        if (commentToUpdate.Adherent.IdentityId != _currentUserService.UserId)
+        if (commentToUpdate.Adherent.IdentityId != currentUserService.UserId)
             throw new ForbiddenAccessException();
 
-        _mapper.Map(request, commentToUpdate);
+        mapper.Map(request, commentToUpdate);
 
-        await _commentRepository.UpdateAsync(commentToUpdate, cancellationToken);
+        await commentRepository.UpdateAsync(commentToUpdate, cancellationToken);
 
-        var user = await _identityService.GetUserAsync(_currentUserService.UserId, cancellationToken);
-        var commentDto = _mapper.Map<CommentDto>(commentToUpdate);
+        var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
+        var commentDto = mapper.Map<CommentDto>(commentToUpdate);
 
-        _mapper.Map(user, commentDto.Adherent);
+        mapper.Map(user, commentDto.Adherent);
         updateCommentCommandResponse.Comment = commentDto;
 
         return updateCommentCommandResponse;

@@ -2,6 +2,6 @@
 
 public sealed class ForbiddenAccessException : Exception
 {
-    public ForbiddenAccessException() 
-        : base() { }
+    public ForbiddenAccessException()
+    { }
 }

@@ -11,24 +11,14 @@ using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Application.Teams.Commands.UpdateTeam;
 
-internal sealed class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamCommand, UpdateTeamCommandResponse>
+internal sealed class UpdateTeamCommandHandler(
+    IMapper mapper,
+    IAsyncRepository<Team, int> teamRepository,
+    ICurrentUserService currentUserService,
+    IIdentityService identityService)
+    : IRequestHandler<UpdateTeamCommand, UpdateTeamCommandResponse>
 {
-    private readonly IAsyncRepository<Team, int> _teamRepository;
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IIdentityService _identityService;
-    private readonly IMapper _mapper;
-
-    public UpdateTeamCommandHandler(
-        IMapper mapper, 
-        IAsyncRepository<Team, int> teamRepository, 
-        ICurrentUserService currentUserService, 
-        IIdentityService identityService)
-    {
-        _mapper = mapper;
-        _teamRepository = teamRepository;
-        _currentUserService = currentUserService;
-        _identityService = identityService;
-    }
+    private readonly ICurrentUserService _currentUserService = currentUserService;
 
     public async Task<UpdateTeamCommandResponse> Handle(
         UpdateTeamCommand request, 
@@ -37,23 +27,23 @@ internal sealed class UpdateTeamCommandHandler : IRequestHandler<UpdateTeamComma
         var updateTeamCommandResponse = new UpdateTeamCommandResponse();
 
         var specification = new TeamWithAdherentsSpec(request.Id);
-        var teamToUpdate = await _teamRepository.FirstOrDefaultAsync(specification , cancellationToken);
+        var teamToUpdate = await teamRepository.FirstOrDefaultAsync(specification , cancellationToken);
 
         if (teamToUpdate == null)
             throw new NotFoundException(nameof(Comment), request.Id);
 
-        _mapper.Map(request, teamToUpdate);
+        mapper.Map(request, teamToUpdate);
 
-        await _teamRepository.UpdateAsync(teamToUpdate, cancellationToken);
+        await teamRepository.UpdateAsync(teamToUpdate, cancellationToken);
 
-        var users = await _identityService.GetListAsync(teamToUpdate.Adherents.Select(a => a.IdentityId), cancellationToken);
+        var users = await identityService.GetListAsync(teamToUpdate.Adherents.Select(a => a.IdentityId), cancellationToken);
         //var adherentDtos = _mapper.Map<IEnumerable<AdherentDto>>(teamToUpdate.Adherents);
 
 
-        var teamDto = _mapper.Map<TeamDto>(teamToUpdate);
+        var teamDto = mapper.Map<TeamDto>(teamToUpdate);
         //teamDto.Adherents = _mapper.Map(users, adherentDtos);
 
-        _mapper.Map(users, teamDto.Adherents);
+        mapper.Map(users, teamDto.Adherents);
 
         updateTeamCommandResponse.Team = teamDto;
 

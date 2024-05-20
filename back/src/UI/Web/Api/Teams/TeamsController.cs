@@ -6,7 +6,7 @@ using Scrumboard.Application.Teams.Commands.UpdateTeam;
 
 namespace Scrumboard.Web.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 public class TeamsController : ApiControllerBase
 {

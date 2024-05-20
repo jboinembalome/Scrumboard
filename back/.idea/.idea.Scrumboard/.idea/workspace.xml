@@ -8,7 +8,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cbdd740-996d-4220-83db-68229f86bb38" name="Changes" comment="" />
+    <list default="true" id="0cbdd740-996d-4220-83db-68229f86bb38" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Boards/BoardsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Boards/BoardsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Boards/Labels/LabelsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Boards/Labels/LabelsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Cards/CardsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Cards/CardsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Cards/Comments/CommentsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Cards/Comments/CommentsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Web/Api/Teams/TeamsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Web/Api/Teams/TeamsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/FunctionalTests/Scrumboard.Web.FunctionalTests/Api/Boards/BoardsControllerTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/FunctionalTests/Scrumboard.Web.FunctionalTests/Api/Boards/BoardsControllerTests.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,7 +25,7 @@
     <option name="autoShow" value="false" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -145,6 +152,7 @@
       <workItem from="1716041287697" duration="20237000" />
       <workItem from="1716121662449" duration="31139000" />
       <workItem from="1716220061644" duration="4372000" />
+      <workItem from="1716227525483" duration="1099000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -306,7 +314,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716154622177</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Add back and front folders">
+      <option name="closed" value="true" />
+      <created>1716227682941</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1716227682941</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -334,7 +350,8 @@
     <MESSAGE value="Update namespace" />
     <MESSAGE value="Add Solution Items" />
     <MESSAGE value="WIP" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP" />
+    <MESSAGE value="Add back and front folders" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add back and front folders" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -342,131 +359,61 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/tests/UnitTests/Scrumboard.Application.UnitTests/Boards/Queries/GetBoardDetailQueryHandlerTests.cs</url>
           <line>37</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\UnitTests\Scrumboard.Application.UnitTests\Boards\Queries\GetBoardDetailQueryHandlerTests.cs" containingFunctionPresentation="Method 'GetBoardDetailTest_ExistingBoardId_ReturnsDetailsOfBoard'">
-            <startOffsets>
-              <option value="1279" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1387" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\UnitTests\Scrumboard.Application.UnitTests\Boards\Queries\GetBoardDetailQueryHandlerTests.cs" containingFunctionPresentation="Method 'GetBoardDetailTest_ExistingBoardId_ReturnsDetailsOfBoard'" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/UI/Web/Api/Boards/BoardsController.cs</url>
           <line>34</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\UI\Web\Api\Boards\BoardsController.cs" containingFunctionPresentation="Method 'Get'">
-            <startOffsets>
-              <option value="1201" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1300" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\UI\Web\Api\Boards\BoardsController.cs" containingFunctionPresentation="Method 'Get'" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Core/Application/Boards/Specifications/BoardsByUserIdSpec.cs</url>
           <line>9</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Core\Application\Boards\Specifications\BoardsByUserIdSpec.cs" containingFunctionPresentation="Constructor 'BoardsByUserIdSpec'">
-            <startOffsets>
-              <option value="244" />
-            </startOffsets>
-            <endOffsets>
-              <option value="511" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Core\Application\Boards\Specifications\BoardsByUserIdSpec.cs" containingFunctionPresentation="Constructor 'BoardsByUserIdSpec'" />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/tests/FunctionalTests/Scrumboard.Web.FunctionalTests/Api/Boards/BoardsControllerTests.cs</url>
           <line>61</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\FunctionalTests\Scrumboard.Web.FunctionalTests\Api\Boards\BoardsControllerTests.cs" containingFunctionPresentation="Method 'GetBoardDetail_ReturnsSuccessResult'">
-            <startOffsets>
-              <option value="1978" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2033" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\FunctionalTests\Scrumboard.Web.FunctionalTests\Api\Boards\BoardsControllerTests.cs" containingFunctionPresentation="Method 'GetBoardDetail_ReturnsSuccessResult'" />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/tests/IntegrationTests/Scrumboard.Infrastructure.IntegrationTests/Persistence/ScrumboardDbContextTests.cs</url>
           <line>28</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Method 'SaveChangesAsync_SetCreatedByProperty'">
-            <startOffsets>
-              <option value="718" />
-            </startOffsets>
-            <endOffsets>
-              <option value="783" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Method 'SaveChangesAsync_SetCreatedByProperty'" />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/tests/IntegrationTests/Scrumboard.Infrastructure.IntegrationTests/Persistence/ScrumboardDbContextTests.cs</url>
           <line>17</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Constructor 'ScrumboardDbContextTests'">
-            <startOffsets>
-              <option value="454" />
-            </startOffsets>
-            <endOffsets>
-              <option value="475" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Constructor 'ScrumboardDbContextTests'" />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/tests/IntegrationTests/Scrumboard.Infrastructure.IntegrationTests/Persistence/ScrumboardDbContextTests.cs</url>
           <line>20</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Method 'DisposeAsync'">
-            <startOffsets>
-              <option value="523" />
-            </startOffsets>
-            <endOffsets>
-              <option value="551" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Method 'DisposeAsync'" />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/tests/IntegrationTests/Scrumboard.Infrastructure.IntegrationTests/Persistence/ScrumboardDbContextTests.cs</url>
           <line>22</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Method 'InitializeAsync'">
-            <startOffsets>
-              <option value="-1" />
-            </startOffsets>
-            <endOffsets>
-              <option value="-1" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\IntegrationTests\Scrumboard.Infrastructure.IntegrationTests\Persistence\ScrumboardDbContextTests.cs" containingFunctionPresentation="Method 'InitializeAsync'" />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Infrastructure/Scrumboard.Infrastructure/Persistence/BaseRepository.cs</url>
           <line>33</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Infrastructure\Scrumboard.Infrastructure\Persistence\BaseRepository.cs" containingFunctionPresentation="Method 'ListAsync'">
-            <startOffsets>
-              <option value="1208" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1259" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Infrastructure\Scrumboard.Infrastructure\Persistence\BaseRepository.cs" containingFunctionPresentation="Method 'ListAsync'" />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Infrastructure/Scrumboard.Infrastructure/Persistence/ScrumboardDbContext.cs</url>
           <line>63</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Infrastructure\Scrumboard.Infrastructure\Persistence\ScrumboardDbContext.cs" containingFunctionPresentation="Method 'SaveChangesAsync'">
-            <startOffsets>
-              <option value="2697" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2717" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Infrastructure\Scrumboard.Infrastructure\Persistence\ScrumboardDbContext.cs" containingFunctionPresentation="Method 'SaveChangesAsync'" />
           <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>

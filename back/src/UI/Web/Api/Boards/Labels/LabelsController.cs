@@ -4,7 +4,7 @@ using Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
 namespace Scrumboard.Web.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 public class LabelsController : ApiControllerBase
 {

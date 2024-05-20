@@ -13,7 +13,7 @@ using Scrumboard.Web.Controllers;
 
 namespace Scrumboard.Web.Api.Boards;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 public class BoardsController : ApiControllerBase
 {

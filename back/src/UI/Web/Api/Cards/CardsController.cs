@@ -9,7 +9,7 @@ using Scrumboard.Application.Cards.Queries.GetCardDetail;
 
 namespace Scrumboard.Web.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 public class CardsController : ApiControllerBase
 {

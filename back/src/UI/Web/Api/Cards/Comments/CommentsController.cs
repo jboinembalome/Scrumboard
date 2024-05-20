@@ -6,7 +6,7 @@ using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 
 namespace Scrumboard.Web.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 public class CommentsController : ApiControllerBase
 {

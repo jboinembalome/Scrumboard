@@ -363,6 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /tests/UnitTests/Test report
 
-.idea/.idea.Scrumboard/.idea/projectSettingsUpdater.xml
-
-.idea/.idea.Scrumboard/.idea/workspace.xml
+.idea/

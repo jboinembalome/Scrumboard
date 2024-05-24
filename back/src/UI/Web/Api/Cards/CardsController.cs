@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
 using Scrumboard.Application.Cards.Commands.CreateCard;
 using Scrumboard.Application.Cards.Commands.DeleteCard;
@@ -10,7 +11,9 @@ namespace Scrumboard.Web.Api.Cards;
 
 //[Authorize]
 [ApiController]
-public class CardsController : ApiControllerBase
+[Produces("application/json")]
+[Route("api/[controller]")]
+public class CardsController(ISender mediator) : ControllerBase
 {
     /// <summary>
     /// Create a card.
@@ -20,7 +23,7 @@ public class CardsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CreateCardCommandResponse>> Create(CreateCardCommand command)
     {
-        var response = await Mediator.Send(command);
+        var response = await mediator.Send(command);
 
         return CreatedAtAction(nameof(Get), new { id = response.Card.Id }, response);
     }
@@ -34,7 +37,7 @@ public class CardsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<CardDetailDto>> Get(int id)
     {
-        var dto = await Mediator.Send(new GetCardDetailQuery { CardId = id });
+        var dto = await mediator.Send(new GetCardDetailQuery { CardId = id });
 
         return Ok(dto);
     }
@@ -53,7 +56,7 @@ public class CardsController : ApiControllerBase
         if (id != command.Id)
             return BadRequest();
 
-        var dto = await Mediator.Send(command);
+        var dto = await mediator.Send(command);
 
         return Ok(dto);
     }
@@ -67,7 +70,7 @@ public class CardsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id)
     {
-        await Mediator.Send(new DeleteCardCommand { CardId = id });
+        await mediator.Send(new DeleteCardCommand { CardId = id });
 
         return NoContent();
     }
@@ -81,7 +84,7 @@ public class CardsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ActivityDto>>> GetActivitiesByCardId(int id)
     {
-        var dto = await Mediator.Send(new GetActivitiesByCardIdQuery { CardId = id });
+        var dto = await mediator.Send(new GetActivitiesByCardIdQuery { CardId = id });
 
         return Ok(dto);
     }

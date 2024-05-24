@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Commands.DeleteBoard;
@@ -14,8 +15,11 @@ namespace Scrumboard.Web.Api.Boards;
 
 //[Authorize]
 [ApiController]
+[Produces("application/json")]
+[Route("api/[controller]")]
 public class BoardsController(
-    ICurrentUserService currentUserService) : ApiControllerBase
+    ISender mediator,
+    ICurrentUserService currentUserService) : ControllerBase
 {
     /// <summary>
     /// Get the boards of the current user.
@@ -25,7 +29,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<BoardDto>>>Get()
     {
-        var dtos = await Mediator.Send(new GetBoardsByUserIdQuery { UserId = currentUserService.UserId });
+        var dtos = await mediator.Send(new GetBoardsByUserIdQuery { UserId = currentUserService.UserId });
 
         return Ok(dtos);
     }
@@ -39,7 +43,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<BoardDetailDto>> Get(int id)
     {
-        var dto = await Mediator.Send(new GetBoardDetailQuery { BoardId = id });
+        var dto = await mediator.Send(new GetBoardDetailQuery { BoardId = id });
 
         return Ok(dto);
     }
@@ -52,7 +56,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CreateBoardCommandResponse>> Create()
     {
-        var response = await Mediator.Send(new CreateBoardCommand { UserId = currentUserService.UserId });
+        var response = await mediator.Send(new CreateBoardCommand { UserId = currentUserService.UserId });
 
         return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, response);
     }
@@ -71,7 +75,7 @@ public class BoardsController(
         if (id != command.BoardId)
             return BadRequest();
 
-        var dto = await Mediator.Send(command);
+        var dto = await mediator.Send(command);
 
         return Ok(dto);
     }
@@ -90,7 +94,7 @@ public class BoardsController(
         if (id != command.BoardId)
             return BadRequest();
 
-        await Mediator.Send(command);
+        await mediator.Send(command);
 
         return NoContent();
     }
@@ -105,7 +109,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id)
     {
-        await Mediator.Send(new DeleteBoardCommand { BoardId = id });
+        await mediator.Send(new DeleteBoardCommand { BoardId = id });
 
         return NoContent();
     }
@@ -119,7 +123,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<LabelDto>>> GetByBoardId(int id)
     {
-        var dto = await Mediator.Send(new GetLabelsByBoardIdQuery { BoardId = id });
+        var dto = await mediator.Send(new GetLabelsByBoardIdQuery { BoardId = id });
 
         return Ok(dto);
     }

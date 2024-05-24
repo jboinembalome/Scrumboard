@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Cards.Comments.Commands.CreateComment;
 using Scrumboard.Application.Cards.Comments.Commands.DeleteComment;
 using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
@@ -7,7 +8,9 @@ namespace Scrumboard.Web.Api.Cards.Comments;
 
 //[Authorize]
 [ApiController]
-public class CommentsController : ApiControllerBase
+[Produces("application/json")]
+[Route("api/[controller]")]
+public class CommentsController(ISender mediator) : ControllerBase
 {
     /// <summary>
     /// Create a comment on a card.
@@ -17,7 +20,7 @@ public class CommentsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CreateCommentCommandResponse>> Create(CreateCommentCommand command)
     {
-        var response = await Mediator.Send(command);
+        var response = await mediator.Send(command);
 
         return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
     }
@@ -36,7 +39,7 @@ public class CommentsController : ApiControllerBase
         if (id != command.Id)
             return BadRequest();
 
-        var dto = await Mediator.Send(command);
+        var dto = await mediator.Send(command);
 
         return Ok(dto);
     }
@@ -50,7 +53,7 @@ public class CommentsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id)
     {
-        await Mediator.Send(new DeleteCommentCommand { CommentId = id });
+        await mediator.Send(new DeleteCommentCommand { CommentId = id });
 
         return NoContent();
     }

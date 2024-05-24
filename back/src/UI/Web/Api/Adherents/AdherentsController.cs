@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherents;
 using Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;
@@ -7,7 +8,9 @@ namespace Scrumboard.Web.Api.Adherents;
 
 //[Authorize] // TODO: Add Angular pipe to use Authorize (to add the token when we use <img> with src)
 [ApiController]
-public class AdherentsController : ApiControllerBase
+[Produces("application/json")]
+[Route("api/[controller]")]
+public class AdherentsController(ISender mediator) : ControllerBase
 {
     /// <summary>
     /// Get all the adherents.
@@ -17,7 +20,7 @@ public class AdherentsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<AdherentDto>>> Get()
     {
-        var dtos = await Mediator.Send(new GetAdherentsQuery());
+        var dtos = await mediator.Send(new GetAdherentsQuery());
 
         return Ok(dtos);
     }
@@ -31,7 +34,7 @@ public class AdherentsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> GetAvatar(string identityId)
     {
-        var avatar = await Mediator.Send(new GetAvatarByIdentityIdQuery { IdentityId = identityId });
+        var avatar = await mediator.Send(new GetAvatarByIdentityIdQuery { IdentityId = identityId });
             
         return File(avatar, "image/jpeg");
     }

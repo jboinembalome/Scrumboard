@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
 using Scrumboard.Application.Teams.Commands.UpdateTeam;
@@ -7,7 +8,9 @@ namespace Scrumboard.Web.Api.Teams;
 
 //[Authorize]
 [ApiController]
-public class TeamsController : ApiControllerBase
+[Produces("application/json")]
+[Route("api/[controller]")]
+public class TeamsController(ISender mediator) : ControllerBase
 {
     /// <summary>
     /// Get a team by id.
@@ -18,7 +21,7 @@ public class TeamsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<AdherentDto>>> GetByTeamId(int id)
     {
-        var dto = await Mediator.Send(new GetAdherentsByTeamIdQuery { TeamId = id });
+        var dto = await mediator.Send(new GetAdherentsByTeamIdQuery { TeamId = id });
 
         return Ok(dto);
     }
@@ -37,7 +40,7 @@ public class TeamsController : ApiControllerBase
         if (id != command.Id)
             return BadRequest();
 
-        var dto = await Mediator.Send(command);
+        var dto = await mediator.Send(command);
 
         return Ok(dto);
     }

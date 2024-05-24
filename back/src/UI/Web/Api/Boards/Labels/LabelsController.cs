@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
 namespace Scrumboard.Web.Api.Boards.Labels;
 
 //[Authorize]
 [ApiController]
-public class LabelsController : ApiControllerBase
+[Produces("application/json")]
+[Route("api/[controller]")]
+public class LabelsController(ISender mediator) : ControllerBase
 {
-    public LabelsController()
-    {
-    }
-
     /// <summary>
     /// Delete a label on a board.
     /// </summary>
@@ -21,7 +20,7 @@ public class LabelsController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id)
     {
-        await Mediator.Send(new DeleteLabelCommand { LabelId = id });
+        await mediator.Send(new DeleteLabelCommand { LabelId = id });
 
         return NoContent();
     }

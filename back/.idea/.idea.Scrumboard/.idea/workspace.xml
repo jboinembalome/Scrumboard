@@ -8,7 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0cbdd740-996d-4220-83db-68229f86bb38" name="Changes" comment="Move angular app into front folder" />
+    <list default="true" id="0cbdd740-996d-4220-83db-68229f86bb38" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,11 +58,21 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e7a821a3ee3af4b59f5eb3bb2a2762f16aefefb26fcdcdaa49599f3f17d250/IdentityServerApplicationBuilderExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bbef462f6f72d544182252a579c5c179ad2f92c25c0f52f592266b3fd71933/Respawner.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e5b9c140912e8295f69159adbf39ad664d070868f2c2ae42d7e7dd1d92a9d4/ServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/Core/Application/Adherents/Queries/GetAdherents/GetAdherentsQueryHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Core/Application/Common/Profiles/MappingProfile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/Core/Application/WeatherForecasts/Queries/GetWeatherForecasts/GetWeatherForecastsQuery.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/Core/Application/WeatherForecasts/Queries/GetWeatherForecasts/GetWeatherForecastsQueryHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Infrastructure/Scrumboard.Infrastructure.Abstractions/Common/ICurrentUserService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Infrastructure/Scrumboard.Infrastructure.Abstractions/Common/IDateTime.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/src/Infrastructure/Scrumboard.Infrastructure/InfrastructureServiceRegistration.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/UI/Web/ClientApp/package-lock.json" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/Infrastructure/Scrumboard.Infrastructure/Identity/IdentityResultExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/Infrastructure/Scrumboard.Infrastructure/Identity/IdentityService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/UI/Web/Api/Adherents/AdherentsController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/UI/Web/Api/Adherents/AdherentsController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/UI/Web/Api/ApiControllerBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/UI/Web/Api/Boards/BoardsController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/UI/Web/Api/Boards/BoardsController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/UI/Web/Api/Cards/CardsController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/boine/source/repos/dotnet/Scrumboard/back/src/UI/Web/Api/Cards/Comments/CommentsController.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -146,7 +156,7 @@
       <workItem from="1716121662449" duration="31139000" />
       <workItem from="1716220061644" duration="4372000" />
       <workItem from="1716227525483" duration="1099000" />
-      <workItem from="1716228710448" duration="589000" />
+      <workItem from="1716228710448" duration="1737000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -324,7 +334,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716228967689</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Use primary constructor">
+      <option name="closed" value="true" />
+      <created>1716230422311</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1716230422311</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,7 +372,8 @@
     <MESSAGE value="WIP" />
     <MESSAGE value="Add back and front folders" />
     <MESSAGE value="Move angular app into front folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="Move angular app into front folder" />
+    <MESSAGE value="Use primary constructor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Use primary constructor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -364,12 +383,6 @@
           <line>37</line>
           <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\tests\UnitTests\Scrumboard.Application.UnitTests\Boards\Queries\GetBoardDetailQueryHandlerTests.cs" containingFunctionPresentation="Method 'GetBoardDetailTest_ExistingBoardId_ReturnsDetailsOfBoard'" />
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/src/UI/Web/Api/Boards/BoardsController.cs</url>
-          <line>34</line>
-          <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\UI\Web\Api\Boards\BoardsController.cs" containingFunctionPresentation="Method 'Get'" />
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Core/Application/Boards/Specifications/BoardsByUserIdSpec.cs</url>
@@ -409,13 +422,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Infrastructure/Scrumboard.Infrastructure/Persistence/BaseRepository.cs</url>
-          <line>33</line>
+          <line>26</line>
           <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Infrastructure\Scrumboard.Infrastructure\Persistence\BaseRepository.cs" containingFunctionPresentation="Method 'ListAsync'" />
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/src/Infrastructure/Scrumboard.Infrastructure/Persistence/ScrumboardDbContext.cs</url>
-          <line>63</line>
+          <line>53</line>
           <properties documentPath="C:\Users\boine\source\repos\dotnet\Scrumboard\src\Infrastructure\Scrumboard.Infrastructure\Persistence\ScrumboardDbContext.cs" containingFunctionPresentation="Method 'SaveChangesAsync'" />
           <option name="timeStamp" value="22" />
         </line-breakpoint>

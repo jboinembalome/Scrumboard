@@ -21,27 +21,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{40FBB85C-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{B8D6C760-D88D-443C-8778-540472E6C025}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionalTests", "FunctionalTests", "{2E36CE09-18CF-4B44-83E8-AB2A6EC997EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Domain", "Scrumboard.Domain\Scrumboard.Domain.csproj", "{0906D5DE-F0FB-46C7-89BC-CEB3EAB26346}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{96D159E9-E1E2-4CDE-BD23-605408E997DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application", "Scrumboard.Application\Scrumboard.Application.csproj", "{43CE164A-334E-4BD4-8C14-F9DAAF4901B5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{E96F8BEA-709A-4384-AFA3-570DABE93372}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure", "Scrumboard.Infrastructure\Scrumboard.Infrastructure.csproj", "{CAD3D0AF-396E-4AEE-A614-2F16D51C53A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Domain", "src\Scrumboard.Domain\Scrumboard.Domain.csproj", "{0906D5DE-F0FB-46C7-89BC-CEB3EAB26346}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application.UnitTests", "Scrumboard.Application.UnitTests\Scrumboard.Application.UnitTests.csproj", "{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application", "src\Scrumboard.Application\Scrumboard.Application.csproj", "{43CE164A-334E-4BD4-8C14-F9DAAF4901B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure.IntegrationTests", "Scrumboard.Infrastructure.IntegrationTests\Scrumboard.Infrastructure.IntegrationTests.csproj", "{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure", "src\Scrumboard.Infrastructure\Scrumboard.Infrastructure.csproj", "{CAD3D0AF-396E-4AEE-A614-2F16D51C53A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web.FunctionalTests", "Scrumboard.Web.FunctionalTests\Scrumboard.Web.FunctionalTests.csproj", "{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Application.UnitTests", "tests\Scrumboard.Application.UnitTests\Scrumboard.Application.UnitTests.csproj", "{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Web", "Scrumboard.Web\Scrumboard.Web.csproj", "{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure.IntegrationTests", "tests\Scrumboard.Infrastructure.IntegrationTests\Scrumboard.Infrastructure.IntegrationTests.csproj", "{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web.FunctionalTests", "tests\Scrumboard.Web.FunctionalTests\Scrumboard.Web.FunctionalTests.csproj", "{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Web", "src\Scrumboard.Web\Scrumboard.Web.csproj", "{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Infrastructure.Abstractions", "src\Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj", "{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Infrastructure.Abstractions", "Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj", "{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,17 +83,14 @@ Global
 		{FC400F14-77F3-4B40-B21D-FBBBC53B1474} = {FEDACB8D-3787-41C8-8A5C-D09B6463F099}
 		{40FBB85C-649A-42D8-872F-708F5A9804D2} = {FEDACB8D-3787-41C8-8A5C-D09B6463F099}
 		{B8D6C760-D88D-443C-8778-540472E6C025} = {FEDACB8D-3787-41C8-8A5C-D09B6463F099}
-		{2E36CE09-18CF-4B44-83E8-AB2A6EC997EE} = {6D799CF3-0C12-4707-B789-D332B18EE555}
-		{96D159E9-E1E2-4CDE-BD23-605408E997DE} = {6D799CF3-0C12-4707-B789-D332B18EE555}
-		{E96F8BEA-709A-4384-AFA3-570DABE93372} = {6D799CF3-0C12-4707-B789-D332B18EE555}
 		{0906D5DE-F0FB-46C7-89BC-CEB3EAB26346} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
 		{43CE164A-334E-4BD4-8C14-F9DAAF4901B5} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
 		{CAD3D0AF-396E-4AEE-A614-2F16D51C53A3} = {B8D6C760-D88D-443C-8778-540472E6C025}
-		{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289} = {E96F8BEA-709A-4384-AFA3-570DABE93372}
-		{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6} = {96D159E9-E1E2-4CDE-BD23-605408E997DE}
-		{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9} = {2E36CE09-18CF-4B44-83E8-AB2A6EC997EE}
 		{65712D3F-45EC-4F44-A2CE-8D50CF18E73C} = {FC400F14-77F3-4B40-B21D-FBBBC53B1474}
 		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C} = {B8D6C760-D88D-443C-8778-540472E6C025}
+		{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9} = {6D799CF3-0C12-4707-B789-D332B18EE555}
+		{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289} = {6D799CF3-0C12-4707-B789-D332B18EE555}
+		{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6} = {6D799CF3-0C12-4707-B789-D332B18EE555}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC39ECCE-AB63-4FAF-AC84-4AC6531F35A4}

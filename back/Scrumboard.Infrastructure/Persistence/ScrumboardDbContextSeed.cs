@@ -196,7 +196,7 @@ public static class ScrumboardDbContextSeed
             new Card
             {
                 Name = "Change background colors",
-                Description = null!,
+                Description = "",
                 Suscribed = false,
                 DueDate = null,
                 Position = 131072,

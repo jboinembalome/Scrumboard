@@ -13,8 +13,8 @@ public sealed class ListBoard : IAuditableEntity, IEntity<int>
     public int Position { get; set; }
     public Board Board { get; set; }
     public ICollection<Card> Cards { get; set; }
-    public string CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string LastModifiedBy { get; set; }
+    public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

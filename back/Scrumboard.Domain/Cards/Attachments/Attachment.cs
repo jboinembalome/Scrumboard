@@ -11,8 +11,8 @@ public sealed class Attachment : IAuditableEntity, IEntity<int>
     public string Url { get; set; }
     public AttachmentType AttachmentType { get; set; }
     public Card Card { get; set; }
-    public string CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string LastModifiedBy { get; set; }
+    public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

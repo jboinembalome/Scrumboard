@@ -25,8 +25,8 @@ public sealed class Card : IAuditableEntity, IEntity<int>
     public ICollection<Attachment> Attachments { get; set; }
     public ICollection<Checklist> Checklists { get; set; }
     public ICollection<Comment> Comments { get; set; }
-    public string CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string LastModifiedBy { get; set; }
+    public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

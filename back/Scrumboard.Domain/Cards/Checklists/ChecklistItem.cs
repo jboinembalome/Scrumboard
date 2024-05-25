@@ -10,8 +10,8 @@ public sealed class ChecklistItem : IAuditableEntity, IEntity<int>
     public string Name { get; set; }
     public bool IsChecked { get; set; }
     public Checklist Checklist { get; set; }
-    public string CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string LastModifiedBy { get; set; }
+    public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

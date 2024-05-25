@@ -1,5 +1,4 @@
-﻿using Duende.IdentityServer.EntityFramework.Options;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -83,9 +82,8 @@ public class DatabaseFixture : IDisposable
     public void SetDbContext(bool inMemoryDatabase = false)
     {
         var options = CreateNewContextOptions(inMemoryDatabase);
-        var operationalStoreOptions = Options.Create(new OperationalStoreOptions());
-
-        DbContext = new ScrumboardDbContext(options, operationalStoreOptions, MockCurrentUserService.Object, _mockDateTime.Object);
+        
+        DbContext = new ScrumboardDbContext(options, MockCurrentUserService.Object, _mockDateTime.Object);
         if (!inMemoryDatabase)
             DbContext.Database.Migrate();
         else

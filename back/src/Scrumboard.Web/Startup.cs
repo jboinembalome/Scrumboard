@@ -8,6 +8,7 @@ using Scrumboard.Web.Services;
 using System.Reflection;
 using Scrumboard.Application;
 using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Infrastructure.Identity;
 
 namespace Scrumboard.Web;
 
@@ -34,12 +35,9 @@ public class Startup
         services.AddHealthChecks()
             .AddDbContextCheck<ScrumboardDbContext>();
 
-        services.AddControllersWithViews(options => 
-                options.Filters.Add<ApiExceptionFilterAttribute>())
-            .ConfigureApplicationPartManager(apm => {
-                apm.ApplicationParts
-                    .Remove(apm.ApplicationParts.Single(ap => ap.Name == "Microsoft.AspNetCore.ApiAuthorization.IdentityServer"));
-            });
+        services.AddControllersWithViews(options =>
+            options.Filters.Add<ApiExceptionFilterAttribute>());
+        
         services.AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters();
 
@@ -74,7 +72,7 @@ public class Startup
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-
+        
         app.UseHealthChecks("/health");
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -92,8 +90,8 @@ public class Startup
         app.UseRouting();
 
         app.UseAuthentication();
-        app.UseIdentityServer();
         app.UseAuthorization();
+        
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(

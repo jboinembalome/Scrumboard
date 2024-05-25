@@ -1,6 +1,4 @@
-﻿using Duende.IdentityServer.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,21 +27,14 @@ public static class InfrastructureServiceRegistration
             else
             {
                 services.AddDbContext<ScrumboardDbContext>(options =>
-                    options.UseSqlServer(
-                        configuration.GetConnectionString("DefaultConnection"),
-                        b => b.MigrationsAssembly(typeof(ScrumboardDbContext).Assembly.FullName)));
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             }
 
             services
-                .AddDefaultIdentity<ApplicationUser>()
+                .AddIdentityApiEndpoints<ApplicationUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ScrumboardDbContext>();
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ScrumboardDbContext>();
-
-            services.AddTransient<IProfileService, ProfileService>();
-
+        
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient(typeof(ICsvExporter<>), typeof(CsvExporter<>));
@@ -51,9 +42,8 @@ public static class InfrastructureServiceRegistration
             services.AddScoped(typeof(IAsyncRepository<,>), typeof(BaseRepository<,>));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
 
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
-
+            services.AddAuthentication();
+            
             //services.AddAuthorization(options =>
             //{
             //    options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator"));

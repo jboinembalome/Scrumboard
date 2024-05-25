@@ -5,7 +5,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Core\Domain\Scrumboard.Domain.csproj" />
+      <ProjectReference Include="..\Scrumboard.Domain\Scrumboard.Domain.csproj" />
     </ItemGroup>
 
 </Project>

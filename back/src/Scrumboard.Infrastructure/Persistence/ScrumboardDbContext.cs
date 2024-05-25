@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Identity;
 using System.Reflection;
-using Duende.IdentityServer.EntityFramework.Entities;
-using Duende.IdentityServer.EntityFramework.Extensions;
-using Duende.IdentityServer.EntityFramework.Interfaces;
-using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
@@ -20,13 +15,20 @@ using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
-public sealed class ScrumboardDbContext(
-    DbContextOptions options,
-    IOptions<OperationalStoreOptions> operationalStoreOptions,
-    ICurrentUserService currentUserService,
-    IDateTime dateTime)
-    : IdentityDbContext<ApplicationUser>(options), IPersistedGrantDbContext
+public class ScrumboardDbContext : IdentityDbContext<ApplicationUser>
 {
+    private readonly ICurrentUserService _currentUserService;
+    private readonly IDateTime _dateTime;
+
+    public ScrumboardDbContext(
+        DbContextOptions options,
+        ICurrentUserService currentUserService,
+        IDateTime dateTime) : base(options)
+    {
+        _currentUserService = currentUserService;
+        _dateTime = dateTime;
+    }
+
     public DbSet<Activity> Activities { get; set; }
     public DbSet<Adherent> Adherents { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
@@ -39,13 +41,6 @@ public sealed class ScrumboardDbContext(
     public DbSet<Label> Labels { get; set; }
     public DbSet<ListBoard> ListBoards { get; set; }
     public DbSet<Team> Teams { get; set; }
-    
-    // IPersistedGrantDbContext
-    public DbSet<PersistedGrant> PersistedGrants { get; set; }
-    public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
-    public DbSet<Key> Keys { get; set; }
-    public DbSet<ServerSideSession> ServerSideSessions { get; set; }
-    public DbSet<PushedAuthorizationRequest> PushedAuthorizationRequests { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
@@ -54,12 +49,12 @@ public sealed class ScrumboardDbContext(
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = currentUserService.UserId ?? string.Empty;
-                    entry.Entity.CreatedDate = dateTime.Now;
+                    entry.Entity.CreatedBy = _currentUserService.UserId ?? string.Empty;
+                    entry.Entity.CreatedDate = _dateTime.Now;
                     break;
                 case EntityState.Modified:
-                    entry.Entity.LastModifiedBy = currentUserService.UserId ?? string.Empty;
-                    entry.Entity.LastModifiedDate = dateTime.Now;
+                    entry.Entity.LastModifiedBy = _currentUserService.UserId ?? string.Empty;
+                    entry.Entity.LastModifiedDate = _dateTime.Now;
                     break;
             }
         }
@@ -72,7 +67,5 @@ public sealed class ScrumboardDbContext(
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(builder);
-        
-        builder.ConfigurePersistedGrantContext(operationalStoreOptions.Value);
     }
 }

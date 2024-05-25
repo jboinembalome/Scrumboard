@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Core\Application\Scrumboard.Application.csproj" />
+    <ProjectReference Include="..\..\src\Scrumboard.Application\Scrumboard.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

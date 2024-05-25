@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj" />
-    <ProjectReference Include="..\Domain\Scrumboard.Domain.csproj" />
+    <ProjectReference Include="..\Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj" />
+    <ProjectReference Include="..\Scrumboard.Domain\Scrumboard.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

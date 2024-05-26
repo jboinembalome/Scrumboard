@@ -44,6 +44,8 @@ public class Startup
             .AddFluentValidationClientsideAdapters();
 
         services.AddRazorPages();
+        
+        services.AddEndpointsApiExplorer();
 
         // Customise default API behaviour
         services.Configure<ApiBehaviorOptions>(options =>
@@ -56,7 +58,7 @@ public class Startup
         {
             configuration.RootPath = "ClientApp/dist";
         });
-
+        
         AddSwagger(services);
     }
 

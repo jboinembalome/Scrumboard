@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Identity;
 using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
@@ -16,13 +19,79 @@ namespace Scrumboard.Infrastructure.Persistence;
 
 public static class ScrumboardDbContextSeed
 {
+    public static async Task InitialiseDatabaseAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+
+        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+
+        await initialiser.InitialiseAsync();
+
+        await initialiser.SeedAsync();
+    }
+}
+
+
+public class ApplicationDbContextInitialiser
+{
+    private readonly ILogger<ApplicationDbContextInitialiser> _logger;
+    private readonly ScrumboardDbContext _context;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+
     private const string ADMIN_USER_ID = "31a7ffcf-d099-4637-bd58-2a87641d1aaf";
     private const string ADHERENT_USER_ID = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
     private const string ADHERENT_USER_ID_2 = "633f27ad-d3e8-4fe7-9259-ee4ef713dbea";
     private const string ADHERENT_USER_ID_3 = "635f27ad-d3e8-4fe7-9259-ee4ef713dbea";
     private const string ADHERENT_USER_ID_4 = "637f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    
+    public ApplicationDbContextInitialiser(ILogger<ApplicationDbContextInitialiser> logger,
+        ScrumboardDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    {
+        _logger = logger;
+        _context = context;
+        _userManager = userManager;
+        _roleManager = roleManager;
+    }
 
-    public static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public async Task InitialiseAsync()
+    {
+        if (!_context.Database.IsSqlServer())
+        {
+            return;
+        }
+       
+        try
+        {
+            await _context.Database.MigrateAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while initialising the database.");
+            throw;
+        }
+    }
+    
+    public async Task SeedAsync()
+    {
+        try
+        {
+            await TrySeedAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while seeding the database.");
+            throw;
+        }
+    }
+
+    public async Task TrySeedAsync()
+    {
+        await SeedDefaultUserAsync(_userManager, _roleManager);
+        await SeedSampleDataAsync(_context);
+    }
+    
+    private static async Task SeedDefaultUserAsync(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         var roles = new[] { "Administrator", "Adherent" };
         var administrator = new ApplicationUser { Id = ADMIN_USER_ID, UserName = "administrator@localhost", Email = "administrator@localhost", FirstName = "Admin", LastName = "Istrator", Job = "Administrator", Avatar = [] };
@@ -47,7 +116,7 @@ public static class ScrumboardDbContextSeed
         await AddUserToRole(userManager, roleManager, roles[1], adherent4);
     }
 
-    public static async Task SeedSampleDataAsync(ScrumboardDbContext context)
+    private static async Task SeedSampleDataAsync(ScrumboardDbContext context)
     {
         var adherent = new Adherent
         {
@@ -348,5 +417,4 @@ public static class ScrumboardDbContextSeed
         if (!await userManager.IsInRoleAsync(user, identityRole!.Name!))
             await userManager.AddToRoleAsync(user, identityRole.Name!);
     }
-
 }

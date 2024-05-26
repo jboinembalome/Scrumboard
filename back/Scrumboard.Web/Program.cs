@@ -2,51 +2,33 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Identity;
 using Scrumboard.Infrastructure.Persistence;
+using Scrumboard.Web;
 
-namespace Scrumboard.Web;
 
-public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+var startup = new Startup(builder.Configuration);
+
+startup.ConfigureServices(builder.Services);
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    public static async Task Main(string[] args)
-    {
-            var host = CreateHostBuilder(args).Build();
-
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-
-                try
-                {
-                    var context = services.GetRequiredService<ScrumboardDbContext>();
-
-                    if (context.Database.IsSqlServer())
-                    {
-                        context.Database.Migrate();
-                    }
-
-                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-                    await ScrumboardDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
-                    await ScrumboardDbContextSeed.SeedSampleDataAsync(context);
-                }
-                catch (Exception ex)
-                {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-
-                    throw;
-                }
-            }
-
-            await host.RunAsync();
-        }
-
-    private static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
+    // Use Identity API for simplicity.
+    // TODO: Use Keycloak with Oauth2.
+    app.InitialiseIdentityApi(); 
+    
+    await app.InitialiseDatabaseAsync();
 }
+
+startup.ConfigureMiddlewares(app, app.Environment);
+
+await app.RunAsync();
+
+
+
+
+
+
+

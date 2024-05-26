@@ -29,6 +29,8 @@ public static class InfrastructureServiceRegistration
                 services.AddDbContext<ScrumboardDbContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             }
+            
+            services.AddScoped<ApplicationDbContextInitialiser>();
 
             services
                 .AddIdentityApiEndpoints<ApplicationUser>()

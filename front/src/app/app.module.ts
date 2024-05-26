@@ -11,8 +11,9 @@ import { appRoutes } from './app.routing';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { ApiModule } from './swagger/api.module';
-import { AuthModule } from 'src/app/core/auth/auth.module';
 import { AuthInterceptor } from 'src/app/core/auth/interceptors/auth.interceptor';
+import { AuthErrorInterceptor } from 'src/app/core/auth/interceptors/auth-error.interceptor';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routerConfig: ExtraOptions = {
@@ -45,6 +46,7 @@ const routerConfig: ExtraOptions = {
     FormsModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

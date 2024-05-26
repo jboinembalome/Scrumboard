@@ -26,6 +26,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAuthenticated = this._authService.isAuthenticated();
+    // TODO: Replace authService by userService
     this.currentUser = this._authService.getUser();
   }
 

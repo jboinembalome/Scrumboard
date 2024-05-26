@@ -1,1 +1,104 @@
-<p>{{ message | async }}</p>
+<div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 h-full">
+  <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-900 dark:border-l">
+     
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+            viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-primary opacity-75" fill="none" stroke="currentColor" stroke-width="80">
+                <circle r="180" cx="200" cy="70"></circle>
+                <circle r="180" cx="800" cy="450"></circle>
+            </g>    
+        </svg>
+
+      <!-- Bubble -->
+      <svg class="absolute -top-16 -right-16 text-secondary" viewBox="0 0 220 192" width="220" height="192" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M110 192c-41.353 0-75-33.647-75-75c0-41.353 33.647-75 75-75s75 33.647 75 75c0 41.353-33.647 75-75 75z M90 107c-10.494 0-19-8.506-19-19s8.506-19 19-19s19 8.506 19 19s-8.506 19-19 19z" fill="currentColor" />
+      </svg>
+
+      <div class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 scale-125 rounded-full bg-indigo-800/30 blur-[150px] dark:blur-[100px]"></div>
+      <!-- Content -->
+      <div class="z-10 relative w-full max-w-2xl">
+        <div class="text-2xl tracking-tight font-extrabold text-gray-100 sm:text-5xl md:text-5xl">
+              <div>Manage your awesome project</div>
+          </div>
+          <div class="mt-6 text-lg tracking-tight leading-6 text-primary-300">
+            Take control of every aspect of your project with our platform.
+          </div>
+      </div>
+
+      <img src="assets/images/landing/blog-starter.png" class="absolute bottom-0 left-0 w-full max-h-80 object-contain">
+  </div>
+
+  <div class="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+    <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+        <!-- Logo -->
+        <div class="w-12">
+            <img src="assets/images/logo/logo.svg">
+        </div>
+      
+        <div class="mt-8 text-2xl font-extrabold tracking-tight leading-tight">Sign in to your account</div>
+
+        <form
+            class="mt-8"
+            [formGroup]="loginInForm">
+
+            <!-- Email field -->
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Email address</label>
+            <mat-form-field class="w-full" appearance="outline">
+                <input
+                    id="email"
+                    matInput
+                    [formControlName]="'email'">
+                <mat-error *ngIf="loginInForm.get('email').hasError('required')">
+                    Email address is required
+                </mat-error>
+                <mat-error *ngIf="loginInForm.get('email').hasError('email')">
+                    Please enter a valid email address
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Password field -->
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
+            <mat-form-field class="w-full" appearance="outline">
+                <input
+                    id="password"
+                    matInput
+                    type="password"
+                    [formControlName]="'password'"
+                    #passwordField>
+                <button
+                    mat-icon-button
+                    type="button"
+                    (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                    matSuffix>
+                    <mat-icon
+                        class="icon-size-5"
+                        *ngIf="passwordField.type === 'password'">visibility</mat-icon>
+                    <mat-icon
+                        class="icon-size-5"
+                        *ngIf="passwordField.type === 'text'">visibility_off</mat-icon>
+                </button>
+                <mat-error>
+                    Password is required
+                </mat-error>
+            </mat-form-field>
+
+            <!-- Submit button -->
+            <button mat-flat-button 
+              [color]="'primary'"
+              [disabled]="loginInForm.disabled"
+              (click)="signIn()"
+              class="w-full mt-6">
+                  <span *ngIf="!loginInForm.disabled">
+                      Sign in
+                  </span>
+                  <mat-progress-spinner
+                      *ngIf="loginInForm.disabled"
+                      [diameter]="24"
+                      [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+            
+        </form>
+    </div>
+</div>
+</div>

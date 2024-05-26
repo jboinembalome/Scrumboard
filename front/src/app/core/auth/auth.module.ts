@@ -1,33 +1,28 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
 import { RouterModule } from '@angular/router';
-import { ApplicationPaths } from './auth.constants';
 import { HttpClientModule } from '@angular/common/http';
 import { IdentityService } from './services/identity.service';
+import { LogoutComponent } from './logout/logout.component';
+import { MaterialModule } from 'src/app/shared/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent],
+  declarations: [LoginComponent],
   imports: [
-    CommonModule,
+    SharedModule,
+    MaterialModule,
     HttpClientModule,
     RouterModule.forChild(
       [
-        { path: ApplicationPaths.Register, component: LoginComponent },
-        { path: ApplicationPaths.Profile, component: LoginComponent },
-        { path: ApplicationPaths.Login, component: LoginComponent },
-        { path: ApplicationPaths.LoginFailed, component: LoginComponent },
-        { path: ApplicationPaths.LoginCallback, component: LoginComponent },
-        { path: ApplicationPaths.LogOut, component: LogoutComponent },
-        { path: ApplicationPaths.LoggedOut, component: LogoutComponent },
-        { path: ApplicationPaths.LogOutCallback, component: LogoutComponent }
+        { path: 'login', component: LoginComponent },
+        { path: 'logout', component: LogoutComponent }
       ]
     )
   ],
   providers:[
     IdentityService
   ],
-  exports: [LoginComponent, LogoutComponent]
+  exports: [LoginComponent]
 })
 export class AuthModule { }

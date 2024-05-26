@@ -59,7 +59,8 @@ export class IdentityService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<IUser>('get', `${this.basePath}/connect/userinfo`,
+        // TODO: Create an endpoint to get user info
+        return this.httpClient.request<IUser>('get', `${this.basePath}/api/account/manage/info`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

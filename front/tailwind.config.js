@@ -23,8 +23,8 @@ const themes = {
       DEFAULT: colors.indigo[600]
     },
     accent: {
-      ...colors.blueGray,
-      DEFAULT: colors.blueGray[800]
+      ...colors.slate,
+      DEFAULT: colors.slate[800]
     },
     warn: {
       ...colors.red,
@@ -60,20 +60,9 @@ const themes = {
 };
 
 module.exports = {
-  experimental: {},
-  future: {},
   darkMode: 'class',
+  content: ['./src/**/*.{html,scss,ts}'],
   important: true,
-  purge: {
-    enabled: true,
-    content: ['./src/**/*.{html,scss,ts}'],
-    options: {
-      safelist: {
-        standard: ['dark'],
-        deep: [/^theme/, /^mat/]
-      }
-    }
-  },
   theme: {
     cursor: {
       auto: 'auto',
@@ -95,7 +84,7 @@ module.exports = {
       current: 'currentColor',
       black: colors.black,
       white: colors.white,
-      gray: colors.blueGray,
+      gray: colors.slate,
       teal: colors.teal,
       green: colors.green,
       amber: colors.amber,

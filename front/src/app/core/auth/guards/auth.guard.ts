@@ -3,7 +3,6 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { tap } from 'rxjs/operators';
-import { ApplicationPaths, QueryParameterNames } from '../auth.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -27,12 +26,12 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   private handleAuthorization(isAuthenticated: boolean, state: RouterStateSnapshot) {
     if (!isAuthenticated) {
-      let loginPathComponents = ApplicationPaths.LoginPathComponents;
+      let loginPathComponents = ['login'];
       loginPathComponents.unshift('auth');
 
       this.router.navigate(loginPathComponents, {
         queryParams: {
-          [QueryParameterNames.ReturnUrl]: state.url
+          ['returnUrl']: state.url
         }
       });
     }

@@ -1,8 +1,8 @@
-<mat-sidenav-container class="flex-1 w-full min-w-full h-full min-h-full bg-gray-100 dark:bg-gray-800"
+<mat-sidenav-container class="flex-1 w-full min-w-full h-full min-h-full"
   [class.dark-theme]="isDarkTheme" [dir]="dir">
 
   <!-- Sidenav -->
-  <mat-sidenav #sidenav class="bg-gradient-to-tr from-violet-500 to-orange-300 w-64" [opened]="!isScreenSmall"
+  <mat-sidenav #sidenav class="bg-white/75 dark:bg-gray-950/75 backdrop-blur transition-colors w-64" [opened]="!isScreenSmall"
     [mode]="isScreenSmall ? 'over' : 'side'">
 
     <!-- Logo -->
@@ -12,12 +12,13 @@
     <mat-nav-list class="mt-3 px-2 space-y-1">
       <a matLine *ngFor="let path of navigationPaths" 
         [routerLink]="path.Href" routerLinkActive="bg-indigo-800"
-        class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-        <mat-icon class=" mr-3 flex-shrink-0 h-6 w-6 text-indigo-300">{{path.Icon}}</mat-icon> {{path.Name}}
+        class="text-gray-950/75 dark:text-white/75 hover:bg-primary-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+        <mat-icon class=" mr-3 flex-shrink-0 h-6 w-6">{{path.Icon}}</mat-icon> {{path.Name}}
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
+  <div class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-64 -translate-y-64 scale-125 rounded-full bg-indigo-800/30 blur-[150px] dark:blur-[100px]"></div>
   <div class="flex flex-col h-full">
 
     <!-- Toolbar -->

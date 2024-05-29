@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/ro
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { BoardDetailDto } from 'src/app/swagger';
+import { BoardDetailDto } from 'app/swagger';
 import { ScrumboardService } from '../scrumboard.service';
 
 @Injectable({

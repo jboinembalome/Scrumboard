@@ -11,8 +11,8 @@ import { appRoutes } from './app.routing';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { ApiModule } from './swagger/api.module';
-import { AuthInterceptor } from 'src/app/core/auth/interceptors/auth.interceptor';
-import { AuthErrorInterceptor } from 'src/app/core/auth/interceptors/auth-error.interceptor';
+import { AuthInterceptor } from 'app/core/auth/interceptors/auth.interceptor';
+import { AuthErrorInterceptor } from 'app/core/auth/interceptors/auth-error.interceptor';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 

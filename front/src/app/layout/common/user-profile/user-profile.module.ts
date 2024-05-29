@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { UserProfileComponent } from './user-profile.component';
-import { AuthModule } from 'src/app/core/auth/auth.module';
-import { MaterialModule } from 'src/app/shared/material/material.module';
-import { ComponentModule  } from 'src/app/shared/components/component.module';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { AuthModule } from 'app/core/auth/auth.module';
+import { MaterialModule } from 'app/shared/material/material.module';
+import { ComponentModule  } from 'app/shared/components/component.module';
+import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({

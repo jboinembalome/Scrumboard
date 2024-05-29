@@ -3,9 +3,9 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { IUser } from 'src/app/core/auth/models/user.model';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
-import { BoardDetailDto, UpdateBoardCommand, BoardsService, ListBoardDto, CardDto, AdherentDto, UpdateTeamCommand, TeamsService, AdherentsService } from 'src/app/swagger';
+import { IUser } from 'app/core/auth/models/user.model';
+import { AuthService } from 'app/core/auth/services/auth.service';
+import { BoardDetailDto, UpdateBoardCommand, BoardsService, ListBoardDto, CardDto, AdherentDto, UpdateTeamCommand, TeamsService, AdherentsService } from 'app/swagger';
 import { ScrumboardService } from '../scrumboard.service';
 
 @Component({

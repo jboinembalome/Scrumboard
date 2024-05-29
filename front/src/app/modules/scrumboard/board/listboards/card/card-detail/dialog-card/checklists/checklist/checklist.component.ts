@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ChecklistDto, ChecklistItemDto } from 'src/app/swagger';
+import { ChecklistDto, ChecklistItemDto } from 'app/swagger';
 
 @Component({
   selector: 'checklist',

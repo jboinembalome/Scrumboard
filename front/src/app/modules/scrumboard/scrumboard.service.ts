@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {tap } from 'rxjs/operators';
 
-import { BoardDetailDto, BoardsService } from 'src/app/swagger';
+import { BoardDetailDto, BoardsService } from 'app/swagger';
 
 /** Storage service for data like board, labels, members etc... */
 @Injectable({

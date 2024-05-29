@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ColourDto } from 'src/app/swagger';
+import { ColourDto } from 'app/swagger';
 
 @Component({
     selector: 'blouppy-simple-color-picker',

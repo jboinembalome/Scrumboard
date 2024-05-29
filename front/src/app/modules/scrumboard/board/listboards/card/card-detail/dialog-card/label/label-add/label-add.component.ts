@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { LabelDto } from 'src/app/swagger';
+import { LabelDto } from 'app/swagger';
 
 
 @Component({

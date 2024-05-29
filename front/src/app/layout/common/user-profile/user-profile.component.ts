@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IUser } from 'src/app/core/auth/models/user.model';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
+import { IUser } from 'app/core/auth/models/user.model';
+import { AuthService } from 'app/core/auth/services/auth.service';
 
 @Component({
   selector: 'user-profile',

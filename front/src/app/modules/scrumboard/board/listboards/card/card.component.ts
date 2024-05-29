@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import * as moment from 'moment';
-import { CardDto } from 'src/app/swagger';
+import { CardDto } from 'app/swagger';
 
 @Component({
   selector: 'scrumboard-card',

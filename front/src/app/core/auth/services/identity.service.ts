@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpEvent } from '@angular/commo
 
 import { Observable } from 'rxjs';
 
-import { IUser } from 'src/app/core/auth/models/user.model';
+import { IUser } from 'app/core/auth/models/user.model';
 
 import { BASE_PATH } from '../../../swagger/variables';
 import { Configuration } from '../../../swagger/configuration';

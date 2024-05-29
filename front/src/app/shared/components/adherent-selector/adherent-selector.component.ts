@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AdherentDto } from 'src/app/swagger';
+import { AdherentDto } from 'app/swagger';
 
 @Component({
   selector: 'adherent-selector',

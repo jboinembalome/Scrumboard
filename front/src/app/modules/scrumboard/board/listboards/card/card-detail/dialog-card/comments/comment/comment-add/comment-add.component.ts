@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { IUser } from 'src/app/core/auth/models/user.model';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
-import { BlouppyUtils } from 'src/app/shared/utils/blouppyUtils';
-import { CardDetailDto, CommentDto, CommentsService } from 'src/app/swagger';
-import { CreateCommentCommand } from 'src/app/swagger/model/createCommentCommand';
+import { IUser } from 'app/core/auth/models/user.model';
+import { AuthService } from 'app/core/auth/services/auth.service';
+import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
+import { CardDetailDto, CommentDto, CommentsService } from 'app/swagger';
+import { CreateCommentCommand } from 'app/swagger/model/createCommentCommand';
 
 
 @Component({

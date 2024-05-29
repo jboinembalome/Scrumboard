@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
-import { ActivityDto } from 'src/app/swagger';
+import { ActivityDto } from 'app/swagger';
 
 
 @Component({

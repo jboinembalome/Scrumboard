@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
-import { BlouppyUtils } from 'src/app/shared/utils/blouppyUtils';
-import { ColourDto, LabelDto } from 'src/app/swagger';
+import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
+import { ColourDto, LabelDto } from 'app/swagger';
 
 @Component({
   selector: 'label-update',

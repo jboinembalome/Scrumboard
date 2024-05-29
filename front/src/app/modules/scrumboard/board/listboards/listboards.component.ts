@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { CardDto, CardsService, CreateCardCommand, ListBoardDto } from 'src/app/swagger';
+import { CardDto, CardsService, CreateCardCommand, ListBoardDto } from 'app/swagger';
 
 @Component({
   selector: 'scrumboard-listboards',

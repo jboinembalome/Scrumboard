@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SearchbarComponent } from './searchbar.component';
-import { MaterialModule } from 'src/app/shared/material/material.module';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { MaterialModule } from 'app/shared/material/material.module';
+import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LabelDto } from 'src/app/swagger';
-import { LabelsService } from 'src/app/swagger/api/labels.service';
+import { LabelDto } from 'app/swagger';
+import { LabelsService } from 'app/swagger/api/labels.service';
 
 @Component({
   selector: 'label-selector',

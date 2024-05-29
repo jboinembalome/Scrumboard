@@ -4,7 +4,7 @@ import { LoginRequest } from "../models/login-request.model";
 import { LoginResponse } from "../models/login-response.model";
 import { Observable, map, of, throwError } from "rxjs";
 import { BASE_PATH } from "../../../swagger/variables";
-import { Configuration } from "src/app/swagger";
+import { Configuration } from "app/swagger";
 import { IUser } from "../models/user.model";
 import { IdentityService } from "./identity.service";
 

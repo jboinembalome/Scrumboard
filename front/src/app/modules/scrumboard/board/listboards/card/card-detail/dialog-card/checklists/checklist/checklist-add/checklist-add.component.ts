@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { ChecklistDto } from 'src/app/swagger';
+import { ChecklistDto } from 'app/swagger';
 
 
 @Component({

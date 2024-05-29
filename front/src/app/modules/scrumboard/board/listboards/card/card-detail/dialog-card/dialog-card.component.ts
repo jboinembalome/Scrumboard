@@ -4,14 +4,14 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Valid
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap, switchMap } from 'rxjs/operators';
-import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand, ActivityDto } from 'src/app/swagger';
+import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand, ActivityDto } from 'app/swagger';
 import * as moment from 'moment';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ActivatedRoute } from '@angular/router';
-import { ScrumboardService } from 'src/app/modules/scrumboard/scrumboard.service';
-import { BlouppyConfirmationService } from 'src/app/shared/services/confirmation';
+import { ScrumboardService } from 'app/modules/scrumboard/scrumboard.service';
+import { BlouppyConfirmationService } from 'app/shared/services/confirmation';
 
 
 @Component({

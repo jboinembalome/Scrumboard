@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ScrumboardService } from 'src/app/modules/scrumboard/scrumboard.service';
+import { ScrumboardService } from 'app/modules/scrumboard/scrumboard.service';
 import { DialogCardComponent } from './dialog-card/dialog-card.component';
 
 

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ColourDto } from 'src/app/swagger';
+import { ColourDto } from 'app/swagger';
 
 @Pipe({ name: 'stringColor' })
 export class StringColorPipe implements PipeTransform {

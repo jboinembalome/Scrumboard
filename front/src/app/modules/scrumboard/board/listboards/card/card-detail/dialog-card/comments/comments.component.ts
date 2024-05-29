@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommentDto, CommentsService } from 'src/app/swagger';
-import { UpdateCommentCommand } from 'src/app/swagger/model/updateCommentCommand';
+import { CommentDto, CommentsService } from 'app/swagger';
+import { UpdateCommentCommand } from 'app/swagger/model/updateCommentCommand';
 
 @Component({
   selector: 'comments',

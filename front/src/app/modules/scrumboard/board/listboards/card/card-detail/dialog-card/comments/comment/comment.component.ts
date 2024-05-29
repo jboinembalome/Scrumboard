@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/core/auth/services/auth.service';
-import { CommentDto } from 'src/app/swagger';
+import { AuthService } from 'app/core/auth/services/auth.service';
+import { CommentDto } from 'app/swagger';
 
 @Component({
   selector: 'comment',

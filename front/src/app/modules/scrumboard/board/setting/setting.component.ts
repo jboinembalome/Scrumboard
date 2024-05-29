@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { BoardSettingDto, ColourDto } from 'src/app/swagger';
+import { BoardSettingDto, ColourDto } from 'app/swagger';
 
 @Component({
     selector: 'scrumboard-board-setting',

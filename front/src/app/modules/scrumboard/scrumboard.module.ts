@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { RouterModule } from '@angular/router';
-import { ComponentModule } from 'src/app/shared/components/component.module';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { MaterialModule } from 'src/app/shared/material/material.module';
+import { ComponentModule } from 'app/shared/components/component.module';
+import { SharedModule } from 'app/shared/shared.module';
+import { MaterialModule } from 'app/shared/material/material.module';
 
 import { scrumboardRoutes } from './scrumboard.routing';
 
@@ -19,7 +19,7 @@ import { ListBoardsComponent } from './board/listboards/listboards.component';
 import { ListBoardAddComponent } from './board/listboards/listboard-add/listboard-add.component';
 
 import { BoardsFilterPipe } from './boards/boards.pipe';
-import { StringColorPipe } from 'src/app/shared/pipes/string-color.pipe';
+import { StringColorPipe } from 'app/shared/pipes/string-color.pipe';
 import { SettingComponent } from './board/setting/setting.component';
 import { ChecklistAddComponent } from './board/listboards/card/card-detail/dialog-card/checklists/checklist/checklist-add/checklist-add.component';
 import { LabelSelectorComponent } from './board/listboards/card/card-detail/dialog-card/label/label-selector/label-selector.component';
@@ -30,7 +30,7 @@ import { ChecklistsComponent } from './board/listboards/card/card-detail/dialog-
 import { CommentsComponent } from './board/listboards/card/card-detail/dialog-card/comments/comments.component';
 import { CommentComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment.component';
 import { CommentAddComponent } from './board/listboards/card/card-detail/dialog-card/comments/comment/comment-add/comment-add.component';
-import { BlouppyConfirmationModule } from 'src/app/shared/services/confirmation';
+import { BlouppyConfirmationModule } from 'app/shared/services/confirmation';
 import { ActivitiesComponent } from './board/listboards/card/card-detail/dialog-card/activities/activities.component';
 
 @NgModule({

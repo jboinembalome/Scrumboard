@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { StringColorPipe } from 'src/app/shared/pipes/string-color.pipe';
-import { BoardDto, BoardsService, UpdatePinnedBoardCommand } from 'src/app/swagger';
+import { StringColorPipe } from 'app/shared/pipes/string-color.pipe';
+import { BoardDto, BoardsService, UpdatePinnedBoardCommand } from 'app/swagger';
 import { DataSourceSelectBoard } from './boards.constant';
 
 @Component({

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
@@ -26,7 +26,7 @@ const routerConfig: ExtraOptions = {
     AppComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes, routerConfig),
 
@@ -46,6 +46,7 @@ const routerConfig: ExtraOptions = {
     FormsModule,
   ],
   providers: [
+    { provide: APP_ID, useValue: 'ng-cli-universal' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { CommentDto } from 'src/app/swagger';
 
@@ -12,7 +12,7 @@ export class CommentComponent implements OnInit {
   @Output() commentUpdated = new EventEmitter<CommentDto>();
   @Output() commentRemoved = new EventEmitter<CommentDto>();
   
-  commentForm: FormGroup;
+  commentForm: UntypedFormGroup;
 
   canModify: boolean = false;
   editCommentCliked: boolean;
@@ -21,7 +21,7 @@ export class CommentComponent implements OnInit {
 
   constructor(
     private _authService: AuthService, 
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

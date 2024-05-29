@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { LabelDto } from 'src/app/swagger';
 
 
@@ -8,12 +8,12 @@ import { LabelDto } from 'src/app/swagger';
   templateUrl: './label-add.component.html'
 })
 export class LabelAddComponent implements OnInit {
-  labelForm: FormGroup;
+  labelForm: UntypedFormGroup;
   @Output() labelAdded = new EventEmitter<LabelDto>();
   @Output() labelCanceled = new EventEmitter<void>();
 
   constructor(
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

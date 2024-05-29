@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Player } from '../models/player.model';
 import { Result } from '../models/result.model';
 
@@ -12,9 +12,9 @@ export class HighScoreInputComponent implements OnInit, OnDestroy {
   @Input() score: number;
   @Output() onStored = new EventEmitter<any[]>();
 
-  highScoreForm: FormGroup;
+  highScoreForm: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder,) {
+  constructor(private formBuilder: UntypedFormBuilder,) {
   }
 
   ngOnInit(): void {

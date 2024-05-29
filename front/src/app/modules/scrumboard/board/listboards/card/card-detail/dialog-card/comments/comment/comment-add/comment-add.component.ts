@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { IUser } from 'src/app/core/auth/models/user.model';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
@@ -13,7 +13,7 @@ import { CreateCommentCommand } from 'src/app/swagger/model/createCommentCommand
   templateUrl: './comment-add.component.html'
 })
 export class CommentAddComponent implements OnInit {
-  commentForm: FormGroup;
+  commentForm: UntypedFormGroup;
   @Input() card: CardDetailDto;
   @Output() commentAdded = new EventEmitter<CommentDto>();
 
@@ -22,7 +22,7 @@ export class CommentAddComponent implements OnInit {
   constructor(
     private _authService: AuthService,
     private _commentsService: CommentsService, 
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

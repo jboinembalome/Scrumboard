@@ -1,6 +1,6 @@
 import { ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap, switchMap } from 'rxjs/operators';
@@ -24,7 +24,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   id: any;
   boardId: any;
   card: CardDetailDto;
-  cardForm: FormGroup;
+  cardForm: UntypedFormGroup;
 
   urlAvatar: string = location.origin + "/api/adherents/avatar/";
 
@@ -36,7 +36,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   /*** Labels ***/
   selectableLabel = true;
   removableLabel = true;
-  labelCtrl = new FormControl();
+  labelCtrl = new UntypedFormControl();
   filteredLabels: Observable<LabelDto[]>;
   allLabels: LabelDto[] = [];
   @ViewChild('labelInput') labelInput: ElementRef<HTMLInputElement>;
@@ -44,7 +44,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
   /*** Members ***/
   selectableMember = true;
   removableMember = true;
-  memberCtrl = new FormControl();
+  memberCtrl = new UntypedFormControl();
   filteredMembers: Observable<AdherentDto[]>;
   members: AdherentDto[] = [];
   allMembers: AdherentDto[] = [];
@@ -62,7 +62,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
     private _teamsService: TeamsService,
     private _scrumboardService: ScrumboardService,
     private _blouppyConfirmationService: BlouppyConfirmationService,
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
     this.id = data.route.snapshot.paramMap.get('cardId');
     this.boardId = data.route.parent.snapshot.paramMap.get('boardId');
     this.filteredLabels = this.labelCtrl.valueChanges.pipe(

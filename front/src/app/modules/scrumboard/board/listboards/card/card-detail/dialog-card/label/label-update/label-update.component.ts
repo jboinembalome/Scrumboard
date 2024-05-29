@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
 import { BlouppyUtils } from 'src/app/shared/utils/blouppyUtils';
 import { ColourDto, LabelDto } from 'src/app/swagger';
@@ -14,7 +14,7 @@ export class LabelUpdateComponent implements OnInit {
   @Output() labelUpdated = new EventEmitter<LabelDto>();
   @Output() labelDeleted = new EventEmitter<void>();
 
-  labelForm: FormGroup;
+  labelForm: UntypedFormGroup;
 
   colors: ColourDto[] =
   [
@@ -33,7 +33,7 @@ export class LabelUpdateComponent implements OnInit {
       { colour: 'bg-gray-500' },
   ];
   
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { BoardSettingDto, ColourDto } from 'src/app/swagger';
 
 @Component({
@@ -12,7 +12,7 @@ export class SettingComponent {
     @Output() boardSettingChange = new EventEmitter<BoardSettingDto>();
     @Output() closeSettingPanel = new EventEmitter<void>();
 
-    settingForm: FormGroup;
+    settingForm: UntypedFormGroup;
     ColourDto: ColourDto;
 
     constructor() {

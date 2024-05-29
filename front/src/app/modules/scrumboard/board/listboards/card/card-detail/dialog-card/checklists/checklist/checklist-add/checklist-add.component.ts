@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ChecklistDto } from 'src/app/swagger';
 
 
@@ -8,12 +8,12 @@ import { ChecklistDto } from 'src/app/swagger';
   templateUrl: './checklist-add.component.html'
 })
 export class ChecklistAddComponent implements OnInit {
-  checklistForm: FormGroup;
+  checklistForm: UntypedFormGroup;
   @Output() checklistAdded = new EventEmitter<ChecklistDto>();
   @Output() checklistCanceled = new EventEmitter<void>();
 
   constructor(
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: UntypedFormBuilder) {
   }
 
   ngOnInit(): void {

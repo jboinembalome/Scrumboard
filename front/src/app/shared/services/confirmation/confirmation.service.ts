@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { merge } from 'lodash-es';
 import { BlouppyConfirmationDialogComponent } from './dialog/dialog.component';
 import { BlouppyConfirmationConfig } from './confirmation.types';

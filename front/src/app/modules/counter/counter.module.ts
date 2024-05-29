@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { ComponentModule  } from 'src/app/shared/components/component.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CounterComponent } from './counter.component';

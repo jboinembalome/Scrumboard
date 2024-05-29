@@ -1,14 +1,14 @@
 import { ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap, switchMap } from 'rxjs/operators';
 import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand, ActivityDto } from 'src/app/swagger';
 import * as moment from 'moment';
-import { MatLegacyMenuTrigger as MatMenuTrigger } from '@angular/material/legacy-menu';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { ActivatedRoute } from '@angular/router';
 import { ScrumboardService } from 'src/app/modules/scrumboard/scrumboard.service';
 import { BlouppyConfirmationService } from 'src/app/shared/services/confirmation';

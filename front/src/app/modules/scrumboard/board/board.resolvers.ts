@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -9,7 +9,7 @@ import { ScrumboardService } from '../scrumboard.service';
 @Injectable({
     providedIn: 'root'
 })
-export class BoardResolver implements Resolve<any>
+export class BoardResolver 
 {
     constructor(private _router: Router, private _scrumboardService: ScrumboardService) {
     }

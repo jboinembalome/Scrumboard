@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap, switchMap } from 'rxjs/operators';
 import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand, ActivityDto } from 'app/swagger';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -342,7 +342,7 @@ export class DialogCardComponent implements OnInit, OnDestroy {
    * Check if the given date is overdue
    */
   isOverdue(date: Date): boolean {
-    return moment(date, moment.ISO_8601).isBefore(moment(), 'days');
+    return DateTime.fromISO(date).startOf('day') < DateTime.now().startOf('day');
   }
 
   /**

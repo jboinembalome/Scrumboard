@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { CardDto } from 'app/swagger';
 
 @Component({
@@ -21,7 +21,7 @@ export class CardComponent {
   * @param date
   */
   isOverdue(date: string): boolean {
-    return moment(date, moment.ISO_8601).isBefore(moment(), 'days');
+    return DateTime.fromISO(date).startOf('day') < DateTime.now().startOf('day');
   }
 
   /**

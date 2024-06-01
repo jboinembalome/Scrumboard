@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { ActivityDto } from 'app/swagger';
 
 
@@ -19,7 +19,7 @@ export class ActivitiesComponent {
      * @param compare
      */
   isSameDay(current: string, compare: string): boolean {
-    return moment(current, moment.ISO_8601).isSame(moment(compare, moment.ISO_8601), 'day');
+    return DateTime.fromISO(current).hasSame(DateTime.fromISO(compare), 'day');
   }
 
   /**
@@ -28,20 +28,7 @@ export class ActivitiesComponent {
    * @param date
    */
   getRelativeFormat(date: string): string {
-    const today = moment().startOf('day');
-    const yesterday = moment().subtract(1, 'day').startOf('day');
-
-    // Is today?
-    if (moment(date, moment.ISO_8601).isSame(today, 'day')) {
-      return 'Today';
-    }
-
-    // Is yesterday?
-    if (moment(date, moment.ISO_8601).isSame(yesterday, 'day')) {
-      return 'Yesterday';
-    }
-
-    return moment(date, moment.ISO_8601).fromNow();
+    return DateTime.fromISO(date).toRelativeCalendar();
   }
 
   /**

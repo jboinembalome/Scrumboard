@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { Subscription } from 'rxjs';
 import { CardDto, CardsService, CreateCardCommand, ListBoardDto } from 'app/swagger';
 
@@ -232,7 +232,7 @@ export class ListBoardsComponent implements OnInit, OnDestroy {
   * @param date
   */
   isOverdue(date: string): boolean {
-    return moment(date, moment.ISO_8601).isBefore(moment(), 'days');
+    return DateTime.fromISO(date).startOf('day') < DateTime.now().startOf('day');
   }
 
   /**

@@ -107,8 +107,6 @@ module.exports = {
     }
   },
   plugins: [
-    require('@tailwindcss/forms'),
-
     // Blouppy - Tailwind plugins
     require(path.resolve(__dirname, ('src/app/shared/tailwind/plugins/extract-config'))),
     require(path.resolve(__dirname, ('src/app/shared/tailwind/plugins/utilities'))),

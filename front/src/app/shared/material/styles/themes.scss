@@ -10,7 +10,7 @@
 //  If you don't need the default component typographies but still want the hierarchy styles,
 //  you can delete this line and instead use:
 //    `@include mat.typography-hierarchy(mat.define-typography-config());`
-@include mat.all-component-typographies();
+//@include mat.all-component-typographies();
 @include mat.core();
 
 /* Create a base theme without color.
@@ -18,12 +18,21 @@
 @include mat.all-component-themes((
     color: null,
     density: -2,
-    typography: mat.define-typography-config(
+    typography: mat.m2-define-typography-config(
         $font-family: theme('fontFamily.sans'),
-        $title: mat.define-typography-level(1.25rem, 2rem, 600),
-        $body-2: mat.define-typography-level(0.875rem, 1.5rem, 600),
-        $button: mat.define-typography-level(0.875rem, 0.875rem, 500),
-        $input: mat.define-typography-level(0.875rem, 1.2857142857, 400) /* line-height: 20px */
+        $headline-1: mat.m2-define-typography-level(1.875rem, 2.25rem, 800, theme('fontFamily.sans')),
+        $headline-2: mat.m2-define-typography-level(1.25rem, 1.75rem, 700, theme('fontFamily.sans')),
+        $headline-3: mat.m2-define-typography-level(1.125rem, 1.75rem, 600, theme('fontFamily.sans')),
+        $headline-4: mat.m2-define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.sans')),
+        $headline-5: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
+        $headline-6: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
+        $subtitle-1: mat.m2-define-typography-level(1rem, 1.75rem, 400, theme('fontFamily.sans')),
+        $subtitle-2: mat.m2-define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.sans')),
+        $body-1: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
+        $body-2: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
+        $caption: mat.m2-define-typography-level(0.75rem, 1rem, 400, theme('fontFamily.sans')),
+        $button: mat.m2-define-typography-level(0.875rem, 0.875rem, 500, theme('fontFamily.sans')),
+        $overline: mat.m2-define-typography-level(0.75rem, 2rem, 500, theme('fontFamily.sans'))
     )
 ));
 
@@ -144,7 +153,7 @@ $palettes: ();
     CSS Custom Properties to dynamically switch the colors. */
 body.light,
 body .light {
-    $base-light-theme: mat.define-light-theme((
+    $base-light-theme: mat.m2-define-light-theme((
         color: ($palettes)
     ));
 
@@ -165,7 +174,7 @@ body .light {
 
 body.dark,
 body .dark {
-    $base-dark-theme: mat.define-dark-theme((
+    $base-dark-theme: mat.m2-define-dark-theme((
         color: ($palettes)
     ));
 

@@ -36,6 +36,7 @@
             "styles": [
               "src/app/shared/material/styles/themes.scss",
               "src/app/shared/material/styles/overrides/angular-material.scss",
+              "src/app/shared/tailwind/tailwind.scss",
               "src/styles.scss"
             ],
             "scripts": []

@@ -1,63 +1,4 @@
-const path = require('path');
 const colors = require('tailwindcss/colors');
-const generatePalette = require(path.resolve(__dirname, ('src/app/shared/tailwind/utils/generate-palette')));
-
-/**
- * Custom palettes
- *
- * Uses the generatePalette helper method to generate
- * Tailwind-like color palettes automatically
- */
-const customPalettes = {
-  brand: generatePalette('#2196F3')
-};
-
-/**
-* Themes
-*/
-const themes = {
-  // Default theme is required for theming system to work correctly
-  'default': {
-    primary: {
-      ...colors.indigo,
-      DEFAULT: colors.indigo[600]
-    },
-    accent: {
-      ...colors.slate,
-      DEFAULT: colors.slate[800]
-    },
-    warn: {
-      ...colors.red,
-      DEFAULT: colors.red[600]
-    },
-    'on-warn': {
-      500: colors.red['50']
-    }
-  },
-  // Rest of the themes will use the 'default' as the base theme
-  // and extend them with their given configuration
-  'brand': {
-    primary: customPalettes.brand
-  },
-  'indigo': {
-    primary: {
-      ...colors.teal,
-      DEFAULT: colors.teal[600]
-    }
-  },
-  'rose': {
-    primary: colors.rose
-  },
-  'purple': {
-    primary: {
-      ...colors.purple,
-      DEFAULT: colors.purple[600]
-    }
-  },
-  'amber': {
-    primary: colors.amber
-  }
-};
 
 module.exports = {
   darkMode: 'class',
@@ -81,36 +22,55 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
-      current: 'currentColor',
+      current: 'currentColor', // Useful to update the color of svg
+      white: '#ffffff',
+      primary: {
+        DEFAULT: '#676dcf',
+        50: '#f5f5fc',
+        100: '#ebebf9',
+        200: '#ced0f2',
+        300: '#b5bfeb',
+        400: '#8e93dc',
+        500: '#676dcf',
+        600: '#5052a7',
+        700: '#3a3e80',
+        800: '#262b5a',
+        900: '#131633'
+      },
+      accent: {
+        DEFAULT: '#ff4c4c',
+        50: '#fff7f6',
+        100: '#ffe6e4',
+        200: '#ffa7a3',
+        300: '#ffb7b3',
+        400: '#ff817f',
+        500: '#ff4c4c',
+        600: '#e63f40',
+        700: '#b73234',
+        800: '#8f2728',
+        900: '#6d1c1c'
+      },
+      warn: {
+        ...colors.red,
+      },
+      slate: colors.slate,
+      gray: colors.gray,
+      red: colors.red,
+      orange: colors.orange,
+      yellow: colors.yellow,
+      green: colors.green,
+      blue: colors.blue,
+      indigo: colors.indigo,
+      purple: colors.purple,
+      amber: colors.amber,
       black: colors.black,
       white: colors.white,
-      gray: colors.slate,
       teal: colors.teal,
-      green: colors.green,
-      amber: colors.amber,
-      orange: colors.orange,
       violet: colors.violet,
-      purple: colors.purple,
       pink: colors.pink,
-      rose: colors.rose,
-      indigo: colors.indigo,
-      red: colors.red,
-      yellow: colors.yellow,
-      blue: colors.blue
-    }
-  },
-  variants: {
-    extend: {
-      backgroundColor: ['disabled'],
-      textColor: ['disabled'],
-      opacity: ['disabled'],
-    }
+      rose: colors.rose
+    },
   },
   plugins: [
-    // Blouppy - Tailwind plugins
-    require(path.resolve(__dirname, ('src/app/shared/tailwind/plugins/extract-config'))),
-    require(path.resolve(__dirname, ('src/app/shared/tailwind/plugins/utilities'))),
-    require(path.resolve(__dirname, ('src/app/shared/tailwind/plugins/icon-size'))),
-    require(path.resolve(__dirname, ('src/app/shared/tailwind/plugins/theming')))({themes})
   ],
 };

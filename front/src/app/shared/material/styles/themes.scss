@@ -13,182 +13,176 @@
 //@include mat.all-component-typographies();
 @include mat.core();
 
-/* Create a base theme without color.
-    This will globally set the density and typography for all future color themes. */
-@include mat.all-component-themes((
-    color: null,
-    density: -2,
-    typography: mat.m2-define-typography-config(
-        $font-family: theme('fontFamily.sans'),
-        $headline-1: mat.m2-define-typography-level(1.875rem, 2.25rem, 800, theme('fontFamily.sans')),
-        $headline-2: mat.m2-define-typography-level(1.25rem, 1.75rem, 700, theme('fontFamily.sans')),
-        $headline-3: mat.m2-define-typography-level(1.125rem, 1.75rem, 600, theme('fontFamily.sans')),
-        $headline-4: mat.m2-define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.sans')),
-        $headline-5: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $headline-6: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $subtitle-1: mat.m2-define-typography-level(1rem, 1.75rem, 400, theme('fontFamily.sans')),
-        $subtitle-2: mat.m2-define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.sans')),
-        $body-1: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $body-2: mat.m2-define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $caption: mat.m2-define-typography-level(0.75rem, 1rem, 400, theme('fontFamily.sans')),
-        $button: mat.m2-define-typography-level(0.875rem, 0.875rem, 500, theme('fontFamily.sans')),
-        $overline: mat.m2-define-typography-level(0.75rem, 2rem, 500, theme('fontFamily.sans'))
-    )
+/* Generate Primary, Accent and Warn palettes */
+$palettes: (
+  primary: (
+    0: #000000,
+    10: #0f0069,
+    20: #1e1b4b,
+    25: #3730a3,
+    30: #3730a3,
+    35: #4338ca,
+    40: #4f46e5,
+    50: #6366f1,
+    60: #818cf8,
+    70: #a5b4fc,
+    80: #c7d2fe,
+    90: #e0e7ff,
+    95: #eef2ff,
+    98: #fcf8ff,
+    99: #fffbff,
+    100: #ffffff,
+  ),
+  secondary: (
+    0: #000000,
+    10: #001b3c,
+    20: #003061,
+    25: #003b75,
+    30: #004689,
+    35: #11529a,
+    40: #255ea6,
+    50: #4378c1,
+    60: #5f92dd,
+    70: #7bacfa,
+    80: #a8c8ff,
+    90: #d5e3ff,
+    95: #ecf1ff,
+    98: #f9f9ff,
+    99: #fdfbff,
+    100: #ffffff,
+  ),
+  tertiary: (
+    0: #000000,
+    10: #2f1123,
+    20: #472639,
+    25: #533044,
+    30: #603c50,
+    35: #6d475c,
+    40: #7a5368,
+    50: #956b81,
+    60: #b0849b,
+    70: #cd9eb6,
+    80: #eab9d1,
+    90: #ffd8ea,
+    95: #ffecf3,
+    98: #fff8f8,
+    99: #fffbff,
+    100: #ffffff,
+  ),
+  neutral: (
+    0: #000000,
+    10: #1c1b1f,
+    20: #313034,
+    25: #3c3b3f,
+    30: #47464a,
+    35: #535256,
+    40: #5f5e62,
+    50: #78767a,
+    60: #929094,
+    70: #adaaaf,
+    80: #c9c5ca,
+    90: #e5e1e6,
+    95: #f3eff4,
+    98: #fcf8fd,
+    99: #fffbff,
+    100: #ffffff,
+    4: #0e0e11,
+    6: #131316,
+    12: #201f23,
+    17: #2a292d,
+    22: #353438,
+    24: #3a393c,
+    87: #dcd9dd,
+    92: #ebe7ec,
+    94: #f0edf1,
+    96: #f6f2f7,
+  ),
+  neutral-variant: (
+    0: #000000,
+    10: #1b1b23,
+    20: #302f38,
+    25: #3b3a43,
+    30: #47464f,
+    35: #53515a,
+    40: #5f5d67,
+    50: #787680,
+    60: #928f9a,
+    70: #acaab4,
+    80: #c8c5d0,
+    90: #e4e1ec,
+    95: #f3effa,
+    98: #fcf8ff,
+    99: #fffbff,
+    100: #ffffff,
+  ),
+  error: (
+    0: #000000,
+    10: #410002,
+    20: #690005,
+    25: #7e0007,
+    30: #93000a,
+    35: #a80710,
+    40: #ba1a1a,
+    50: #de3730,
+    60: #ff5449,
+    70: #ff897d,
+    80: #ffb4ab,
+    90: #ffdad6,
+    95: #ffedea,
+    98: #fff8f7,
+    99: #fffbff,
+    100: #ffffff,
+  ),
+);
+
+
+$rest: (
+  secondary: map.get($palettes, secondary),
+  neutral: map.get($palettes, neutral),
+  neutral-variant: map.get($palettes,  neutral-variant),
+  error: map.get($palettes, error),
+);
+
+$primary: map.merge(map.get($palettes, primary), $rest);
+$tertiary: map.merge(map.get($palettes, tertiary), $rest);
+
+
+// Define the theme object.
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: $primary,
+    tertiary: $tertiary,
+  ),
+  density: (
+    scale: 0,
+  ),
+  typography: (
+    brand-family: 'Roboto'
+  )
 ));
 
-/* Prepare the Background and Foreground maps */
-$background-light: (
-    status-bar: #CBD5E1, /* slate.300 */
-    app-bar: #FFFFFF,
-    background: #F1F5F9, /* slate.100 */
-    hover: rgba(148, 163, 184, 0.12), /* slate.400 + opacity */
-    card: #FFFFFF,
-    dialog: #FFFFFF,
-    disabled-button: rgba(148, 163, 184, 0.38), /* slate.400 + opacity */
-    raised-button: #FFFFFF,
-    focused-button: #64748B, /* slate.500 */
-    selected-button: #E2E8F0, /* slate.200 */
-    selected-disabled-button: #E2E8F0, /* slate.200 */
-    disabled-button-toggle: #CBD5E1, /* slate.300 */
-    unselected-chip: #E2E8F0, /* slate.200 */
-    disabled-list-option: #CBD5E1, /* slate.300 */
-    tooltip: #1E293B /* slate.800 */
-);
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: $primary,
+    tertiary: $tertiary,
+  ),
+  density: (
+    scale: 0,
+  ),
+  typography: (
+    brand-family: 'Roboto'
+  )
+));
 
-$background-dark: (
-    status-bar: #0F172A, /* slate.900 */
-    app-bar: #0F172A, /* slate.900 */
-    background: #0F172A, /* slate.900 */
-    hover: rgba(255, 255, 255, 0.05),
-    card: #1E293B, /* slate.800 */
-    dialog: #1E293B, /* slate.800 */
-    disabled-button: rgba(15, 23, 42, 0.38), /* slate.900 + opacity */
-    raised-button: #0F172A, /* slate.900 */
-    focused-button: #E2E8F0, /* slate.200 */
-    selected-button: rgba(255, 255, 255, 0.05),
-    selected-disabled-button: #1E293B, /* slate.800 */
-    disabled-button-toggle: #0F172A, /* slate.900 */
-    unselected-chip: #475569, /* slate.600 */
-    disabled-list-option: #E2E8F0, /* slate.200 */
-    tooltip: #64748B /* slate.500 */
-);
-
-$foreground-light: (
-    base: #000000,
-    divider: #E2E8F0, /* slate.200 */
-    dividers: #E2E8F0, /* slate.200 */
-    disabled: #94A3B8, /* slate.400 */
-    disabled-button: #94A3B8, /* slate.400 */
-    disabled-text: #94A3B8, /* slate.400 */
-    elevation: #000000,
-    hint-text: #94A3B8, /* slate.400 */
-    secondary-text: #64748B, /* slate.500 */
-    icon: #64748B, /* slate.500 */
-    icons: #64748B, /* slate.500 */
-    mat-icon: #64748B, /* slate.500 */
-    text: #1E293B, /* slate.800 */
-    slider-min: #1E293B, /* slate.800 */
-    slider-off: #CBD5E1, /* slate.300 */
-    slider-off-active: #94A3B8 /* slate.400 */
-);
-
-$foreground-dark: (
-    base: #FFFFFF,
-    divider: rgba(241, 245, 249, 0.12), /* slate.100 + opacity */
-    dividers: rgba(241, 245, 249, 0.12), /* slate.100 + opacity */
-    disabled: #475569, /* slate.600 */
-    disabled-button: #1E293B, /* slate.800 */
-    disabled-text: #475569, /* slate.600 */
-    elevation: #000000,
-    hint-text: #64748B, /* slate.500 */
-    secondary-text: #94A3B8, /* slate.400 */
-    icon: #F1F5F9, /* slate.100 */
-    icons: #F1F5F9, /* slate.100 */
-    mat-icon: #94A3B8, /* slate.400 */
-    text: #FFFFFF,
-    slider-min: #FFFFFF,
-    slider-off: #64748B, /* slate.500 */
-    slider-off-active: #94A3B8 /* slate.400 */
-);
-
-/* Generate Primary, Accent and Warn palettes */
-$palettes: ();
-@each $name in (primary, accent, warn) {
-    $palettes: map.merge($palettes, (#{$name}: (
-        50: var(--blouppy-#{$name}-50),
-        100: var(--blouppy-#{$name}-100),
-        200: var(--blouppy-#{$name}-200),
-        300: var(--blouppy-#{$name}-300),
-        400: var(--blouppy-#{$name}-400),
-        500: var(--blouppy-#{$name}-500),
-        600: var(--blouppy-#{$name}-600),
-        700: var(--blouppy-#{$name}-700),
-        800: var(--blouppy-#{$name}-800),
-        900: var(--blouppy-#{$name}-900),
-        contrast: (
-            50: var(--blouppy-on-#{$name}-50),
-            100: var(--blouppy-on-#{$name}-100),
-            200: var(--blouppy-on-#{$name}-200),
-            300: var(--blouppy-on-#{$name}-300),
-            400: var(--blouppy-on-#{$name}-400),
-            500: var(--blouppy-on-#{$name}-500),
-            600: var(--blouppy-on-#{$name}-600),
-            700: var(--blouppy-on-#{$name}-700),
-            800: var(--blouppy-on-#{$name}-800),
-            900: var(--blouppy-on-#{$name}-900)
-        ),
-        default: var(--blouppy-#{$name}),
-        lighter: var(--blouppy-#{$name}-100),
-        darker: var(--blouppy-#{$name}-700),
-        text: var(--blouppy-#{$name}),
-        default-contrast: var(--blouppy-on-#{$name}),
-        lighter-contrast: var(--blouppy-on-#{$name}-100),
-        darker-contrast: var(--blouppy-on-#{$name}-700)
-    )));
-}
-
-/* Generate Angular Material themes. Since we are using CSS Custom Properties,
-    we don't have to generate a separate Angular Material theme for each color
-    set. We can just create one light and one dark theme and then switch the
-    CSS Custom Properties to dynamically switch the colors. */
-body.light,
-body .light {
-    $base-light-theme: mat.m2-define-light-theme((
-        color: ($palettes)
-    ));
-
-    $light-theme: (
-        color: (
-            primary: map.get(map.get($base-light-theme, color), primary),
-            accent: map.get(map.get($base-light-theme, color), accent),
-            warn: map.get(map.get($base-light-theme, color), warn),
-            is-dark: map.get(map.get($base-light-theme, color), is-dark),
-            foreground: $foreground-light,
-            background: $background-light
-        )
-    );
-
-    /* Use all-component-colors to only generate the colors */
-    @include mat.all-component-colors($light-theme);
+body {
+  //@include mat.all-component-themes($light-theme);
+  @include mat.core-theme($light-theme);
 }
 
 body.dark,
 body .dark {
-    $base-dark-theme: mat.m2-define-dark-theme((
-        color: ($palettes)
-    ));
-
-    $dark-theme: (
-        color: (
-            primary: map.get(map.get($base-dark-theme, color), primary),
-            accent: map.get(map.get($base-dark-theme, color), accent),
-            warn: map.get(map.get($base-dark-theme, color), warn),
-            is-dark: map.get(map.get($base-dark-theme, color), is-dark),
-            foreground: $foreground-dark,
-            background: $background-dark
-        )
-    );
-
     /* Use all-component-colors to only generate the colors */
     @include mat.all-component-colors($dark-theme);
 }

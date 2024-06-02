@@ -22,31 +22,31 @@ export class StringColorPipe implements PipeTransform {
 
   private formatColor(color: ColourDto): string {
     switch (color.colour) {
-        case "bg-blue-500":
+        case "bg-blue-800/30":
             return "Blue";
-        case "bg-yellow-500":
+        case "bg-yellow-800/30":
           return "Yellow";
-        case "bg-red-500":
+        case "bg-red-800/30":
           return "Red";
-        case "bg-indigo-500":
+        case "bg-indigo-800/30":
             return "Indigo";
-        case "bg-rose-500":
+        case "bg-rose-800/30":
             return "Rose";
-        case "bg-pink-500":
+        case "bg-pink-800/30":
             return "Pink";
-        case "bg-purple-500":
+        case "bg-purple-800/30":
             return "Purple";
-        case "bg-violet-500":
+        case "bg-violet-800/30":
             return "Violet";
-        case "bg-orange-500":
+        case "bg-orange-800/30":
             return "Orange";
-        case "bg-amber-500":
+        case "bg-amber-800/30":
             return "Amber";
-        case "bg-green-500":
+        case "bg-green-800/30":
             return "Green";
-        case "bg-teal-500":
+        case "bg-teal-800/30":
             return "Teal";
-        case "bg-gray-500":
+        case "bg-gray-800/30":
             return "Gray";
         default:
             return color.colour;

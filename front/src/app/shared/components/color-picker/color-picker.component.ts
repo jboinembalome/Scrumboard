@@ -14,19 +14,19 @@ export class ColorPickerComponent {
     isOpen: boolean = false;
     colors: ColourDto[] =
         [
-            { colour: 'bg-blue-500' },
-            { colour: 'bg-yellow-500' },
-            { colour: 'bg-red-500' },
-            { colour: 'bg-indigo-500' },
-            { colour: 'bg-rose-500' },
-            { colour: 'bg-pink-500' },
-            { colour: 'bg-purple-500' },
-            { colour: 'bg-violet-500' },
-            { colour: 'bg-orange-500' },
-            { colour: 'bg-amber-500' },
-            { colour: 'bg-green-500' },
-            { colour: 'bg-teal-500' },
-            { colour: 'bg-gray-500' }
+            { colour: 'bg-blue-800/30' },
+            { colour: 'bg-yellow-800/30' },
+            { colour: 'bg-red-800/30' },
+            { colour: 'bg-indigo-800/30' },
+            { colour: 'bg-rose-800/30' },
+            { colour: 'bg-pink-800/30' },
+            { colour: 'bg-purple-800/30' },
+            { colour: 'bg-violet-800/30' },
+            { colour: 'bg-orange-800/30' },
+            { colour: 'bg-amber-800/30' },
+            { colour: 'bg-green-800/30' },
+            { colour: 'bg-teal-800/30' },
+            { colour: 'bg-gray-800/30' }
         ];
 
     constructor() {

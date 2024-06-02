@@ -2,14 +2,14 @@
 <div class="ml-3 relative">
   <div>
     <button mat-icon-button [matMenuTriggerFor]="menu"
-      class="max-w-xs bg-white dark:bg-gray-900 flex items-center text-sm rounded-full hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      class="max-w-xs bg-white/75 dark:bg-gray-950/75 flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       id="user-menu-button" aria-expanded="false" aria-haspopup="true">
       <span class="inline-block relative">
         <span class="sr-only">Open user menu</span>
         <ng-container *ngIf="isAuthenticated | async">
-          <img *ngIf="(currentUser | async)?.picture" class="p-px h-10 w-10 rounded-full"
+          <img *ngIf="(currentUser | async)?.picture" class="p-px h-12 w-12 rounded-full"
             [src]="(currentUser | async)?.picture" (onerror)="setPicture()">
-          <span *ngIf="!(currentUser | async)?.picture" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">
+          <span *ngIf="!(currentUser | async)?.picture" class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-500">
             <span class="font-medium leading-none text-white">{{((currentUser | async)?.name | initial)}}</span>
           </span>
         </ng-container>
@@ -33,7 +33,7 @@
 </div>
 
 <!-- Menu dropdown-->
-<mat-menu #menu="matMenu" class="dark:bg-gray-600">
+<mat-menu #menu="matMenu" class="bg-white/75 dark:bg-gray-950/75">
   <div *ngIf="isAuthenticated | async">
     <div>
       <span class="flex flex-col leading-none px-4 py-2 mx-2">

@@ -26,31 +26,31 @@ public sealed class Colour : ValueObject
         return colour;
     }
 
-    public static Colour Gray => new("bg-gray-500");
+    public static Colour Gray => new("bg-gray-800/30");
 
-    public static Colour Teal => new("bg-teal-500");
+    public static Colour Teal => new("bg-teal-800/30");
 
-    public static Colour Green => new("bg-green-500");
+    public static Colour Green => new("bg-green-800/30");
 
-    public static Colour Amber => new("bg-amber-500");
+    public static Colour Amber => new("bg-amber-800/30");
 
-    public static Colour Orange => new("bg-orange-500");
+    public static Colour Orange => new("bg-orange-800/30");
 
-    public static Colour Violet => new("bg-violet-500");
+    public static Colour Violet => new("bg-violet-800/30");
 
-    public static Colour Purple => new("bg-purple-500");
+    public static Colour Purple => new("bg-purple-800/30");
 
-    public static Colour Pink => new("bg-pink-500");
+    public static Colour Pink => new("bg-pink-800/30");
 
-    public static Colour Rose => new("bg-rose-500");
+    public static Colour Rose => new("bg-rose-800/30");
 
-    public static Colour Indigo => new("bg-indigo-500");
+    public static Colour Indigo => new("bg-indigo-800/30");
 
-    public static Colour Red => new("bg-red-500");
+    public static Colour Red => new("bg-red-800/30");
 
-    public static Colour Yellow => new("bg-yellow-500");
+    public static Colour Yellow => new("bg-yellow-800/30");
 
-    public static Colour Blue => new("bg-blue-500");  
+    public static Colour Blue => new("bg-blue-800/30");  
 
     public string Code { get; private set; }
 

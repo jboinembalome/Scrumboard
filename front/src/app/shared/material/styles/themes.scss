@@ -177,8 +177,7 @@ $dark-theme: mat.define-theme((
 ));
 
 body {
-  //@include mat.all-component-themes($light-theme);
-  @include mat.core-theme($light-theme);
+  @include mat.all-component-themes($light-theme);
 }
 
 body.dark,

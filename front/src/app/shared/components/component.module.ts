@@ -8,25 +8,24 @@ import { SelectComponent } from './selects/select/select.component';
 import { SelectCheckboxComponent } from './selects/select-checkbox/select-checkbox.component';
 import { SimpleCardComponent } from './cards/simple-card/simple-card.component';
 import { InputWithIconComponent } from './inputs/input-with-icon/input-with-icon.component';
-import { SharedModule } from 'app/shared/shared.module';
+
 import { MaterialModule } from 'app/shared/material/material.module';
 import { AdherentSelectorComponent } from './adherent-selector/adherent-selector.component';
 
 @NgModule({
     imports: [
-        RouterModule,
-        SharedModule,
-        MaterialModule,
-        AdherentSelectorComponent,
-        ColorPickerComponent,
-        SimpleColorPickerComponent,
-        TitleComponent,
-        ToggleComponent,
-        SelectComponent,
-        SelectCheckboxComponent,
-        InputWithIconComponent,
-        SimpleCardComponent
-    ],
+    RouterModule,
+    MaterialModule,
+    AdherentSelectorComponent,
+    ColorPickerComponent,
+    SimpleColorPickerComponent,
+    TitleComponent,
+    ToggleComponent,
+    SelectComponent,
+    SelectCheckboxComponent,
+    InputWithIconComponent,
+    SimpleCardComponent
+],
     exports: [
         AdherentSelectorComponent,
         ColorPickerComponent,

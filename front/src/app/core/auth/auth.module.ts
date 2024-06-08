@@ -5,19 +5,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { IdentityService } from './services/identity.service';
 import { LogoutComponent } from './logout/logout.component';
 import { MaterialModule } from 'app/shared/material/material.module';
-import { SharedModule } from 'app/shared/shared.module';
+
 
 @NgModule({
     imports: [
-        SharedModule,
-        MaterialModule,
-        HttpClientModule,
-        RouterModule.forChild([
-            { path: 'login', component: LoginComponent },
-            { path: 'logout', component: LogoutComponent }
-        ]),
-        LoginComponent
-    ],
+    MaterialModule,
+    HttpClientModule,
+    RouterModule.forChild([
+        { path: 'login', component: LoginComponent },
+        { path: 'logout', component: LogoutComponent }
+    ]),
+    LoginComponent
+],
     providers: [
         IdentityService
     ],

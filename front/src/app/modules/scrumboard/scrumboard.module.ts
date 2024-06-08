@@ -3,7 +3,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { RouterModule } from '@angular/router';
 import { ComponentModule } from 'app/shared/components/component.module';
-import { SharedModule } from 'app/shared/shared.module';
+
 import { MaterialModule } from 'app/shared/material/material.module';
 
 import { scrumboardRoutes } from './scrumboard.routing';
@@ -35,35 +35,34 @@ import { ActivitiesComponent } from './board/listboards/card/card-detail/dialog-
 
 @NgModule({
     imports: [
-        RouterModule.forChild(scrumboardRoutes),
-        DragDropModule,
-        ScrollingModule,
-        ComponentModule,
-        BlouppyConfirmationModule,
-        SharedModule,
-        MaterialModule,
-        ScrumboardComponent,
-        ActivitiesComponent,
-        BoardComponent,
-        BoardsComponent,
-        LabelAddComponent,
-        LabelSelectorComponent,
-        LabelUpdateComponent,
-        ListBoardsComponent,
-        CardComponent,
-        CardAddComponent,
-        ChecklistComponent,
-        ChecklistsComponent,
-        ChecklistAddComponent,
-        CommentComponent,
-        CommentAddComponent,
-        CommentsComponent,
-        DialogCardComponent,
-        CardDetailComponent,
-        ListBoardAddComponent,
-        SettingComponent,
-        BoardsFilterPipe
-    ],
+    RouterModule.forChild(scrumboardRoutes),
+    DragDropModule,
+    ScrollingModule,
+    ComponentModule,
+    BlouppyConfirmationModule,
+    MaterialModule,
+    ScrumboardComponent,
+    ActivitiesComponent,
+    BoardComponent,
+    BoardsComponent,
+    LabelAddComponent,
+    LabelSelectorComponent,
+    LabelUpdateComponent,
+    ListBoardsComponent,
+    CardComponent,
+    CardAddComponent,
+    ChecklistComponent,
+    ChecklistsComponent,
+    ChecklistAddComponent,
+    CommentComponent,
+    CommentAddComponent,
+    CommentsComponent,
+    DialogCardComponent,
+    CardDetailComponent,
+    ListBoardAddComponent,
+    SettingComponent,
+    BoardsFilterPipe
+],
     providers: [
         StringColorPipe
     ]

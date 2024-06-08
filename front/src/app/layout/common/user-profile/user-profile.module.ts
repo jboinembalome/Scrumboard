@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { UserProfileComponent } from './user-profile.component';
 import { AuthModule } from 'app/core/auth/auth.module';
-import { MaterialModule } from 'app/shared/material/material.module';
 import { ComponentModule  } from 'app/shared/components/component.module';
 
 
@@ -13,7 +12,6 @@ import { ComponentModule  } from 'app/shared/components/component.module';
     RouterModule,
     AuthModule,
     ComponentModule,
-    MaterialModule,
     UserProfileComponent,
     LoginMenuComponent
 ],

@@ -7,7 +7,6 @@ import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routing';
-//import { MaterialModule } from './shared/material/material.module';
 import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { ApiModule } from './swagger/api.module';
@@ -29,9 +28,6 @@ const routerConfig: ExtraOptions = {
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes, routerConfig),
-
-    // Material module with all import
-    //MaterialModule,
 
     // Core module of the application
     CoreModule,

@@ -10,14 +10,12 @@ import { ResultsComponent } from './results/results.component';
 import { HighScoreInputComponent } from './high-score-input/high-score-input.component';
 
 import { counterRoutes } from './memory-game.routing';
-import { MaterialModule } from 'app/shared/material/material.module';
 
 @NgModule({
     imports: [
     RouterModule.forChild(counterRoutes),
     ComponentModule,
     CountdownModule,
-    MaterialModule,
     MemoryGameComponent,
     CardComponent,
     ScoreComponent,

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SearchbarComponent } from './searchbar.component';
-import { MaterialModule } from 'app/shared/material/material.module';
-import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({
@@ -10,9 +8,7 @@ import { SharedModule } from 'app/shared/shared.module';
         SearchbarComponent
     ],
     imports     : [
-        RouterModule,
-        SharedModule,
-        MaterialModule
+        RouterModule
     ],
     exports     : [
         SearchbarComponent,

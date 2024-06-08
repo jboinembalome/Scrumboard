@@ -21,7 +21,7 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { CommentsComponent } from './comments/comments.component';
 import { CommentAddComponent } from './comments/comment/comment-add/comment-add.component';
 import { ChecklistsComponent } from './checklists/checklists.component';
-import { MatOption } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MatOption } from '@angular/material/core';
 import { MatDatepickerInput, MatDatepicker, MatDatepickerActions, MatDatepickerApply, MatDatepickerCancel } from '@angular/material/datepicker';
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatError } from '@angular/material/form-field';
@@ -29,6 +29,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { NgClass, AsyncPipe, DatePipe } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatIcon } from '@angular/material/icon';
+import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
 
 
 @Component({
@@ -72,6 +73,26 @@ import { MatIcon } from '@angular/material/icon';
         AsyncPipe,
         DatePipe,
     ],
+    providers: [ 
+      {
+        provide: DateAdapter,
+        useClass: LuxonDateAdapter
+      },
+      {
+        provide : MAT_DATE_FORMATS,
+        useValue: {
+            parse  : {
+                dateInput: 'D',
+            },
+            display: {
+                dateInput         : 'DDD',
+                monthYearLabel    : 'LLL yyyy',
+                dateA11yLabel     : 'DD',
+                monthYearA11yLabel: 'LLLL yyyy',
+            },
+        },
+      }
+    ]
 })
 export class DialogCardComponent implements OnInit, OnDestroy {
 

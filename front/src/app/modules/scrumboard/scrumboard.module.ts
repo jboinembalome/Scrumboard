@@ -4,8 +4,6 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import { RouterModule } from '@angular/router';
 import { ComponentModule } from 'app/shared/components/component.module';
 
-import { MaterialModule } from 'app/shared/material/material.module';
-
 import { scrumboardRoutes } from './scrumboard.routing';
 
 import { ScrumboardComponent } from './scrumboard.component';
@@ -40,7 +38,6 @@ import { ActivitiesComponent } from './board/listboards/card/card-detail/dialog-
     ScrollingModule,
     ComponentModule,
     BlouppyConfirmationModule,
-    MaterialModule,
     ScrumboardComponent,
     ActivitiesComponent,
     BoardComponent,

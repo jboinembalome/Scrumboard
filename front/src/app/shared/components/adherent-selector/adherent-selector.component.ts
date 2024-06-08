@@ -1,9 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdherentDto } from 'app/swagger';
+import { InitialPipe } from '../../pipes/initial.pipe';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'adherent-selector',
-  templateUrl: './adherent-selector.component.html'
+    selector: 'adherent-selector',
+    templateUrl: './adherent-selector.component.html',
+    standalone: true,
+    imports: [MatCheckbox, InitialPipe]
 })
 export class AdherentSelectorComponent {
 

@@ -1,11 +1,16 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChecklistDto } from 'app/swagger';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError } from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'checklist-add',
-  templateUrl: './checklist-add.component.html'
+    selector: 'checklist-add',
+    templateUrl: './checklist-add.component.html',
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatError, MatIcon]
 })
 export class ChecklistAddComponent implements OnInit {
   checklistForm: UntypedFormGroup;

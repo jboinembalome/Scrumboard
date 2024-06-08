@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChecklistDto } from 'app/swagger';
+import { ChecklistComponent } from './checklist/checklist.component';
 
 @Component({
-  selector: 'checklists',
-  templateUrl: './checklists.component.html'
+    selector: 'checklists',
+    templateUrl: './checklists.component.html',
+    standalone: true,
+    imports: [ChecklistComponent]
 })
 export class ChecklistsComponent {
   @Input() checklists: ChecklistDto[];

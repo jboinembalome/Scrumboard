@@ -1,12 +1,16 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Player } from '../models/player.model';
 import { Result } from '../models/result.model';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError } from '@angular/material/form-field';
 
 @Component({
-  selector: 'memory-game-high-score-input',
-  templateUrl: './high-score-input.component.html',
-  styleUrls: ['./high-score-input.component.scss']
+    selector: 'memory-game-high-score-input',
+    templateUrl: './high-score-input.component.html',
+    styleUrls: ['./high-score-input.component.scss'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatError]
 })
 export class HighScoreInputComponent implements OnInit, OnDestroy {
   @Input() score: number;

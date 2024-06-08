@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { BlouppyUtils } from '../utils/blouppyUtils';
 
-@Pipe({ name: 'initial' })
+@Pipe({
+    name: 'initial',
+    standalone: true
+})
 export class InitialPipe implements PipeTransform {
 
     /**

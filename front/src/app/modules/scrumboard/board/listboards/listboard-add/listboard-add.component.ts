@@ -1,8 +1,17 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'scrumboard-board-listboard-add',
     templateUrl: './listboard-add.component.html',
+    standalone: true,
+    imports: [
+        MatButton,
+        MatIcon,
+        FormsModule,
+    ],
 })
 export class ListBoardAddComponent {
     @ViewChild('nameInput', { static: false })

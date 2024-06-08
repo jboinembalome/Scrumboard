@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'plural'})
+@Pipe({
+    name: 'plural',
+    standalone: true
+})
 export class PluralPipe implements PipeTransform {
   /**
     * Transform

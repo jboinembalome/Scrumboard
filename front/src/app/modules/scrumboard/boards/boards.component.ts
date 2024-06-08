@@ -1,14 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { StringColorPipe } from 'app/shared/pipes/string-color.pipe';
 import { BoardDto, BoardsService, UpdatePinnedBoardCommand } from 'app/swagger';
 import { DataSourceSelectBoard } from './boards.constant';
+import { BoardsFilterPipe } from './boards.pipe';
+import { OrderByPipe } from '../../../shared/pipes/orderby.pipe';
+import { DatePipe, I18nPluralPipe } from '@angular/common';
+import { InputWithIconComponent } from '../../../shared/components/inputs/input-with-icon/input-with-icon.component';
+import { SelectCheckboxComponent } from '../../../shared/components/selects/select-checkbox/select-checkbox.component';
+import { SelectComponent } from '../../../shared/components/selects/select/select.component';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
+import { SimpleCardComponent } from '../../../shared/components/cards/simple-card/simple-card.component';
+import { TitleComponent } from '../../../shared/components/title/title.component';
 
 @Component({
-  selector: 'scrumboard-boards',
-  templateUrl: './boards.component.html',
-  styleUrls: ['./boards.component.scss']
+    selector: 'scrumboard-boards',
+    templateUrl: './boards.component.html',
+    styleUrls: ['./boards.component.scss'],
+    standalone: true,
+    imports: [TitleComponent, SimpleCardComponent, RouterLink, MatMenuTrigger, MatIcon, MatMenu, MatDivider, SelectComponent, SelectCheckboxComponent, InputWithIconComponent, DatePipe, I18nPluralPipe, OrderByPipe, BoardsFilterPipe]
 })
 export class BoardsComponent implements OnInit, OnDestroy {
 

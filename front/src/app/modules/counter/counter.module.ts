@@ -7,14 +7,12 @@ import { CounterComponent } from './counter.component';
 import { counterRoutes } from './counter.routing';
 
 @NgModule({
-    declarations: [
-        CounterComponent
-    ],
-    imports     : [
+    imports: [
         RouterModule.forChild(counterRoutes),
         MatButtonModule,
         ComponentModule,
-        SharedModule
+        SharedModule,
+        CounterComponent
     ]
 })
 export class CounterModule

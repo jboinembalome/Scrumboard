@@ -8,10 +8,10 @@ import { DialogCardComponent } from './dialog-card/dialog-card.component';
 
 
 @Component({
-  selector: 'scrumboard-card-detail',
-  templateUrl: './card-detail.component.html',
-  styleUrls: ['./card-detail.component.scss']
-
+    selector: 'scrumboard-card-detail',
+    templateUrl: './card-detail.component.html',
+    styleUrls: ['./card-detail.component.scss'],
+    standalone: true
 })
 export class CardDetailComponent implements OnInit, OnDestroy {
 

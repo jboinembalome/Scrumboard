@@ -1,12 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, tap } from 'rxjs/operators';
 import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
 import { ColourDto, LabelDto } from 'app/swagger';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError } from '@angular/material/form-field';
+import { MatDivider } from '@angular/material/divider';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 
 @Component({
-  selector: 'label-update',
-  templateUrl: './label-update.component.html'
+    selector: 'label-update',
+    templateUrl: './label-update.component.html',
+    standalone: true,
+    imports: [MatMenuTrigger, MatIcon, MatMenu, MatIconButton, MatDivider, FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatError]
 })
 export class LabelUpdateComponent implements OnInit {
 

@@ -1,8 +1,17 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'scrumboard-board-card-add',
     templateUrl: './card-add.component.html',
+    standalone: true,
+    imports: [
+        MatButton,
+        MatIcon,
+        FormsModule,
+    ],
 })
 export class CardAddComponent {
     @ViewChild('nameInput', { static: false })

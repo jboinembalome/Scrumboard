@@ -2,12 +2,16 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } 
 import { Observable } from 'rxjs';
 import { DateTime } from 'luxon';
 import { ActivityDto } from 'app/swagger';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass, DatePipe } from '@angular/common';
 
 
 @Component({
-  selector: 'activities',
-  templateUrl: './activities.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'activities',
+    templateUrl: './activities.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [NgClass, MatIcon, DatePipe]
 })
 export class ActivitiesComponent {
   @Input() activities: ActivityDto[];

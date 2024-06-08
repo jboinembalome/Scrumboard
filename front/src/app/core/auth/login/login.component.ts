@@ -1,14 +1,32 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { LoginRequest } from "../models/login-request.model";
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatIcon } from "@angular/material/icon";
+import { MatIconButton, MatButton } from "@angular/material/button";
+import { MatInput } from "@angular/material/input";
+import { MatFormField, MatError, MatSuffix } from "@angular/material/form-field";
 
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+    selector: "app-login",
+    templateUrl: "./login.component.html",
+    styleUrls: ["./login.component.scss"],
+    standalone: true,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormField,
+        MatInput,
+        MatError,
+        MatIconButton,
+        MatSuffix,
+        MatIcon,
+        MatButton,
+        MatProgressSpinner,
+    ],
 })
 export class LoginComponent implements OnInit {
   loginInForm: UntypedFormGroup;

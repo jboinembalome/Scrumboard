@@ -9,18 +9,16 @@ import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({
-    declarations: [
-        UserProfileComponent,
-        LoginMenuComponent
-    ],
-    imports     : [
+    imports: [
         RouterModule,
         AuthModule,
         ComponentModule,
         SharedModule,
-        MaterialModule
+        MaterialModule,
+        UserProfileComponent,
+        LoginMenuComponent
     ],
-    exports     : [
+    exports: [
         UserProfileComponent,
         LoginMenuComponent
     ]

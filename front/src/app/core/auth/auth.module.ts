@@ -8,21 +8,19 @@ import { MaterialModule } from 'app/shared/material/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
-  declarations: [LoginComponent],
-  imports: [
-    SharedModule,
-    MaterialModule,
-    HttpClientModule,
-    RouterModule.forChild(
-      [
-        { path: 'login', component: LoginComponent },
-        { path: 'logout', component: LogoutComponent }
-      ]
-    )
-  ],
-  providers:[
-    IdentityService
-  ],
-  exports: [LoginComponent]
+    imports: [
+        SharedModule,
+        MaterialModule,
+        HttpClientModule,
+        RouterModule.forChild([
+            { path: 'login', component: LoginComponent },
+            { path: 'logout', component: LogoutComponent }
+        ]),
+        LoginComponent
+    ],
+    providers: [
+        IdentityService
+    ],
+    exports: [LoginComponent]
 })
 export class AuthModule { }

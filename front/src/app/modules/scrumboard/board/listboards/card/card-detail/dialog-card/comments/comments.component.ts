@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentDto, CommentsService } from 'app/swagger';
 import { UpdateCommentCommand } from 'app/swagger/model/updateCommentCommand';
+import { CommentComponent } from './comment/comment.component';
 
 @Component({
-  selector: 'comments',
-  templateUrl: './comments.component.html'
+    selector: 'comments',
+    templateUrl: './comments.component.html',
+    standalone: true,
+    imports: [CommentComponent]
 })
 export class CommentsComponent {
   @Input() comments: CommentDto[];

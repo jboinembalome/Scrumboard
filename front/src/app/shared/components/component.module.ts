@@ -13,7 +13,10 @@ import { MaterialModule } from 'app/shared/material/material.module';
 import { AdherentSelectorComponent } from './adherent-selector/adherent-selector.component';
 
 @NgModule({
-    declarations: [
+    imports: [
+        RouterModule,
+        SharedModule,
+        MaterialModule,
         AdherentSelectorComponent,
         ColorPickerComponent,
         SimpleColorPickerComponent,
@@ -23,11 +26,6 @@ import { AdherentSelectorComponent } from './adherent-selector/adherent-selector
         SelectCheckboxComponent,
         InputWithIconComponent,
         SimpleCardComponent
-    ],
-    imports: [
-        RouterModule,
-        SharedModule,
-        MaterialModule
     ],
     exports: [
         AdherentSelectorComponent,

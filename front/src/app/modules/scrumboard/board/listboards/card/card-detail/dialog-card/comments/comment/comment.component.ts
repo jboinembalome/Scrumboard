@@ -1,11 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from 'app/core/auth/services/auth.service';
 import { CommentDto } from 'app/swagger';
+import { DatePipe } from '@angular/common';
+import { MatInput } from '@angular/material/input';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
-  selector: 'comment',
-  templateUrl: './comment.component.html'
+    selector: 'comment',
+    templateUrl: './comment.component.html',
+    standalone: true,
+    imports: [MatIconButton, MatMenuTrigger, MatIcon, MatMenu, FormsModule, ReactiveFormsModule, MatFormField, MatInput, DatePipe]
 })
 export class CommentComponent implements OnInit {
   @Input() comment: CommentDto;

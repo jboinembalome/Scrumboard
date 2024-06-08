@@ -7,14 +7,12 @@ import { FetchDataComponent } from './fetch-data.component';
 import { fetchDataRoutes } from './fetch-data.routing';
 
 @NgModule({
-    declarations: [
-        FetchDataComponent
-    ],
-    imports     : [
+    imports: [
         RouterModule.forChild(fetchDataRoutes),
         MatButtonModule,
         ComponentModule,
-        SharedModule
+        SharedModule,
+        FetchDataComponent
     ]
 })
 export class FetchDataModule

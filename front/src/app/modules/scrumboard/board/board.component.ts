@@ -1,17 +1,31 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDrawer } from '@angular/material/sidenav';
-import { ActivatedRoute } from '@angular/router';
+import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/material/sidenav';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { IUser } from 'app/core/auth/models/user.model';
 import { AuthService } from 'app/core/auth/services/auth.service';
 import { BoardDetailDto, UpdateBoardCommand, BoardsService, ListBoardDto, CardDto, AdherentDto, UpdateTeamCommand, TeamsService, AdherentsService } from 'app/swagger';
 import { ScrumboardService } from '../scrumboard.service';
+import { InitialPipe } from '../../../shared/pipes/initial.pipe';
+import { AsyncPipe } from '@angular/common';
+import { ListBoardsComponent } from './listboards/listboards.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { AdherentSelectorComponent } from '../../../shared/components/adherent-selector/adherent-selector.component';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton } from '@angular/material/button';
+import { TitleComponent } from '../../../shared/components/title/title.component';
+import { InputWithIconComponent } from '../../../shared/components/inputs/input-with-icon/input-with-icon.component';
+import { SettingComponent } from './setting/setting.component';
 
 @Component({
-  selector: 'scrumboard-board',
-  templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss']
+    selector: 'scrumboard-board',
+    templateUrl: './board.component.html',
+    styleUrls: ['./board.component.scss'],
+    standalone: true,
+    imports: [MatDrawerContainer, MatDrawer, SettingComponent, MatDrawerContent, InputWithIconComponent, TitleComponent, MatMiniFabButton, MatIcon, RouterLink, MatTooltip, MatMenuTrigger, MatMenu, AdherentSelectorComponent, CdkScrollable, ListBoardsComponent, RouterOutlet, AsyncPipe, InitialPipe]
 })
 export class BoardComponent implements OnInit, OnDestroy {
 

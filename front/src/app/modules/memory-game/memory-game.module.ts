@@ -13,19 +13,17 @@ import { counterRoutes } from './memory-game.routing';
 import { MaterialModule } from 'app/shared/material/material.module';
 
 @NgModule({
-    declarations: [
+    imports: [
+        RouterModule.forChild(counterRoutes),
+        ComponentModule,
+        CountdownModule,
+        MaterialModule,
+        SharedModule,
         MemoryGameComponent,
         CardComponent,
         ScoreComponent,
         ResultsComponent,
         HighScoreInputComponent
-    ],
-    imports     : [
-        RouterModule.forChild(counterRoutes),
-        ComponentModule,
-        CountdownModule,
-        MaterialModule,
-        SharedModule
     ]
 })
 export class MemoryGameModule

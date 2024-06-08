@@ -1,10 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChecklistDto, ChecklistItemDto } from 'app/swagger';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatPrefix, MatSuffix } from '@angular/material/form-field';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'checklist',
-  templateUrl: './checklist.component.html',
-  styleUrls: ['./checklist.component.scss']
+    selector: 'checklist',
+    templateUrl: './checklist.component.html',
+    styleUrls: ['./checklist.component.scss'],
+    standalone: true,
+    imports: [MatIcon, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatProgressBar, MatFormField, MatInput, MatCheckbox, MatPrefix, MatSuffix]
 })
 export class ChecklistComponent implements OnInit {
   @Input() checklist: ChecklistDto;

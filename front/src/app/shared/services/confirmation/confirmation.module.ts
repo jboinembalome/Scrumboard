@@ -7,14 +7,12 @@ import { BlouppyConfirmationDialogComponent } from './dialog/dialog.component';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-    declarations: [
-        BlouppyConfirmationDialogComponent
-    ],
     imports: [
         MatButtonModule,
         MatDialogModule,
         MatIconModule,
-        CommonModule
+        CommonModule,
+        BlouppyConfirmationDialogComponent
     ],
     providers: [
         BlouppyConfirmationService

@@ -1,9 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ColourDto } from 'app/swagger';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 
 @Component({
     selector: 'blouppy-simple-color-picker',
     templateUrl: './simple-color-picker.component.html',
+    standalone: true,
+    imports: [
+        MatMenuTrigger,
+        MatIcon,
+        MatMenu,
+    ],
 })
 export class SimpleColorPickerComponent {
     @Input() color: ColourDto = { colour: 'bg-white' };

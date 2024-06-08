@@ -5,15 +5,13 @@ import { SidenavModule  } from './sidenav/sidenav.module';
 import { EmptyLayoutComponent } from './empty/empty.component';
 
 @NgModule({
-    declarations: [
-        LayoutComponent,
-        EmptyLayoutComponent
-    ],
-    imports     : [
+    imports: [
         RouterModule,
         SidenavModule,
+        LayoutComponent,
+        EmptyLayoutComponent,
     ],
-    exports     : [
+    exports: [
         LayoutComponent,
     ]
 })

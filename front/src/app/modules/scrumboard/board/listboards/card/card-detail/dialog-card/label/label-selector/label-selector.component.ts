@@ -1,10 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LabelDto } from 'app/swagger';
 import { LabelsService } from 'app/swagger/api/labels.service';
+import { LabelUpdateComponent } from '../label-update/label-update.component';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'label-selector',
-  templateUrl: './label-selector.component.html'
+    selector: 'label-selector',
+    templateUrl: './label-selector.component.html',
+    standalone: true,
+    imports: [MatCheckbox, LabelUpdateComponent]
 })
 export class LabelSelectorComponent {
 

@@ -1,13 +1,33 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, CdkDropListGroup, CdkDrag, CdkDragPlaceholder, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { DateTime } from 'luxon';
 import { Subscription } from 'rxjs';
 import { CardDto, CardsService, CreateCardCommand, ListBoardDto } from 'app/swagger';
+import { ListBoardAddComponent } from './listboard-add/listboard-add.component';
+import { CardAddComponent } from './card/card-add/card-add.component';
+import { CardComponent } from './card/card.component';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 
 @Component({
-  selector: 'scrumboard-listboards',
-  templateUrl: './listboards.component.html',
-  styleUrls: ['./listboards.component.scss']
+    selector: 'scrumboard-listboards',
+    templateUrl: './listboards.component.html',
+    styleUrls: ['./listboards.component.scss'],
+    standalone: true,
+    imports: [
+      CdkDropList, 
+      CdkDropListGroup, 
+      CdkDrag, 
+      CdkDragPlaceholder, 
+      CdkDragHandle, 
+      MatMenuTrigger,
+      MatIcon, 
+      MatMenu, 
+      CdkScrollable, 
+      CardComponent, 
+      CardAddComponent, 
+      ListBoardAddComponent]
 })
 export class ListBoardsComponent implements OnInit, OnDestroy {
   private readonly _positionStep: number = 65536;

@@ -8,9 +8,6 @@ import { UserProfileModule } from '../common/user-profile/user-profile.module';
 
 
 @NgModule({
-    declarations: [
-        SidenavComponent
-    ],
     exports: [
         SidenavComponent,
     ],
@@ -19,7 +16,8 @@ import { UserProfileModule } from '../common/user-profile/user-profile.module';
         UserProfileModule,
         SharedModule,
         MaterialModule,
-        BlouppyIconComponent
+        BlouppyIconComponent,
+        SidenavComponent
     ]
 })
 export class SidenavModule

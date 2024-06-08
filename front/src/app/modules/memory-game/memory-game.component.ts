@@ -1,15 +1,23 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { shuffle } from 'lodash-es';
-import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig, CountdownModule } from 'ngx-countdown';
 import { Card } from './models/card.model';
 import { Result } from './models/result.model';
 
 import { Feedback } from './models/feedback.enum';
+import { HighScoreInputComponent } from './high-score-input/high-score-input.component';
+import { ResultsComponent } from './results/results.component';
+import { CardComponent } from './card/card.component';
+import { ScoreComponent } from './score/score.component';
+import { MatIcon } from '@angular/material/icon';
+import { TitleComponent } from '../../shared/components/title/title.component';
 
 @Component({
-  selector: 'app-memory-game',
-  templateUrl: './memory-game.component.html',
-  styleUrls: ['./memory-game.component.scss']
+    selector: 'app-memory-game',
+    templateUrl: './memory-game.component.html',
+    styleUrls: ['./memory-game.component.scss'],
+    standalone: true,
+    imports: [TitleComponent, MatIcon, CountdownModule, ScoreComponent, CardComponent, ResultsComponent, HighScoreInputComponent]
 })
 
 export class MemoryGameComponent implements OnInit {

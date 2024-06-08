@@ -2,10 +2,14 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WeatherForecast } from './fetch-data.model';
 import { Observable } from 'rxjs';
+import { NgClass, AsyncPipe, DatePipe } from '@angular/common';
+import { TitleComponent } from '../../shared/components/title/title.component';
 
 @Component({
-  selector: 'app-fetch-data',
-  templateUrl: './fetch-data.component.html'
+    selector: 'app-fetch-data',
+    templateUrl: './fetch-data.component.html',
+    standalone: true,
+    imports: [TitleComponent, NgClass, AsyncPipe, DatePipe]
 })
 export class FetchDataComponent implements OnInit {
 

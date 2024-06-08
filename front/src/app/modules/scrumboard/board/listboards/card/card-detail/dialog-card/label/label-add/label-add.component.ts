@@ -1,11 +1,16 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LabelDto } from 'app/swagger';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatError } from '@angular/material/form-field';
 
 
 @Component({
-  selector: 'label-add',
-  templateUrl: './label-add.component.html'
+    selector: 'label-add',
+    templateUrl: './label-add.component.html',
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, MatFormField, MatInput, MatError, MatIcon]
 })
 export class LabelAddComponent implements OnInit {
   labelForm: UntypedFormGroup;

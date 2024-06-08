@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
-    selector     : 'blouppy-select',
-    templateUrl  : './select.component.html',
-    styleUrls: ['./select.component.scss']
-
+    selector: 'blouppy-select',
+    templateUrl: './select.component.html',
+    styleUrls: ['./select.component.scss'],
+    standalone: true,
+    imports: [MatSelect, MatOption]
 })
 export class SelectComponent {
     @Input() dataSource: any[];

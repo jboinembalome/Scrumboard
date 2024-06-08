@@ -1,18 +1,40 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
+import { Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { NavigationPaths } from './sidenav.constant';
 import { Navigation } from './models/navigation.model';
+import { UserProfileComponent } from '../common/user-profile/user-profile.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatLine } from '@angular/material/core';
+import { MatNavList } from '@angular/material/list';
+import { BlouppyIconComponent } from '../common/blouppy-icon/blouppy-icon.component';
+import { Dir } from '@angular/cdk/bidi';
 
 
 const SMALL_WIDTH_BREAKPOINT = 720;
 
 @Component({
-  selector: 'sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+    selector: 'sidenav',
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
+    standalone: true,
+    imports: [
+      MatSidenavContainer, 
+      Dir, 
+      MatSidenav, 
+      BlouppyIconComponent, 
+      MatNavList, 
+      MatLine, 
+      RouterLinkActive, 
+      RouterLink, 
+      MatIcon, 
+      MatSidenavContent, 
+      MatToolbar, 
+      UserProfileComponent, 
+      RouterOutlet]
 })
 export class SidenavComponent implements OnInit {
 

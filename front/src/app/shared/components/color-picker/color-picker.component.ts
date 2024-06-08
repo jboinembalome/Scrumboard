@@ -1,9 +1,21 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ColourDto } from 'app/swagger';
+import { StringColorPipe } from '../../pipes/string-color.pipe';
+import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'blouppy-color-picker',
     templateUrl: './color-picker.component.html',
+    standalone: true,
+    imports: [
+        MatIcon,
+        FormsModule,
+        MatMenuTrigger,
+        MatMenu,
+        StringColorPipe,
+    ],
 })
 export class ColorPickerComponent {
     @Input() color: ColourDto = { colour: 'bg-white' };

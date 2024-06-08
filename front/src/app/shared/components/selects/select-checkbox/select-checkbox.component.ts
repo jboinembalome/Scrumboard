@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
-    selector     : 'blouppy-select-checkbox',
-    templateUrl  : './select-checkbox.component.html',
-    styleUrls: ['./select-checkbox.component.scss']
-
+    selector: 'blouppy-select-checkbox',
+    templateUrl: './select-checkbox.component.html',
+    styleUrls: ['./select-checkbox.component.scss'],
+    standalone: true,
+    imports: [MatSelect, MatOption]
 })
 export class SelectCheckboxComponent {
     @Input() dataSource: any[];

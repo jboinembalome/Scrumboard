@@ -34,7 +34,14 @@ import { BlouppyConfirmationModule } from 'app/shared/services/confirmation';
 import { ActivitiesComponent } from './board/listboards/card/card-detail/dialog-card/activities/activities.component';
 
 @NgModule({
-    declarations: [
+    imports: [
+        RouterModule.forChild(scrumboardRoutes),
+        DragDropModule,
+        ScrollingModule,
+        ComponentModule,
+        BlouppyConfirmationModule,
+        SharedModule,
+        MaterialModule,
         ScrumboardComponent,
         ActivitiesComponent,
         BoardComponent,
@@ -55,17 +62,7 @@ import { ActivitiesComponent } from './board/listboards/card/card-detail/dialog-
         CardDetailComponent,
         ListBoardAddComponent,
         SettingComponent,
-
         BoardsFilterPipe
-    ],
-    imports: [
-        RouterModule.forChild(scrumboardRoutes),
-        DragDropModule,
-        ScrollingModule,
-        ComponentModule,
-        BlouppyConfirmationModule,
-        SharedModule,
-        MaterialModule
     ],
     providers: [
         StringColorPipe

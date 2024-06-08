@@ -7,16 +7,14 @@ import { StringColorPipe } from './pipes/string-color.pipe';
 import { InitialPipe } from './pipes/initial.pipe';
 
 @NgModule({
-    declarations: [
-        InitialPipe,
-        PluralPipe,
-        OrderByPipe,
-        StringColorPipe
-    ],
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        InitialPipe,
+        PluralPipe,
+        OrderByPipe,
+        StringColorPipe,
     ],
     exports: [
         CommonModule,

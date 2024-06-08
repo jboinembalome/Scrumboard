@@ -21,34 +21,35 @@
     
   </mat-sidenav>
   
-
-  <!-- Toolbar -->
-  <mat-toolbar class="p-2 border-l-0 border-t-0 border border-gray-300 dark:border-gray-700 sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 bg-white/75 dark:bg-gray-950/75">
-
-    <button
-      class="bg-white dark:bg-gray-900 px-2 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
+  <mat-sidenav-content class="relative overflow-auto min-h-screen bg-white/75 dark:bg-gray-950/75">
+      <div class="relative">
+          <!-- Toolbar -->
+          <mat-toolbar class="sticky p-2 border-l-0 border-t-0 border border-gray-300 dark:border-gray-700 top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 bg-white/75 dark:bg-gray-950/75">
   
-    <div class="flex-1 px-4 flex justify-between">
-      <div class="flex-1 flex"></div>
-      <div class="ml-4 flex items-center md:ml-6">
-        <!-- <notification></notification> -->
-        <user-profile (toggleTheme)="toggleTheme()" (toggleDir)="toggleDir()"></user-profile>    
+            <button
+              class="bg-white dark:bg-gray-900 px-2 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              (click)="sidenav.toggle()">
+              <mat-icon>menu</mat-icon>
+            </button>
+          
+            <div class="flex-1 px-4 flex justify-between">
+              <div class="flex-1 flex"></div>
+              <div class="ml-4 flex items-center md:ml-6">
+                <!-- <notification></notification> -->
+                <user-profile (toggleTheme)="toggleTheme()" (toggleDir)="toggleDir()"></user-profile>    
+              </div>
+            </div>
+          </mat-toolbar>
+  
+          <div class="relative max-w-7xl mx-auto main">
+            <div class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-64 -translate-y-64 scale-125 rounded-full bg-indigo-800/30 blur-[150px] dark:blur-[100px] z-0 pointer-events-none"></div>
+        
+            <!-- Main -->
+             <main class="relative">
+               <router-outlet></router-outlet>
+             </main>
+          </div>
       </div>
-    </div>
-  </mat-toolbar>
-
-  <div class="relative h-full max-w-7xl mx-auto main bg-white/75 dark:bg-gray-950/75">
-    <div class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-64 -translate-y-64 scale-125 rounded-full bg-indigo-800/30 blur-[150px] dark:blur-[100px]"></div>
-
-    <!-- Main -->
-    <main class="relative h-full">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
-
-
-  <!-- Footer -->
+  </mat-sidenav-content>
+  
 </mat-sidenav-container>

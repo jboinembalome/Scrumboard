@@ -3,10 +3,9 @@
 
     <!-- Group all cdkDropList's after this point together so that the cards can be transferred between lists -->
     <div class="flex items-start m-2" cdkDropListGroup>
-
-        <ng-container *ngFor="let listBoard of listBoards; trackBy: trackByFn">
-            <!-- List -->
-            <div class="flex-col w-72 p-2 m-2 rounded-2xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+        @for (listBoard of listBoards; track trackByFn($index, listBoard)) {
+             <!-- List -->
+             <div class="flex-col w-72 p-2 m-2 rounded-2xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
                 cdkDragBoundary=".drag-n-drop-boundary" cdkDrag [cdkDragLockAxis]="'x'">
                 <div class="list-custom-placeholder" *cdkDragPlaceholder></div>
                 <!-- Header -->
@@ -49,9 +48,9 @@
                 <div cdkScrollable class="rounded-xl max-h-64 sm:max-h-72 overflow-y-auto bg-gray-50 dark:bg-gray-900 bg-opacity-12">
                     <div [id]="listBoard.id" class="p-3 pt-0 pb-0 " cdkDropList [cdkDropListData]="listBoard.cards"
                         (cdkDropListDropped)="cardDropped($event)">
-                        <ng-container *ngFor="let card of listBoard.cards; trackBy: trackByFn">
+                        @for (card of listBoard.cards; track trackByFn($index, card)) {
                             <scrumboard-card [card]="card"></scrumboard-card>
-                        </ng-container>
+                        }
                     </div>
 
 
@@ -63,7 +62,7 @@
                     </div>
                 </div>
             </div>
-        </ng-container>
+        }
 
         <!-- New list -->
         <scrumboard-board-listboard-add (saved)="addListBoard($event)"

@@ -1,102 +1,125 @@
 
 <div class="py-4 md:py-8 flex flex-col flex-auto gap-4 h-full">
-    <mat-drawer-container *ngIf="board" class="h-full bg-transparent" (backdropClick)="closeSettingPanel()">
-        <mat-drawer mode="over" [opened]="false" [position]="'end'" [disableClose]="true" #matDrawer class="w-full h-full md:w-72">
-            <scrumboard-board-setting [boardSetting]="board.boardSetting" (boardSettingChange)="updateBoard()"
-                (closeSettingPanel)="closeSettingPanel()">
-            </scrumboard-board-setting>
-        </mat-drawer>
-        <mat-drawer-content class="flex flex-col h-full bg-transparent">
-            <div 
-            [class]="board.boardSetting.colour.colour"
-            class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-64 -translate-y-64 scale-125 rounded-full blur-[150px] dark:blur-[100px]"></div>
-            <!-- Header -->
-            <div class="relative px-6">
-                <div class="flex flex-col lg:flex-row flex-0 space-y-2 md:items-center md:justify-between">
-                    <!-- Board name -->
-                    <div class="flex-1">
-                        <div class="group flex items-center">
-                            <blouppy-input-with-icon *ngIf="isEditBoardName" class="w-52" icon="edit"
-                                placeholder="Edit the board name" [(value)]="board.name" (keydown.enter)="editBoardName()">
-                            </blouppy-input-with-icon>
-                            <blouppy-title *ngIf="!isEditBoardName" [text]="board?.name"></blouppy-title>
-                            <button mat-mini-fab (click)="editBoardName()"
-                                class="ml-4 px-1 pt-2 rounded-full text-indigo-100 bg-indigo-600 hover:bg-indigo-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <span class="sr-only">Edit board name</span>
-                                <mat-icon *ngIf="!isEditBoardName" class="h-8 w-8">edit</mat-icon>
-                                <mat-icon *ngIf="isEditBoardName" class="h-8 w-8">done</mat-icon>
-                            </button>
-                            <button *ngIf="isEditBoardName" (click)="keepOldBoardName()"
-                                class="ml-2 px-1 pt-2 rounded-full text-indigo-100 bg-red-600 hover:bg-red-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <span class="sr-only">Cancel edit board name</span>
-                                <mat-icon *ngIf="isEditBoardName" class="h-8 w-8">close</mat-icon>
+    @if (board) {
+        <mat-drawer-container class="h-full bg-transparent" (backdropClick)="closeSettingPanel()">
+            <mat-drawer mode="over" [opened]="false" [position]="'end'" [disableClose]="true" #matDrawer class="w-full h-full md:w-72">
+                <scrumboard-board-setting [boardSetting]="board.boardSetting" (boardSettingChange)="updateBoard()"
+                    (closeSettingPanel)="closeSettingPanel()">
+                </scrumboard-board-setting>
+            </mat-drawer>
+            <mat-drawer-content class="flex flex-col h-full bg-transparent">
+                <div 
+                [class]="board.boardSetting.colour.colour"
+                class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-64 -translate-y-64 scale-125 rounded-full blur-[150px] dark:blur-[100px]"></div>
+                <!-- Header -->
+                <div class="relative px-6">
+                    <div class="flex flex-col lg:flex-row flex-0 space-y-2 md:items-center md:justify-between">
+                        <!-- Board name -->
+                        <div class="flex-1">
+                            <div class="group flex items-center">
+                                @if (isEditBoardName) {
+                                    <blouppy-input-with-icon class="w-52" icon="edit"
+                                        placeholder="Edit the board name" [(value)]="board.name" (keydown.enter)="editBoardName()">
+                                    </blouppy-input-with-icon>
+                                }
+                                @else {
+                                    <blouppy-title [text]="board?.name"></blouppy-title>
+                                }
+                                           
+                                <button mat-mini-fab (click)="editBoardName()"
+                                    class="ml-4 px-1 pt-2 rounded-full text-indigo-100 bg-indigo-600 hover:bg-indigo-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <span class="sr-only">Edit board name</span>
+                                    @if (isEditBoardName) {
+                                        <mat-icon class="h-8 w-8">done</mat-icon>
+                                    }
+                                    @else {
+                                        <mat-icon class="h-8 w-8">edit</mat-icon>
+                                    }
+                                </button>
+                                @if (isEditBoardName) {
+                                    <button (click)="keepOldBoardName()"
+                                        class="ml-2 px-1 pt-2 rounded-full text-indigo-100 bg-red-600 hover:bg-red-700  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        <span class="sr-only">Cancel edit board name</span>
+                                        @if (isEditBoardName) {
+                                            <mat-icon class="h-8 w-8">close</mat-icon>
+                                        }     
+                                    </button>
+                                }              
+                            </div>
+                        </div>
+                        
+            
+                        <!-- Actions -->
+                        <div class="flex flex-shrink-0 items-center mt-6 ml-0 md:mt-0 md:ml-4">
+                            <a [routerLink]="['..']">
+                                <button type="button"
+                                    class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1">
+                                    <mat-icon class="mr-2">view_week</mat-icon>
+                                    Boards
+                                </button>
+                            </a>
+            
+                            <button type="button" (click)="openSettingPanel()"
+                                class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1 ml-3">
+                                <mat-icon class="mr-2">settings</mat-icon>
+                                Settings
                             </button>
                         </div>
                     </div>
-                    
-        
-                    <!-- Actions -->
-                    <div class="flex flex-shrink-0 items-center mt-6 ml-0 md:mt-0 md:ml-4">
-                        <a [routerLink]="['..']">
-                            <button type="button"
-                                class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1">
-                                <mat-icon class="mr-2">view_week</mat-icon>
-                                Boards
-                            </button>
-                        </a>
-        
-                        <button type="button" (click)="openSettingPanel()"
-                            class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1 ml-3">
-                            <mat-icon class="mr-2">settings</mat-icon>
-                            Settings
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Team members -->
-                <div class="flex flex-shrink-0 items-center pt-2">
-                    <label class="font-medium sm:min-h sm:text-sm text-gray-900 dark:text-gray-100 mr-2">Team
-                        members</label>
-                    <div class="flex flex-wrap space-x-1 overflow-hidden">
-                        <ng-container *ngFor="let adherent of board.team.adherents; trackBy: trackByFn">
-                            <img *ngIf="adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
-                                class="inline-block h-8 w-8 rounded-full" [src]="urlAvatar + adherent.identityId">
-                            <span *ngIf="!adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
-                                class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 cursor-default">
-                                <span class="text-sm font-medium leading-none text-white">{{(adherent.firstName + " " +
-                                    adherent.lastName) | initial}}</span>
-                            </span>
-                        </ng-container>
-                        <button *ngIf="(currentUser | async)?.id === board.adherent.identityId"
-                            [matMenuTriggerFor]="adherentMenu" #adherentMenuTrigger="matMenuTrigger"
-                            class="rounded-full bg-transparent text-gray-900 dark:text-gray-100">
-                            <mat-icon class="pt-1 h-8 w-8 bg-indigo-600 text-indigo-100 rounded-full">add</mat-icon>
-                        </button>
-                        <mat-menu #adherentMenu="matMenu" [overlapTrigger]="false" class="bg-white/75 dark:bg-gray-950/75">
-                            <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto"
-                                (click)="$event.stopPropagation()">
     
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
-                                <!-- Members -->
-                                <adherent-selector [selectedAdherents]="board.team.adherents"
-                                    [adherents]="allAdherents | async" [unshift]="false"
-                                    (adherentUpdated)="updateTeam($event)">
-                                </adherent-selector>
-                            </div>
-                        </mat-menu>
+                    <!-- Team members -->
+                    <div class="flex flex-shrink-0 items-center pt-2">
+                        <label class="font-medium sm:min-h sm:text-sm text-gray-900 dark:text-gray-100 mr-2">Team
+                            members</label>
+                        <div class="flex flex-wrap space-x-1 overflow-hidden">
+                            @for (adherent of board.team.adherents; track trackByFn($index, adherent)) {
+                                @if (adherent.hasAvatar) {
+                                    <img matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
+                                        class="inline-block h-8 w-8 rounded-full" [src]="urlAvatar + adherent.identityId">
+                                }
+                                @else {
+                                    <span matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
+                                        class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 cursor-default">
+                                        <span class="text-sm font-medium leading-none text-white">{{(adherent.firstName + " " +
+                                            adherent.lastName) | initial}}</span>
+                                    </span>
+                                }
+                            }
+        
+                            @if ((currentUser | async)?.id === board.adherent.identityId) {
+                                <button [matMenuTriggerFor]="adherentMenu" #adherentMenuTrigger="matMenuTrigger"
+                                    class="rounded-full bg-transparent text-gray-900 dark:text-gray-100">
+                                    <mat-icon class="pt-1 h-8 w-8 bg-indigo-600 text-indigo-100 rounded-full">add</mat-icon>
+                                </button>
+                            }
+                            
+                            <mat-menu #adherentMenu="matMenu" [overlapTrigger]="false" class="bg-white/75 dark:bg-gray-950/75">
+                                <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto"
+                                    (click)="$event.stopPropagation()">
+        
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
+                                    <!-- Members -->
+                                    <adherent-selector [selectedAdherents]="board.team.adherents"
+                                        [adherents]="allAdherents | async" [unshift]="false"
+                                        (adherentUpdated)="updateTeam($event)">
+                                    </adherent-selector>
+                                </div>
+                            </mat-menu>
+                        </div>
                     </div>
                 </div>
-            </div>
+    
+                <!-- Board -->
+                <div cdkScrollable
+                    class="relative h-full drag-n-drop-boundary overflow-y-hidden overflow-x-auto">
+                    <!-- Lists -->
+                    <scrumboard-listboards [listBoards]="board.listBoards" (listBoardsChange)="updateBoard()">
+                    </scrumboard-listboards>
+                </div>
+            </mat-drawer-content>
+        </mat-drawer-container>
+    }
 
-            <!-- Board -->
-            <div cdkScrollable
-                class="relative h-full drag-n-drop-boundary overflow-y-hidden overflow-x-auto">
-                <!-- Lists -->
-                <scrumboard-listboards [listBoards]="board.listBoards" (listBoardsChange)="updateBoard()">
-                </scrumboard-listboards>
-            </div>
-        </mat-drawer-content>
-    </mat-drawer-container>
     <!-- Invisible router-outlet for ScrumboardCard component -->
     <router-outlet></router-outlet>
 </div>

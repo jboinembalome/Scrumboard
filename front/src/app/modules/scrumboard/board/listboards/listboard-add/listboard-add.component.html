@@ -1,13 +1,15 @@
     <div class="flex-0 w-72 p-2 m-2 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-        <button *ngIf="!editMode" class="justify-start w-full px-3 rounded-xl bg-transparent text-gray-900 dark:text-gray-100"
-            mat-button (click)="toggleEditMode()"
-            disableRipple>
-            <mat-icon class="mr-2 bg-indigo-600 text-indigo-100 rounded-full">add</mat-icon>
-            <span class="text-accent">{{buttonName}}</span>
-        </button>
-        <ng-container *ngIf="editMode">
+        @if (!editMode) {
+            <button class="justify-start w-full px-3 rounded-xl bg-transparent text-gray-900 dark:text-gray-100"
+                mat-button (click)="toggleEditMode()"
+                disableRipple>
+                <mat-icon class="mr-2 bg-indigo-600 text-indigo-100 rounded-full">add</mat-icon>
+                <span class="text-accent">{{buttonName}}</span>
+            </button>
+        }
+        @else {
             <div class="flex flex-col items-start w-full p-3">
-                <input *ngIf="editMode" #nameInput [autocomplete]="'off'" [(ngModel)]="listBoardName" [placeholder]="'Enter list name...'"
+                <input #nameInput [autocomplete]="'off'" [(ngModel)]="listBoardName" [placeholder]="'Enter list name...'"
                        (keydown.enter)="saveListBoardName()" 
                        class="bg-white dark:bg-gray-900 cursor-text p-2 w-full font-medium sm:min-h sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
     
@@ -23,6 +25,6 @@
                             Cancel
                     </button>
                 </div>
-            </div>          
-        </ng-container>
+            </div>   
+        }
     </div>

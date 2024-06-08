@@ -6,7 +6,9 @@
     <div class="py-4">
       <p class="dark:text-gray-200">This component demonstrates fetching data from the server.</p>
   
-      <p class="dark:text-gray-200" *ngIf="!forecasts | async"><em>Loading...</em></p>
+      @if (!forecasts | async) {
+        <p class="dark:text-gray-200"><em>Loading...</em></p>
+      }
   
       <div class="flex flex-col mt-4">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -17,25 +19,30 @@
                 <!-- Header -->
                 <thead class="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th *ngFor="let column of columns" scope="col"
-                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
-                      {{column}}
-                    </th>
+                    @for (column of columns; track $index) {
+                      <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
+                        {{column}}
+                      </th>
+                    }
+                    
                   </tr>
                 </thead>
                 <!-- Body -->
                 <tbody>
-                  <tr *ngFor="let forecast of forecasts | async; let isOdd = odd;" [ngClass]="{'bg-gray-50 dark:bg-gray-700 ' : isOdd, 
-                                  'bg-white dark:bg-gray-900' : !isOdd}">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                      {{forecast.date | date:'long' }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">
-                      {{forecast.temperatureC }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">
-                      {{forecast.temperatureF }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">
-                      {{ forecast.summary}}</td>
-                  </tr>
+                  @for (forecast of forecasts | async; let isOdd = $odd; track $index) {
+                    <tr [ngClass]="{'bg-gray-50 dark:bg-gray-700 ' : isOdd, 
+                                    'bg-white dark:bg-gray-900' : !isOdd}">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {{forecast.date | date:'long' }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">
+                        {{forecast.temperatureC }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">
+                        {{forecast.temperatureF }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-200">
+                        {{ forecast.summary}}</td>
+                    </tr>
+                  }
                 </tbody>
               </table>
             </div>

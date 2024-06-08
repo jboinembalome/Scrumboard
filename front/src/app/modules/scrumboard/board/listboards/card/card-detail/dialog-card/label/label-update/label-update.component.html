@@ -31,12 +31,14 @@
     <!-- Colour list -->
     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Colors</label>
     <div class="flex flex-wrap w-48 h-36">
-      <div *ngFor="let pickerColor of colors" class="px-2">
-        <div (click)="updateLabelColor(pickerColor); $event.stopPropagation()"
-          class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200 dark:border-gray-700"
-          [class]="label.colour.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
+      @for (pickerColor of colors; track $index) {
+        <div class="px-2">
+          <div (click)="updateLabelColor(pickerColor); $event.stopPropagation()"
+            class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200 dark:border-gray-700"
+            [class]="label.colour.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
+          </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 

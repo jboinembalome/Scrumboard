@@ -1,14 +1,13 @@
 <ol>
   <!-- Activities -->
-  <ng-container
-    *ngFor="let activity of activities; let i = index; let first = first; let last = last; trackBy: trackByFn">
-
+  @for (activity of activities; let i = $index; let last = $last; track trackByFn($index, activity)) {
     <!-- Activity -->
     <li class="relative flex py-1">
       <!-- Line -->
-      <ng-container *ngIf="!last && isSameDay(activity.createdDate, activities[i + 1].createdDate)">
+       @if (!last && isSameDay(activity.createdDate, activities[i + 1].createdDate)) {
         <div class="absolute top-7 left-5 w-0.5 h-full -ml-px bg-gray-300 dark:bg-gray-600"></div>
-      </ng-container>
+
+       }
 
       <div class="relative flex flex-auto">
         <!-- Icon -->
@@ -39,5 +38,5 @@
         </div>
       </div>
     </li>
-  </ng-container>
+  }
 </ol>

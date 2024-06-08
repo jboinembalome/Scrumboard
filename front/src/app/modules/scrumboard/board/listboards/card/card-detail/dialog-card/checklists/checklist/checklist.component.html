@@ -35,26 +35,25 @@
 
     <div>
       <!-- Checklist items -->
-      <div class="flex-row content-between items-center" *ngFor="let checkItem of checklist.checklistItems">
-
-        <div class="w-full check-item flex-row items-center content-start">
-
-          <mat-form-field class="w-full" appearance="outline">
-            <input matInput #updateItemInput [value]="checkItem.name"
-              (focusout)="updateCheckItem($event.value, checkItem, checklist)"
-              (keydown.enter)="updateItemInput.blur()">
-            <mat-checkbox color="primary" matPrefix [checked]="checkItem.isChecked"
-              (change)="toggleCheckItem(checklist, checkItem, $event.checked)" aria-label="{{checkItem.name}}">
-            </mat-checkbox>
-            <button mat-icon-button matSuffix class="relative"
-              (click)="removeChecklistItem(checkItem, checklist)">
-              <mat-icon class="text-red-500 hover:text-red-700">delete</mat-icon>
-            </button>
-          </mat-form-field>
-
+      @for (checkItem of checklist.checklistItems; track $index) {
+        <div class="flex-row content-between items-center">
+          <div class="w-full check-item flex-row items-center content-start">
+            <mat-form-field class="w-full" appearance="outline">
+              <input matInput #updateItemInput [value]="checkItem.name"
+                (focusout)="updateCheckItem($event.value, checkItem, checklist)"
+                (keydown.enter)="updateItemInput.blur()">
+              <mat-checkbox color="primary" matPrefix [checked]="checkItem.isChecked"
+                (change)="toggleCheckItem(checklist, checkItem, $event.checked)" aria-label="{{checkItem.name}}">
+              </mat-checkbox>
+              <button mat-icon-button matSuffix class="relative"
+                (click)="removeChecklistItem(checkItem, checklist)">
+                <mat-icon class="text-red-500 hover:text-red-700">delete</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
         </div>
-
-      </div>
+      }
+      
 
     </div>
     <!-- Checklist item Form -->

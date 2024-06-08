@@ -1,11 +1,16 @@
-<label *ngIf="label" class="block text-sm font-medium text-gray-700 dark:text-gray-200">
-  {{label}}
-</label>
+@if (label) {
+  <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+    {{label}}
+  </label>
+}
+
 <div class="mt-1 relative rounded-md shadow-sm text-gray-400 focus-within:text-gray-600">
   <mat-select [(value)]="value" (valueChange)="valueChange.emit(value)" (selectionChange)="selectionChange.emit(value)"
     class="relative bg-white dark:bg-gray-900 rounded-md shadow-sm px-4 py-2 text-left cursor-default focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
-    <mat-option *ngFor="let item of dataSource" [value]="item[valueKey]">
-      {{item[labelKey]}}
-    </mat-option>
+    @for (item of dataSource; track $index) {
+      <mat-option [value]="item[valueKey]">
+        {{item[labelKey]}}
+      </mat-option>
+    }
   </mat-select>
 </div>

@@ -1,8 +1,11 @@
 <div class="flex space-x-3">
   <div class="flex-shrink-0">
-    <img class="h-10 w-10 rounded-full" *ngIf="comment.adherent.hasAvatar"
-      [src]="urlAvatar + comment.adherent.identityId">
-    <img class="h-10 w-10 rounded-full" *ngIf="!comment.adherent.hasAvatar" src="assets/images/avatars/profile.jpg">
+    @if (comment.adherent.hasAvatar) {
+      <img class="h-10 w-10 rounded-full" [src]="urlAvatar + comment.adherent.identityId">
+    }
+    @else {
+      <img class="h-10 w-10 rounded-full" src="assets/images/avatars/profile.jpg">
+    }
   </div>
   <div class="min-w-0 flex-1 p-4 rounded border border-gray-300 dark:border-gray-700">
     <div class="flex space-x-3">
@@ -11,48 +14,49 @@
           <span class="hover:underline">{{comment.adherent.firstName}}</span>
         </p>
         <p class="text-sm text-gray-500">
-          <span *ngIf="!comment.lastModifiedDate" class="hover:underline">{{
-            comment.createdDate |
-            date:'medium'}}</span>
-          <span *ngIf="comment.lastModifiedDate" class="hover:underline">{{
-            comment.lastModifiedDate |
-            date:'medium'}} (Modified)</span>
-
+          @if (!comment.lastModifiedDate) {
+            <span class="hover:underline">{{comment.createdDate | date:'medium'}}</span>
+          }
+          @else {
+            <span class="hover:underline">{{comment.lastModifiedDate | date:'medium'}} (Modified)</span>
+          }
         </p>
       </div>
-      <div *ngIf="canModify" class="flex-shrink-0 self-center flex">
-        <div class="relative z-30 inline-block text-left">
-          <div>
-            <button mat-icon-button [matMenuTriggerFor]="commentMenu"
-              class="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <!-- Comment Menu -->
-            <mat-menu #commentMenu="matMenu" class="dark:bg-gray-600">
-              <button (click)="editCommentCliked = true" [disabled]="!commentForm.get('message').value"
-                class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                <mat-icon class="h-6 w-6 mr-1.5 flex-none">edit
-                </mat-icon>
-                <span class="text-sm font-medium">Edit
-                  Comment</span>
+      @if (canModify) {
+        <div class="flex-shrink-0 self-center flex">
+          <div class="relative z-30 inline-block text-left">
+            <div>
+              <button mat-icon-button [matMenuTriggerFor]="commentMenu"
+                class="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
+                <mat-icon>more_vert</mat-icon>
               </button>
-              <button (click)="commentRemoved.emit(comment)"
-                class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                <mat-icon class="h-6 w-6 mr-1.5 flex-none">
-                  delete</mat-icon>
-                <span class="text-sm font-medium">Remove
-                  Comment</span>
-              </button>
-            </mat-menu>
+              <!-- Comment Menu -->
+              <mat-menu #commentMenu="matMenu" class="dark:bg-gray-600">
+                <button (click)="editCommentCliked = true" [disabled]="!commentForm.get('message').value"
+                  class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                  <mat-icon class="h-6 w-6 mr-1.5 flex-none">edit
+                  </mat-icon>
+                  <span class="text-sm font-medium">Edit
+                    Comment</span>
+                </button>
+                <button (click)="commentRemoved.emit(comment)"
+                  class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                  <mat-icon class="h-6 w-6 mr-1.5 flex-none">
+                    delete</mat-icon>
+                  <span class="text-sm font-medium">Remove
+                    Comment</span>
+                </button>
+              </mat-menu>
+            </div>
           </div>
-
         </div>
-      </div>
+      } 
     </div>
     <div>
-      <p *ngIf="!editCommentCliked" class="dark:text-gray-100 whitespace-normal break-words">
-        {{comment.message}}</p>
-      <ng-container *ngIf="editCommentCliked">
+      @if (!editCommentCliked) {
+        <p class="dark:text-gray-100 whitespace-normal break-words">{{comment.message}}</p>
+      }
+      @else {
         <form class="flex-col items-end content-end justify-start w-full" [formGroup]="commentForm"
           (submit)="updateComment()">
 
@@ -76,7 +80,7 @@
             </div>
           </div>
         </form>
-      </ng-container>
+      }
     </div>
   </div>
 </div>

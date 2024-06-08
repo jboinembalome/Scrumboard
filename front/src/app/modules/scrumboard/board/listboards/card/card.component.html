@@ -4,75 +4,82 @@
     cdkDragBoundary=".drag-n-drop-boundary" cdkDrag>
     <div class="card-custom-placeholder" *cdkDragPlaceholder></div>
 
-    <!-- Cover image -->
-    <!-- <ng-container *ngIf="card.coverImage">
-            <div class="-mx-5 -mt-5 mb-2">
-                <img class="w-full object-cover" [src]="card.coverImage">
-            </div>
-         </ng-container> 
-    -->
     <!-- Card Name -->
     <div class="font-normal text-sm text-gray-900 dark:text-white">{{card.name}}</div>
     <!-- Labels -->
-    <ng-container *ngIf="card.labels?.length">
+     @if (card.labels?.length) {
         <div>
             <div class="flex flex-wrap -mx-1 -mb-2">
-                <ng-container *ngFor="let label of card.labels; trackBy: trackByFn">
+                @for (label of card.labels; track trackByFn($index, label)) {
                     <div class="mx-1 mb-2 py-0.5 px-2 rounded-full text-xs font-medium" [class]="label.colour.colour"
                         [ngClass]="label.colour.colour === 'bg-white' ? 'border border-gray-200 dark:border-transparent text-gray-900' : 'text-white'">
                         {{label.name}}
                     </div>
-                </ng-container>
+                }
             </div>
         </div>
-    </ng-container>
+     }
 
     <!-- Card members -->
-    <div *ngIf="card.adherents" class="flex space-x-1 overflow-hidden">
-        <ng-container *ngFor="let adherent of card.adherents; trackBy: trackByFn">
-            <img *ngIf="adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
-                class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + adherent.identityId">
-            <span *ngIf="!adherent.hasAvatar" matTooltip="{{adherent.firstName}} {{ adherent.lastName }}" class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
-                <span class="text-xs font-medium leading-none text-white">{{(adherent.firstName + " " + adherent.lastName) | initial}}</span>
-            </span>
-        </ng-container>
-    </div>
-
-    <div *ngIf="card.dueDate || card.attachmentsCount || card.commentsCount || card.checklistItemsCount"
-        class="flex items-center p-1 pl-0">
-
-        <!-- Due date -->
-        <div *ngIf="card.dueDate" class="flex items-center ml-2 rounded text-xs"
-            [class]="isOverdue(card.dueDate) ? 'text-red-600' : 'text-gray-400'">
-            <mat-icon class="text-base">schedule</mat-icon>
-            <div class="ml-0">
-                {{card.dueDate | date: 'mediumDate'}}
-            </div>
+     @if (card.adherents) {
+        <div class="flex space-x-1 overflow-hidden">
+            @for (adherent of card.adherents; track trackByFn($index, adherent)) {
+                @if (adherent.hasAvatar) {
+                    <img matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
+                        class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + adherent.identityId">
+                }
+                @else {
+                    <span matTooltip="{{adherent.firstName}} {{ adherent.lastName }}" class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
+                        <span class="text-xs font-medium leading-none text-white">{{(adherent.firstName + " " + adherent.lastName) | initial}}</span>
+                    </span>
+                }
+            }
         </div>
+     }
+    
+     @if (card.dueDate || card.attachmentsCount || card.commentsCount || card.checklistItemsCount) {
+        <div class="flex items-center p-1 pl-0">
+            @if (card.dueDate) {
+                <!-- Due date -->
+                <div class="flex items-center ml-2 rounded text-xs"
+                    [class]="isOverdue(card.dueDate) ? 'text-red-600' : 'text-gray-400'">
+                    <mat-icon class="text-base">schedule</mat-icon>
+                    <div class="ml-0">
+                        {{card.dueDate | date: 'mediumDate'}}
+                    </div>
+                </div>
+            }
 
-        <!-- Card attachments count -->
-        <div *ngIf="card.attachmentsCount" class="flex items-center ml-2 rounded text-xs text-gray-400">
-            <mat-icon class="text-base">attachment</mat-icon>
-            <div class="ml-0">
-                {{card.attachmentsCount}}
-            </div>
-        </div>
+            @if (card.attachmentsCount) {
+                <!-- Card attachments count -->
+                <div class="flex items-center ml-2 rounded text-xs text-gray-400">
+                    <mat-icon class="text-base">attachment</mat-icon>
+                    <div class="ml-0">
+                        {{card.attachmentsCount}}
+                    </div>
+                </div>
+            }
 
-        <!-- Card comments count -->
-        <div *ngIf="card.commentsCount" class="flex items-center ml-2 rounded text-xs text-gray-400">
-            <mat-icon class="text-base">comment</mat-icon>
-            <div class="ml-0">
-                {{card.commentsCount}}
-            </div>
-        </div>
+            @if (card.commentsCount) {
+                <!-- Card comments count -->
+                <div class="flex items-center ml-2 rounded text-xs text-gray-400">
+                    <mat-icon class="text-base">comment</mat-icon>
+                    <div class="ml-0">
+                        {{card.commentsCount}}
+                    </div>
+                </div>
+            }
 
-        <!-- Card check items count -->
-        <div *ngIf="card.checklistItemsCount" class="flex items-center ml-2 rounded text-xs"
-            [class]="card.checklistItemsDoneCount === card.checklistItemsCount ? 'text-green-400' : 'text-gray-400'">
-            <mat-icon class="text-base">checklist</mat-icon>
-            <div class="ml-0">
-                {{card.checklistItemsDoneCount}}/{{card.checklistItemsCount}}
-            </div>
+            @if (card.checklistItemsCount) {
+                <!-- Card check items count -->
+                <div class="flex items-center ml-2 rounded text-xs"
+                    [class]="card.checklistItemsDoneCount === card.checklistItemsCount ? 'text-green-400' : 'text-gray-400'">
+                    <mat-icon class="text-base">checklist</mat-icon>
+                    <div class="ml-0">
+                        {{card.checklistItemsDoneCount}}/{{card.checklistItemsCount}}
+                    </div>
+                </div>
+            }     
         </div>
-    </div>
+     }
 </a>

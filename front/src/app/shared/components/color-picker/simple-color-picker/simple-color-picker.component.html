@@ -15,12 +15,14 @@
     </button>
     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Colors</label>
     <div class="flex flex-wrap w-36 h-36">
-      <div *ngFor="let pickerColor of colors" class="px-2">
-        <div (click)="updateColor(pickerColor, $event)"
-          class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200"
-          [class]="color.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
+      @for (pickerColor of colors; track $index) {
+        <div class="px-2">
+          <div (click)="updateColor(pickerColor, $event)"
+            class="w-8 h-8 inline-flex rounded-full cursor-pointer border-2 border-gray-200"
+            [class]="color.colour === pickerColor.colour ? pickerColor.colour + ' outline-none ring-2 ring-offset-2 ring-indigo-500' : pickerColor.colour ">
+          </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 </mat-menu>

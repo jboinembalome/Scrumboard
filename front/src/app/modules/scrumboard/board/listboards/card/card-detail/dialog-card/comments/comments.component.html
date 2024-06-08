@@ -1,5 +1,8 @@
-<div class="pb-2" *ngFor="let comment of comments">
- <comment [comment]="comment" 
-        (commentUpdated)="updateComment($event)"
-        (commentRemoved)="removeComment($event)"></comment>
-</div>
+@for (comment of comments; track $index) {
+  <div class="pb-2">
+    <comment [comment]="comment" 
+      (commentUpdated)="updateComment($event)"
+      (commentRemoved)="removeComment($event)">
+    </comment>
+  </div>
+}

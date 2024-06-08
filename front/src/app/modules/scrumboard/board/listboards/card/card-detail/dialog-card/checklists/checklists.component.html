@@ -1,4 +1,8 @@
-<checklist *ngFor="let checklist of checklists"
-        [checklist]="checklist" [checklists]="checklists"
-        (checklistUpdated)="updateChecklist($event)"
-        (checklistRemoved)="removeChecklist($event)"></checklist>
+@for (checklist of checklists; track $index) {
+  <checklist
+    [checklist]="checklist"
+    [checklists]="checklists"
+    (checklistUpdated)="updateChecklist($event)"
+    (checklistRemoved)="removeChecklist($event)">
+  </checklist>
+}

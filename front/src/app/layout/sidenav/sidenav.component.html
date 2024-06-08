@@ -11,11 +11,13 @@
           <app-blouppy-icon svgClass="px-2 h-[58px] w-32 text-gray-950 dark:text-white"></app-blouppy-icon>
         </div>
         <mat-nav-list class="grow px-2 space-y-1 border-l-0 border border-gray-300 dark:border-gray-700">
-          <a matLine *ngFor="let path of navigationPaths" 
-            [routerLink]="path.Href" routerLinkActive="bg-indigo-800"
-            class="text-gray-950/75 dark:text-white/75 hover:bg-primary-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-            <mat-icon class=" mr-3 flex-shrink-0 h-6 w-6">{{path.Icon}}</mat-icon> {{path.Name}}
-          </a>
+          @for (path of navigationPaths; track $index) {
+            <a matLine
+              [routerLink]="path.Href" routerLinkActive="bg-indigo-800"
+              class="text-gray-950/75 dark:text-white/75 hover:bg-primary-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              <mat-icon class=" mr-3 flex-shrink-0 h-6 w-6">{{path.Icon}}</mat-icon> {{path.Name}}
+            </a>
+          }
         </mat-nav-list>
     </div>
     

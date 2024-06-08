@@ -8,5 +8,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './blouppy-icon.component.scss'
 })
 export class BlouppyIconComponent {
-  @Input() class?: string;
+  @Input() svgClass?: string;
 }

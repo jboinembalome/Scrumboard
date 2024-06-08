@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SidenavComponent } from './sidenav.component';
-import { ToolbarModule } from '../toolbar/toolbar.module';
 import { MaterialModule } from 'app/shared/material/material.module';
 import { SharedModule } from 'app/shared/shared.module';
 import { BlouppyIconComponent } from "../common/blouppy-icon/blouppy-icon.component";
+import { UserProfileModule } from '../common/user-profile/user-profile.module';
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { BlouppyIconComponent } from "../common/blouppy-icon/blouppy-icon.compon
     ],
     imports: [
         RouterModule,
-        ToolbarModule,
+        UserProfileModule,
         SharedModule,
         MaterialModule,
         BlouppyIconComponent

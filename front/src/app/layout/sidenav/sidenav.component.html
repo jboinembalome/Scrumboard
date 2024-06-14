@@ -1,19 +1,22 @@
 <mat-sidenav-container [class.dark-theme]="isDarkTheme" [dir]="dir" class="flex w-full min-w-0 flex-auto flex-col">
 
   <!-- Sidenav -->
-  <mat-sidenav #sidenav class="w-64 rounded-none bg-white/75 dark:bg-gray-950/75 backdrop-blur transition-colors" [opened]="!isScreenSmall"
+  <mat-sidenav #sidenav class="w-64 rounded-none bg-primary-600 dark:bg-primary-900 backdrop-blur transition-colors" [opened]="!isScreenSmall"
     [mode]="isScreenSmall ? 'over' : 'side'">
 
     <div class="flex flex-col min-h-screen">
         <!-- Logo -->
-        <div class="pb-[0.31rem] flex-none border border-l-0 border-y-0 border-gray-300 dark:border-gray-700 items-center">
-          <app-blouppy-icon svgClass="px-2 h-[58px] w-32 text-gray-950 dark:text-white"></app-blouppy-icon>
+        <div class="pb-[0.31rem] flex-none border border-l-0 border-y-0 border-primary-500 dark:border-gray-700 items-center">
+          <app-blouppy-icon svgClass="px-2 h-[58px] w-32 text-white"></app-blouppy-icon>
         </div>
-        <mat-nav-list class="grow px-2 space-y-1 border-l-0 border border-gray-300 dark:border-gray-700">
+        <mat-nav-list class="grow px-2 space-y-1 border-l-0 border border-primary-500 dark:border-gray-700">
           @for (path of navigationPaths; track $index) {
             <a matLine
-              [routerLink]="path.Href" routerLinkActive="bg-indigo-800"
-              class="text-gray-950/75 dark:text-white/75 hover:bg-primary-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+              [routerLink]="path.Href" routerLinkActive  #rla="routerLinkActive"
+              [class]="rla.isActive 
+                ? 'bg-primary-700 text-white dark:bg-primary-800 dark:text-white' 
+                : 'text-primary-200 hover:bg-primary-700 hover:text-white dark:text-primary-100 dark:hover:bg-primary-800 dark:hover:text-white'"
+              class="group flex items-center px-2 py-2 text-sm font-medium rounded-md">
               <mat-icon class=" mr-3 flex-shrink-0 h-6 w-6">{{path.Icon}}</mat-icon> {{path.Name}}
             </a>
           }
@@ -22,9 +25,9 @@
     
   </mat-sidenav>
   
-  <mat-sidenav-content class="min-h-screen bg-white/75 dark:bg-gray-950/75">
+  <mat-sidenav-content class="flex flex-auto flex-col bg-white/75 dark:bg-gray-950/75">
           <!-- Toolbar -->
-          <mat-toolbar class="sticky p-2 border-l-0 border-t-0 border border-gray-300 dark:border-gray-700 top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 bg-white/75 dark:bg-gray-950/75">
+          <mat-toolbar class="flex flex-0 sticky p-2 border-l-0 border-t-0 border border-gray-300 dark:border-gray-700 top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 bg-white/75 dark:bg-gray-950/75">
   
             <button mat-icon-button
               class="px-2 pt-2 text-gray-400"
@@ -40,10 +43,7 @@
   
           <div class="relative flex flex-auto flex-col">
             <div class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-64 -translate-y-64 scale-125 rounded-full bg-indigo-800/30 blur-[150px] dark:blur-[100px] z-0 pointer-events-none"></div>
-                <!-- Workaround for router-outlet to work correctly. Otherwise, layout changes won't be registered and the view won't be updated -->
-                @if (true) {
-                  <router-outlet></router-outlet>
-              }
+              <router-outlet></router-outlet>
           </div>
   </mat-sidenav-content>
   

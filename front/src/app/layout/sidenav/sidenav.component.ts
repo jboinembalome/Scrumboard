@@ -47,6 +47,13 @@ export class SidenavComponent implements OnInit {
   isDarkTheme: boolean = false;
   dir: string = 'ltr';
 
+  /**
+   * Getter for current year
+   */
+  get currentYear(): number {
+    return new Date().getFullYear();
+  }
+
   @ViewChild(MatSidenav) sidenav: MatSidenav;
 
   constructor(

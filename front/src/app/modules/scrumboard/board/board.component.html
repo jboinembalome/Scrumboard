@@ -1,5 +1,5 @@
 
-<mat-drawer-container class="py-4 md:py-8 flex flex-col flex-auto gap-4 h-full bg-transparent" (backdropClick)="closeSettingPanel()">
+<mat-drawer-container class="pt-4 md:pt-8 flex flex-col flex-auto gap-4 bg-transparent" (backdropClick)="closeSettingPanel()">
     <mat-drawer mode="over" [opened]="false" [position]="'end'" [disableClose]="true" #matDrawer class="w-full h-full md:w-72">
         <scrumboard-board-setting [boardSetting]="board.boardSetting" (boardSettingChange)="updateBoard()"
             (closeSettingPanel)="closeSettingPanel()">

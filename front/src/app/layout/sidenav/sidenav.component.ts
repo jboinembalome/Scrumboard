@@ -1,6 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { NavigationPaths } from './sidenav.constant';
@@ -12,6 +12,7 @@ import { MatLine } from '@angular/material/core';
 import { MatNavList } from '@angular/material/list';
 import { BlouppyIconComponent } from '../common/blouppy-icon/blouppy-icon.component';
 import { Dir } from '@angular/cdk/bidi';
+import { MatIconButton } from '@angular/material/button';
 
 
 const SMALL_WIDTH_BREAKPOINT = 720;
@@ -21,7 +22,9 @@ const SMALL_WIDTH_BREAKPOINT = 720;
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
     standalone: true,
+    encapsulation: ViewEncapsulation.None,
     imports: [
+      MatIconButton,
       MatSidenavContainer, 
       Dir, 
       MatSidenav, 

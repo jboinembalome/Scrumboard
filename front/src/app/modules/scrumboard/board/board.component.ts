@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/material/sidenav';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -24,6 +24,7 @@ import { SettingComponent } from './setting/setting.component';
     selector: 'scrumboard-board',
     templateUrl: './board.component.html',
     styleUrls: ['./board.component.scss'],
+    encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [MatDrawerContainer, MatDrawer, SettingComponent, MatDrawerContent, InputWithIconComponent, TitleComponent, MatMiniFabButton, MatIcon, RouterLink, MatTooltip, MatMenuTrigger, MatMenu, AdherentSelectorComponent, CdkScrollable, ListBoardsComponent, RouterOutlet, AsyncPipe, InitialPipe]
 })

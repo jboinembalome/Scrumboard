@@ -1,5 +1,4 @@
-<mat-sidenav-container class="flex-1 w-full min-w-full h-full min-h-full"
-  [class.dark-theme]="isDarkTheme" [dir]="dir">
+<mat-sidenav-container [class.dark-theme]="isDarkTheme" [dir]="dir" class="flex w-full min-w-0 flex-auto flex-col">
 
   <!-- Sidenav -->
   <mat-sidenav #sidenav class="w-64 rounded-none bg-white/75 dark:bg-gray-950/75 backdrop-blur transition-colors" [opened]="!isScreenSmall"
@@ -7,7 +6,7 @@
 
     <div class="flex flex-col min-h-screen">
         <!-- Logo -->
-        <div class="pb-[0.30rem] flex-none border border-l-0 border-y-0 border-gray-300 dark:border-gray-700 items-center">
+        <div class="pb-[0.31rem] flex-none border border-l-0 border-y-0 border-gray-300 dark:border-gray-700 items-center">
           <app-blouppy-icon svgClass="px-2 h-[58px] w-32 text-gray-950 dark:text-white"></app-blouppy-icon>
         </div>
         <mat-nav-list class="grow px-2 space-y-1 border-l-0 border border-gray-300 dark:border-gray-700">
@@ -23,35 +22,29 @@
     
   </mat-sidenav>
   
-  <mat-sidenav-content class="relative overflow-auto min-h-screen bg-white/75 dark:bg-gray-950/75">
-      <div class="relative">
+  <mat-sidenav-content class="min-h-screen bg-white/75 dark:bg-gray-950/75">
           <!-- Toolbar -->
           <mat-toolbar class="sticky p-2 border-l-0 border-t-0 border border-gray-300 dark:border-gray-700 top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 bg-white/75 dark:bg-gray-950/75">
   
-            <button
-              class="bg-white dark:bg-gray-900 px-2 pt-2 rounded-full text-gray-400 hover:text-gray-500  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            <button mat-icon-button
+              class="px-2 pt-2 text-gray-400"
               (click)="sidenav.toggle()">
               <mat-icon>menu</mat-icon>
             </button>
           
-            <div class="flex-1 px-4 flex justify-between">
-              <div class="flex-1 flex"></div>
-              <div class="ml-4 flex items-center md:ml-6">
-                <!-- <notification></notification> -->
-                <user-profile (toggleTheme)="toggleTheme()" (toggleDir)="toggleDir()"></user-profile>    
-              </div>
+            <div class="ml-auto flex items-center space-x-0.5 pl-2 sm:space-x-2">
+              <!-- <notification></notification> -->
+              <user-profile (toggleTheme)="toggleTheme()" (toggleDir)="toggleDir()"></user-profile>    
             </div>
           </mat-toolbar>
   
-          <div class="relative max-w-7xl mx-auto main">
+          <div class="relative flex flex-auto flex-col">
             <div class="fixed left-1/2 top-1/2 h-96 w-96 -translate-x-64 -translate-y-64 scale-125 rounded-full bg-indigo-800/30 blur-[150px] dark:blur-[100px] z-0 pointer-events-none"></div>
-        
-            <!-- Main -->
-             <main class="relative">
-               <router-outlet></router-outlet>
-             </main>
+                <!-- Workaround for router-outlet to work correctly. Otherwise, layout changes won't be registered and the view won't be updated -->
+                @if (true) {
+                  <router-outlet></router-outlet>
+              }
           </div>
-      </div>
   </mat-sidenav-content>
   
 </mat-sidenav-container>

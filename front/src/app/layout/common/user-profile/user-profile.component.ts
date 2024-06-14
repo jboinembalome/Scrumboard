@@ -1,6 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { IUser } from 'app/core/auth/models/user.model';
 import { AuthService } from 'app/core/auth/services/auth.service';
 import { InitialPipe } from '../../../shared/pipes/initial.pipe';
@@ -9,19 +8,19 @@ import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { ToggleComponent } from '../../../shared/components/toggle/toggle.component';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatIconButton } from '@angular/material/button';
 
 @Component({
     selector: 'user-profile',
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.scss'],
+    encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
       MatIconButton, 
-      MatMenuTrigger, 
       MatIcon, 
-      MatMenu, 
+      MatMenuModule, 
       MatDivider, 
       ToggleComponent, 
       LoginMenuComponent, 

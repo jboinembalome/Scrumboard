@@ -1,35 +1,19 @@
 <!-- User profile -->
-<div class="ml-3 relative">
-  <div>
-    <button mat-icon-button [matMenuTriggerFor]="menu"
-      class="max-w-xs bg-white/75 dark:bg-gray-950/75 flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-      <span class="inline-block relative">
-        <span class="sr-only">Open user menu</span>
-        @if (isAuthenticated | async) {
-          @if ((currentUser | async)?.picture) {
-            <img class="p-px h-12 w-12 rounded-full"
-              [src]="(currentUser | async)?.picture" (onerror)="setPicture()">
-          }
-          @else {
-            <span class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-500">
-              <span class="font-medium leading-none text-white">{{((currentUser | async)?.name | initial)}}</span>
-            </span>
-          }
-        }
-        @else {
-          <span class="h-10 w-10 rounded-full">
-            <mat-icon class="text-5xl -ml-1 pt-1.5 text-gray-300">account_circle</mat-icon>
-          </span>
-        }
-      </span>
-    </button>
-  </div>
 
-</div>
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <span class="relative">
+    <span class="sr-only">Open user menu</span>
+    @if ((isAuthenticated | async) && (currentUser | async)?.picture) {
+      <img class="h-12 w-12 rounded-full" [src]="(currentUser | async)?.picture" />
+    }
+    @else {
+      <mat-icon class="text-gray-400">account_circle</mat-icon>
+    }
+  </span>
+</button>
 
 <!-- Menu dropdown-->
-<mat-menu #menu="matMenu" class="bg-white/75 dark:bg-gray-950/75">
+<mat-menu [xPosition]="'before'" #menu="matMenu" class="bg-white dark:bg-gray-950">
   @if (isAuthenticated | async) {
     <div>
       <div>

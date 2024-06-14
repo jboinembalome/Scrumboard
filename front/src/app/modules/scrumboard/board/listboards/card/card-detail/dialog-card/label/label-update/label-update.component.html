@@ -1,5 +1,5 @@
 <button type="button" [matMenuTriggerFor]="labelMenu" #menuTrigger="matMenuTrigger"
-  class="w-10 h-10 rounded-full inline-flex p-2 shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+  class="w-10 h-10 rounded-full inline-flex p-2 shadow "
   [class]="label.colour.colour">
   <mat-icon class="fill-current text-indigo-100">colorize</mat-icon>
 </button>
@@ -47,7 +47,7 @@
   <!-- Delete label -->
   <div class="flex flex-col">
     <button type="button" (click)="labelDeleted.emit()"
-      class="inline-flex items-center m-2 p-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1">
+      class="inline-flex items-center m-2 p-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-red-600 hover:bg-red-700  sm:order-1">
       <mat-icon class="mr-2">delete</mat-icon>
       Delete
     </button>

@@ -1,0 +1,33 @@
+vertical-layout {
+  display: flex;
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  /* Base styles for individual layouts */
+  > * {
+      position: relative;
+      display: flex;
+      flex: 1 1 auto;
+      width: 100%;
+  }
+
+  /* Base styles for components that load as a route */
+  router-outlet {
+      + * {
+          position: relative;
+          display: flex;
+          flex: 1 1 auto;
+          width: 100%;
+      }
+  }
+}
+
+.mat-drawer-side {
+  border-right: transparent !important;
+}
+
+.mat-nav-list a {
+  @apply text-gray-400 dark:text-primary-100 #{'!important'};
+}

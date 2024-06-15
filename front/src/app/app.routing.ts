@@ -1,8 +1,8 @@
 import { Route } from '@angular/router';
 
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
-import { LayoutComponent } from './layout/layout.component';
-import { EmptyLayoutComponent } from './layout/empty/empty.component';
+import { VerticalLayoutComponent } from './layout/vertical-layout/vertical-layout.component';
+import { EmptyLayoutComponent } from './layout/empty-layout/empty-layout.component';
 
 export const appRoutes: Route[] = [
      // Redirect empty path to '/login'
@@ -23,7 +23,7 @@ export const appRoutes: Route[] = [
             path       : '',
             canActivate: [AuthGuard], // Do not forget to uncomment this
             canActivateChild: [AuthGuard], // Do not forget to uncomment this
-            component  : LayoutComponent,
+            component  : VerticalLayoutComponent,
             children   : [
                 {path: 'home', loadChildren: () => import('./modules/home/home.routes')},
                 {path: 'counter', loadChildren: () => import('./modules/counter/counter.routes')},

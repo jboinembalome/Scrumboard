@@ -54,13 +54,13 @@ public class CustomWebApplicationFactoryFixture<TStartup>
                 }
 
                 var serviceProvider = services.BuildServiceProvider();
-
-                EnsureDatabase(serviceProvider).Wait();
+                
+                EnsureDatabase(serviceProvider);
             });
         }
     }
 
-    private static async Task EnsureDatabase(ServiceProvider serviceProvider)
+    private static void EnsureDatabase(ServiceProvider serviceProvider)
     {
         using var scope = serviceProvider.CreateScope();
 
@@ -73,8 +73,9 @@ public class CustomWebApplicationFactoryFixture<TStartup>
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-        await ScrumboardDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
-        await ScrumboardDbContextSeed.SeedSampleDataAsync(context);
+        
+        // TODO: Update EnsureDatabase according to ScrumboardDbContextSeed.InitialiseDatabaseAsync
+        //await ScrumboardDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);
+        //await ScrumboardDbContextSeed.SeedSampleDataAsync(context);
     }
 }

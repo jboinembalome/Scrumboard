@@ -9,6 +9,11 @@ internal sealed class LabelProfile : Profile
 {
     public LabelProfile()
     {
+        // Write
+        CreateMap<LabelDto, Label>()
+            .EqualityComparison((dest, src) => dest.Id == src.Id)
+            .ForMember(dest => dest.Colour, opt => opt.MapFrom(src => src.Colour));
+
         // Read
         CreateMap<Label, LabelDto>()
             .EqualityComparison((src, dest) => src.Id == dest.Id)

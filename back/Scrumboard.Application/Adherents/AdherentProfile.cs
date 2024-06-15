@@ -10,6 +10,9 @@ internal sealed class AdherentProfile : Profile
 {
     public AdherentProfile()
     {
+        CreateMap<AdherentDto, Adherent>()
+            .EqualityComparison((dest, src) => dest.Id == src.Id);
+        
         // Read
         CreateMap<Adherent, AdherentDto>()
             .EqualityComparison((src, dest) => src.Id == dest.Id);

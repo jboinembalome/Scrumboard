@@ -9,6 +9,12 @@ internal sealed class ChecklistProfile : Profile
 {
     public ChecklistProfile()
     {
+        // Write 
+        CreateMap<ChecklistDto, Checklist>()
+            .EqualityComparison((dest, src) => dest.Id == src.Id);
+        CreateMap<ChecklistItemDto, ChecklistItem>()
+            .EqualityComparison((dest, src) => dest.Id == src.Id);
+        
         // Read
         CreateMap<Checklist, ChecklistDto>()
             .EqualityComparison((src, dest) => src.Id == dest.Id);

@@ -16,6 +16,6 @@ public sealed class UpdateCardCommand : IRequest<UpdateCardCommandResponse>
     public DateTime? DueDate { get; set; }
     public IEnumerable<LabelDto> Labels { get; set; }
     public IEnumerable<AdherentDto> Adherents { get; set; }
-    public IEnumerable<AttachmentDto> Attachments { get; set; }
+    public IEnumerable<AttachmentDto> Attachments { get; set; } = [];
     public IEnumerable<ChecklistDto> Checklists { get; set; }
 }

@@ -8,6 +8,10 @@ internal sealed class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        // Write
+        CreateMap<ColourDto, Colour>()
+            .ForMember(dest => dest.Code, opt => opt.MapFrom(src => src.Colour));
+        
         // Read
         CreateMap<Colour, ColourDto>()
             .ForMember(dest => dest.Colour, opt => opt.MapFrom(src => src.Code));

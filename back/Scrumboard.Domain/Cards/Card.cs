@@ -22,7 +22,7 @@ public sealed class Card : IAuditableEntity, IEntity<int>
     public ICollection<Label> Labels { get; set; }
     public ICollection<Adherent> Adherents { get; set; }
     public ICollection<Activity> Activities { get; set; }
-    public ICollection<Attachment> Attachments { get; set; }
+    public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
     public ICollection<Checklist> Checklists { get; set; }
     public ICollection<Comment> Comments { get; set; }
     public string? CreatedBy { get; set; }

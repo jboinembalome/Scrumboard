@@ -11,6 +11,7 @@ import { CardComponent } from './card/card.component';
 import { ScoreComponent } from './score/score.component';
 import { MatIcon } from '@angular/material/icon';
 import { TitleComponent } from '../../shared/components/title/title.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-memory-game',
@@ -19,6 +20,7 @@ import { TitleComponent } from '../../shared/components/title/title.component';
     standalone: true,
     imports: [
       TitleComponent,
+      MatButtonModule,
       MatIcon, 
       CountdownModule, 
       ScoreComponent, 

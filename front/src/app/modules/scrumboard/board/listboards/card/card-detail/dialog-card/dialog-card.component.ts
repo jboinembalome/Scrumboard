@@ -1,14 +1,14 @@
 import { ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NgForm, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, forkJoin, Observable, Subject } from 'rxjs';
 import { tap, debounceTime, takeUntil, startWith, map, mergeMap, flatMap, switchMap } from 'rxjs/operators';
 import { AdherentDto, CardDetailDto, CardsService, ChecklistDto, CommentDto, LabelDto, BoardsService, TeamsService, UpdateCardCommand, ActivityDto } from 'app/swagger';
 import { DateTime } from 'luxon';
-import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatChipInputEvent, MatChip, MatChipRemove, MatChipInput } from '@angular/material/chips';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { ActivatedRoute } from '@angular/router';
 import { ScrumboardService } from 'app/modules/scrumboard/scrumboard.service';
 import { BlouppyConfirmationService } from 'app/shared/services/confirmation';
@@ -22,14 +22,15 @@ import { CommentsComponent } from './comments/comments.component';
 import { CommentAddComponent } from './comments/comment/comment-add/comment-add.component';
 import { ChecklistsComponent } from './checklists/checklists.component';
 import { DateAdapter, MAT_DATE_FORMATS, MatOption } from '@angular/material/core';
-import { MatDatepickerInput, MatDatepicker, MatDatepickerActions, MatDatepickerApply, MatDatepickerCancel } from '@angular/material/datepicker';
-import { MatInput } from '@angular/material/input';
-import { MatFormField, MatError } from '@angular/material/form-field';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgClass, AsyncPipe, DatePipe } from '@angular/common';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
@@ -37,41 +38,32 @@ import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
     templateUrl: './dialog-card.component.html',
     standalone: true,
     imports: [
-        MatDialogClose,
-        MatIcon,
-        CdkScrollable,
-        MatDialogContent,
-        FormsModule,
-        ReactiveFormsModule,
-        NgClass,
-        MatTooltip,
-        MatFormField,
-        MatInput,
-        MatDatepickerInput,
-        MatError,
-        MatChip,
-        MatChipRemove,
-        MatAutocompleteTrigger,
-        MatChipInput,
-        MatAutocomplete,
-        MatOption,
-        ChecklistsComponent,
-        CommentAddComponent,
-        CommentsComponent,
-        ActivitiesComponent,
-        MatMenuTrigger,
-        MatMenu,
-        AdherentSelectorComponent,
-        LabelSelectorComponent,
-        MatDivider,
-        LabelAddComponent,
-        ChecklistAddComponent,
-        MatDatepicker,
-        MatDatepickerActions,
-        MatDatepickerApply,
-        MatDatepickerCancel,
-        AsyncPipe,
-        DatePipe,
+      CdkScrollable,
+      FormsModule,
+      ReactiveFormsModule,
+      NgClass,
+      MatAutocompleteModule,
+      MatButtonModule,
+      MatChipsModule,
+      MatDatepickerModule,
+      MatDialogModule,
+      MatDivider,
+      MatFormFieldModule,
+      MatIconModule,
+      MatInputModule,
+      MatMenuModule,
+      MatOption,
+      MatTooltipModule,
+      ChecklistsComponent,
+      CommentAddComponent,
+      CommentsComponent,
+      ActivitiesComponent,
+      AdherentSelectorComponent,
+      LabelSelectorComponent,
+      LabelAddComponent,
+      ChecklistAddComponent,
+      AsyncPipe,
+      DatePipe,
     ],
     providers: [ 
       {

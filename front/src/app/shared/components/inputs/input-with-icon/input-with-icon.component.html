@@ -1,9 +1,16 @@
 <label [attr.for]="key" class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{label}}</label>
-<div class="mt-1 relative rounded-md shadow-sm text-gray-400 focus-within:text-gray-600">
-  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-    <mat-icon class="h-6 w-6">{{icon}}</mat-icon>
-  </div>
-  <input type="text" [attr.name]="key" [attr.id]="key" [(ngModel)]="value" (ngModelChange)="valueChange.emit(value)"
-    class="bg-white dark:bg-gray-900 block w-full sm:min-h pl-10 sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 shadow-sm rounded-md "
+<mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
+  <input 
+    matInput 
+    type="text" 
+    [attr.name]="key" 
+    [attr.id]="key" 
+    [(ngModel)]="value" 
+    (ngModelChange)="valueChange.emit(value)"
     [attr.placeholder]="placeholder">
-</div>
+
+    <mat-icon matPrefix class="icon-size-5">{{icon}}</mat-icon>
+
+</mat-form-field>
+
+

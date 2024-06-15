@@ -15,27 +15,5 @@
     </div>
     <div class="mt-6 relative flex-1 px-4 sm:px-6">
         <blouppy-color-picker [color]="boardSetting.colour" (colorChange)="updateColor($event)" label="Board Color"></blouppy-color-picker>
-        <label class="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-200">Card Cover Images</label>
-        <div class="mt-1 my-6 relative rounded-md text-gray-400 focus-within:text-gray-600">
-            <div class="flex items-center bg-white dark:bg-gray-900 shadow rounded-md">
-                <blouppy-toggle class="block text-sm" text="Card Cover Images"
-                    [checked]="boardSetting.cardCoverImage" (click)="updateCardCoverImage()">
-                    <span class="pl-3 py-2 mr-1 flex items-center">
-                            <mat-icon class="h-6 w-6">image</mat-icon>
-                    </span>
-                </blouppy-toggle>
-            </div>
-        </div>
-        <label class="mt-4 block text-sm font-medium text-gray-700 dark:text-gray-200">Subscribe</label>
-        <div class="mt-1 my-6 relative rounded-md text-gray-400 focus-within:text-gray-600">
-            <div class="flex items-center bg-white dark:bg-gray-900 shadow rounded-md">
-                <blouppy-toggle class="block text-sm" text="Subscribe"
-                    [checked]="boardSetting.subscribed" (click)="updateSubscribed()">
-                    <span class="pl-3 py-2 mr-1 flex items-center">
-                            <mat-icon class="h-6 w-6">visibility</mat-icon>
-                    </span>
-                </blouppy-toggle>
-            </div>
-        </div>
     </div>
 </div>

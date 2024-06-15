@@ -1,13 +1,18 @@
 <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">{{label}}</label>
 <div class="mt-1 relative rounded-md text-gray-400 focus-within:text-gray-600">
   <div class="flex items-center">
-    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-      <mat-icon class="h-6 w-6">palette</mat-icon>
-    </div>
-    <input type="text" readonly [ngModel]="color | stringColor"
-      (ngModelChange)="colorChange.emit(color)"
-      class="bg-white dark:bg-gray-900 block w-full sm:min-h pl-10 sm:text-sm text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 shadow rounded-md "
-      [attr.placeholder]="placeholder">
+    <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
+      <input 
+        matInput
+        readonly 
+        type="text" 
+        [ngModel]="color | stringColor"
+        (ngModelChange)="colorChange.emit(color)"
+        [attr.placeholder]="placeholder">
+    
+        <mat-icon matPrefix class="icon-size-5">palette</mat-icon>
+    
+    </mat-form-field>
     <div class="relative ml-3">
       <button type="button" [matMenuTriggerFor]="menu"
         class="w-10 h-10 rounded-full inline-flex p-2 shadow "

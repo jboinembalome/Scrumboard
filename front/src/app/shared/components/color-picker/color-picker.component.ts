@@ -4,6 +4,8 @@ import { StringColorPipe } from '../../pipes/string-color.pipe';
 import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'blouppy-color-picker',
@@ -11,7 +13,9 @@ import { MatIcon } from '@angular/material/icon';
     standalone: true,
     imports: [
         MatIcon,
+        MatInputModule,
         FormsModule,
+        MatFormField,
         MatMenuTrigger,
         MatMenu,
         StringColorPipe,

@@ -16,6 +16,7 @@ import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 import { SimpleCardComponent } from '../../../shared/components/cards/simple-card/simple-card.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'scrumboard-boards',
@@ -26,6 +27,7 @@ import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
       TitleComponent, 
       SimpleCardComponent, 
       RouterLink, 
+      MatButtonModule,
       MatMenuTrigger, 
       MatIcon, 
       MatMenu, 

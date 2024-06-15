@@ -28,17 +28,5 @@ export class SettingComponent {
 
         this.boardSettingChange.emit(this.boardSetting);
     }
-
-    updateCardCoverImage(): void {
-        this.boardSetting.cardCoverImage = !this.boardSetting.cardCoverImage;
-
-        this.boardSettingChange.emit(this.boardSetting);
-    }
-
-    updateSubscribed(): void {
-        this.boardSetting.subscribed = !this.boardSetting.subscribed;
-
-        this.boardSettingChange.emit(this.boardSetting);
-    }
 }
 

@@ -16,7 +16,7 @@
                 <div class="flex-1">
                     <div class="group flex items-center">
                         @if (isEditBoardName) {
-                            <blouppy-input-with-icon class="w-52" icon="edit"
+                            <blouppy-input-with-icon class="w-64" icon="edit"
                                 placeholder="Edit the board name" [(value)]="board.name" (keydown.enter)="editBoardName()">
                             </blouppy-input-with-icon>
                         }
@@ -24,22 +24,22 @@
                             <blouppy-title [text]="board?.name"></blouppy-title>
                         }
                                     
-                        <button mat-mini-fab (click)="editBoardName()"
-                            class="ml-4 px-1 pt-2 rounded-full text-indigo-100 bg-indigo-600 hover:bg-indigo-700  ">
+                        <button mat-icon-button (click)="editBoardName()"
+                            class="ml-4 text-primary-600 dark:text-primary-300">
                             <span class="sr-only">Edit board name</span>
                             @if (isEditBoardName) {
-                                <mat-icon class="h-8 w-8">done</mat-icon>
+                                <mat-icon>done</mat-icon>
                             }
                             @else {
-                                <mat-icon class="h-8 w-8">edit</mat-icon>
+                                <mat-icon>edit</mat-icon>
                             }
                         </button>
                         @if (isEditBoardName) {
-                            <button (click)="keepOldBoardName()"
-                                class="ml-2 px-1 pt-2 rounded-full text-indigo-100 bg-red-600 hover:bg-red-700  ">
+                            <button mat-icon-button (click)="keepOldBoardName()"
+                                class="ml-2 text-red-600 dark:text-red-300">
                                 <span class="sr-only">Cancel edit board name</span>
                                 @if (isEditBoardName) {
-                                    <mat-icon class="h-8 w-8">close</mat-icon>
+                                    <mat-icon>close</mat-icon>
                                 }     
                             </button>
                         }              
@@ -50,15 +50,15 @@
                 <!-- Actions -->
                 <div class="flex flex-shrink-0 items-center mt-6 ml-0 md:mt-0 md:ml-4">
                     <a [routerLink]="['..']">
-                        <button type="button"
-                            class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700  sm:order-1">
+                        <button mat-stroked-button
+                            class="order-0 sm:order-1">
                             <mat-icon class="mr-2">view_week</mat-icon>
                             Boards
                         </button>
                     </a>
     
-                    <button type="button" (click)="openSettingPanel()"
-                        class="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700  sm:order-1 ml-3">
+                    <button mat-stroked-button (click)="openSettingPanel()"
+                        class="order-0 sm:order-1 ml-3">
                         <mat-icon class="mr-2">settings</mat-icon>
                         Settings
                     </button>

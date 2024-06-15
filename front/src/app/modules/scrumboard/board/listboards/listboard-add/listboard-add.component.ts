@@ -1,14 +1,14 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'scrumboard-board-listboard-add',
     templateUrl: './listboard-add.component.html',
     standalone: true,
     imports: [
-        MatButton,
+        MatButtonModule,
         MatIcon,
         FormsModule,
     ],

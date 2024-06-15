@@ -106,7 +106,7 @@
                   Description</p>
               </div>
             </div>
-            <mat-form-field class="w-full" appearance="outline">
+            <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
               <textarea matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'description'" [rows]="6"
                 matTextareaAutosize [matAutosizeMinRows]="1">
                   </textarea>
@@ -123,7 +123,7 @@
                       Members</p>
                   </div>
                 </div>
-                <mat-form-field class="w-full" appearance="outline">
+                <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
                   <mat-chip-list #memberChipList aria-label="member selection">
                     @for (member of card.adherents; track $index) {
                       <mat-chip class="pl-0" [selectable]="selectableMember"
@@ -186,7 +186,7 @@
                       Labels</p>
                   </div>
                 </div>
-                <mat-form-field class="w-full" appearance="outline">
+                <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
                   <mat-chip-list #chipList aria-label="label selection">
                     @for (label of card.labels; track $index) {
                       <mat-chip [selectable]="selectableLabel" [removable]="removableLabel"

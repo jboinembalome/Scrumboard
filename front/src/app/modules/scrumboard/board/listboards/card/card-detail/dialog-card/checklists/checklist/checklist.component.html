@@ -38,7 +38,7 @@
       @for (checkItem of checklist.checklistItems; track $index) {
         <div class="flex-row content-between items-center">
           <div class="w-full check-item flex-row items-center content-start">
-            <mat-form-field class="w-full" appearance="outline">
+            <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
               <input matInput #updateItemInput [value]="checkItem.name"
                 (focusout)="updateCheckItem($event.value, checkItem, checklist)"
                 (keydown.enter)="updateItemInput.blur()">
@@ -61,7 +61,7 @@
 
       <div class="w-full flex flex-row items-center content-start">
 
-        <mat-form-field appearance="outline" class="w-full">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
           <input matInput #checkItemInput
             (keydown.enter)="addCheckItem(checkItemInput.value, checklist); checkItemInput.blur(); checkItemInput.value = ''"
             name="checkItemInput" autocomplete="off" placeholder="New checklist item">

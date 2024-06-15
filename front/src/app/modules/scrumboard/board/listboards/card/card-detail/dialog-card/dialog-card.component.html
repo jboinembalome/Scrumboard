@@ -1,5 +1,5 @@
 <!-- Header -->
-<div class="bg-indigo-600 p-4">
+<div class="bg-primary-600 dark:bg-primary-900 p-4">
   <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
     <div class="ml-4 mt-2">
       <h3 class="text-lg leading-6 font-medium text-gray-100">
@@ -8,10 +8,10 @@
     </div>
     <div class="ml-4 mt-2 flex-shrink-0">
       <!-- [disabled]="!cardForm.valid" -->
-      <button mat-dialog-close
-        class="bg-gray-100 dark:bg-gray-900 px-1 pt-2 rounded-full text-gray-400 hover:text-gray-500  ">
+      <button mat-dialog-close mat-icon-button 
+      class="text-primary-200 hover:bg-primary-700 hover:text-white dark:text-primary-100 dark:hover:bg-primary-800 dark:hover:text-white">
         <span class="sr-only">Close card</span>
-        <mat-icon class="h-8 w-8">close</mat-icon>
+        <mat-icon>close</mat-icon>
       </button>
     </div>
   </div>
@@ -19,34 +19,6 @@
 
 <!-- Content -->
 <mat-dialog-content class="mat-typography p-4 m-0 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-  <!-- This example requires Tailwind CSS v2.0+ -->
-  <nav class="flex " aria-label="Breadcrumb">
-    <ol role="list" class="flex items-center space-x-2">
-      <li>
-        <div>
-          <a href="#" class="text-gray-400 hover:text-gray-500">
-            <mat-icon class="flex-shrink-0">home</mat-icon>
-            <span class="sr-only">Home</span>
-          </a>
-        </div>
-      </li>
-
-      <li>
-        <div class="flex items-center">
-          <mat-icon class="flex-shrink-0 text-gray-400">chevron_right</mat-icon>
-          <a href="#" class="ml-1 text-sm font-medium text-gray-500 hover:text-gray-700">Scrumboard Frontend</a>
-        </div>
-      </li>
-
-      <li>
-        <div class="flex items-center">
-          <mat-icon class="flex-shrink-0 text-gray-400">chevron_right</mat-icon>
-          <a href="#" class="ml-1 text-sm font-medium text-gray-500 hover:text-gray-700">Design</a>
-        </div>
-      </li>
-
-    </ol>
-  </nav>
   @if (card) {
     <div class="grid grid-cols-6 pt-2">
       <div class="col-span-4">
@@ -67,8 +39,7 @@
                 <mat-icon class=" text-current">event</mat-icon>
                 <span class="ml-2 text-md font-medium">{{card.dueDate | date:'longDate'}}</span>
                 <button (click)="dueDatePicker.select(null)"
-                  class="w-8 h-8 ml-3 inline-flex items-center justify-center hover:text-red-900"
-                  matTooltip="Remove the due date">
+                  class="w-8 h-8 ml-3 inline-flex items-center justify-center">
                   <mat-icon class="h-6 w-6">clear</mat-icon>
                 </button>
               </div>
@@ -124,10 +95,15 @@
                   </div>
                 </div>
                 <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
-                  <mat-chip-list #memberChipList aria-label="member selection">
+                  <mat-chip-grid 
+                    #memberChipList 
+                    aria-label="member selection">
                     @for (member of card.adherents; track $index) {
-                      <mat-chip class="pl-0" [selectable]="selectableMember"
-                        [removable]="removableMember" (removed)="removeMemberChip(member)">
+                      <mat-chip-row 
+                        class="pl-0" 
+                        [selectable]="selectableMember"
+                        [removable]="removableMember" 
+                        (removed)="removeMemberChip(member)">
                         <div class="flex items-center justify-items-start space-x-2">
                           @if (member.hasAvatar) {
                             <img class="h-8 w-8 rounded-full" [src]="urlAvatar + member.identityId" alt="">
@@ -141,13 +117,20 @@
                           <mat-icon matChipRemove>cancel</mat-icon>
                         }
                         
-                      </mat-chip>
+                      </mat-chip-row>
                     }
                     
-                    <input placeholder="New member..." #memberInput [formControl]="memberCtrl" [matAutocomplete]="auto"
-                      [matChipInputFor]="memberChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-                  </mat-chip-list>
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMemberChip($event)">
+                    <input 
+                      #memberInput 
+                      placeholder="New member..."
+                      [formControl]="memberCtrl" 
+                      [matAutocomplete]="auto"
+                      [matChipInputFor]="memberChipList" 
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+                  </mat-chip-grid>
+                  <mat-autocomplete 
+                    #auto="matAutocomplete" 
+                    (optionSelected)="selectedMemberChip($event)">
                     @for (member of filteredMembers | async; track $index) {
                       <mat-option [value]="member">
                         <div class="flex items-center space-x-3">
@@ -187,23 +170,32 @@
                   </div>
                 </div>
                 <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
-                  <mat-chip-list #chipList aria-label="label selection">
+                  <mat-chip-grid #chipList aria-label="label selection">
                     @for (label of card.labels; track $index) {
-                      <mat-chip [selectable]="selectableLabel" [removable]="removableLabel"
-                        (removed)="removeLabelChip(label)" class="text-indigo-100" [ngClass]="label.colour.colour">
+                      <mat-chip-row 
+                        [selectable]="selectableLabel" 
+                        [removable]="removableLabel"
+                        (removed)="removeLabelChip(label)" 
+                        class="text-indigo-100" 
+                        [ngClass]="label.colour.colour">
                         <span>{{label.name}}</span>
 
                         @if (removableLabel) {
                           <mat-icon matChipRemove>cancel</mat-icon>
                         }
-                      </mat-chip>
+                      </mat-chip-row>
                     }
   
-                    <input placeholder="New label..." #labelInput [formControl]="labelCtrl" [matAutocomplete]="auto"
-                      [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    <input #labelInput
+                      placeholder="New label..."  
+                      [formControl]="labelCtrl" 
+                      [matAutocomplete]="auto"
+                      [matChipInputFor]="chipList" 
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                       (matChipInputTokenEnd)="addLabelChip($event)">
-                  </mat-chip-list>
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedLabelChip($event)">
+                  </mat-chip-grid>
+                  <mat-autocomplete #auto="matAutocomplete" 
+                    (optionSelected)="selectedLabelChip($event)">
                     @for (label of filteredLabels | async; track $index) {
                       <mat-option [value]="label">
                         {{label.name}}
@@ -270,11 +262,12 @@
           </div>
         </form>
       </div>
+
+      <!-- Properties -->
       <div class="col-span-2 px-4">
         <div class="flex items-center mb-2">
-          <mat-icon class="mr-4 text-primary">add</mat-icon>
           <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
-            Add to card</p>
+            Properties</p>
         </div>
         <div class="flex-row space-y-2">
           <button type="button" [matMenuTriggerFor]="memberMenu" #memberMenuTrigger="matMenuTrigger"

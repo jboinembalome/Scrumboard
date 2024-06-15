@@ -17,7 +17,14 @@ import { TitleComponent } from '../../shared/components/title/title.component';
     templateUrl: './memory-game.component.html',
     styleUrls: ['./memory-game.component.scss'],
     standalone: true,
-    imports: [TitleComponent, MatIcon, CountdownModule, ScoreComponent, CardComponent, ResultsComponent, HighScoreInputComponent]
+    imports: [
+      TitleComponent,
+      MatIcon, 
+      CountdownModule, 
+      ScoreComponent, 
+      CardComponent, 
+      ResultsComponent, 
+      HighScoreInputComponent]
 })
 
 export class MemoryGameComponent implements OnInit {

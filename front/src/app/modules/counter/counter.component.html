@@ -2,21 +2,18 @@
    
     <blouppy-title text="Counter"></blouppy-title>
 
-    <div>
-        <!-- Replace with your content -->
-        <div class="py-4">
-            <p class="dark:text-gray-200">This is a simple example of an Angular component.</p>
-            <p class="dark:text-gray-200" aria-live="polite">Current count: <strong>{{ currentCount }}</strong></p>        
-            <button type="button" 
-                    class="inline-flex items-center px-4 py-2 mr-2 mt-4 border border-transparent text-sm font-medium rounded shadow-sm text-indigo-100 bg-indigo-600 hover:bg-indigo-700"
-                    (click)="incrementCounter()">
+    <div class="py-4">
+        <p class="dark:text-gray-200">This is a simple example of an Angular component.</p>
+        <p class="dark:text-gray-200" aria-live="polite">Current count: <strong>{{ currentCount }}</strong></p> 
+        <div class="flex flex-row gap-4">
+            <button mat-flat-button
+                (click)="incrementCounter()">
                 Increment
             </button>
-            <button type="button" 
-                    class="inline-flex items-center px-4 py-2 ml-2 mt-4 border border-transparent text-sm font-medium rounded shadow-sm text-indigo-100 bg-indigo-600 hover:bg-indigo-700"
-                    (click)="decrementCounter()">
+            <button mat-flat-button
+                (click)="decrementCounter()">
                 Decrement
-            </button>        
-        </div>  
-    </div>        
+            </button>       
+        </div> 
+    </div>  
 </div>

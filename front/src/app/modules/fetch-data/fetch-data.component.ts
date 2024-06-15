@@ -9,7 +9,11 @@ import { TitleComponent } from '../../shared/components/title/title.component';
     selector: 'app-fetch-data',
     templateUrl: './fetch-data.component.html',
     standalone: true,
-    imports: [TitleComponent, NgClass, AsyncPipe, DatePipe]
+    imports: [
+      TitleComponent, 
+      NgClass, 
+      AsyncPipe, 
+      DatePipe]
 })
 export class FetchDataComponent implements OnInit {
 

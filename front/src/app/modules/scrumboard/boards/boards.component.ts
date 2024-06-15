@@ -15,13 +15,28 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 import { SimpleCardComponent } from '../../../shared/components/cards/simple-card/simple-card.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
+import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
 
 @Component({
     selector: 'scrumboard-boards',
     templateUrl: './boards.component.html',
     styleUrls: ['./boards.component.scss'],
     standalone: true,
-    imports: [TitleComponent, SimpleCardComponent, RouterLink, MatMenuTrigger, MatIcon, MatMenu, MatDivider, SelectComponent, SelectCheckboxComponent, InputWithIconComponent, DatePipe, I18nPluralPipe, OrderByPipe, BoardsFilterPipe]
+    imports: [
+      TitleComponent, 
+      SimpleCardComponent, 
+      RouterLink, 
+      MatMenuTrigger, 
+      MatIcon, 
+      MatMenu, 
+      MatDivider, 
+      SelectComponent, 
+      SelectCheckboxComponent, 
+      InputWithIconComponent, 
+      DatePipe, 
+      I18nPluralPipe, 
+      OrderByPipe, 
+      BoardsFilterPipe]
 })
 export class BoardsComponent implements OnInit, OnDestroy {
 
@@ -45,7 +60,6 @@ export class BoardsComponent implements OnInit, OnDestroy {
   memberMapping: { [k: string]: string } = { '=0': '# member', '=1': '# member', 'other': '# members' };
 
   constructor(
-    private _stringColorPipe: StringColorPipe,
     private _boardsService: BoardsService,
     private _router: Router) {
   }
@@ -55,7 +69,7 @@ export class BoardsComponent implements OnInit, OnDestroy {
       this.boards = boards;
       this.filteredBoard = boards;
       this.pinnedBoards = this.boards.filter(board => board.isPinned === true);
-      this.boardColors = boards.map((board) => { return { key: board.boardSetting.colour.colour, bgColor: this._stringColorPipe.transform(board.boardSetting.colour) } })
+      this.boardColors = boards.map((board) => { return { key: board.boardSetting.colour.colour, bgColor: BlouppyUtils.formatColor(board.boardSetting.colour) } })
         .filter((colour, index, self) => self.findIndex((c) => c.key === colour.key) === index);
     }, error => console.error(error));
 

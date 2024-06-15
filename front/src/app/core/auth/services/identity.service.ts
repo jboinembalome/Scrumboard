@@ -14,7 +14,7 @@ import { BASE_PATH } from '../../../swagger/variables';
 import { Configuration } from '../../../swagger/configuration';
 
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class IdentityService {
 
     protected basePath = '/';

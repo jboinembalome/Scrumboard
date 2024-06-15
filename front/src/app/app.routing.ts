@@ -13,7 +13,7 @@ export const appRoutes: Route[] = [
         path: '',
         component: EmptyLayoutComponent,
         children: [
-            {path: 'auth', loadChildren: () => import('./core/auth/auth.module').then(m => m.AuthModule)},
+            {path: 'auth', loadChildren: () => import('./core/auth/auth.routes')},
         ]
     },
 
@@ -25,11 +25,11 @@ export const appRoutes: Route[] = [
             canActivateChild: [AuthGuard], // Do not forget to uncomment this
             component  : LayoutComponent,
             children   : [
-                {path: 'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)},
-                {path: 'counter', loadChildren: () => import('./modules/counter/counter.module').then(m => m.CounterModule)},
-                {path: 'fetch-data', loadChildren: () => import('./modules/fetch-data/fetch-data.module').then(m => m.FetchDataModule)},
-                {path: 'memory-game', loadChildren: () => import('./modules/memory-game/memory-game.module').then(m => m.MemoryGameModule)},
-                {path: 'scrumboard', loadChildren: () => import('./modules/scrumboard/scrumboard.module').then(m => m.ScrumboardModule)},
+                {path: 'home', loadChildren: () => import('./modules/home/home.routes')},
+                {path: 'counter', loadChildren: () => import('./modules/counter/counter.routes')},
+                {path: 'fetch-data', loadChildren: () => import('./modules/fetch-data/fetch-data.routes')},
+                {path: 'memory-game', loadChildren: () => import('./modules/memory-game/memory-game.routes')},
+                {path: 'scrumboard', loadChildren: () => import('./modules/scrumboard/scrumboard.routes')},
             ]
         }
 ];

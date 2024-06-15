@@ -1,10 +1,10 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
 import { BoardComponent } from './board/board.component';
 import { BoardResolver } from './board/board.resolvers';
 import { CardDetailComponent } from './board/listboards/card/card-detail/card-detail.component';
 import { BoardsComponent } from './boards/boards.component';
 
-export const scrumboardRoutes: Route[] = [
+export default [
     {
         path: '',
         component: BoardsComponent,
@@ -21,5 +21,5 @@ export const scrumboardRoutes: Route[] = [
                 component: CardDetailComponent,
             }
         ]
-    },
-];
+    }
+] as Routes;

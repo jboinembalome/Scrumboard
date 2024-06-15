@@ -4,7 +4,7 @@ import { merge } from 'lodash-es';
 import { BlouppyConfirmationDialogComponent } from './dialog/dialog.component';
 import { BlouppyConfirmationConfig } from './confirmation.types';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BlouppyConfirmationService {
     private _defaultConfig: BlouppyConfirmationConfig = {
         title: 'Confirm action',

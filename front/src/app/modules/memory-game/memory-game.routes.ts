@@ -1,9 +1,9 @@
-import { Route } from '@angular/router';
+import { Routes } from '@angular/router';
 import { MemoryGameComponent } from './memory-game.component';
 
-export const counterRoutes: Route[] = [
+export default [
     {
         path     : '',
         component: MemoryGameComponent
     }
-];
+] as Routes;

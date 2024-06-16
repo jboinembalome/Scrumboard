@@ -3,6 +3,7 @@ import { BoardComponent } from './board/board.component';
 import { BoardResolver } from './board/board.resolvers';
 import { CardDetailComponent } from './board/listboards/card/card-detail/card-detail.component';
 import { BoardsComponent } from './boards/boards.component';
+import { CardDetailResolver } from './board/listboards/card/card-detail/card-detail.resolvers';
 
 export default [
     {
@@ -14,12 +15,13 @@ export default [
         component: BoardComponent,
         resolve: {
             board: BoardResolver
-        },
-        children: [
-            {
-                path: 'card/:cardId',
-                component: CardDetailComponent,
-            }
-        ]
+        }
+    },
+    {
+        path: ':boardId/card/:cardId',
+        component: CardDetailComponent,
+        resolve: {
+            card: CardDetailResolver
+        }
     }
 ] as Routes;

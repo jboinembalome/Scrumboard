@@ -4,10 +4,9 @@
        <!-- Breadcrumbs -->
        <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
     </div>
-    <div class="relative flex flex-auto flex-col pt-4 px-4">
+    <div class="relative flex gap-4 p-4">
       @if (card) {
-        <div class="grid grid-cols-6 gap-4">
-          <div class="col-span-4">
+          <div class="grow">
       
             
             <!-- Card form -->
@@ -243,7 +242,7 @@
           </div>
     
           <!-- Properties -->
-          <div class="col-span-2">
+          <div class="flex-none w-64">
             <div class="flex items-center mb-2">
               <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
                 Properties</p>
@@ -326,7 +325,6 @@
               </button>
             </div>
           </div>
-        </div>
       }
   </div>
 </div>

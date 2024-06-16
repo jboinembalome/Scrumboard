@@ -1,14 +1,12 @@
 <div class="absolute inset-0 flex flex-auto flex-col h-full overflow-auto text-gray-900 dark:text-gray-100">
 
-    <div class="flex flex-0 sticky p-2 border-b border-gray-300 dark:border-gray-700 top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 bg-white/75 dark:bg-gray-950/75">
+    <div class="flex flex-0 sticky px-4 border-b border-gray-300 dark:border-gray-700 top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 bg-white/75 dark:bg-gray-950/75">
        <!-- Breadcrumbs -->
        <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
     </div>
-    <div class="relative flex flex-auto flex-col p-4">
-     
-
+    <div class="relative flex flex-auto flex-col pt-4 px-4">
       @if (card) {
-        <div class="grid grid-cols-6 pt-2">
+        <div class="grid grid-cols-6 gap-4">
           <div class="col-span-4">
       
             
@@ -245,7 +243,7 @@
           </div>
     
           <!-- Properties -->
-          <div class="col-span-2 px-4">
+          <div class="col-span-2">
             <div class="flex items-center mb-2">
               <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
                 Properties</p>

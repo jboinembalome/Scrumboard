@@ -62,8 +62,8 @@
             </div>
             <mat-form-field class="w-full" appearance="outline">
               <textarea matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'name'" [rows]="1"
-                matTextareaAutosize [matAutosizeMinRows]="1">
-                  </textarea>
+                cdkTextareaAutosize cdkAutosizeMinRows="1">
+              </textarea>
               <mat-error>Name is required.</mat-error>
             </mat-form-field>
           </div>
@@ -79,8 +79,8 @@
             </div>
             <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
               <textarea matInput class="text-gray-900 dark:text-gray-100" [formControlName]="'description'" [rows]="6"
-                matTextareaAutosize [matAutosizeMinRows]="1">
-                  </textarea>
+                cdkTextareaAutosize cdkAutosizeMinRows="1">
+              </textarea>
             </mat-form-field>
           </div>
   
@@ -100,22 +100,17 @@
                     aria-label="member selection">
                     @for (member of card.adherents; track $index) {
                       <mat-chip-row 
-                        class="pl-0" 
-                        [selectable]="selectableMember"
-                        [removable]="removableMember" 
                         (removed)="removeMemberChip(member)">
-                        <div class="flex items-center justify-items-start space-x-2">
-                          @if (member.hasAvatar) {
-                            <img class="h-8 w-8 rounded-full" [src]="urlAvatar + member.identityId" alt="">
-                          }
-                          @else {
-                            <img class="h-8 w-8 rounded-full" src="assets/images/avatars/profile.jpg">
-                          }
-                          <span>{{member.firstName}}</span>
-                        </div>
-                        @if (removableMember) {
-                          <mat-icon matChipRemove>cancel</mat-icon>
-                        }
+                        <img
+                          matChipAvatar
+                          [src]="member.hasAvatar 
+                                  ? urlAvatar + member.identityId 
+                                  : 'assets/images/avatars/profile.jpg'"
+                          class="rounded-full" />
+                        {{member.firstName}}
+                        <button matChipRemove>
+                          <mat-icon>cancel</mat-icon>
+                        </button>
                         
                       </mat-chip-row>
                     }
@@ -172,17 +167,14 @@
                 <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
                   <mat-chip-grid #chipList aria-label="label selection">
                     @for (label of card.labels; track $index) {
-                      <mat-chip-row 
-                        [selectable]="selectableLabel" 
-                        [removable]="removableLabel"
+                      <mat-chip-row
                         (removed)="removeLabelChip(label)" 
                         class="text-indigo-100" 
                         [ngClass]="label.colour.colour">
-                        <span>{{label.name}}</span>
-
-                        @if (removableLabel) {
-                          <mat-icon matChipRemove>cancel</mat-icon>
-                        }
+                        {{label.name}}
+                        <button matChipRemove>
+                          <mat-icon>cancel</mat-icon>
+                        </button>
                       </mat-chip-row>
                     }
   

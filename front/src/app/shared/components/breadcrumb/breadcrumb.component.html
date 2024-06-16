@@ -1,0 +1,24 @@
+@if (items.length) {
+    <div class="text-primary mt-0.5 flex items-center text-sm font-medium">
+        <div class="flex items-center space-x-2">
+            @for (item of items; let last = $last; track $index) {
+                @if (!last) {
+                    <a
+                        class="cursor-pointer text-gray-700 dark:text-gray-200"
+                        [routerLink]="item.url">
+                        @if (item.icon) {
+                            <mat-icon class="flex-shrink-0">{{item.icon}}</mat-icon>
+                        }
+                        {{ item.name }}
+                    </a>
+                }
+                @if (last) {
+                    <div>{{ item.name }}</div>
+                }
+                @if (!last) {
+                    <div>/</div>
+                }
+            }
+        </div>
+    </div>
+}

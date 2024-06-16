@@ -6,7 +6,7 @@ import { EmptyLayoutComponent } from './layout/empty-layout/empty-layout.compone
 
 export const appRoutes: Route[] = [
      // Redirect empty path to login page
-     {path: '', pathMatch : 'full', redirectTo: 'auth/login'},
+     {path: '', pathMatch : 'full', redirectTo: 'home'},
 
     // Auth routes for guests
     {

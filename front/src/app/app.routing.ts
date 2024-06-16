@@ -5,8 +5,8 @@ import { VerticalLayoutComponent } from './layout/vertical-layout/vertical-layou
 import { EmptyLayoutComponent } from './layout/empty-layout/empty-layout.component';
 
 export const appRoutes: Route[] = [
-     // Redirect empty path to '/login'
-     {path: '', pathMatch : 'full', redirectTo: 'login'},
+     // Redirect empty path to login page
+     {path: '', pathMatch : 'full', redirectTo: 'auth/login'},
 
     // Auth routes for guests
     {

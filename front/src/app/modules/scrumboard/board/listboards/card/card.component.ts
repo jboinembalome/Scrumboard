@@ -36,7 +36,7 @@ export class CardComponent {
   *
   * @param date
   */
-  isOverdue(date: string): boolean {
+  isOverdue(date: Date): boolean {
     return DateTime.fromISO(date).startOf('day') < DateTime.now().startOf('day');
   }
 

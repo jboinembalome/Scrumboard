@@ -57,7 +57,7 @@
                     <!-- New card -->
                     <div class="px-3 pb-0">
                         <scrumboard-board-card-add (saved)="addCard(listBoard, $event)"
-                            [buttonTitle]="listBoard.cards.length ? 'Add another card' : 'Add a card'">
+                            [buttonName]="listBoard.cards.length ? 'Add another card' : 'Add a card'">
                         </scrumboard-board-card-add>
                     </div>
                 </div>

@@ -12,12 +12,12 @@
         <mat-nav-list class="grow px-2 space-y-1 border-l-0 border border-primary-500 dark:border-gray-700">
           @for (path of navigationPaths; track $index) {
             <a matLine
-              [routerLink]="path.Href" routerLinkActive  #rla="routerLinkActive"
+              [routerLink]="path.url" routerLinkActive  #rla="routerLinkActive"
               [class]="rla.isActive 
                 ? 'bg-primary-700 text-white dark:bg-primary-800 dark:text-white' 
                 : 'text-primary-200 hover:bg-primary-700 hover:text-white dark:text-primary-100 dark:hover:bg-primary-800 dark:hover:text-white'"
               class="group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-              <mat-icon class=" mr-3 flex-shrink-0 h-6 w-6">{{path.Icon}}</mat-icon> {{path.Name}}
+              <mat-icon class=" mr-3 flex-shrink-0 h-6 w-6">{{path.icon}}</mat-icon> {{path.name}}
             </a>
           }
         </mat-nav-list>

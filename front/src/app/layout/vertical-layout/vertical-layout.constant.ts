@@ -1,12 +1,12 @@
-import { Navigation } from './models/navigation.model';
+import { Navigation } from "app/core/navigation/models/navigation.model";
 
 const navigationPaths: Navigation[] =
 [
-    { Name: 'Home', Href: '/home', Icon: 'home' },
-    { Name: 'Counter', Href: '/counter', Icon: 'pin' },
-    { Name: 'Fetch data', Href: '/fetch-data', Icon: 'downloading' },
-    { Name: 'Memory game', Href: '/memory-game', Icon: 'videogame_asset' },
-    { Name: 'Scrumboard', Href: '/scrumboard', Icon: 'view_week' }
+    { name: 'Home', url: '/home', icon: 'home' },
+    { name: 'Counter', url: '/counter', icon: 'pin' },
+    { name: 'Fetch data', url: '/fetch-data', icon: 'downloading' },
+    { name: 'Memory game', url: '/memory-game', icon: 'videogame_asset' },
+    { name: 'Scrumboard', url: '/scrumboard', icon: 'view_week' }
 ];
 
 export const NavigationPaths: Navigation[] = navigationPaths;

@@ -4,7 +4,7 @@ import { Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angula
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Router, RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { NavigationPaths } from './vertical-layout.constant';
-import { Navigation } from './models/navigation.model';
+import { Navigation } from 'app/core/navigation/models/navigation.model';
 import { UserProfileComponent } from '../common/user-profile/user-profile.component';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';

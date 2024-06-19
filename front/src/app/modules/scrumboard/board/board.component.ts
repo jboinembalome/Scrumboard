@@ -136,22 +136,21 @@ export class BoardComponent implements OnInit, OnDestroy {
   /**
   * Edits the board name.
   */
-  editBoardName(): void {
-    this.isEditBoardName = !this.isEditBoardName;
+  editBoardName(event: any, board: BoardDetailDto): void {
+    // Gets the target element
+    const element: HTMLInputElement = event.target;
 
-    if (!this.isEditBoardName) {
-      // If the name is empty...
-      if (!this.board.name || this.board.name.trim() === '') {
-        // Resets to original name and return
-        this.board.name = this.oldBoardName;
-        return;
-      }
+    // Gets the new name
+    const newName = element.value;
 
-      this.updateBoard();
+    // If the name is empty
+    if (!newName || newName.trim() === '') {
+      // Keep to original name
+      element.value = board.name;
       return;
     }
 
-    this.oldBoardName = this.board.name;
+    this.updateBoard();
   }
 
   /**

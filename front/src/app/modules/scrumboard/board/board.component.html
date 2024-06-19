@@ -14,35 +14,14 @@
             <div class="flex flex-col lg:flex-row flex-0 space-y-2 md:items-center md:justify-between">
                 <!-- Board name -->
                 <div class="flex-1">
-                    <div class="group flex items-center">
-                        @if (isEditBoardName) {
-                            <blouppy-input-with-icon class="w-64" icon="edit"
-                                placeholder="Edit the board name" [(value)]="board.name" (keydown.enter)="editBoardName()">
-                            </blouppy-input-with-icon>
-                        }
-                        @else {
-                            <blouppy-title [text]="board?.name"></blouppy-title>
-                        }
-                                    
-                        <button mat-icon-button (click)="editBoardName()"
-                            class="ml-4 text-primary-600 dark:text-primary-300">
-                            <span class="sr-only">Edit board name</span>
-                            @if (isEditBoardName) {
-                                <mat-icon>done</mat-icon>
-                            }
-                            @else {
-                                <mat-icon>edit</mat-icon>
-                            }
-                        </button>
-                        @if (isEditBoardName) {
-                            <button mat-icon-button (click)="keepOldBoardName()"
-                                class="ml-2 text-red-600 dark:text-red-300">
-                                <span class="sr-only">Cancel edit board name</span>
-                                @if (isEditBoardName) {
-                                    <mat-icon>close</mat-icon>
-                                }     
-                            </button>
-                        }              
+                    <!-- TODO: Update padding... -->
+                    <div class="flex items-center w-full py-2 rounded-md border border-transparent">
+                        <input #boardNameInput 
+                            [value]="board.name" 
+                            [spellcheck]="'false'"
+                            (focusout)="editBoardName($event, board)"
+                            (keydown.enter)="boardNameInput.blur()"
+                            class="bg-transparent cursor-text text-2xl font-semibold p-2 w-full text-gray-900 dark:text-gray-100 border-white dark:border-gray-900 rounded-md ">
                     </div>
                 </div>
                 

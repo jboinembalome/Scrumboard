@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 import { LoginRequest } from "../models/login-request.model";
 import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -14,6 +14,7 @@ import { MatFormField, MatError, MatSuffix } from "@angular/material/form-field"
     selector: "app-login",
     templateUrl: "./login.component.html",
     styleUrls: ["./login.component.scss"],
+    encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
         FormsModule,

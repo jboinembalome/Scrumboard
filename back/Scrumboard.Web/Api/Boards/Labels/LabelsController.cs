@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
 
 namespace Scrumboard.Web.Api.Boards.Labels;
 
-//[Authorize]
+[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]

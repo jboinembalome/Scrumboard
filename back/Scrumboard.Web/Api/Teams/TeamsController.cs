@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
@@ -6,7 +7,7 @@ using Scrumboard.Application.Teams.Commands.UpdateTeam;
 
 namespace Scrumboard.Web.Api.Teams;
 
-//[Authorize]
+[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]

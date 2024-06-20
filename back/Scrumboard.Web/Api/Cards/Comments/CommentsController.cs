@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Cards.Comments.Commands.CreateComment;
 using Scrumboard.Application.Cards.Comments.Commands.DeleteComment;
@@ -6,7 +7,7 @@ using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 
 namespace Scrumboard.Web.Api.Cards.Comments;
 
-//[Authorize]
+[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]

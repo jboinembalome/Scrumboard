@@ -1,9 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 
 namespace Scrumboard.Web.Api.WeatherForecast;
 
+[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]

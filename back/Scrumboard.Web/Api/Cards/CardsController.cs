@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
 using Scrumboard.Application.Cards.Commands.CreateCard;
@@ -9,7 +10,7 @@ using Scrumboard.Application.Cards.Queries.GetCardDetail;
 
 namespace Scrumboard.Web.Api.Cards;
 
-//[Authorize]
+[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]

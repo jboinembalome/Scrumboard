@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Adherents.Queries.GetAdherents;
@@ -6,7 +7,7 @@ using Scrumboard.Application.Adherents.Queries.GetAvatarByIdentityId;
 
 namespace Scrumboard.Web.Api.Adherents;
 
-//[Authorize] // TODO: Add Angular pipe to use Authorize (to add the token when we use <img> with src)
+[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]

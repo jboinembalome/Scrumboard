@@ -13,7 +13,7 @@ using Scrumboard.Infrastructure.Abstractions.Common;
 
 namespace Scrumboard.Web.Api.Boards;
 
-//[Authorize]
+[Authorize]
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]

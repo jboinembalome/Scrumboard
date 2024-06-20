@@ -13,16 +13,24 @@ export class AuthErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
+          // In case of refresh token expired 
+          if (request.url.includes('account/refresh')){
+            console.error("Failed to refresh token:", error);
+
+            this.authService.logout();
+
+            location.reload();
+
+            return throwError(() => error);
+          }
+
+          // Handle 401 error for other urls except login page
           if (!request.url.includes('/login')){
             return this.handle401Error(request, next);
           }
-          else {
-            return throwError(() => error);
-          }
         }
-        else {
-          return throwError(() => error);
-        }
+
+        return throwError(() => error);
       })
     );
   }
@@ -43,13 +51,19 @@ export class AuthErrorInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ) : Observable<HttpEvent<any>> {
+    // Little bit tricky here: 
+    // - authService.refreshToken() calls the API  to refresh the token
+    // - We enter again into AuthErrorInterceptor...
+    // The question: how can we catch the error?
     return this.authService.refreshToken().pipe(
       switchMap(() => {
         return next.handle(this.addToken(request))
       }),
       catchError((error) => {
         console.error("Failed to refresh token:", error);
-        this.authService.logout(); // Log out user or handle error as needed
+
+        this.authService.logout();
+        
         return throwError(() => error);
     })
     )

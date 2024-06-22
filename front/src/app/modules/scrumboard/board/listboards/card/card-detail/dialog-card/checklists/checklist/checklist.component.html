@@ -12,7 +12,7 @@
     </button>
     <mat-menu #checklistActionsMenu="matMenu">
       <button mat-menu-item (click)="checklistRemoved.emit(checklist)">
-        <mat-icon class="text-red-500">delete</mat-icon>
+        <mat-icon>delete</mat-icon>
         <span>Remove Checklist</span>
       </button>
     </mat-menu>
@@ -33,50 +33,42 @@
 
     </div>
 
-    <div>
+    <div class="flex flex-col space-y-2">
       <!-- Checklist items -->
       @for (checkItem of checklist.checklistItems; track $index) {
-        <div class="flex-row content-between items-center">
-          <div class="w-full check-item flex-row items-center content-start">
-            <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
-              <input matInput #updateItemInput [value]="checkItem.name"
-                (focusout)="updateCheckItem($event.value, checkItem, checklist)"
-                (keydown.enter)="updateItemInput.blur()">
-              <mat-checkbox color="primary" matPrefix [checked]="checkItem.isChecked"
-                (change)="toggleCheckItem(checklist, checkItem, $event.checked)" aria-label="{{checkItem.name}}">
-              </mat-checkbox>
-              <button mat-icon-button matSuffix class="relative"
-                (click)="removeChecklistItem(checkItem, checklist)">
-                <mat-icon class="text-red-500 hover:text-red-700">delete</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-        </div>
+        <mat-form-field class="w-full flex items-center justify-between" appearance="outline">
+          <input matInput #updateItemInput [value]="checkItem.name"
+            (focusout)="updateCheckItem($event.value, checkItem, checklist)"
+            (keydown.enter)="updateItemInput.blur()">
+          <mat-checkbox  class="justify-items-center" color="primary" matPrefix [checked]="checkItem.isChecked"
+            (change)="toggleCheckItem(checklist, checkItem, $event.checked)" aria-label="{{checkItem.name}}">
+          </mat-checkbox>
+          <button mat-icon-button matSuffix class="relative"
+            (click)="removeChecklistItem(checkItem, checklist)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-form-field>
       }
       
 
-    </div>
-    <!-- Checklist item Form -->
-    <div name="newCheckItemForm" class="flex-row items-center content-start">
+      <!-- Checklist item Form -->
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
+        <input matInput #checkItemInput
+          (keydown.enter)="addCheckItem(checkItemInput.value, checklist); checkItemInput.blur(); checkItemInput.value = ''"
+          name="checkItemInput" autocomplete="off" placeholder="New checklist item">
+      </mat-form-field>
 
-      <div class="w-full flex flex-row items-center content-start">
-
-        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
-          <input matInput #checkItemInput
-            (keydown.enter)="addCheckItem(checkItemInput.value, checklist); checkItemInput.blur(); checkItemInput.value = ''"
-            name="checkItemInput" autocomplete="off" placeholder="New checklist item">
-        </mat-form-field>
+      <div class="flex justify-end">
+        <button type="button" (click)="addCheckItem(checkItemInput.value, checklist); checkItemInput.value = ''"
+          [disabled]="!checkItemInput.value" aria-label="Add item"
+          class="inline-flex items-center px-2 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-primary-600 hover:bg-primary-700  disabled:opacity-50 disabled:bg-gray-300 disabled:text-gray-500">
+          <mat-icon class="mr-1">add</mat-icon>
+          Add Item
+        </button>
 
       </div>
-
-      <button type="button" (click)="addCheckItem(checkItemInput.value, checklist); checkItemInput.value = ''"
-        [disabled]="!checkItemInput.value" aria-label="Add item"
-        class="inline-flex items-center px-2 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700  disabled:opacity-50 disabled:bg-gray-300 disabled:text-gray-500">
-        <mat-icon class="mr-1">add</mat-icon>
-        Add Item
-      </button>
-
     </div>
+
 
   </div>
 </div>

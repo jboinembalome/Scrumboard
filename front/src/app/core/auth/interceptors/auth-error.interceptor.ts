@@ -15,6 +15,17 @@ export class AuthErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) { 
+           // In case of refresh token expired 
+           if (request.url.includes('account/refresh')){
+            console.error("Failed to refresh token:", error);
+
+            this.authService.logout();
+
+            location.reload();
+
+            return throwError(() => error);
+          }
+
           // Handle 401 error except for login page
           if (!request.url.includes('/login')){
             return this.handle401Error(request, next);

@@ -6,7 +6,6 @@ import { DataSourceSelectBoard } from './boards.constant';
 import { BoardsFilterPipe } from './boards.pipe';
 import { OrderByPipe } from '../../../shared/pipes/orderby.pipe';
 import { DatePipe, I18nPluralPipe } from '@angular/common';
-import { SelectCheckboxComponent } from '../../../shared/components/selects/select-checkbox/select-checkbox.component';
 import { SelectComponent } from '../../../shared/components/selects/select/select.component';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +15,7 @@ import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
     selector: 'scrumboard-boards',
@@ -32,8 +32,8 @@ import { FormsModule } from '@angular/forms';
       MatInputModule,
       MatMenu, 
       MatDivider, 
+      MatSelectModule,
       SelectComponent, 
-      SelectCheckboxComponent, 
       DatePipe, 
       I18nPluralPipe, 
       OrderByPipe, 

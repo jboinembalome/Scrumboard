@@ -1,5 +1,5 @@
 <div class="p-4 md:p-8 flex min-w-0 flex-auto flex-col gap-4">
-    <blouppy-title text="Scrumboard"></blouppy-title>
+    <h1 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Scrumboard</h1>
 
     <div>
         <!-- Replace with your content -->
@@ -71,16 +71,56 @@
     
             <!-- Filters -->
              @if (boards?.length > 1) {
-                <div class="mt-3 gap-5 sm:gap-6 flex sm:flex-row items-center justify-between w-full">
-                    <blouppy-select class="w-52" [dataSource]="dataSource.sort" [(value)]="selectedSort" labelKey="name"
-                        valueKey="key" (selectionChange)="sort($event)" label="Sort by">
-                    </blouppy-select>
-                    <blouppy-select-checkbox class="w-52" [dataSource]="boardColors" labelKey="bgColor" valueKey="key"
-                        (selectionChange)="filterColors($event)" label="Filter color">
-                    </blouppy-select-checkbox>
-                    <blouppy-input-with-icon class="w-52" key="search" label="Search" icon="search" placeholder="Search a board"
-                        [(value)]="searchText">
-                    </blouppy-input-with-icon>
+                <div class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                            Sort by
+                        </label>
+                        
+                        <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
+                            <mat-select [(value)]="selectedSort" (selectionChange)="sort($event.value)">
+                                @for (item of dataSource.sort; track $index) {
+                                <mat-option [value]="item.key">
+                                    {{item.name}}
+                                </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                            Filter color
+                        </label>
+                          
+                        <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
+                            <mat-select multiple
+                                (selectionChange)="filterColors($event.value)">
+                                @for (color of boardColors; track $index) {
+                                <mat-option [value]="color.key">
+                                    {{color.bgColor}}
+                                </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div>
+                        <label for="search" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Search</label>
+                        <mat-form-field class="w-full" appearance="outline" subscriptSizing="dynamic">
+                            <input 
+                                matInput 
+                                type="text" 
+                                [(ngModel)]="searchText"
+                                name="search" 
+                                id="search" 
+                                placeholder="Search a board">
+                            
+                            <mat-icon matPrefix class="icon-size-5">search</mat-icon>
+                        
+                        </mat-form-field>
+                    </div>
                 </div>
              }
             

@@ -57,10 +57,7 @@ export class AuthService {
           // Set the authenticated flag to true
           this._authenticated = true;
 
-          localStorage.setItem("accessToken", response.accessToken);
-
-          // Store the refresh token in cookie
-          document.cookie = `refreshToken=${response.refreshToken};`;
+          this.storeToken(response);
 
           return response;
         })
@@ -76,15 +73,15 @@ export class AuthService {
       })
       .pipe(
         map((response) => {
-          localStorage.setItem("accessToken", response.accessToken);
-          document.cookie = `refreshToken=${response.refreshToken};`;
+          this.storeToken(response);
+
           return response;
         })
       );
   }
 
   public logout(): Observable<boolean> {
-    localStorage.removeItem("accessToken");
+    this.removeToken();
 
     this._authenticated = false;
 
@@ -124,5 +121,15 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  private storeToken(response: LoginResponse): void {
+    localStorage.setItem("accessToken", response.accessToken);
+    document.cookie = `refreshToken=${response.refreshToken};`;
+  }
+
+  private removeToken(): void {
+    localStorage.removeItem("accessToken");
+    document.cookie = 'refreshToken=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;';
   }
 }

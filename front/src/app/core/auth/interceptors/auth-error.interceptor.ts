@@ -17,7 +17,9 @@ export class AuthErrorInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse && error.status === 401) { 
            // In case of refresh token expired 
            if (request.url.includes('account/refresh')){
-            console.error("Failed to refresh token:", error);
+            console.error("Expired refresh token:", error);
+
+            this.resetRefreshingState()
 
             this.authService.logout();
 
@@ -37,7 +39,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
     );
   }
 
-  
+      
   private handle401Error(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -55,6 +57,8 @@ export class AuthErrorInterceptor implements HttpInterceptor {
         }),
         catchError((error) => {
           console.error("Failed to refresh token:", error);
+
+          this.resetRefreshingState()
 
           this.authService.logout();
 
@@ -92,5 +96,10 @@ export class AuthErrorInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${token}`
       }
     });
+  }
+
+  private resetRefreshingState(): void {
+    this.isRefreshing = false;
+    this.refreshTokenSubject.next(null);
   }
 }

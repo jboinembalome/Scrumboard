@@ -147,6 +147,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.board.name = newName;
     this.updateBoard();
   }
 

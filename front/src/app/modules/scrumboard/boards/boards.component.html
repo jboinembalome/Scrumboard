@@ -11,45 +11,43 @@
                     <ul class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         @for (pinnedBoard of pinnedBoards; track trackByFn($index, pinnedBoard)) {
                             @if (pinnedBoard.isPinned) {
-                                <a [routerLink]="[pinnedBoard.id]">
-                                    <blouppy-simple-card [routerLink]="[pinnedBoard.id]" class="cursor-pointer rounded "
-                                        [title]="pinnedBoard.name" [subtitle]="pinnedBoard.members | i18nPlural: memberMapping"
-                                        [bgColor]="pinnedBoard.boardSetting.colour.colour"
-                                        [textAtLeft]="pinnedBoard.initials">
-                                        <button [matMenuTriggerFor]="pinnedMenu" (click)="$event.stopPropagation()"
-                                            class="w-8 h-8 bg-white dark:bg-gray-900 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500  dark:text-gray-100 dark:hover:text-gray-400 ">
-                                            <span class="sr-only">Open options</span>
-                                            <mat-icon class="h-6 w-6">more_vert</mat-icon>
-                                        </button>
-                                        <!-- Menu dropdown-->
-                                        <mat-menu #pinnedMenu class="dark:bg-gray-600">
-                                            <div>
-                                                <span class="flex flex-col leading-none px-4 py-2 mx-2">
-                                                    <span class="text-sm font-medium dark:text-gray-100">{{pinnedBoard.name}}</span>
-                                                    <span class="mt-1 text-xs text-gray-500 dark:text-gray-100">Last activity:
-                                                        {{pinnedBoard.lastActivity | date:'medium'}}</span>
-                                                </span>
-                                            </div>
-                                            <mat-divider class="my-2"></mat-divider>
-                                            <a [routerLink]="[pinnedBoard.id]"
-                                                class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                                                <mat-icon class="h-6 w-6 mr-1.5 flex-none">launch</mat-icon>
-                                                <span class="text-sm font-medium">Open the board</span>
-                                            </a>
-                                            <a (click)="updatePinned(pinnedBoard.name, pinnedBoard.isPinned)"
-                                                class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                                                <mat-icon class="h-6 w-6 mr-1.5 flex-none">push_pin</mat-icon>
-                                                <span class="text-sm font-medium">Remove from pinned</span>
-                                            </a>
-                                            <mat-divider class="my-2"></mat-divider>
-                                            <a (click)="deleteBoard(pinnedBoard)"
-                                                class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                                                <mat-icon class="h-6 w-6 mr-1.5 flex-none">delete</mat-icon>
-                                                <span class="text-sm font-medium">Delete the board </span>
-                                            </a>
-                                        </mat-menu>
-                                    </blouppy-simple-card>
-                                </a>
+                                <blouppy-simple-card [routerLink]="[pinnedBoard.id]" class="cursor-pointer rounded "
+                                    [title]="pinnedBoard.name" [subtitle]="pinnedBoard.members | i18nPlural: memberMapping"
+                                    [bgColor]="pinnedBoard.boardSetting.colour.colour"
+                                    [textAtLeft]="pinnedBoard.initials">
+                                    <button [matMenuTriggerFor]="pinnedMenu" (click)="$event.stopPropagation()"
+                                        class="w-8 h-8 bg-white dark:bg-gray-900 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500  dark:text-gray-100 dark:hover:text-gray-400 ">
+                                        <span class="sr-only">Open options</span>
+                                        <mat-icon class="h-6 w-6">more_vert</mat-icon>
+                                    </button>
+                                    <!-- Menu dropdown-->
+                                    <mat-menu #pinnedMenu class="dark:bg-gray-600">
+                                        <div>
+                                            <span class="flex flex-col leading-none px-4 py-2 mx-2">
+                                                <span class="text-sm font-medium dark:text-gray-100">{{pinnedBoard.name}}</span>
+                                                <span class="mt-1 text-xs text-gray-500 dark:text-gray-100">Last activity:
+                                                    {{pinnedBoard.lastActivity | date:'medium'}}</span>
+                                            </span>
+                                        </div>
+                                        <mat-divider class="my-2"></mat-divider>
+                                        <a [routerLink]="[pinnedBoard.id]"
+                                            class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                                            <mat-icon class="h-6 w-6 mr-1.5 flex-none">launch</mat-icon>
+                                            <span class="text-sm font-medium">Open the board</span>
+                                        </a>
+                                        <a (click)="updatePinned(pinnedBoard.name, pinnedBoard.isPinned)"
+                                            class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                                            <mat-icon class="h-6 w-6 mr-1.5 flex-none">push_pin</mat-icon>
+                                            <span class="text-sm font-medium">Remove from pinned</span>
+                                        </a>
+                                        <mat-divider class="my-2"></mat-divider>
+                                        <a (click)="deleteBoard(pinnedBoard)"
+                                            class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                                            <mat-icon class="h-6 w-6 mr-1.5 flex-none">delete</mat-icon>
+                                            <span class="text-sm font-medium">Delete the board </span>
+                                        </a>
+                                    </mat-menu>
+                                </blouppy-simple-card>
                             }
                         }
                     </ul>
@@ -131,45 +129,42 @@
             <div class="py-4">
                 <ul class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @for (board of filteredBoard | boardFilter: searchText | orderBy: {property: column, direction: direction}; track trackByFn($index, board)) {
-                        <a [routerLink]="[board.id]">
-                            <blouppy-simple-card class="cursor-pointer rounded "
-                                [title]="board.name" [subtitle]="board.members | i18nPlural: memberMapping"
-                                [bgColor]="board.boardSetting.colour.colour" [textAtLeft]="board.initials">
-                                <button [matMenuTriggerFor]="boardMenu" (click)="$event.stopPropagation()"
-                                    class="w-8 h-8 bg-white dark:bg-gray-900 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500  dark:text-gray-100 dark:hover:text-gray-400 ">
-                                    <span class="sr-only">Open options</span>
-                                    <mat-icon class="h-6 w-6">more_vert</mat-icon>
-                                </button>
-                                <!-- Menu dropdown-->
-                                <mat-menu #boardMenu class="dark:bg-gray-600">
-                                    <div>
-                                        <span class="flex flex-col leading-none px-4 py-2 mx-2">
-                                            <span class="text-sm font-medium dark:text-gray-100">{{board.name}}</span>
-                                            <span class="mt-1 text-xs text-gray-500 dark:text-gray-100">Last activity:
-                                                {{board.lastActivity | date:'medium'}}</span>
-                                        </span>
-                                    </div>
-                                    <mat-divider class="my-2"></mat-divider>
-                                    <a [routerLink]="[board.id]"
-                                        class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                                        <mat-icon class="h-6 w-6 mr-1.5 flex-none">launch</mat-icon>
-                                        <span class="text-sm font-medium">Open the board</span>
-                                    </a>
-                                    <a (click)="updatePinned(board.name, board.isPinned)"
-                                        class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                                        <mat-icon class="h-6 w-6 mr-1.5 flex-none">push_pin</mat-icon>
-                                        <span class="text-sm font-medium">{{board.isPinned ? 'Remove from pinned' : 'Add from pinned'}}</span>
-                                    </a>
-                                    <mat-divider class="my-2"></mat-divider>
-                                    <a (click)="deleteBoard(board)"
-                                        class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
-                                        <mat-icon class="h-6 w-6 mr-1.5 flex-none">delete</mat-icon>
-                                        <span class="text-sm font-medium">Delete the board </span>
-                                    </a>
-                                </mat-menu>
-                            </blouppy-simple-card>
-                        </a>
-                        
+                        <blouppy-simple-card [routerLink]="[board.id]" class="cursor-pointer rounded "
+                            [title]="board.name" [subtitle]="board.members | i18nPlural: memberMapping"
+                            [bgColor]="board.boardSetting.colour.colour" [textAtLeft]="board.initials">
+                            <button [matMenuTriggerFor]="boardMenu" (click)="$event.stopPropagation()"
+                                class="w-8 h-8 bg-white dark:bg-gray-900 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500  dark:text-gray-100 dark:hover:text-gray-400 ">
+                                <span class="sr-only">Open options</span>
+                                <mat-icon class="h-6 w-6">more_vert</mat-icon>
+                            </button>
+                            <!-- Menu dropdown-->
+                            <mat-menu #boardMenu class="dark:bg-gray-600">
+                                <div>
+                                    <span class="flex flex-col leading-none px-4 py-2 mx-2">
+                                        <span class="text-sm font-medium dark:text-gray-100">{{board.name}}</span>
+                                        <span class="mt-1 text-xs text-gray-500 dark:text-gray-100">Last activity:
+                                            {{board.lastActivity | date:'medium'}}</span>
+                                    </span>
+                                </div>
+                                <mat-divider class="my-2"></mat-divider>
+                                <a [routerLink]="[board.id]"
+                                    class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                                    <mat-icon class="h-6 w-6 mr-1.5 flex-none">launch</mat-icon>
+                                    <span class="text-sm font-medium">Open the board</span>
+                                </a>
+                                <a (click)="updatePinned(board.name, board.isPinned)"
+                                    class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                                    <mat-icon class="h-6 w-6 mr-1.5 flex-none">push_pin</mat-icon>
+                                    <span class="text-sm font-medium">{{board.isPinned ? 'Remove from pinned' : 'Add from pinned'}}</span>
+                                </a>
+                                <mat-divider class="my-2"></mat-divider>
+                                <a (click)="deleteBoard(board)"
+                                    class="group flex items-center px-4 py-2 text-gray-400 hover:text-gray-500 dark:text-gray-100 dark:hover:text-gray-400">
+                                    <mat-icon class="h-6 w-6 mr-1.5 flex-none">delete</mat-icon>
+                                    <span class="text-sm font-medium">Delete the board </span>
+                                </a>
+                            </mat-menu>
+                        </blouppy-simple-card>
                     }
                     
                     <li class="col-span-1 flex shadow-sm rounded-md">

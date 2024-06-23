@@ -10,32 +10,6 @@
         <div class="relative flex gap-4 overflow-auto">
           <!-- Card form -->
           <form class="flex flex-col overflow-auto flex-0 items-start w-5/6 mx-auto p-2 space-y-1" [formGroup]="cardForm">
-            @if (card.dueDate) {
-              <!-- Due date-->
-              <div>
-                <div class="flex items-center">
-                  <mat-icon class="mr-4 text-primary">event</mat-icon>
-                  <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
-                    Due date</p>
-                </div>
-                <div class="relative flex items-center mt-1.5 mb-3 px-4 leading-9 rounded-full"
-                  [ngClass]="{'text-green-800 bg-green-200 dark:text-green-100 dark:bg-green-500': card.dueDate && !isOverdue(card.dueDate),
-                                  'text-red-800 bg-red-200 dark:text-red-100 dark:bg-red-500': card.dueDate && isOverdue(card.dueDate)}">
-                  <mat-icon class=" text-current">event</mat-icon>
-                  <span class="ml-2 text-md font-medium">{{card.dueDate | date:'longDate'}}</span>
-                  <button (click)="dueDatePicker.select(null)"
-                    class="w-8 h-8 ml-3 inline-flex items-center justify-center">
-                    <mat-icon class="h-6 w-6">clear</mat-icon>
-                  </button>
-                </div>
-              </div>
-            }
-            
-    
-            <mat-form-field class="w-0 h-0 invisible">
-              <input matInput [matDatepicker]="dueDatePicker" [formControlName]="'dueDate'">
-            </mat-form-field>
-    
             <!-- Name -->
             <div class="w-full">
               <div class="flex items-center justify-between pb-1">
@@ -68,121 +42,6 @@
                 </textarea>
               </mat-form-field>
             </div>
-    
-            <!-- Members -->
-              @if (card.adherents.length > 0) {
-                <div class="w-full">
-                  <div class="flex items-center justify-between pb-1">
-                    <div class="flex items-center">
-                      <mat-icon class="mr-4 text-primary">group</mat-icon>
-                      <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Members</p>
-                    </div>
-                  </div>
-                  <mat-form-field class="w-full" appearance="outline">
-                    <mat-chip-grid 
-                      #memberChipList 
-                      aria-label="member selection">
-                      @for (member of card.adherents; track $index) {
-                        <mat-chip-row 
-                          (removed)="removeMemberChip(member)">
-                          <img
-                            matChipAvatar
-                            [src]="member.hasAvatar 
-                                    ? urlAvatar + member.identityId 
-                                    : 'assets/images/avatars/profile.jpg'"
-                            class="rounded-full" />
-                          {{member.firstName}}
-                          <button matChipRemove>
-                            <mat-icon>cancel</mat-icon>
-                          </button>
-                          
-                        </mat-chip-row>
-                      }
-                      
-                      <input 
-                        #memberInput 
-                        placeholder="New member..."
-                        [formControl]="memberCtrl" 
-                        [matAutocomplete]="auto"
-                        [matChipInputFor]="memberChipList" 
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-                    </mat-chip-grid>
-                    <mat-autocomplete 
-                      #auto="matAutocomplete" 
-                      (optionSelected)="selectedMemberChip($event)">
-                      @for (member of filteredMembers | async; track $index) {
-                        <mat-option [value]="member">
-                          <div class="flex items-center space-x-3">
-                            <div class="flex-shrink-0">
-                              @if (member.hasAvatar) {
-                                <img class="h-10 w-10 rounded-full" [src]="urlAvatar + member.identityId" alt="">
-                              }
-                              @else {
-                                <img class="h-10 w-10 rounded-full" src="assets/images/avatars/profile.jpg">
-                              }
-                            </div>
-                            <div class="flex-1 min-w-0">
-                              <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {{member.firstName}}
-                              </p>
-                              <p class="text-sm text-gray-500 truncate">
-                                {{member.job}}
-                              </p>
-                            </div>
-                          </div>
-                        </mat-option>
-                      }
-                    </mat-autocomplete>
-                  </mat-form-field>
-                </div>
-              }
-            
-    
-            <!-- Labels -->
-              @if (card.labels.length > 0) {
-                <div class="w-full">
-                  <div class="flex items-center justify-between pb-1">
-                    <div class="flex items-center">
-                      <mat-icon class="mr-4 text-primary">label</mat-icon>
-                      <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Labels</p>
-                    </div>
-                  </div>
-                  <mat-form-field class="w-full" appearance="outline">
-                    <mat-chip-grid #chipList aria-label="label selection">
-                      @for (label of card.labels; track $index) {
-                        <mat-chip-row
-                          (removed)="removeLabelChip(label)" 
-                          class="text-indigo-100" 
-                          [ngClass]="label.colour.colour">
-                          {{label.name}}
-                          <button matChipRemove>
-                            <mat-icon>cancel</mat-icon>
-                          </button>
-                        </mat-chip-row>
-                      }
-    
-                      <input #labelInput
-                        placeholder="New label..."  
-                        [formControl]="labelCtrl" 
-                        [matAutocomplete]="auto"
-                        [matChipInputFor]="chipList" 
-                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                        (matChipInputTokenEnd)="addLabelChip($event)">
-                    </mat-chip-grid>
-                    <mat-autocomplete #auto="matAutocomplete" 
-                      (optionSelected)="selectedLabelChip($event)">
-                      @for (label of filteredLabels | async; track $index) {
-                        <mat-option [value]="label">
-                          {{label.name}}
-                        </mat-option>
-                      }
-                    </mat-autocomplete>
-                  </mat-form-field>
-                </div>
-              }
-    
     
             <!-- Checklists -->
               @if (card.checklists.length > 0) {
@@ -244,82 +103,199 @@
 
     <!-- TODO: Add Properties on mobile -->
     <!-- Properties -->
-    <div class="hidden sm:block flex-none w-64 pt-2 px-4 border-l border-gray-300 dark:border-gray-700">
-      <div class="flex items-center mb-2">
-        <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
-          Properties</p>
-      </div>
+    <div class="hidden sm:block flex-none w-64 lg:w-80 pt-2 px-4 border-l border-gray-300 dark:border-gray-700">
       <div class="flex-row space-y-2">
-        <button type="button" [matMenuTriggerFor]="memberMenu" #memberMenuTrigger="matMenuTrigger"
-          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white">
-          <mat-icon class="mr-1">person</mat-icon>
-          Members
-        </button>
-        <mat-menu #memberMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
-          <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="$event.stopPropagation()">
-
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
-            <!-- Members -->
-            <adherent-selector [selectedAdherents]="card.adherents" [adherents]="allMembers"
-              (adherentUpdated)="updateMembers($event)">
-            </adherent-selector>
+        <!-- Assignees -->
+        <div>
+          <div class="flex items-center mb-2">
+            <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
+              Assignees</p>
           </div>
-        </mat-menu>
-        <button type="button" [matMenuTriggerFor]="labelMenu" #labelMenuTrigger="matMenuTrigger"
-          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white">
-          <mat-icon class="mr-1">label</mat-icon>
-          Labels
-        </button>
-        <mat-menu #labelMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
-          <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="$event.stopPropagation()">
 
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Labels</label>
-            <!-- Labels -->
-            <label-selector [selectedLabels]="card.labels" [labels]="allLabels" (labelUpdated)="updateLabels($event)"
-              (labelCompletelyDeleted)="deletedLabelFromCtrl($event)">
-            </label-selector>
-
-            <mat-divider class="my-2"></mat-divider>
-
-            <!-- Label Form -->
-            <label-add (labelAdded)="addLabel($event)" (labelCanceled)="labelMenuTrigger.closeMenu()"
-              (click)="$event.stopPropagation()"></label-add>
+         
+          <div class="w-full" [class.hidden]="card.adherents.length === 0">
+              <mat-chip-set 
+                #assigneeChipList 
+                aria-label="Assignee selection">
+                @for (assignee of card.adherents; track $index) {
+                  <mat-chip
+                    (removed)="removeMemberChip(assignee)">
+                    <img
+                      matChipAvatar
+                      [src]="assignee.hasAvatar 
+                              ? urlAvatar + assignee.identityId 
+                              : 'assets/images/avatars/profile.jpg'"
+                      class="rounded-full" />
+                    {{assignee.firstName}}
+                    <button matChipRemove>
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                    
+                  </mat-chip>
+                }
+                
+                <mat-chip 
+                  [matMenuTriggerFor]="assigneeMenu" 
+                  #assigneeMenuTrigger="matMenuTrigger">
+                  <mat-icon class="flex">add</mat-icon>
+                </mat-chip>
+              </mat-chip-set>            
           </div>
-        </mat-menu>
+        
+        
+          <button type="button" [matMenuTriggerFor]="assigneeMenu" #assigneeMenuTrigger="matMenuTrigger"
+            class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white"
+            [class.hidden]="card.adherents.length > 0">
+            <mat-icon class="mr-1">person</mat-icon>
+            Set assignees
+          </button>
+          
+          <mat-menu #assigneeMenu="matMenu" xPosition="after" yPosition="below" class="dark:bg-gray-900">
+            <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="$event.stopPropagation()">
+  
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
+              <!-- Members -->
+              <adherent-selector [selectedAdherents]="card.adherents" [adherents]="allMembers"
+                (adherentUpdated)="updateMembers($event)">
+              </adherent-selector>
+            </div>
+          </mat-menu>
+        </div>
+        
+        
+        <!-- End date-->
+        <div>
+          <div class="flex items-center mb-2">
+            <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
+              End date</p>
+          </div>
 
-        <button type="button" [matMenuTriggerFor]="checklistMenu" #checklistMenuTrigger="matMenuTrigger"
-          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white">
-          <mat-icon class="mr-1">checklist</mat-icon>
-          Checklists
-        </button>
-        <mat-menu #checklistMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
-          <!-- Checklist Form -->
-          <checklist-add (checklistAdded)="addChecklist($event)" (checklistCanceled)="checklistMenuTrigger.closeMenu()"
-            (click)="$event.stopPropagation()">
-          </checklist-add>
-        </mat-menu>
-
-        <button type="button" (click)="dueDatePicker.open()"
-          class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white">
-          <mat-icon class="mr-1">event</mat-icon>
-          Due Date
-        </button>
-        <!-- Due Date Picker -->
-        <mat-datepicker #dueDatePicker>
-          <mat-datepicker-actions>
-            <button type="button" matDatepickerApply
-              class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 ">
-              <mat-icon class="mr-2">save</mat-icon>
-              Save
+          @if (card.dueDate) {          
+            <mat-chip
+              (removed)="endDatePicker.select(null)"
+              (click)="endDatePicker.open()"
+              [ngClass]="{'text-green-800 bg-green-200 dark:text-green-100 dark:bg-green-500': card.dueDate && !isOverdue(card.dueDate),
+                              'text-red-800 bg-red-200 dark:text-red-100 dark:bg-red-500': card.dueDate && isOverdue(card.dueDate)}">
+              {{card.dueDate | date:'longDate'}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+          @else {
+            <button type="button" (click)="endDatePicker.open()"
+              class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white">
+              <mat-icon class="mr-1">event</mat-icon>
+              Set end date
             </button>
-            <button type="button" matDatepickerCancel (click)="dueDatePicker.select(null)"
-              class="inline-flex items-center px-4 py-2 ml-3 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 ">
-              <mat-icon class="mr-2">delete</mat-icon>
-              Remove
-            </button>
-          </mat-datepicker-actions>
-        </mat-datepicker>
+          }
 
+          <!-- TODO: Use mat-calendar and mat-menu (mat-form-field should be inside the form) -->
+          <mat-form-field class="w-0 h-0 invisible">
+            <input matInput [matDatepicker]="endDatePicker" [formControlName]="'dueDate'">
+          </mat-form-field>
+
+          <mat-datepicker #endDatePicker>
+            <mat-datepicker-actions>
+              <button type="button" matDatepickerApply
+                class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 ">
+                <mat-icon class="mr-2">save</mat-icon>
+                Save
+              </button>
+              <button type="button" matDatepickerCancel (click)="dueDatePicker.select(null)"
+                class="inline-flex items-center px-4 py-2 ml-3 border border-transparent shadow-sm text-sm font-medium rounded text-indigo-100 bg-indigo-600 hover:bg-indigo-700 ">
+                <mat-icon class="mr-2">delete</mat-icon>
+                Remove
+              </button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </div>
+
+
+        <!-- Labels -->
+        <div>
+          <div class="flex items-center mb-2">
+            <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
+              Labels</p>
+          </div>
+
+          
+          <div class="w-full" [class.hidden]="card.labels.length === 0">
+              <mat-chip-set  #chipList aria-label="label selection">
+                @for (label of card.labels; track $index) {
+                  <mat-chip
+                    (removed)="removeLabelChip(label)" 
+                    class="text-indigo-100" 
+                    [ngClass]="label.colour.colour">
+                    {{label.name}}
+                    <button matChipRemove>
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  </mat-chip>
+                }
+
+                <mat-chip
+                  [matMenuTriggerFor]="labelMenu" 
+                  #labelMenuTrigger="matMenuTrigger">
+                  <mat-icon class="flex">add</mat-icon>
+                </mat-chip>
+                
+              </mat-chip-set>
+          </div>
+    
+          <button type="button" [matMenuTriggerFor]="labelMenu" #labelMenuTrigger="matMenuTrigger"
+            class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white"
+            [class.hidden]="card.labels.length > 0">
+            <mat-icon class="mr-1">label</mat-icon>
+            Set Labels
+          </button>
+
+          <mat-menu #labelMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
+            <div class="p-4 flex flex-col gap-2 max-h-48 leading-none overflow-y-auto" (click)="$event.stopPropagation()">
+  
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Labels</label>
+              <!-- Labels -->
+              <label-selector [selectedLabels]="card.labels" [labels]="allLabels" (labelUpdated)="updateLabels($event)"
+                (labelCompletelyDeleted)="deletedLabelFromCtrl($event)">
+              </label-selector>
+  
+              <mat-divider class="my-2"></mat-divider>
+  
+              <!-- Label Form -->
+              <label-add (labelAdded)="addLabel($event)" (labelCanceled)="labelMenuTrigger.closeMenu()"
+                (click)="$event.stopPropagation()"></label-add>
+            </div>
+          </mat-menu>
+        </div>
+      
+        
+        <!-- Checklists -->
+        <div>
+          <div class="flex items-center mb-2">
+            <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
+              Checklists</p>
+          </div>
+          <button type="button" [matMenuTriggerFor]="checklistMenu" #checklistMenuTrigger="matMenuTrigger"
+            class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white">
+            <mat-icon class="mr-1">checklist</mat-icon>
+            Add checklist
+          </button>
+          <mat-menu #checklistMenu="matMenu" [overlapTrigger]="false" class="dark:bg-gray-900">
+            <!-- Checklist Form -->
+            <checklist-add (checklistAdded)="addChecklist($event)" (checklistCanceled)="checklistMenuTrigger.closeMenu()"
+              (click)="$event.stopPropagation()">
+            </checklist-add>
+          </mat-menu>
+        </div>
+        
+        
+        <!-- Actions -->
+        <div>
+          <div class="flex items-center mb-2">
+            <p class="block m-0 text-sm font-medium text-gray-700 dark:text-gray-200">
+              Actions</p>
+          </div>
+        </div>
         <button type="button" (click)="deleteCard(card)"
           class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white">
           <mat-icon class="mr-1">delete</mat-icon>

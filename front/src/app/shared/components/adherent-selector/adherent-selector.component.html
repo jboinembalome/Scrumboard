@@ -14,11 +14,14 @@
               </span>
             }     
           </div>
-          <div class="flex-1 min-w-0">
+          <div class="flex-1 min-w-0 mx-auto">
               <p class="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {{adherent.firstName}}
               </p>
-              <p class="text-sm text-gray-500 truncate">
+              <p 
+              [matTooltip]="adherent.job"
+              [matTooltipDisabled]="adherent.job.length < 20"
+              class="text-sm text-gray-500 w-full max-w-40 truncate" >
                 {{adherent.job}}
               </p>
           </div>

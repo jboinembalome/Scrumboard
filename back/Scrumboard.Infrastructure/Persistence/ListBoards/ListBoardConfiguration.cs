@@ -10,10 +10,5 @@ internal sealed class ListBoardConfiguration : IEntityTypeConfiguration<ListBoar
     {
         builder.Property(l => l.Name)
             .IsRequired();
-        
-        builder
-            .HasOne(x => x.Board)
-            .WithMany(y => y.ListBoards)
-            .OnDelete(DeleteBehavior.NoAction);
     }
 }

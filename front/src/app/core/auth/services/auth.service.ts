@@ -65,7 +65,7 @@ export class AuthService {
   }
 
   public refreshToken(): Observable<LoginResponse> {
-    const refreshToken = this.getRefreshTokenFromCookie();
+    const refreshToken = localStorage.getItem("refreshToken") ?? "";
 
     return this._httpClient
       .post<LoginResponse>(`${this.basePath}/api/account/refresh`, {
@@ -108,28 +108,17 @@ export class AuthService {
     return this._identityService.apiUserInfoGet();
   }
 
-  private getRefreshTokenFromCookie(): string | null {
-    const cookieString = document.cookie;
-    const cookieArray = cookieString.split("; ");
-
-    for (const cookie of cookieArray) {
-      const [name, value] = cookie.split("=");
-
-      if (name == "refreshToken") {
-        return value;
-      }
-    }
-
-    return null;
-  }
 
   private storeToken(response: LoginResponse): void {
     localStorage.setItem("accessToken", response.accessToken);
+    // TODO: Store refreshToken only in cookie (as readonly)
+    localStorage.setItem("refreshToken", response.refreshToken);
     document.cookie = `refreshToken=${response.refreshToken};`;
   }
 
   private removeToken(): void {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     document.cookie = 'refreshToken=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;';
   }
 }

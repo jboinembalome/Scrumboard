@@ -6,7 +6,6 @@ import { DataSourceSelectBoard } from './boards.constant';
 import { BoardsFilterPipe } from './boards.pipe';
 import { OrderByPipe } from '../../../shared/pipes/orderby.pipe';
 import { DatePipe, I18nPluralPipe } from '@angular/common';
-import { SelectComponent } from '../../../shared/components/selects/select/select.component';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
@@ -33,7 +32,6 @@ import { MatSelectModule } from '@angular/material/select';
       MatMenu, 
       MatDivider, 
       MatSelectModule,
-      SelectComponent, 
       DatePipe, 
       I18nPluralPipe, 
       OrderByPipe, 

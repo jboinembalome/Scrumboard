@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { ColorPickerComponent } from './color-picker/color-picker.component';
 import { SimpleColorPickerComponent } from './color-picker/simple-color-picker/simple-color-picker.component';
 import { ToggleComponent } from './toggle/toggle.component';
-import { SelectComponent } from './selects/select/select.component';
 import { SimpleCardComponent } from './cards/simple-card/simple-card.component';
 import { AdherentSelectorComponent } from './adherent-selector/adherent-selector.component';
 
@@ -14,7 +13,6 @@ import { AdherentSelectorComponent } from './adherent-selector/adherent-selector
     ColorPickerComponent,
     SimpleColorPickerComponent,
     ToggleComponent,
-    SelectComponent,
     SimpleCardComponent
 ],
     exports: [
@@ -22,7 +20,6 @@ import { AdherentSelectorComponent } from './adherent-selector/adherent-selector
         ColorPickerComponent,
         SimpleColorPickerComponent,
         ToggleComponent,
-        SelectComponent,
         SimpleCardComponent
     ]
 })

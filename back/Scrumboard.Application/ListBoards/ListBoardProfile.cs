@@ -9,6 +9,10 @@ internal sealed class ListBoardProfile : Profile
 {
     public ListBoardProfile()
     {
+        // Write
+        CreateMap<ListBoardDto, ListBoard>()
+            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        
         // Read
         CreateMap<ListBoard, ListBoardDto>()
             .EqualityComparison((src, dest) => src.Id == dest.Id);

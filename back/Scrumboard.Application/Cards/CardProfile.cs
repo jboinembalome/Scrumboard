@@ -15,6 +15,9 @@ internal sealed class CardProfile : Profile
         CreateMap<CreateCardCommand, Card>();
 
         CreateMap<UpdateCardCommand, Card>();
+
+        CreateMap<CardDto, Card>()
+            .EqualityComparison((src, dest) => src.Id == dest.Id);
         
         // Read
         CreateMap<Card, CardDto>()

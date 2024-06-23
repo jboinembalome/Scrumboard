@@ -20,6 +20,8 @@ internal sealed class BoardProfile : Profile
         CreateMap<UpdatePinnedBoardCommand, Board>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BoardId));
         
+        CreateMap<BoardSettingDto, BoardSetting>();
+        
         // Read
         CreateMap<Board, BoardDto>()
             .ForMember(dest => dest.Initials, opt => opt.MapFrom(src => GetInitials(src)))

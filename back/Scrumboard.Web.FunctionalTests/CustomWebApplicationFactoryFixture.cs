@@ -40,18 +40,11 @@ public class CustomWebApplicationFactoryFixture<TStartup>
                     services.Remove(descriptor);
 
                 // Add a new ScrumboardDbContext registration.
-                if (_configuration.GetValue<bool>("UseInMemoryDatabase"))
-                {
-                    services.AddDbContext<ScrumboardDbContext>(options =>
-                        options.UseInMemoryDatabase("ScrumboardDb"));
-                }
-                else
-                {
-                    services.AddDbContext<ScrumboardDbContext>(options =>
-                        options.UseSqlServer(
-                            _configuration.GetConnectionString("DefaultConnection"),
-                            b => b.MigrationsAssembly(typeof(ScrumboardDbContext).Assembly.FullName)));
-                }
+                services.AddDbContext<ScrumboardDbContext>(options =>
+                    options.UseSqlServer(
+                        _configuration.GetConnectionString("DefaultConnection"),
+                        b => b.MigrationsAssembly(typeof(ScrumboardDbContext).Assembly.FullName)));
+                
 
                 var serviceProvider = services.BuildServiceProvider();
                 
@@ -66,10 +59,7 @@ public class CustomWebApplicationFactoryFixture<TStartup>
 
         var context = scope.ServiceProvider.GetService<ScrumboardDbContext>();
 
-        if (context is not null && !context.Database.IsInMemory())
-            context.Database.Migrate();
-        else
-            context!.Database.EnsureCreated();
+        context?.Database.Migrate();
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();

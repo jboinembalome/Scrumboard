@@ -19,16 +19,9 @@ public static class InfrastructureServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            {
-                services.AddDbContext<ScrumboardDbContext>(options =>
-                    options.UseInMemoryDatabase("ScrumboardDb"));
-            }
-            else
-            {
-                services.AddDbContext<ScrumboardDbContext>(options =>
-                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            }
+            services.AddDbContext<ScrumboardDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            
             
             services.AddScoped<ApplicationDbContextInitialiser>();
 

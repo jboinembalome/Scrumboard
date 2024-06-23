@@ -30,9 +30,9 @@ public class DatabaseFixture : IDisposable
         _mockDateTime.Setup(m => m.Now).Returns(DateTime.Now);
     }  
 
-    public IAsyncRepository<T, TId> GetRepository<T, TId>(bool inMemoryDatabase = false) where T : class, IEntity<TId>
+    public IAsyncRepository<T, TId> GetRepository<T, TId>() where T : class, IEntity<TId>
     {      
-        SetDbContext(inMemoryDatabase);
+        SetDbContext();
 
         return new BaseRepository<T,TId>(DbContext!);
     }
@@ -47,47 +47,29 @@ public class DatabaseFixture : IDisposable
         await checkpoint.ResetAsync(DEFAULT_SQL_CONNECTION);
     }
 
-    private static DbContextOptions<ScrumboardDbContext> CreateNewContextOptions(bool inMemoryDatabase)
+    private static DbContextOptions<ScrumboardDbContext> CreateNewContextOptions()
     {
         DbContextOptionsBuilder<ScrumboardDbContext> builder;
+        
+        // Create a fresh service provider, and therefore a fresh
+        // Sql Server database instance.
+        var serviceProvider = new ServiceCollection()
+            .AddEntityFrameworkSqlServer()
+            .BuildServiceProvider();
 
-        if (inMemoryDatabase)
-        {
-            // Create a fresh service provider, and therefore a fresh
-            // InMemory database instance.
-            var serviceProvider = new ServiceCollection()
-                .AddEntityFrameworkInMemoryDatabase()
-                .BuildServiceProvider();
-
-            builder = new DbContextOptionsBuilder<ScrumboardDbContext>();
-            builder.UseInMemoryDatabase("ScrumboardTestDb")
-                .UseInternalServiceProvider(serviceProvider);
-        }
-        else
-        {
-            // Create a fresh service provider, and therefore a fresh
-            // Sql Server database instance.
-            var serviceProvider = new ServiceCollection()
-                .AddEntityFrameworkSqlServer()
-                .BuildServiceProvider();
-
-            builder = new DbContextOptionsBuilder<ScrumboardDbContext>();
-            builder.UseSqlServer(DEFAULT_SQL_CONNECTION)
-                .UseInternalServiceProvider(serviceProvider);
-        }
+        builder = new DbContextOptionsBuilder<ScrumboardDbContext>();
+        builder.UseSqlServer(DEFAULT_SQL_CONNECTION)
+            .UseInternalServiceProvider(serviceProvider);
 
         return builder.Options;
     }
 
-    public void SetDbContext(bool inMemoryDatabase = false)
+    public void SetDbContext()
     {
-        var options = CreateNewContextOptions(inMemoryDatabase);
+        var options = CreateNewContextOptions();
         
         DbContext = new ScrumboardDbContext(options, MockCurrentUserService.Object, _mockDateTime.Object);
-        if (!inMemoryDatabase)
-            DbContext.Database.Migrate();
-        else
-            DbContext.Database.EnsureCreated();
+        DbContext.Database.Migrate();
     }
 
     public void Dispose()

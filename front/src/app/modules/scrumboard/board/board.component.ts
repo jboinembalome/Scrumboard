@@ -15,9 +15,7 @@ import { AdherentSelectorComponent } from '../../../shared/components/adherent-s
 import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
-import { MatButtonModule, MatMiniFabButton } from '@angular/material/button';
-import { TitleComponent } from '../../../shared/components/title/title.component';
-import { InputWithIconComponent } from '../../../shared/components/inputs/input-with-icon/input-with-icon.component';
+import { MatButtonModule } from '@angular/material/button';
 import { SettingComponent } from './setting/setting.component';
 
 @Component({
@@ -31,20 +29,19 @@ import { SettingComponent } from './setting/setting.component';
       MatDrawer, 
       SettingComponent, 
       MatDrawerContent, 
-      InputWithIconComponent, 
-      TitleComponent,
-       MatButtonModule, 
-       MatIcon, 
-       RouterLink, 
-       MatTooltip, 
-       MatMenuTrigger, 
-       MatMenu, 
-       AdherentSelectorComponent, 
-       CdkScrollable, 
-       ListBoardsComponent, 
-       RouterOutlet, 
-       AsyncPipe, 
-       InitialPipe]
+      MatButtonModule, 
+      MatIcon, 
+      RouterLink, 
+      MatTooltip, 
+      MatMenuTrigger, 
+      MatMenu, 
+      AdherentSelectorComponent, 
+      CdkScrollable, 
+      ListBoardsComponent, 
+      RouterOutlet, 
+      AsyncPipe, 
+      InitialPipe
+    ]
 })
 export class BoardComponent implements OnInit, OnDestroy {
 

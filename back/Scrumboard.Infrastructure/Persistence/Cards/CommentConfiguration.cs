@@ -10,5 +10,9 @@ internal sealed class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {
         builder.Property(c => c.Message)
             .IsRequired();
+        
+        builder
+            .HasOne(x => x.Adherent)
+            .WithMany();
     }
 }

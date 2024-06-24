@@ -15,6 +15,10 @@ internal sealed class CardConfiguration : IEntityTypeConfiguration<Card>
         builder
             .HasMany(x => x.Labels)
             .WithMany();
+        
+        builder
+            .HasMany(x => x.Comments)
+            .WithOne();
 
         builder
             .HasMany(x => x.Assignees)

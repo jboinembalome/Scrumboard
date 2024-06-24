@@ -16,7 +16,6 @@ internal sealed class LabelProfile : Profile
 
         // Read
         CreateMap<Label, LabelDto>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id)
-            .ForMember(dest => dest.CardIds, opt => opt.MapFrom(src => src.Cards.Select(c => c.Id)));
+            .EqualityComparison((src, dest) => src.Id == dest.Id);
     }
 }

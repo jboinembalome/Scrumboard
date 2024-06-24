@@ -9,7 +9,7 @@ namespace Scrumboard.Application.Boards.Labels.Queries.GetLabelsByBoardId;
 
 internal sealed class GetLabelsByBoardIdQueryHandler(
     IMapper mapper,
-    IAsyncRepository<Label, int> labelRepository)
+    IAsyncRepository<Board, int> boardRepository)
     : IRequestHandler<GetLabelsByBoardIdQuery, IEnumerable<LabelDto>>
 {
     public async Task<IEnumerable<LabelDto>> Handle(
@@ -17,8 +17,17 @@ internal sealed class GetLabelsByBoardIdQueryHandler(
         CancellationToken cancellationToken)
     {
         var specification = new AllLabelsInBoardSpec(request.BoardId);
-        
-        var labels = await labelRepository.ListAsync(specification, cancellationToken);
+        var board = await boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
+
+        if (board is null)
+        {
+            return [];
+        }
+
+        var labels = board.ListBoards
+            .SelectMany(x => x.Cards
+                .SelectMany(y => y.Labels))
+            .ToHashSet();
 
         return mapper.Map<IEnumerable<LabelDto>>(labels);
     }

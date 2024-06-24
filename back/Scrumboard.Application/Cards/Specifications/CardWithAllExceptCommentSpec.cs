@@ -12,8 +12,7 @@ internal sealed class CardWithAllExceptCommentSpec : Specification<Card>, ISingl
         Query.Include(b => b.ListBoard)
             .ThenInclude(l => l.Board);
 
-        Query.Include(b => b.Labels)
-            .ThenInclude(l => l.Cards);
+        Query.Include(b => b.Labels);
 
         Query.Include(c => c.Adherents)
             .ThenInclude(l => l.Cards);

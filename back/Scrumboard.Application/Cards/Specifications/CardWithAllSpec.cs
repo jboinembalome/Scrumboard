@@ -12,8 +12,7 @@ internal sealed class CardWithAllSpec : Specification<Card>, ISingleResultSpecif
         Query.Include(b => b.ListBoard)
             .ThenInclude(l => l.Board);
 
-        Query.Include(b => b.Labels)
-            .ThenInclude(l => l.Cards);
+        Query.Include(b => b.Labels);
 
         Query.Include(c => c.Adherents)
             .ThenInclude(l => l.Cards);

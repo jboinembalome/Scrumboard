@@ -10,5 +10,9 @@ internal sealed class CardConfiguration : IEntityTypeConfiguration<Card>
     {
         builder.Property(c => c.Name)
             .IsRequired();
+        
+        builder
+            .HasMany(x => x.Labels)
+            .WithMany();
     }
 }

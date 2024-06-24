@@ -14,8 +14,7 @@ internal sealed class CardWithAllSpec : Specification<Card>, ISingleResultSpecif
 
         Query.Include(b => b.Labels);
 
-        Query.Include(c => c.Adherents)
-            .ThenInclude(l => l.Cards);
+        Query.Include(c => c.Assignees);
             
         Query.Include(b => b.Attachments);
 

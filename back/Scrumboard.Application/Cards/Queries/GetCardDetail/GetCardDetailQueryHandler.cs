@@ -28,10 +28,10 @@ internal sealed class GetCardDetailQueryHandler(
 
         var cardDto = mapper.Map<CardDetailDto>(card);
 
-        if (cardDto.Adherents.Any())
+        if (cardDto.Assignees.Any())
         {
-            var users = await identityService.GetListAsync(card.Adherents.Select(a => a.IdentityId), cancellationToken);
-            mapper.Map(users, cardDto.Adherents);
+            var users = await identityService.GetListAsync(card.Assignees.Select(a => a.IdentityId), cancellationToken);
+            mapper.Map(users, cardDto.Assignees);
         }
 
         if (cardDto.Comments.Any())

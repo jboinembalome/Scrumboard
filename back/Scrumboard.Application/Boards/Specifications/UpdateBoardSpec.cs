@@ -18,6 +18,6 @@ internal sealed class UpdateBoardSpec : Specification<Board>, ISingleResultSpeci
 
         Query.Include(b => b.ListBoards)
             .ThenInclude(l => l.Cards)
-            .ThenInclude(c => c.Adherents);
+            .ThenInclude(c => c.Assignees);
     }
 }

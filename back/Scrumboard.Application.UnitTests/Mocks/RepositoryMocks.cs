@@ -77,7 +77,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0], labelsForFrontEndScrumboard[1] },
-                            Adherents = new Collection<Adherent> { adherent1Model },
+                            Assignees = new Collection<Adherent> { adherent1Model },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
@@ -145,7 +145,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0] },
-                            Adherents = new Collection<Adherent> { },
+                            Assignees = new Collection<Adherent> { },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
@@ -172,7 +172,7 @@ public class RepositoryMocks
                             Suscribed = true,
                             DueDate = new DateTime(2021, 5, 15),
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[1] },
-                            Adherents = new Collection<Adherent> { },
+                            Assignees = new Collection<Adherent> { },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
@@ -199,7 +199,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[2] },
-                            Adherents = new Collection<Adherent> { adherent1Model },
+                            Assignees = new Collection<Adherent> { adherent1Model },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
@@ -267,7 +267,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForBackEndScrumboard[1] },
-                            Adherents = new Collection<Adherent> { adherent1Model },
+                            Assignees = new Collection<Adherent> { adherent1Model },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
@@ -286,7 +286,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForBackEndScrumboard[0] },
-                            Adherents = new Collection<Adherent> { },
+                            Assignees = new Collection<Adherent> { },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity

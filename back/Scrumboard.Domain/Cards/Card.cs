@@ -20,7 +20,7 @@ public sealed class Card : IAuditableEntity, IEntity<int>
     public int Position { get; set; }
     public ListBoard ListBoard { get; set; }
     public ICollection<Label> Labels { get; set; }
-    public ICollection<Adherent> Adherents { get; set; }
+    public ICollection<Adherent> Assignees { get; set; }
     public ICollection<Activity> Activities { get; set; }
     public ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
     public ICollection<Checklist> Checklists { get; set; }

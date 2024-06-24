@@ -23,7 +23,7 @@ internal sealed class BoardWithAllSpec : Specification<Board>, ISingleResultSpec
 
         Query.Include(b => b.ListBoards)
             .ThenInclude(l => l.Cards)
-            .ThenInclude(c => c.Adherents);
+            .ThenInclude(c => c.Assignees);
 
         Query.Include(b => b.ListBoards)
             .ThenInclude(l => l.Cards)

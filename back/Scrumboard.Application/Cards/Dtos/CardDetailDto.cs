@@ -17,7 +17,7 @@ public sealed class CardDetailDto
     public string ListBoardName { get; set; }
     public int BoardId { get; set; }
     public IEnumerable<LabelDto> Labels { get; set; }
-    public IEnumerable<AdherentDto> Adherents { get; set; }
+    public IEnumerable<AdherentDto> Assignees { get; set; }
     public IEnumerable<AttachmentDto> Attachments { get; set; }
     public IEnumerable<ChecklistDto> Checklists { get; set; }
     public IEnumerable<CommentDto> Comments { get; set; }

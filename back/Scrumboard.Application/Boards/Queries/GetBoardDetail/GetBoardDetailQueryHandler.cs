@@ -37,7 +37,7 @@ internal sealed class GetBoardDetailQueryHandler(
 
         var adherentDtosInBoard = boardDto.ListBoards
             .SelectMany(l => l.Cards
-                .SelectMany(c => c.Adherents
+                .SelectMany(c => c.Assignees
                     .Where(a => adherentDtos
                         .Any(ad => ad.Id == a.Id))));
         

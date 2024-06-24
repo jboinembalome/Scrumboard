@@ -216,7 +216,7 @@ public class ApplicationDbContextInitialiser
                 DueDate = DateTime.Now,
                 Position = 65536,
                 Labels = new Collection<Label> { labels[0], labels[1] },
-                Adherents = new Collection<Adherent> { adherent },
+                Assignees = new Collection<Adherent> { adherent },
                 Activities =  new Collection<Activity> { activities[0] },
                 Attachments = new Collection<Attachment>
                 {
@@ -288,7 +288,7 @@ public class ApplicationDbContextInitialiser
                 DueDate = null,
                 Position = 65536,
                 Labels = new Collection<Label> { labels[2] },
-                Adherents = new Collection<Adherent> { adherent },
+                Assignees = new Collection<Adherent> { adherent },
             },
         };
 
@@ -331,7 +331,7 @@ public class ApplicationDbContextInitialiser
                         DueDate = null,
                         Position = 65536,
                         Labels = new Collection<Label> { labels[4] },
-                        Adherents = new Collection<Adherent> { adherent },
+                        Assignees = new Collection<Adherent> { adherent },
                     },
                     new Card
                     {
@@ -341,7 +341,7 @@ public class ApplicationDbContextInitialiser
                         DueDate = null,
                         Position = 131072,
                         Labels = new Collection<Label> { labels[3] },
-                        Adherents = new Collection<Adherent> { },
+                        Assignees = new Collection<Adherent> { },
                     },
                 }
             }

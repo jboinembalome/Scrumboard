@@ -57,10 +57,10 @@ internal sealed class UpdateCardCommandHandler(
 
         updateCardCommandResponse.Card = mapper.Map<CardDetailDto>(cardToUpdate);
 
-        if (updateCardCommandResponse.Card.Adherents.Any())
+        if (updateCardCommandResponse.Card.Assignees.Any())
         {
-            var users = await identityService.GetListAsync(cardToUpdate.Adherents.Select(a => a.IdentityId), cancellationToken);
-            mapper.Map(users, updateCardCommandResponse.Card.Adherents);
+            var users = await identityService.GetListAsync(cardToUpdate.Assignees.Select(a => a.IdentityId), cancellationToken);
+            mapper.Map(users, updateCardCommandResponse.Card.Assignees);
         }
 
         if (updateCardCommandResponse.Card.Comments.Any())
@@ -132,28 +132,28 @@ internal sealed class UpdateCardCommandHandler(
         #endregion
 
         #region Member
-        if (!oldCard.Adherents.Any() && updatedCard.Adherents.Any())
+        if (!oldCard.Assignees.Any() && updatedCard.Assignees.Any())
         {
-            var adherent = updatedCard.Adherents.First();
+            var adherent = updatedCard.Assignees.First();
             activities.Add(new Activity(ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
         }
 
-        if (oldCard.Adherents.Any() && !updatedCard.Adherents.Any())
+        if (oldCard.Assignees.Any() && !updatedCard.Assignees.Any())
         {
-            var adherent = oldCard.Adherents.First();
+            var adherent = oldCard.Assignees.First();
             var user = await identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
             activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
 
-        if (oldCard.Adherents.Count < updatedCard.Adherents.Count())
+        if (oldCard.Assignees.Count < updatedCard.Assignees.Count())
         {
-            var adherent = updatedCard.Adherents.First(l => !oldCard.Adherents.Select(o => o.Id).Contains(l.Id));
+            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Select(o => o.Id).Contains(l.Id));
             activities.Add(new Activity(ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
         }
 
-        if (oldCard.Adherents.Count > updatedCard.Adherents.Count())
+        if (oldCard.Assignees.Count > updatedCard.Assignees.Count())
         {
-            var adherent = oldCard.Adherents.First(l => !updatedCard.Adherents.Select(o => o.Id).Contains(l.Id));
+            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l.Id));
             var user = await identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
             activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }

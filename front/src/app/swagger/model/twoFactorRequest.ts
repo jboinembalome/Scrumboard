@@ -9,11 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { CommentDto } from './commentDto';
 
-export interface UpdateCommentCommandResponse { 
-    success?: boolean;
-    message?: string;
-    validationErrors?: Array<string>;
-    comment?: CommentDto;
+export interface TwoFactorRequest { 
+    enable?: boolean;
+    twoFactorCode?: string;
+    resetSharedKey?: boolean;
+    resetRecoveryCodes?: boolean;
+    forgetMachine?: boolean;
 }

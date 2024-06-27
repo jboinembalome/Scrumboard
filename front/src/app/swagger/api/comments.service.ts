@@ -17,14 +17,13 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { CreateCommentCommandResponse } from '../model/createCommentCommandResponse';
 import { CreateCommentCommand } from '../model/createCommentCommand';
+import { CreateCommentCommandResponse } from '../model/createCommentCommandResponse';
 import { ProblemDetails } from '../model/problemDetails';
 import { UpdateCommentCommand } from '../model/updateCommentCommand';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
-import { UpdateCommentCommandResponse } from '../model/updateCommentCommandResponse';
 
 
 @Injectable()
@@ -112,9 +111,9 @@ export class CommentsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'body', reportProgress?: boolean): Observable<UpdateCommentCommandResponse>;
-    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UpdateCommentCommandResponse>>;
-    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UpdateCommentCommandResponse>>;
+    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
     public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
@@ -149,7 +148,7 @@ export class CommentsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<UpdateCommentCommandResponse>('put',`${this.basePath}/api/Comments/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('put',`${this.basePath}/api/Comments/${encodeURIComponent(String(id))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

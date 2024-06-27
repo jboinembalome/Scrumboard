@@ -11,7 +11,7 @@
  */
 import { CardDto } from './cardDto';
 
-export interface ListBoardDto {
+export interface ListBoardDto { 
     id?: number;
     name?: string;
     position?: number;

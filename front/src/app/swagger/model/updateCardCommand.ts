@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 import { AdherentDto } from './adherentDto';
-import { AttachmentDto } from './attachmentDto';
 import { ChecklistDto } from './checklistDto';
 import { LabelDto } from './labelDto';
 
@@ -21,7 +20,6 @@ export interface UpdateCardCommand {
     suscribed?: boolean;
     dueDate?: Date;
     labels?: Array<LabelDto>;
-    adherents?: Array<AdherentDto>;
-    attachments?: Array<AttachmentDto>;
+    assignees?: Array<AdherentDto>;
     checklists?: Array<ChecklistDto>;
 }

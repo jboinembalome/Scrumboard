@@ -15,7 +15,7 @@ import { AdherentDto } from './adherentDto';
 export interface ActivityDto { 
     id?: number;
     createdDate?: Date;
-    activityType?: 'Added' | 'Updated' | 'Removed' | 'Finished'| 'NotFinished' | 'Checked' | 'Unchecked';
+    activityType?: string;
     activityField?: ActivityFieldDto;
     oldValue?: string;
     newValue?: string;

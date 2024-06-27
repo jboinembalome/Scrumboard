@@ -10,9 +10,10 @@
  * Do not edit the class manually.
  */
 
-export type AttachmentType = 0 | 1;
-
-export const AttachmentType = {
-    NUMBER_0: 0 as AttachmentType,
-    NUMBER_1: 1 as AttachmentType
-};
+export interface TwoFactorResponse { 
+    sharedKey: string;
+    recoveryCodesLeft: number;
+    recoveryCodes?: Array<string>;
+    isTwoFactorEnabled: boolean;
+    isMachineRemembered: boolean;
+}

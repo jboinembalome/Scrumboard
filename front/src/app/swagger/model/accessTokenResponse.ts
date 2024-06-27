@@ -9,11 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ListBoardDto } from './listBoardDto';
 
-export interface UpdateBoardCommandResponse { 
-    success?: boolean;
-    message?: string;
-    validationErrors?: Array<string>;
-    listBoards?: Array<ListBoardDto>;
+export interface AccessTokenResponse { 
+    readonly tokenType?: string;
+    accessToken: string;
+    expiresIn: number;
+    refreshToken: string;
 }

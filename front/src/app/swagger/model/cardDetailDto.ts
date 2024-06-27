@@ -9,27 +9,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
- import { ActivityDto } from './activityDto';
- import { AdherentDto } from './adherentDto';
- import { AttachmentDto } from './attachmentDto';
- import { ChecklistDto } from './checklistDto';
- import { CommentDto } from './commentDto';
- import { LabelDto } from './labelDto';
- 
- export interface CardDetailDto { 
-     id?: number;
-     name?: string;
-     description?: string;
-     suscribed?: boolean;
-     dueDate?: Date;
-     position?: number;
-     listBoardId?: number;
-     listBoardName?: string;
-     boardId?: number;
-     labels?: Array<LabelDto>;
-     adherents?: Array<AdherentDto>;
-     attachments?: Array<AttachmentDto>;
-     checklists?: Array<ChecklistDto>;
-     comments?: Array<CommentDto>;
-     activities?: Array<ActivityDto>;
- }
+import { ActivityDto } from './activityDto';
+import { AdherentDto } from './adherentDto';
+import { ChecklistDto } from './checklistDto';
+import { CommentDto } from './commentDto';
+import { LabelDto } from './labelDto';
+
+export interface CardDetailDto { 
+    id?: number;
+    name?: string;
+    description?: string;
+    suscribed?: boolean;
+    dueDate?: Date;
+    position?: number;
+    listBoardId?: number;
+    labels?: Array<LabelDto>;
+    assignees?: Array<AdherentDto>;
+    checklists?: Array<ChecklistDto>;
+    comments?: Array<CommentDto>;
+    activities?: Array<ActivityDto>;
+}

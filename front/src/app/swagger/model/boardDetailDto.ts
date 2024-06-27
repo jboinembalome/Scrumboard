@@ -18,7 +18,7 @@ export interface BoardDetailDto {
     id?: number;
     name?: string;
     uri?: string;
-    adherent?: AdherentDto;
+    creator?: AdherentDto;
     team?: TeamDto;
     boardSetting?: BoardSettingDto;
     listBoards?: Array<ListBoardDto>;

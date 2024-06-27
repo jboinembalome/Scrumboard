@@ -9,10 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { ColourDto } from './colourDto';
 
-export interface LabelDto { 
-    id?: number;
-    name?: string;
-    colour?: ColourDto;
+export interface InfoRequest { 
+    newEmail?: string;
+    newPassword?: string;
+    oldPassword?: string;
 }

@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { CardDetailDto } from './cardDetailDto';
 
 export interface CreateCommentCommand { 
     message?: string;

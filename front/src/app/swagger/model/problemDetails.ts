@@ -9,10 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-//import { ModelObject } from './modelObject';
 
-export interface ProblemDetails { 
-  //[key: string]: ModelObject;
+export interface ProblemDetails extends Record<string, any> { 
+  [key: string]: any;
 
 
 }

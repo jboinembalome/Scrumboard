@@ -9,11 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AttachmentType } from './attachmentType';
 
-export interface AttachmentDto { 
-    id?: number;
-    name?: string;
-    url?: string;
-    attachmentType?: AttachmentType;
+export interface LoginRequest { 
+    email: string;
+    password: string;
+    twoFactorCode?: string;
+    twoFactorRecoveryCode?: string;
 }

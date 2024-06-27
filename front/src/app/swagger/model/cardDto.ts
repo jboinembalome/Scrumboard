@@ -20,7 +20,7 @@ export interface CardDto {
     position?: number;
     listBoardId?: number;
     labels?: Array<LabelDto>;
-    adherents?: Array<AdherentDto>;
+    assignees?: Array<AdherentDto>;
     attachmentsCount?: number;
     checklistItemsCount?: number;
     checklistItemsDoneCount?: number;

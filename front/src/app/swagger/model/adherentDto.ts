@@ -11,8 +11,7 @@
  */
 
 export interface AdherentDto { 
-    id?: number;
-    identityId?: string;
+    id?: string;
     firstName?: string;
     lastName?: string;
     job?: string;

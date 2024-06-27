@@ -5,10 +5,9 @@ namespace Scrumboard.Application.Boards.Specifications;
 
 internal sealed class BoardsByUserIdSpec : Specification<Board>
 {
-    public BoardsByUserIdSpec(string userId)
+    public BoardsByUserIdSpec(Guid userId)
     {
-        Query.Where(b => b.Team.Adherents.Any(a => a.IdentityId == userId))
-            .Include(b => b.Adherent)
+        Query.Where(b => b.Team.Adherents.Any(a => a == userId))
             .Include(b => b.Team)
             .ThenInclude(t => t.Adherents)
             .Include(b => b.BoardSetting)

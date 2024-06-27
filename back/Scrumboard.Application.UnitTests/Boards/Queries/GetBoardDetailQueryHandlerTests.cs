@@ -44,11 +44,10 @@ public class GetBoardDetailQueryHandlerTests
         // Assert
         result.Should().BeOfType<BoardDetailDto>();
         result.Name.Should().Be("Scrumboard FrontEnd");
-        result.Adherent.IdentityId.Should().Be("2cd08f87-33a6-4cbc-a0de-71d428986b85");
         result.ListBoards.First().Name.Should().Be("Design");
         result.ListBoards.First().Cards.First().Name.Should().Be("Create login page");
         result.ListBoards.First().Cards.First().Labels.First().Name.Should().Be("Design");
-        result.ListBoards.First().Cards.First().Assignees.First().IdentityId.Should().Be("2cd08f87-33a6-4cbc-a0de-71d428986b85");
+        result.ListBoards.First().Cards.First().Assignees.First().Should().Be(Guid.Parse("2cd08f87-33a6-4cbc-a0de-71d428986b85"));
         result.ListBoards.First().Cards.First().AttachmentsCount.Should().Be(2);
         result.ListBoards.First().Cards.First().ChecklistItemsCount.Should().Be(2);
         result.ListBoards.First().Cards.First().ChecklistItemsDoneCount.Should().Be(1);

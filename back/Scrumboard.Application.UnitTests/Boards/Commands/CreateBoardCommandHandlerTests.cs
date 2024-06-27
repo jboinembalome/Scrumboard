@@ -5,8 +5,8 @@ using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Xunit;
 
@@ -16,12 +16,12 @@ public class CreateBoardCommandHandlerTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
-    private readonly Mock<IAsyncRepository<Adherent, int>> _mockAdherentRepository;
+    private readonly IIdentityService _mockIdentityService;
 
     public CreateBoardCommandHandlerTests()
     {
         _mockBoardRepository = RepositoryMocks.GetBoardRepository();
-        _mockAdherentRepository = RepositoryMocks.GetAdherentRepository();
+        _mockIdentityService = Mock.Of<IIdentityService>();
         var configurationProvider = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<MappingProfile>();
@@ -35,8 +35,8 @@ public class CreateBoardCommandHandlerTests
     public async Task CreateBoardTest_ValidBoard_BoardAdded()
     {
         // Arrange
-        var handler = new CreateBoardCommandHandler(_mapper, _mockBoardRepository.Object, _mockAdherentRepository.Object);
-        var createBoardCommand = new CreateBoardCommand { UserId = "2cd08f87-33a6-4cbc-a0de-71d428986b85" };
+        var handler = new CreateBoardCommandHandler(_mapper, _mockBoardRepository.Object, _mockIdentityService);
+        var createBoardCommand = new CreateBoardCommand { CreatorId = Guid.Parse("2cd08f87-33a6-4cbc-a0de-71d428986b85") };
 
         // Act
         var result = await handler.Handle(createBoardCommand, CancellationToken.None);

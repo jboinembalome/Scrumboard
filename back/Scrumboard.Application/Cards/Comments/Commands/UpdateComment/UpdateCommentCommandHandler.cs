@@ -23,13 +23,13 @@ internal sealed class UpdateCommentCommandHandler(
     {
         var updateCommentCommandResponse = new UpdateCommentCommandResponse();
 
-        var specification = new CommentWithAdherentAndCardSpec(request.Id);
+        var specification = new CommentWithAdherentSpec(request.Id);
         var commentToUpdate = await commentRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
         if (commentToUpdate == null)
             throw new NotFoundException(nameof(Comment), request.Id);
 
-        if (commentToUpdate.Adherent.IdentityId != currentUserService.UserId)
+        if (commentToUpdate.CreatedBy != currentUserService.UserId)
             throw new ForbiddenAccessException();
 
         mapper.Map(request, commentToUpdate);

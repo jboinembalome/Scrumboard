@@ -28,11 +28,8 @@ internal sealed class PerformanceBehaviour<TRequest, TResponse>(
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-            var userId = currentUserService.UserId ?? string.Empty;
-            var userName = string.Empty;
-
-            if (!string.IsNullOrEmpty(userId))
-                userName = await identityService.GetUserNameAsync(userId);
+            var userId = currentUserService.UserId;
+            var userName = await identityService.GetUserNameAsync(userId);
 
             logger.LogWarning("Scrumboard API Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@UserName} {@Request}",
                 requestName, elapsedMilliseconds, userId, userName!, request);

@@ -11,6 +11,7 @@ internal sealed class TeamProfile : Profile
     {
         // Write
         CreateMap<UpdateTeamCommand, Team>();
+        CreateMap<TeamDto, Team>();
         
         // Read
         CreateMap<Team, TeamDto>();

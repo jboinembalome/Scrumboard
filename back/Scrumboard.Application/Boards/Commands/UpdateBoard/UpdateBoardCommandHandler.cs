@@ -14,7 +14,7 @@ internal sealed class UpdateBoardCommandHandler(
     : IRequestHandler<UpdateBoardCommand, UpdateBoardCommandResponse>
 {
     public async Task<UpdateBoardCommandResponse> Handle(
-        UpdateBoardCommand request, 
+        UpdateBoardCommand request,
         CancellationToken cancellationToken)
     {
         var updateBoardCommandResponse = new UpdateBoardCommandResponse();
@@ -48,10 +48,11 @@ internal sealed class UpdateBoardCommandHandler(
     /// <param name="board">Destination of map.</param>
     private static void MoveCards(UpdateBoardCommand updateBoardCommand, Board board)
     {
-        if (updateBoardCommand.ListBoards is null || !updateBoardCommand.ListBoards.Any())
+        if (!updateBoardCommand.ListBoards.Any())
         {
             return;
         }
+
         // TODO: Refoctor this...
         foreach (var listBoardDto in updateBoardCommand.ListBoards)
         {
@@ -61,26 +62,30 @@ internal sealed class UpdateBoardCommandHandler(
                 // Checks if the card in the source is present in the listBoard in the destination
                 var card = board.ListBoards.SelectMany(l => l.Cards).FirstOrDefault(c => c.Id == cardDto.Id);
 
-                if (card != null)
-                    // Does the destination listBoard id match the source listBoard id? If not, card has been moved
-                    if (card.ListBoard.Id != listBoardDto.Id)
-                    {
-                        // Now we need to move the card into the listBoard, so lets find the destination
-                        // listBoard that the card should be moved into
-                        var oldListBoard = card.ListBoard;
-                        var newListBoard = board.ListBoards.FirstOrDefault(l => l.Id == listBoardDto.Id);
+                if (card is null 
+                    || card.ListBoardId == listBoardDto.Id)
+                {
+                    // If card is not found or already in the correct list, continue to the next card
+                    continue;
+                }
+                
+                // Now we need to move the card into the listBoard, so lets find the destination
+                // listBoard that the card should be moved into
+                var oldListBoard = board.ListBoards.FirstOrDefault(l => l.Id == card.ListBoardId);
+                var newListBoard = board.ListBoards.FirstOrDefault(l => l.Id == listBoardDto.Id);
 
-                        //  Finally, we remove the card from the card collection of the old listBoard table and
-                        //  add it to the new listBoard.
-                        oldListBoard.Cards.Remove(card);
+                // Remove the card from the old listBoard, if it exists
+                oldListBoard?.Cards.Remove(card);
 
-                        if (newListBoard is not null)
-                        {
-                            card.ListBoard = newListBoard;
+                if (newListBoard is null)
+                {
+                    // If the new listBoard is not found, continue to the next card
+                    continue;
+                }
 
-                            newListBoard.Cards.Add(card);
-                        }
-                    }
+                // Add the card to the new listBoard and update its ListBoardId
+                card.ListBoardId = newListBoard.Id;
+                newListBoard.Cards.Add(card);
             }
         }
     }

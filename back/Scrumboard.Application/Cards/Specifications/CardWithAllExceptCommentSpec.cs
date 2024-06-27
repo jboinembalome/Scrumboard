@@ -9,14 +9,9 @@ internal sealed class CardWithAllExceptCommentSpec : Specification<Card>, ISingl
     {
         Query.Where(c => c.Id == cardId);
 
-        Query.Include(b => b.ListBoard)
-            .ThenInclude(l => l.Board);
-
         Query.Include(b => b.Labels);
 
         Query.Include(c => c.Assignees);
-            
-        Query.Include(b => b.Attachments);
 
         Query.Include(b => b.Checklists)
             .ThenInclude(l => l.ChecklistItems);

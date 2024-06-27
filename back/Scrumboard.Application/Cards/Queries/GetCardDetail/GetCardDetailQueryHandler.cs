@@ -30,13 +30,13 @@ internal sealed class GetCardDetailQueryHandler(
 
         if (cardDto.Assignees.Any())
         {
-            var users = await identityService.GetListAsync(card.Assignees.Select(a => a.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(card.Assignees, cancellationToken);
             mapper.Map(users, cardDto.Assignees);
         }
 
         if (cardDto.Comments.Any())
         {
-            var users = await identityService.GetListAsync(card.Comments.Select(c => c.Adherent.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(card.Comments.Select(c => c.CreatedBy), cancellationToken);
             var adherentDtos = cardDto.Comments.Select(c => c.Adherent).ToList();
 
             MapUsers(users, adherentDtos);
@@ -44,7 +44,7 @@ internal sealed class GetCardDetailQueryHandler(
 
         if (cardDto.Activities.Any())
         {
-            var users = await identityService.GetListAsync(card.Activities.Select(c => c.Adherent.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(card.Activities.Select(c => c.CreatedBy), cancellationToken);
             var adherentDtos = cardDto.Activities.Select(c => c.Adherent).ToList();
 
             MapUsers(users, adherentDtos);
@@ -57,7 +57,7 @@ internal sealed class GetCardDetailQueryHandler(
     {
         foreach (var adherent in adherents)
         {
-            var user = users.FirstOrDefault(u => u.Id == adherent.IdentityId);
+            var user = users.FirstOrDefault(u => u.Id == adherent.Id);
             if (user == null)
                 continue;
 

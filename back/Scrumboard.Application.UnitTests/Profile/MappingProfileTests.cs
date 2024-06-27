@@ -2,10 +2,8 @@
 using System.Runtime.CompilerServices;
 using AutoMapper;
 using FluentAssertions;
-using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Commands.CreateBoard;
 using Scrumboard.Application.Boards.Dtos;
-using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Domain.Boards;
 using Xunit;
 

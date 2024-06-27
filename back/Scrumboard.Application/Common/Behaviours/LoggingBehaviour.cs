@@ -15,11 +15,8 @@ internal sealed class LoggingBehaviour<TRequest>(
     public async Task Process(TRequest request, CancellationToken cancellationToken)
     {
         var requestName = typeof(TRequest).Name;
-        var userId = currentUserService.UserId ?? string.Empty;
-        var userName = string.Empty;
-
-        if (!string.IsNullOrEmpty(userId))
-            userName = await identityService.GetUserNameAsync(userId, cancellationToken);
+        var userId = currentUserService.UserId;
+        var userName = await identityService.GetUserNameAsync(userId, cancellationToken);;
 
         logger.LogInformation("Scrumboard API Request: {Name} {@UserId} {@UserName} {@Request}",
             requestName, userId, userName!, request);

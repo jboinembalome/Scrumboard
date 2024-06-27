@@ -10,10 +10,5 @@ internal sealed class TeamConfiguration : IEntityTypeConfiguration<Team>
     {
         builder.Property(t => t.Name)
             .IsRequired();
-        
-        builder
-            .HasMany(x => x.Boards)
-            .WithOne(y => y.Team)
-            .OnDelete(DeleteBehavior.NoAction);
     }
 }

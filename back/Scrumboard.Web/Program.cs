@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Identity;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Web;

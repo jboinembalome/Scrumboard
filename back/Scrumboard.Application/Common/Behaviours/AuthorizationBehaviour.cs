@@ -20,7 +20,8 @@ internal sealed class AuthorizationBehaviour<TRequest, TResponse>(
         if (authorizeAttributes.Any())
         {
             // Must be authenticated user
-            if (currentUserService.UserId == null)
+            var currentUser = await identityService.TryGetUserAsync(currentUserService.UserId);
+            if (currentUser is null)
                 throw new UnauthorizedAccessException();
 
             // Role-based authorization

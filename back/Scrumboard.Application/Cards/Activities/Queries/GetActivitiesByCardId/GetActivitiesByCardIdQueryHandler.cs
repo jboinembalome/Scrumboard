@@ -3,8 +3,7 @@ using MediatR;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Cards.Activities.Specifications;
 using Scrumboard.Application.Cards.Dtos;
-using Scrumboard.Domain.Adherents;
-using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
 
@@ -12,7 +11,7 @@ namespace Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
 
 internal sealed class GetActivitiesByCardIdQueryHandler(
     IMapper mapper,
-    IAsyncRepository<Activity, int> activityRepository,
+    IAsyncRepository<Card, int> cardRepository,
     IIdentityService identityService)
     : IRequestHandler<GetActivitiesByCardIdQuery, IEnumerable<ActivityDto>>
 {
@@ -21,12 +20,26 @@ internal sealed class GetActivitiesByCardIdQueryHandler(
         CancellationToken cancellationToken)
     {
         var specification = new AllActivitiesInCardSpec(request.CardId);
-        var activities = await activityRepository.ListAsync(specification, cancellationToken);
-        var activityDtos = mapper.Map<IEnumerable<ActivityDto>>(activities);
+        var card = await cardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
-        if (!activities.Any()) return activityDtos;
+        if (card is null)
+        {
+            return [];
+        }
         
-        var users = await identityService.GetListAsync(activities.Select(a => a.Adherent.IdentityId), cancellationToken);
+        var activities = card.Activities;
+        
+        var activityDtos = mapper.Map<IEnumerable<ActivityDto>>(activities).ToList();
+
+        if (activities.Count == 0)
+        {
+            return activityDtos;
+        }
+        
+        var users = await identityService
+            .GetListAsync(activities
+                .Select(a => a.CreatedBy), cancellationToken);
+        
         var adherentDtos = activityDtos.Select(c => c.Adherent).ToList();
 
         MapUsers(users, adherentDtos);
@@ -34,12 +47,12 @@ internal sealed class GetActivitiesByCardIdQueryHandler(
         return activityDtos;
     }
 
-    private void MapUsers(IEnumerable<IUser> users, IEnumerable<AdherentDto> adherents)
+    private void MapUsers(IReadOnlyList<IUser> users, IEnumerable<AdherentDto> adherents)
     {
         foreach (var adherent in adherents)
         {
-            var user = users.FirstOrDefault(u => u.Id == adherent.IdentityId);
-            if (user == null)
+            var user = users.FirstOrDefault(u => u.Id == adherent.Id);
+            if (user is null)
                 continue;
 
             mapper.Map(user, adherent);

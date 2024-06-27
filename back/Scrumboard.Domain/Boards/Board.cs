@@ -1,5 +1,4 @@
-﻿using Scrumboard.Domain.Adherents;
-using Scrumboard.Domain.Common;
+﻿using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
 
@@ -12,14 +11,13 @@ public class Board : IAuditableEntity, IEntity<int>
     public int Id { get; set; }
     public string Name { get; set; } = "Untitled Board";
     public string Uri { get; set; } = "untitled-board";
-    public bool IsPinned { get; set; } = false;
-    public Adherent Adherent { get; set; }
+    public bool IsPinned { get; set; }
     public Team Team { get; set; }
     public BoardSetting BoardSetting { get; set; }
     public ICollection<ListBoard> ListBoards { get; set; }
-    public string? CreatedBy { get; set; }
+    public Guid CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string? LastModifiedBy { get; set; }
+    public Guid? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
     
     public string GetInitials()
@@ -29,7 +27,7 @@ public class Board : IAuditableEntity, IEntity<int>
 
         var nameSplit = Name
             .Trim()
-            .Split(new[] { ",", " " }, StringSplitOptions.RemoveEmptyEntries);
+            .Split([",", " "], StringSplitOptions.RemoveEmptyEntries);
         
         var initials = string.Empty;
 

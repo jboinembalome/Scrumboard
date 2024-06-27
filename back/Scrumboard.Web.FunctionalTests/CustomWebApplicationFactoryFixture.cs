@@ -62,7 +62,7 @@ public class CustomWebApplicationFactoryFixture<TStartup>
         context?.Database.Migrate();
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
         
         // TODO: Update EnsureDatabase according to ScrumboardDbContextSeed.InitialiseDatabaseAsync
         //await ScrumboardDbContextSeed.SeedDefaultUserAsync(userManager, roleManager);

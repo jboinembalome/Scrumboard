@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Scrumboard.Application.Boards.Specifications;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
 using Xunit;
@@ -13,17 +12,9 @@ public class BoardsByUserIdSpecTests
     public void BoardsByUserIdSpecTest_ExistingUserId_ReturnsBoard()
     {
         // Arrange
-        var adherent1Model = new Adherent
-        {
-            Id = 1,
-            IdentityId = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
-        };
+        var adherent1Model = Guid.Parse("2cd08f87-33a6-4cbc-a0de-71d428986b85");
 
-        var adherent2Model = new Adherent
-        {
-            Id = 2,
-            IdentityId = "3cd08f87-33a6-4cbc-a0de-71d428986b85"
-        };
+        var adherent2Model =  Guid.Parse("3cd08f87-33a6-4cbc-a0de-71d428986b85");
 
         var board1 = new Board { Team = new Team { Adherents = [adherent1Model]} };
         var board2 = new Board { Team = new Team { Adherents = [adherent1Model]} };
@@ -31,7 +22,7 @@ public class BoardsByUserIdSpecTests
         
         var boards = new List<Board> { board1, board2, board3 };
 
-        var specification = new BoardsByUserIdSpec(adherent1Model.IdentityId);
+        var specification = new BoardsByUserIdSpec(adherent1Model);
 
         // Act
         var filteredBoard = specification.Evaluate(boards).ToList();

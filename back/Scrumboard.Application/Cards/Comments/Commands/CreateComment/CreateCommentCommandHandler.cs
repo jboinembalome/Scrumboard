@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Adherents.Specifications;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Cards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Common;
@@ -15,9 +13,7 @@ namespace Scrumboard.Application.Cards.Comments.Commands.CreateComment;
 
 internal sealed class CreateCommentCommandHandler(
     IMapper mapper,
-    IAsyncRepository<Comment, int> commentRepository,
     IAsyncRepository<Card, int> cardRepository,
-    IAsyncRepository<Adherent, int> adherentRepository,
     ICurrentUserService currentUserService,
     IIdentityService identityService)
     : IRequestHandler<CreateCommentCommand, CreateCommentCommandResponse>
@@ -34,19 +30,16 @@ internal sealed class CreateCommentCommandHandler(
         if (card is null)
             throw new NotFoundException(nameof(Card), request.CardId);
 
-        var specification = new AdherentByUserIdSpec(currentUserService.UserId);
-        var adherent = await adherentRepository.FirstAsync(specification, cancellationToken);
-
         var comment = mapper.Map<Comment>(request);
-        comment.Adherent = adherent;
-        comment.Card = card;
+        
+        card.Comments.Add(comment);
 
         var activity = new Activity(ActivityType.Added, ActivityField.Comment, string.Empty, request.Message);
-        activity.Adherent = adherent;
-        comment.Card.Activities.Add(activity);
-
-        comment = await commentRepository.AddAsync(comment, cancellationToken);
-
+        card.Activities.Add(activity);
+        
+        // TODO: Analyze this behavior
+        await cardRepository.UpdateAsync(card, cancellationToken);
+        
         var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
         var commentDto = mapper.Map<CommentDto>(comment);
 

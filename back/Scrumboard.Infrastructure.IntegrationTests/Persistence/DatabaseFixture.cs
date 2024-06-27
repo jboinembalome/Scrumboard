@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Moq;
 using Respawn;
 using Scrumboard.Infrastructure.Persistence;
@@ -22,9 +21,9 @@ public class DatabaseFixture : IDisposable
 
     public DatabaseFixture()
     {
-        var _currentUserService = "00000000-0000-0000-0000-000000000000";
+        var currentUserService = Guid.Parse("00000000-0000-0000-0000-000000000000");
         MockCurrentUserService = new Mock<ICurrentUserService>();
-        MockCurrentUserService.Setup(m => m.UserId).Returns(_currentUserService);
+        MockCurrentUserService.Setup(m => m.UserId).Returns(currentUserService);
 
         _mockDateTime = new Mock<IDateTime>();
         _mockDateTime.Setup(m => m.Now).Returns(DateTime.Now);

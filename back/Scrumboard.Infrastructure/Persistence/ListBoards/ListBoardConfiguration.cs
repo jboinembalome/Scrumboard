@@ -10,5 +10,10 @@ internal sealed class ListBoardConfiguration : IEntityTypeConfiguration<ListBoar
     {
         builder.Property(l => l.Name)
             .IsRequired();
+        
+        builder
+            .HasMany(x => x.Cards)
+            .WithOne()
+            .HasForeignKey(x => x.ListBoardId);
     }
 }

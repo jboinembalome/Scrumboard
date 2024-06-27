@@ -26,20 +26,21 @@ internal sealed class GetBoardDetailQueryHandler(
         if (board is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
-        var userIds = board.Team.Adherents.Select(a => a.IdentityId);
+        var userIds = board.Team.Adherents;
         var users = await identityService.GetListAsync(userIds, cancellationToken);
         
-        var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(board.Team.Adherents);    
+        var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(board.Team.Adherents).ToList();    
 
         var boardDto = mapper.Map<BoardDetailDto>(board);
         boardDto.Team.Adherents = mapper.Map(users, adherentDtos);
-        boardDto.Adherent = adherentDtos.First(a => a.Id == board.Adherent.Id);
+        boardDto.Creator = adherentDtos.First(a => a.Id == board.CreatedBy);
 
         var adherentDtosInBoard = boardDto.ListBoards
             .SelectMany(l => l.Cards
                 .SelectMany(c => c.Assignees
                     .Where(a => adherentDtos
-                        .Any(ad => ad.Id == a.Id))));
+                        .Any(ad => ad.Id == a.Id))))
+            .ToList();
         
         MapUsers(users, adherentDtosInBoard);
         
@@ -50,7 +51,7 @@ internal sealed class GetBoardDetailQueryHandler(
     {
         foreach (var adherent in adherents)
         {
-            var user = users.FirstOrDefault(u => u.Id == adherent.IdentityId);
+            var user = users.FirstOrDefault(u => u.Id == adherent.Id);
             if (user == null)
                 continue;
 

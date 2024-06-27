@@ -1,11 +1,9 @@
 ﻿using Ardalis.Specification;
 using Moq;
 using System.Collections.ObjectModel;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
-using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
@@ -19,17 +17,13 @@ public class RepositoryMocks
     // TODO: Move mock
     public static Mock<IAsyncRepository<Board, int>> GetBoardRepository()
     {
-        var adherent1Model = new Adherent 
-        { 
-            Id = 1, 
-            IdentityId = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
-        };
+        var adherent1Model = Guid.Parse("2cd08f87-33a6-4cbc-a0de-71d428986b85");
 
         var team1 = new Team 
         { 
             Id = 1, 
             Name = "Developer Team",
-            Adherents = new Collection<Adherent>{ adherent1Model }
+            Adherents = new Collection<Guid>{ adherent1Model }
         };
 
         #region Fake data for the frontend board
@@ -59,7 +53,6 @@ public class RepositoryMocks
             Id = 1,
             Name = "Scrumboard FrontEnd",
             Uri = "scrumboard-frontend",
-            Adherent = adherent1Model,
             Team = team1,
             ListBoards = new Collection<ListBoard>
             {
@@ -77,32 +70,18 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0], labelsForFrontEndScrumboard[1] },
-                            Assignees = new Collection<Adherent> { adherent1Model },
+                            Assignees = new Collection<Guid>
+                            {
+                                adherent1Model
+                            },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
                                 {
                                     Id = 1,
                                     NewValue = @"Jimmy Boinembalome moved Add Create login page on Design",
-                                    Adherent = adherent1Model
+                                    CreatedBy = adherent1Model
                                 }
-                            },
-                            Attachments = new Collection<Attachment>
-                            {
-                                new Attachment
-                                {
-                                    Id = 1,
-                                    Name = "Image.png",
-                                    Url = "urlOfimage",
-                                    AttachmentType = AttachmentType.Image
-                                },
-                                new Attachment
-                                {
-                                    Id = 2,
-                                    Name = "Image2.png",
-                                    Url = "urlOfimage2",
-                                    AttachmentType = AttachmentType.Image
-                                },
                             },
                             Checklists = new Collection<Checklist>
                             {
@@ -133,7 +112,7 @@ public class RepositoryMocks
                                 {
                                     Id = 1,
                                     Message = "The template for the login page is available on the cloud.",
-                                    Adherent = adherent1Model
+                                    CreatedBy = adherent1Model
                                 }
                             }
                         },
@@ -145,14 +124,13 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0] },
-                            Assignees = new Collection<Adherent> { },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
                                 {
                                     Id = 2,
                                     NewValue = @"Jimmy Boinembalome added Change background colors on Design",
-                                    Adherent = adherent1Model
+                                    CreatedBy = adherent1Model
                                 }
                             }
                         }
@@ -172,14 +150,13 @@ public class RepositoryMocks
                             Suscribed = true,
                             DueDate = new DateTime(2021, 5, 15),
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[1] },
-                            Assignees = new Collection<Adherent> { },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
                                 {
                                     Id = 3,
                                     NewValue = @"Jimmy Boinembalome added Fix splash screen bugs on Development",
-                                    Adherent = adherent1Model
+                                    CreatedBy = adherent1Model
                                 }
                             }
                         },
@@ -199,14 +176,17 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[2] },
-                            Assignees = new Collection<Adherent> { adherent1Model },
+                            Assignees = new Collection<Guid>
+                            {
+                                adherent1Model
+                            },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
                                 {
                                     Id = 4,
                                     NewValue = @"Jimmy Boinembalome added Add a notification when a user adds a comment on Upcoming Features",
-                                    Adherent = adherent1Model
+                                    CreatedBy = adherent1Model
                                 }
                             }
                         },
@@ -249,7 +229,6 @@ public class RepositoryMocks
             Id = 2,
             Name = "Scrumboard BackEnd",
             Uri = "scrumboard-backend",
-            Adherent = adherent1Model,
             Team = team1,
             ListBoards = new Collection<ListBoard>
             {
@@ -267,14 +246,17 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForBackEndScrumboard[1] },
-                            Assignees = new Collection<Adherent> { adherent1Model },
+                            Assignees = new Collection<Guid>
+                            {
+                                adherent1Model
+                            },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
                                 {
                                     Id = 5,
                                     NewValue = @"Jimmy Boinembalome added Write documentation for the naming convention on Backlog",
-                                    Adherent = adherent1Model
+                                    CreatedBy = adherent1Model
                                 }
                             }
                         },
@@ -286,14 +268,13 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForBackEndScrumboard[0] },
-                            Assignees = new Collection<Adherent> { },
                             Activities =  new Collection<Activity>
                             {
                                 new Activity
                                 {
                                     Id = 6,
                                     NewValue = @"Jimmy Boinembalome added Add Serilog for logs on Backlog",
-                                    Adherent = adherent1Model
+                                    CreatedBy = adherent1Model
                                 }
                             }
                         },
@@ -352,63 +333,4 @@ public class RepositoryMocks
 
         return mockBoardRepository;
     }
-
-    public static Mock<IAsyncRepository<Adherent, int>> GetAdherentRepository()
-    {
-        var adherent1Model = new Adherent
-        {
-            Id = 1,
-            IdentityId = "2cd08f87-33a6-4cbc-a0de-71d428986b85"
-        };
-        
-        var adherents = new List<Adherent> { adherent1Model };
-
-        var mockAdherentRepository = new Mock<IAsyncRepository<Adherent, int>>();
-        mockAdherentRepository.Setup(repo => repo.ListAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(adherents);
-
-        mockAdherentRepository.Setup(repo => repo.ListAsync(It.IsAny<ISpecification<Adherent>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-            (ISpecification<Adherent> specification, CancellationToken cancellationToken) =>
-            {
-                IReadOnlyList<Adherent> adherentList = specification.Evaluate(adherents).ToList().AsReadOnly();
-                return adherentList;
-            });
-
-        mockAdherentRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(
-            (int id, CancellationToken cancellationToken) =>
-            {
-                var adherent = adherents.FirstOrDefault(b => b.Id == id);
-                return adherent;
-            });
-
-        mockAdherentRepository.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<ISpecification<Adherent>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-            (ISpecification<Adherent?> specification, CancellationToken cancellationToken) =>
-            {
-                Adherent? adherent = specification.Evaluate(adherents).FirstOrDefault();
-                return adherent;
-            });
-
-        mockAdherentRepository.Setup(repo => repo.AddAsync(It.IsAny<Adherent>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-            (Adherent adherent, CancellationToken cancellationToken) =>
-            {
-                adherent.Id = adherents.Count + 1;
-                adherents.Add(adherent);
-                return adherent;
-            });
-
-        mockAdherentRepository.Setup(repo => repo.UpdateAsync(It.IsAny<Adherent>(), It.IsAny<CancellationToken>())).Callback(
-            (Adherent adherent, CancellationToken cancellationToken) =>
-            {
-                var adherentToBeUpdated = adherents.FirstOrDefault(b => b.Id == adherent.Id);
-                adherentToBeUpdated = adherent;
-            });
-
-        mockAdherentRepository.Setup(repo => repo.DeleteAsync(It.IsAny<Adherent>(), It.IsAny<CancellationToken>())).Callback(
-            (Adherent adherent, CancellationToken cancellationToken) =>
-            {
-                adherents.Remove(adherent);
-            });
-
-        return mockAdherentRepository;
-    }
-
 }

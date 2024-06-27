@@ -2,12 +2,9 @@
 using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Adherents.Dtos;
-using Scrumboard.Application.Adherents.Specifications;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Cards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Domain.Adherents;
-using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Common;
@@ -19,7 +16,6 @@ namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 internal sealed class UpdateCardCommandHandler(
     IMapper mapper,
     IAsyncRepository<Card, int> cardRepository,
-    IAsyncRepository<Adherent, int> adherentRepository,
     IIdentityService identityService,
     ICurrentUserService currentUserService)
     : IRequestHandler<UpdateCardCommand, UpdateCardCommandResponse>
@@ -35,15 +31,12 @@ internal sealed class UpdateCardCommandHandler(
 
         if (cardToUpdate == null)
             throw new NotFoundException(nameof(Card), request.Id);
-
-        var adherentSpecification = new AdherentByUserIdSpec(currentUserService.UserId);
-        var adherent = await adherentRepository.FirstOrDefaultAsync(adherentSpecification, cancellationToken);
+        
+        var adherent = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
         var newActivities = await GetNewActivities(cardToUpdate, request, cancellationToken);
 
         foreach (var activity in newActivities)
         {
-            activity.Adherent = adherent!;
-            
             if (cardToUpdate.Activities.Any())
                 cardToUpdate.Activities.Add(activity);
         }
@@ -59,13 +52,13 @@ internal sealed class UpdateCardCommandHandler(
 
         if (updateCardCommandResponse.Card.Assignees.Any())
         {
-            var users = await identityService.GetListAsync(cardToUpdate.Assignees.Select(a => a.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(cardToUpdate.Assignees, cancellationToken);
             mapper.Map(users, updateCardCommandResponse.Card.Assignees);
         }
 
         if (updateCardCommandResponse.Card.Comments.Any())
         {
-            var users = await identityService.GetListAsync(cardToUpdate.Comments.Select(c => c.Adherent.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(cardToUpdate.Comments.Select(c => c.LastModifiedBy ?? c.CreatedBy), cancellationToken);
             var adherentDtos = updateCardCommandResponse.Card.Comments.Select(c => c.Adherent).ToList();
 
             MapUsers(users, adherentDtos);
@@ -73,7 +66,7 @@ internal sealed class UpdateCardCommandHandler(
 
         if (updateCardCommandResponse.Card.Activities.Any())
         {
-            var users = await identityService.GetListAsync(cardToUpdate.Activities.Select(c => c.Adherent.IdentityId), cancellationToken);
+            var users = await identityService.GetListAsync(cardToUpdate.Activities.Select(c => c.LastModifiedBy ?? c.CreatedBy), cancellationToken);
             var adherentDtos = updateCardCommandResponse.Card.Activities.Select(c => c.Adherent).ToList();
 
             MapUsers(users, adherentDtos);
@@ -87,7 +80,7 @@ internal sealed class UpdateCardCommandHandler(
     {
         foreach (var adherent in adherents)
         {
-            var user = users.FirstOrDefault(u => u.Id == adherent.IdentityId);
+            var user = users.FirstOrDefault(u => u.Id == adherent.Id);
             if (user == null)
                 continue;
 
@@ -141,20 +134,20 @@ internal sealed class UpdateCardCommandHandler(
         if (oldCard.Assignees.Any() && !updatedCard.Assignees.Any())
         {
             var adherent = oldCard.Assignees.First();
-            var user = await identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
+            var user = await identityService.GetUserAsync(adherent, cancellationToken);
             activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
 
         if (oldCard.Assignees.Count < updatedCard.Assignees.Count())
         {
-            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Select(o => o.Id).Contains(l.Id));
+            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Contains(l.Id));
             activities.Add(new Activity(ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
         }
 
         if (oldCard.Assignees.Count > updatedCard.Assignees.Count())
         {
-            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l.Id));
-            var user = await identityService.GetUserAsync(adherent.IdentityId, cancellationToken);
+            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l));
+            var user = await identityService.GetUserAsync(adherent, cancellationToken);
             activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
         #endregion

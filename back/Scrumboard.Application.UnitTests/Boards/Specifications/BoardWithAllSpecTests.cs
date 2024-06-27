@@ -3,7 +3,6 @@ using FluentAssertions;
 using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
-using Scrumboard.Domain.Cards.Attachments;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.ListBoards;
 using Xunit;
@@ -36,9 +35,6 @@ public class BoardWithAllSpecTests
 
         firstBoard.ListBoards.First().Cards.First().Labels.Count.Should().Be(1);
         firstBoard.ListBoards.First().Cards.First().Labels.FirstOrDefault().Should().NotBeNull();
-
-        firstBoard.ListBoards.First().Cards.First().Attachments.Count.Should().Be(1);
-        firstBoard.ListBoards.First().Cards.First().Attachments.FirstOrDefault().Should().NotBeNull();
 
         firstBoard.ListBoards.First().Cards.First().Checklists.Count.Should().Be(1);
         firstBoard.ListBoards.First().Cards.First().Checklists.FirstOrDefault().Should().NotBeNull();
@@ -85,10 +81,6 @@ public class BoardWithAllSpecTests
                             Comments = new Collection<Comment>
                             {
                                 new Comment { Message = "Comment1"}
-                            },
-                            Attachments = new Collection<Attachment>
-                            {
-                                new Attachment { Name = "Attachment1"}
                             }
                         }
                     }

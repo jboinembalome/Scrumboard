@@ -10,5 +10,10 @@ internal sealed class ChecklistConfiguration : IEntityTypeConfiguration<Checklis
     {
         builder.Property(c => c.Name)
             .IsRequired();
+        
+        builder
+            .HasMany(x => x.ChecklistItems)
+            .WithOne()
+            .HasForeignKey(x => x.ChecklistId);
     }
 }

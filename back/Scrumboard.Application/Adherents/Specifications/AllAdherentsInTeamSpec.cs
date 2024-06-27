@@ -1,14 +1,14 @@
 ﻿using Ardalis.Specification;
-using Scrumboard.Domain.Adherents;
+using Scrumboard.Domain.Teams;
 
 namespace Scrumboard.Application.Adherents.Specifications;
 
-internal sealed class AllAdherentsInTeamSpec : Specification<Adherent>, ISingleResultSpecification<Adherent>
+internal sealed class AllAdherentsInTeamSpec : Specification<Team>, ISingleResultSpecification<Team>
 {
     public AllAdherentsInTeamSpec(int teamId)
     {
-        Query.Include(a => a.Teams);
+        Query.Include(x => x.Adherents);
 
-        Query.Where(a => a.Teams.Any(t => t.Id == teamId)); 
+        Query.Where(x => x.Id == teamId); 
     }
 }

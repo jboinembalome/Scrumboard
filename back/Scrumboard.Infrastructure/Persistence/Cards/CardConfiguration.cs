@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
@@ -13,19 +12,23 @@ internal sealed class CardConfiguration : IEntityTypeConfiguration<Card>
             .IsRequired();
         
         builder
+            .HasMany(x => x.Checklists)
+            .WithOne()
+            .HasForeignKey(x => x.CardId);
+        
+        builder
             .HasMany(x => x.Labels)
-            .WithMany();
+            .WithMany()
+            .UsingEntity("CardsLabels");
         
         builder
             .HasMany(x => x.Comments)
-            .WithOne();
-
+            .WithOne()
+            .HasForeignKey(x => x.CardId);
+        
         builder
-            .HasMany(x => x.Assignees)
-            .WithMany()
-            .UsingEntity<Dictionary<string, object>>(
-                "CardAssignees",
-                b => b.HasOne<Adherent>().WithMany().HasForeignKey("AdherentId"),
-                b => b.HasOne<Card>().WithMany().HasForeignKey("CardId"));
+            .HasMany(x => x.Activities)
+            .WithOne()
+            .HasForeignKey(x => x.CardId);
     }
 }

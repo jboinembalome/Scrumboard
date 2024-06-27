@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using MediatR;
 using Moq;
 using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;

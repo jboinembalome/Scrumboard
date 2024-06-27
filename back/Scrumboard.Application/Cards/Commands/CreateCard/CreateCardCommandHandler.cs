@@ -28,7 +28,7 @@ internal sealed class CreateCardCommandHandler(
             throw new NotFoundException(nameof(ListBoard), request.ListBoardId);
 
         var card = mapper.Map<Card>(request);
-        card.ListBoard = listBoard;
+        card.ListBoardId = listBoard.Id;
         
         card = await cardRepository.AddAsync(card, cancellationToken);
 

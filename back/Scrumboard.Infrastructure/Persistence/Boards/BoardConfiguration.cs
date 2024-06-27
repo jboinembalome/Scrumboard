@@ -13,5 +13,20 @@ internal sealed class BoardConfiguration : IEntityTypeConfiguration<Board>
 
         builder.Property(b => b.Uri)
             .IsRequired();
+        
+        // TODO: Use Owned entity instead?
+        builder
+            .HasOne(x => x.BoardSetting)
+            .WithOne()
+            .HasForeignKey<BoardSetting>(x => x.BoardId);
+
+        builder
+            .HasOne(x => x.Team)
+            .WithMany();
+        
+        builder
+            .HasMany(x => x.ListBoards)
+            .WithOne()
+            .HasForeignKey(x => x.BoardId);
     }
 }

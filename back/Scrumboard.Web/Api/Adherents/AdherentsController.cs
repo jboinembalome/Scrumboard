@@ -33,7 +33,7 @@ public class AdherentsController(ISender mediator) : ControllerBase
     /// <returns></returns>
     [HttpGet("avatar/{identityId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> GetAvatar(string identityId)
+    public async Task<ActionResult> GetAvatar(Guid identityId)
     {
         var avatar = await mediator.Send(new GetAvatarByIdentityIdQuery { IdentityId = identityId });
             

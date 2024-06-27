@@ -30,12 +30,9 @@ internal sealed class BoardWithAllSpec : Specification<Board>, ISingleResultSpec
             .ThenInclude(c => c.Comments);
 
         Query.Include(b => b.ListBoards)
-            .ThenInclude(l => l.Cards)
-            .ThenInclude(c => c.Attachments);
+            .ThenInclude(l => l.Cards);
 
         Query.Include(b => b.Team)
             .ThenInclude(t => t.Adherents);
-
-        Query.Include(b => b.Adherent);
     }
 }

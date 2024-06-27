@@ -15,21 +15,18 @@ internal sealed class CardProfile : Profile
         CreateMap<CreateCardCommand, Card>();
 
         CreateMap<UpdateCardCommand, Card>();
-
         CreateMap<CardDto, Card>()
             .EqualityComparison((src, dest) => src.Id == dest.Id);
         
         // Read
         CreateMap<Card, CardDto>()
             .EqualityComparison((src, dest) => src.Id == dest.Id)
-            .ForMember(dest => dest.ListBoardId, opt => opt.MapFrom(src => src.ListBoard.Id))
+            .ForMember(dest => dest.ListBoardId, opt => opt.MapFrom(src => src.ListBoardId))
             .ForMember(dest => dest.ChecklistItemsCount, opt => opt.MapFrom(src => src.Checklists.SelectMany(ch => ch.ChecklistItems).Count()))
             .ForMember(dest => dest.ChecklistItemsDoneCount, opt => opt.MapFrom(src => src.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)));
 
         CreateMap<Card, CardDetailDto>()
             .EqualityComparison((src, dest) => src.Id == dest.Id)
-            .ForMember(dest => dest.ListBoardId, opt => opt.MapFrom(src => src.ListBoard.Id))
-            .ForMember(dest => dest.ListBoardName, opt => opt.MapFrom(src => src.ListBoard.Name))
-            .ForMember(dest => dest.BoardId, opt => opt.MapFrom(src => src.ListBoard.Board.Id));
+            .ForMember(dest => dest.ListBoardId, opt => opt.MapFrom(src => src.ListBoardId));
     }
 }

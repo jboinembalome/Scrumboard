@@ -27,7 +27,7 @@ public static class InfrastructureServiceRegistration
 
             services
                 .AddIdentityApiEndpoints<ApplicationUser>()
-                .AddRoles<IdentityRole>()
+                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ScrumboardDbContext>();
         
             services.AddTransient<IDateTime, DateTimeService>();

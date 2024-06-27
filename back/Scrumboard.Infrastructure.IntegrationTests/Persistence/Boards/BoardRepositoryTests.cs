@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.Teams;
@@ -34,10 +33,6 @@ public class BoardRepositoryTests : IAsyncLifetime
             {
                 Colour = Colour.Gray
             },
-            Adherent = new Adherent
-            {
-                IdentityId = _database.MockCurrentUserService.Object.UserId
-            },
             Team = new Team
             {
                 Name = "Team 1"
@@ -65,10 +60,6 @@ public class BoardRepositoryTests : IAsyncLifetime
             BoardSetting = new BoardSetting
             {
                 Colour = Colour.Gray
-            },
-            Adherent = new Adherent
-            {
-                IdentityId = _database.MockCurrentUserService.Object.UserId
             },
             Team = new Team
             {
@@ -101,10 +92,6 @@ public class BoardRepositoryTests : IAsyncLifetime
             {
                 Colour = Colour.Gray
             },
-            Adherent = new Adherent
-            {
-                IdentityId = _database.MockCurrentUserService.Object.UserId
-            },
             Team = new Team
             {
                 Name = "Team 1"
@@ -136,10 +123,6 @@ public class BoardRepositoryTests : IAsyncLifetime
             BoardSetting = new BoardSetting
             {
                 Colour = Colour.Gray
-            },
-            Adherent = new Adherent
-            {
-                IdentityId = _database.MockCurrentUserService.Object.UserId
             },
             Team = new Team
             {

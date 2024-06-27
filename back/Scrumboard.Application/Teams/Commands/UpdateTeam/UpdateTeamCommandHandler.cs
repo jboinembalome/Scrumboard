@@ -36,7 +36,7 @@ internal sealed class UpdateTeamCommandHandler(
 
         await teamRepository.UpdateAsync(teamToUpdate, cancellationToken);
 
-        var users = await identityService.GetListAsync(teamToUpdate.Adherents.Select(a => a.IdentityId), cancellationToken);
+        var users = await identityService.GetListAsync(teamToUpdate.Adherents, cancellationToken);
         //var adherentDtos = _mapper.Map<IEnumerable<AdherentDto>>(teamToUpdate.Adherents);
 
 

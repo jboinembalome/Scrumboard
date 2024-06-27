@@ -1,15 +1,14 @@
 ﻿using Ardalis.Specification;
-using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Application.Cards.Activities.Specifications;
 
-internal sealed class AllActivitiesInCardSpec : Specification<Activity>, ISingleResultSpecification<Activity>
+internal sealed class AllActivitiesInCardSpec : Specification<Card>, ISingleResultSpecification<Card>
 {
     public AllActivitiesInCardSpec(int cardId)
     {
-        Query.Include(a => a.Card);
-        Query.Include(a => a.Adherent);
+        Query.Include(x => x.Activities);
 
-        Query.Where(l => l.Card.Id == cardId);
+        Query.Where(x => x.Id == cardId);
     }
 }

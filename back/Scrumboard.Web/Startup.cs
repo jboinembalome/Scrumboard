@@ -8,7 +8,6 @@ using Scrumboard.Web.Services;
 using System.Reflection;
 using Scrumboard.Application;
 using Scrumboard.Infrastructure.Abstractions.Common;
-using Scrumboard.Infrastructure.Identity;
 
 namespace Scrumboard.Web;
 

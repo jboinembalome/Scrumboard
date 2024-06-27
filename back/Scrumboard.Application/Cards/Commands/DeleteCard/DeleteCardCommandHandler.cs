@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
+using Scrumboard.Application.Cards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
@@ -14,11 +14,18 @@ internal sealed class DeleteCardCommandHandler(
         DeleteCardCommand request, 
         CancellationToken cancellationToken)
     {
-        var cardToDelete = await cardRepository.GetByIdAsync(request.CardId, cancellationToken);
+        var specification = new CardWithAllSpec(request.CardId);
+        var cardToDelete = await cardRepository.FirstOrDefaultAsync(specification, cancellationToken);
 
         if (cardToDelete == null)
             throw new NotFoundException(nameof(Card), request.CardId);
 
+        cardToDelete.Activities = [];
+        cardToDelete.Checklists = [];
+        cardToDelete.Assignees = [];
+        cardToDelete.Labels = [];
+        cardToDelete.Comments = [];
+        
         await cardRepository.DeleteAsync(cardToDelete, cancellationToken);
     }
 }

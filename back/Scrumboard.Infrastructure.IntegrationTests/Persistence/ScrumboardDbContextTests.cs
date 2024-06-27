@@ -1,6 +1,5 @@
 ﻿
 using FluentAssertions;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.Teams;
@@ -34,10 +33,6 @@ public class ScrumboardDbContextTests : IAsyncLifetime
             BoardSetting = new BoardSetting
             {
                 Colour = Colour.Gray
-            },
-            Adherent = new Adherent
-            {
-                IdentityId = _currentUserService
             },
             Team = new Team
             {

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using MediatR;
 using Moq;
 using Scrumboard.Application.Boards.Commands.DeleteBoard;
 using Scrumboard.Application.Common.Exceptions;

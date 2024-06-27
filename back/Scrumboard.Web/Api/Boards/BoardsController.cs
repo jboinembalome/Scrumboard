@@ -56,7 +56,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CreateBoardCommandResponse>> Create()
     {
-        var response = await mediator.Send(new CreateBoardCommand { UserId = currentUserService.UserId });
+        var response = await mediator.Send(new CreateBoardCommand { CreatorId = currentUserService.UserId });
 
         return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, response);
     }

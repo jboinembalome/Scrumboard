@@ -3,5 +3,5 @@ namespace Scrumboard.Infrastructure.Abstractions.Common;
 
 public interface ICurrentUserService
 {
-    Guid UserId { get; }
+    string UserId { get; }
 }

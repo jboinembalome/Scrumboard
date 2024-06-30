@@ -8,6 +8,7 @@ using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards.Commands;
@@ -15,7 +16,7 @@ namespace Scrumboard.Application.UnitTests.Boards.Commands;
 public class UpdateBoardCommandHandlerTests
 {
     private readonly IMapper _mapper;
-    private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
+    private readonly Mock<IBoardsRepository> _mockBoardRepository;
 
     public UpdateBoardCommandHandlerTests()
     {
@@ -38,7 +39,7 @@ public class UpdateBoardCommandHandlerTests
 
         // Act
         var result = await handler.Handle(updateBoardCommand, CancellationToken.None);
-        var updatedBoard = await _mockBoardRepository.Object.GetByIdAsync(1, CancellationToken.None);
+        var updatedBoard = await _mockBoardRepository.Object.TryGetByIdAsync(1, CancellationToken.None);
 
         // Assert
         updatedBoard!.Name.Should().Be("My new name");

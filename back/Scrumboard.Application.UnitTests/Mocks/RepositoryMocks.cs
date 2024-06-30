@@ -1,29 +1,28 @@
-﻿using Ardalis.Specification;
-using Moq;
+﻿using Moq;
 using System.Collections.ObjectModel;
+using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
-using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Application.UnitTests.Mocks;
 
 public class RepositoryMocks
 {
     // TODO: Move mock
-    public static Mock<IAsyncRepository<Board, int>> GetBoardRepository()
+    public static Mock<IBoardsRepository> GetBoardRepository()
     {
-        var adherent1Model = Guid.Parse("2cd08f87-33a6-4cbc-a0de-71d428986b85");
+        var adherent1Model = "2cd08f87-33a6-4cbc-a0de-71d428986b85";
 
         var team1 = new Team 
         { 
             Id = 1, 
             Name = "Developer Team",
-            Adherents = new Collection<Guid>{ adherent1Model }
+            Adherents = new Collection<Adherent>{ new() { Id = adherent1Model }  }
         };
 
         #region Fake data for the frontend board
@@ -70,18 +69,9 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0], labelsForFrontEndScrumboard[1] },
-                            Assignees = new Collection<Guid>
+                            Assignees = new Collection<Adherent>
                             {
-                                adherent1Model
-                            },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Id = 1,
-                                    NewValue = @"Jimmy Boinembalome moved Add Create login page on Design",
-                                    CreatedBy = adherent1Model
-                                }
+                                new() { Id = adherent1Model }
                             },
                             Checklists = new Collection<Checklist>
                             {
@@ -105,15 +95,6 @@ public class RepositoryMocks
                                         }
                                     }
                                 }
-                            },
-                            Comments = new Collection<Comment>
-                            {
-                                new Comment
-                                {
-                                    Id = 1,
-                                    Message = "The template for the login page is available on the cloud.",
-                                    CreatedBy = adherent1Model
-                                }
                             }
                         },
                         new Card
@@ -123,16 +104,7 @@ public class RepositoryMocks
                             Description = null!,
                             Suscribed = false,
                             DueDate = null,
-                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[0] },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Id = 2,
-                                    NewValue = @"Jimmy Boinembalome added Change background colors on Design",
-                                    CreatedBy = adherent1Model
-                                }
-                            }
+                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[0] }
                         }
                     }
                 },
@@ -149,16 +121,7 @@ public class RepositoryMocks
                             Description = "",
                             Suscribed = true,
                             DueDate = new DateTime(2021, 5, 15),
-                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[1] },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Id = 3,
-                                    NewValue = @"Jimmy Boinembalome added Fix splash screen bugs on Development",
-                                    CreatedBy = adherent1Model
-                                }
-                            }
+                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[1] }
                         },
                     }
                 },
@@ -176,18 +139,9 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[2] },
-                            Assignees = new Collection<Guid>
+                            Assignees = new Collection<Adherent>
                             {
-                                adherent1Model
-                            },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Id = 4,
-                                    NewValue = @"Jimmy Boinembalome added Add a notification when a user adds a comment on Upcoming Features",
-                                    CreatedBy = adherent1Model
-                                }
+                                new() { Id = adherent1Model }
                             }
                         },
                     }
@@ -246,18 +200,9 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForBackEndScrumboard[1] },
-                            Assignees = new Collection<Guid>
+                            Assignees = new Collection<Adherent>
                             {
-                                adherent1Model
-                            },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Id = 5,
-                                    NewValue = @"Jimmy Boinembalome added Write documentation for the naming convention on Backlog",
-                                    CreatedBy = adherent1Model
-                                }
+                                new() { Id = adherent1Model }
                             }
                         },
                         new Card
@@ -267,16 +212,7 @@ public class RepositoryMocks
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            Labels = new Collection<Label> { labelsForBackEndScrumboard[0] },
-                            Activities =  new Collection<Activity>
-                            {
-                                new Activity
-                                {
-                                    Id = 6,
-                                    NewValue = @"Jimmy Boinembalome added Add Serilog for logs on Backlog",
-                                    CreatedBy = adherent1Model
-                                }
-                            }
+                            Labels = new Collection<Label> { labelsForBackEndScrumboard[0] }
                         },
                     }
                 }
@@ -286,27 +222,12 @@ public class RepositoryMocks
 
         var boards = new List<Board> { boardFrontEndScrumboard, boardScrumboardBackEnd };
 
-        var mockBoardRepository = new Mock<IAsyncRepository<Board, int>>();
-        mockBoardRepository.Setup(repo => repo.ListAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync(boards);
+        var mockBoardRepository = new Mock<IBoardsRepository>();
 
-        mockBoardRepository.Setup(repo => repo.ListAsync(It.IsAny<ISpecification<Board>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-            (ISpecification<Board> specification, CancellationToken cancellationToken) =>
-            {
-                IReadOnlyList<Board> boardList = specification.Evaluate(boards).ToList().AsReadOnly();
-                return boardList;
-            });
-
-        mockBoardRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(
+        mockBoardRepository.Setup(repo => repo.TryGetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(
             (int id, CancellationToken cancellationToken) =>
             {
                 var board = boards.FirstOrDefault(b => b.Id == id);
-                return board;
-            });
-
-        mockBoardRepository.Setup(repo => repo.FirstOrDefaultAsync(It.IsAny<ISpecification<Board>>(), It.IsAny<CancellationToken>())).ReturnsAsync(
-            (ISpecification<Board?> specification, CancellationToken cancellationToken) =>
-            {
-                Board? board = specification.Evaluate(boards).FirstOrDefault();
                 return board;
             });
 
@@ -321,14 +242,17 @@ public class RepositoryMocks
         mockBoardRepository.Setup(repo => repo.UpdateAsync(It.IsAny<Board>(), It.IsAny<CancellationToken>())).Callback(
             (Board board, CancellationToken cancellationToken) =>
             {
-                var boardToBeUpdated = boards.FirstOrDefault(b => b.Id == board.Id);
+                var boardToBeUpdated = boards.First(b => b.Id == board.Id);
                 boardToBeUpdated = board;
+                
+                return boardToBeUpdated; 
             });
 
-        mockBoardRepository.Setup(repo => repo.DeleteAsync(It.IsAny<Board>(), It.IsAny<CancellationToken>())).Callback(
-            (Board board, CancellationToken cancellationToken) =>
+        mockBoardRepository.Setup(repo => repo.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Callback(
+            (int id, CancellationToken cancellationToken) =>
             {
-                boards.Remove(board);
+                var boardToBeRemoved = boards.First(b => b.Id == id);
+                boards.Remove(boardToBeRemoved);
             });
 
         return mockBoardRepository;

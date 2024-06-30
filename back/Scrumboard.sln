@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Web", "Scrumboar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Infrastructure.Abstractions", "Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj", "{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Application.Abstractions", "Scrumboard.Application.Abstractions\Scrumboard.Application.Abstractions.csproj", "{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
 		{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6} = {B8D6C760-D88D-443C-8778-540472E6C025}
 		{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9} = {FC400F14-77F3-4B40-B21D-FBBBC53B1474}
+		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC39ECCE-AB63-4FAF-AC84-4AC6531F35A4}

@@ -21,7 +21,7 @@ public class DatabaseFixture : IDisposable
 
     public DatabaseFixture()
     {
-        var currentUserService = Guid.Parse("00000000-0000-0000-0000-000000000000");
+        var currentUserService = "00000000-0000-0000-0000-000000000000";
         MockCurrentUserService = new Mock<ICurrentUserService>();
         MockCurrentUserService.Setup(m => m.UserId).Returns(currentUserService);
 
@@ -29,12 +29,12 @@ public class DatabaseFixture : IDisposable
         _mockDateTime.Setup(m => m.Now).Returns(DateTime.Now);
     }  
 
-    public IAsyncRepository<T, TId> GetRepository<T, TId>() where T : class, IEntity<TId>
-    {      
-        SetDbContext();
-
-        return new BaseRepository<T,TId>(DbContext!);
-    }
+    // public IAsyncRepository<T, TId> GetRepository<T, TId>() where T : class, IEntity<TId>
+    // {      
+    //     SetDbContext();
+    //
+    //     return new BaseRepository<T,TId>(DbContext!);
+    // }
     
     public async Task ResetState()
     {

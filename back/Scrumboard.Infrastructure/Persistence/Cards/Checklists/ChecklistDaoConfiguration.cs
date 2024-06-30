@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Domain.Cards.Checklists;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Checklists;
 
-internal sealed class ChecklistConfiguration : IEntityTypeConfiguration<Checklist>
+internal sealed class ChecklistDaoConfiguration : IEntityTypeConfiguration<ChecklistDao>
 {
-    public void Configure(EntityTypeBuilder<Checklist> builder)
+    public void Configure(EntityTypeBuilder<ChecklistDao> builder)
     {
+        builder.ToTable("Checklists");
+        
         builder.Property(c => c.Name)
+            .HasMaxLength(255)
             .IsRequired();
         
         builder

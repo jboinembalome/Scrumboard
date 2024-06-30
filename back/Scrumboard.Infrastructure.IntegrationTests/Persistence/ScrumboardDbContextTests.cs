@@ -3,6 +3,8 @@ using FluentAssertions;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.Teams;
+using Scrumboard.Infrastructure.Persistence.Boards;
+using Scrumboard.Infrastructure.Persistence.Teams;
 using Xunit;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
@@ -27,14 +29,14 @@ public class ScrumboardDbContextTests : IAsyncLifetime
         // Arrange
         var _currentUserService = "00000000-0000-0000-0000-000000000000"; // Value of the current user in DatabaseFixture
         var testBoardName = "testBoard";
-        var board = new Board
+        var board = new BoardDao
         {
             Name = testBoardName,
-            BoardSetting = new BoardSetting
+            BoardSetting = new BoardSettingDao
             {
                 Colour = Colour.Gray
             },
-            Team = new Team
+            Team = new TeamDao
             {
                 Name = "Team 1"
             }

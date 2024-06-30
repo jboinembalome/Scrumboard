@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Domain.ListBoards;
 
-namespace Scrumboard.Infrastructure.Persistence.ListBoards;
+namespace Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
 
-internal sealed class ListBoardConfiguration : IEntityTypeConfiguration<ListBoard>
+internal sealed class ListBoardDaoConfiguration : IEntityTypeConfiguration<ListBoardDao>
 {
-    public void Configure(EntityTypeBuilder<ListBoard> builder)
+    public void Configure(EntityTypeBuilder<ListBoardDao> builder)
     {
+        builder.ToTable("ListBoards");
+        
         builder.Property(l => l.Name)
+            .HasMaxLength(255)
             .IsRequired();
         
         builder

@@ -4,21 +4,24 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards;
 
-internal sealed class BoardConfiguration : IEntityTypeConfiguration<Board>
+internal sealed class BoardConfiguration : IEntityTypeConfiguration<BoardDao>
 {
-    public void Configure(EntityTypeBuilder<Board> builder)
+    public void Configure(EntityTypeBuilder<BoardDao> builder)
     {
+        builder.ToTable("Boards");
+        
         builder.Property(b => b.Name)
+            .HasMaxLength(255)
             .IsRequired();
 
         builder.Property(b => b.Uri)
+            .HasMaxLength(255)
             .IsRequired();
         
-        // TODO: Use Owned entity instead?
         builder
             .HasOne(x => x.BoardSetting)
             .WithOne()
-            .HasForeignKey<BoardSetting>(x => x.BoardId);
+            .HasForeignKey<BoardSettingDao>(x => x.BoardId);
 
         builder
             .HasOne(x => x.Team)

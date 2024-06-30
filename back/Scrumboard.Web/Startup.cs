@@ -6,8 +6,10 @@ using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Web.Filters;
 using Scrumboard.Web.Services;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scrumboard.Application;
 using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Web.Api;
 
 namespace Scrumboard.Web;
 
@@ -37,7 +39,10 @@ public class Startup
             .AddDbContextCheck<ScrumboardDbContext>();
 
         services.AddControllersWithViews(options =>
-            options.Filters.Add<ApiExceptionFilterAttribute>());
+        {
+            options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+            options.Filters.Add<ApiExceptionFilterAttribute>();
+        });
         
         services.AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters();

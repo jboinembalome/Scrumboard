@@ -1,9 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <ItemGroup>
-      <PackageReference Include="Ardalis.Specification" />
-    </ItemGroup>
-
+  
     <ItemGroup>
       <ProjectReference Include="..\Scrumboard.Domain\Scrumboard.Domain.csproj" />
     </ItemGroup>

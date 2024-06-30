@@ -17,7 +17,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { CreateCommentCommand } from '../model/createCommentCommand';
+import { CommentCreationModel } from '../model/commentCreationModel';
 import { CreateCommentCommandResponse } from '../model/createCommentCommandResponse';
 import { ProblemDetails } from '../model/problemDetails';
 import { UpdateCommentCommand } from '../model/updateCommentCommand';
@@ -59,19 +59,19 @@ export class CommentsService {
 
 
     /**
-     * Delete a comment on a card.
+     * Get card comments.
      * 
-     * @param id Id of the comment.
+     * @param cardId Id of the card.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiCommentsIdDelete(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiCommentsIdDelete(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiCommentsIdDelete(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiCommentsIdDelete(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiCardsCardIdCommentsGet(cardId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiCardsCardIdCommentsGet(cardId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiCardsCardIdCommentsGet(cardId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiCardsCardIdCommentsGet(cardId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiCommentsIdDelete.');
+        if (cardId === null || cardId === undefined) {
+            throw new Error('Required parameter cardId was null or undefined when calling apiCardsCardIdCommentsGet.');
         }
 
         let headers = this.defaultHeaders;
@@ -93,7 +93,57 @@ export class CommentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/api/Comments/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('get',`${this.basePath}/api/cards/${encodeURIComponent(String(cardId))}/comments`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Delete a comment on a card.
+     * 
+     * @param cardId Id of the card.
+     * @param id Id of the comment.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiCardsCardIdCommentsIdDelete(cardId: number, id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiCardsCardIdCommentsIdDelete(cardId: number, id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiCardsCardIdCommentsIdDelete(cardId: number, id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiCardsCardIdCommentsIdDelete(cardId: number, id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (cardId === null || cardId === undefined) {
+            throw new Error('Required parameter cardId was null or undefined when calling apiCardsCardIdCommentsIdDelete.');
+        }
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiCardsCardIdCommentsIdDelete.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('delete',`${this.basePath}/api/cards/${encodeURIComponent(String(cardId))}/comments/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -106,18 +156,23 @@ export class CommentsService {
     /**
      * Update a comment on a card.
      * 
+     * @param cardId Id of the card.
      * @param id Id of the comment.
      * @param body Comment to be updated.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiCommentsIdPut(id: number, body?: UpdateCommentCommand, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiCardsCardIdCommentsIdPut(cardId: number, id: number, body?: UpdateCommentCommand, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiCardsCardIdCommentsIdPut(cardId: number, id: number, body?: UpdateCommentCommand, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiCardsCardIdCommentsIdPut(cardId: number, id: number, body?: UpdateCommentCommand, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiCardsCardIdCommentsIdPut(cardId: number, id: number, body?: UpdateCommentCommand, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (cardId === null || cardId === undefined) {
+            throw new Error('Required parameter cardId was null or undefined when calling apiCardsCardIdCommentsIdPut.');
+        }
 
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiCommentsIdPut.');
+            throw new Error('Required parameter id was null or undefined when calling apiCardsCardIdCommentsIdPut.');
         }
 
 
@@ -148,7 +203,7 @@ export class CommentsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/api/Comments/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('put',`${this.basePath}/api/cards/${encodeURIComponent(String(cardId))}/comments/${encodeURIComponent(String(id))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -162,14 +217,19 @@ export class CommentsService {
     /**
      * Create a comment on a card.
      * 
-     * @param body 
+     * @param cardId Id of the card.
+     * @param body Comment to be added.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiCommentsPost(body?: CreateCommentCommand, observe?: 'body', reportProgress?: boolean): Observable<CreateCommentCommandResponse>;
-    public apiCommentsPost(body?: CreateCommentCommand, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CreateCommentCommandResponse>>;
-    public apiCommentsPost(body?: CreateCommentCommand, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CreateCommentCommandResponse>>;
-    public apiCommentsPost(body?: CreateCommentCommand, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiCardsCardIdCommentsPost(cardId: number, body?: CommentCreationModel, observe?: 'body', reportProgress?: boolean): Observable<CreateCommentCommandResponse>;
+    public apiCardsCardIdCommentsPost(cardId: number, body?: CommentCreationModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CreateCommentCommandResponse>>;
+    public apiCardsCardIdCommentsPost(cardId: number, body?: CommentCreationModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CreateCommentCommandResponse>>;
+    public apiCardsCardIdCommentsPost(cardId: number, body?: CommentCreationModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (cardId === null || cardId === undefined) {
+            throw new Error('Required parameter cardId was null or undefined when calling apiCardsCardIdCommentsPost.');
+        }
 
 
         let headers = this.defaultHeaders;
@@ -199,7 +259,7 @@ export class CommentsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<CreateCommentCommandResponse>('post',`${this.basePath}/api/Comments`,
+        return this.httpClient.request<CreateCommentCommandResponse>('post',`${this.basePath}/api/cards/${encodeURIComponent(String(cardId))}/comments`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

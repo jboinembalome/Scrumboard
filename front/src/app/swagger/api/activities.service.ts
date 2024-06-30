@@ -23,7 +23,7 @@ import { Configuration }                                     from '../configurat
 
 
 @Injectable()
-export class LabelsService {
+export class ActivitiesService {
 
     protected basePath = '/';
     public defaultHeaders = new HttpHeaders();
@@ -55,19 +55,19 @@ export class LabelsService {
 
 
     /**
-     * Delete a label on a board.
-     * Delete the label from all cards in the board.
-     * @param id Id of the label.
+     * Get card activities.
+     * 
+     * @param cardId Id of the card.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiLabelsIdDelete(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiLabelsIdDelete(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiLabelsIdDelete(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiLabelsIdDelete(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiCardsCardIdActivitiesGet(cardId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiCardsCardIdActivitiesGet(cardId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiCardsCardIdActivitiesGet(cardId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiCardsCardIdActivitiesGet(cardId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiLabelsIdDelete.');
+        if (cardId === null || cardId === undefined) {
+            throw new Error('Required parameter cardId was null or undefined when calling apiCardsCardIdActivitiesGet.');
         }
 
         let headers = this.defaultHeaders;
@@ -89,7 +89,7 @@ export class LabelsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/api/labels/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('get',`${this.basePath}/api/cards/${encodeURIComponent(String(cardId))}/activities`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

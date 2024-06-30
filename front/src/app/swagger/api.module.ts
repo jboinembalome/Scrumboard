@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
+import { ActivitiesService } from './api/activities.service';
 import { AdherentsService } from './api/adherents.service';
 import { BoardsService } from './api/boards.service';
 import { CardsService } from './api/cards.service';
@@ -17,6 +18,7 @@ import { WeatherForecastService } from './api/weatherForecast.service';
   declarations: [],
   exports:      [],
   providers: [
+    ActivitiesService,
     AdherentsService,
     BoardsService,
     CardsService,

@@ -24,5 +24,4 @@ export interface CardDto {
     attachmentsCount?: number;
     checklistItemsCount?: number;
     checklistItemsDoneCount?: number;
-    commentsCount?: number;
 }

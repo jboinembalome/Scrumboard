@@ -90,7 +90,7 @@ export class AdherentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('get',`${this.basePath}/api/Adherents/avatar/${encodeURIComponent(String(identityId))}`,
+        return this.httpClient.request<any>('get',`${this.basePath}/api/adherents/avatar/${encodeURIComponent(String(identityId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -131,7 +131,7 @@ export class AdherentsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<AdherentDto>>('get',`${this.basePath}/api/Adherents`,
+        return this.httpClient.request<Array<AdherentDto>>('get',`${this.basePath}/api/adherents`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

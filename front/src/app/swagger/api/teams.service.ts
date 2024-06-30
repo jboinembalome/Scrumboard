@@ -93,7 +93,7 @@ export class TeamsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<AdherentDto>>('get',`${this.basePath}/api/Teams/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<Array<AdherentDto>>('get',`${this.basePath}/api/teams/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -148,7 +148,7 @@ export class TeamsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/api/Teams/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('put',`${this.basePath}/api/teams/${encodeURIComponent(String(id))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,

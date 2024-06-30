@@ -92,7 +92,7 @@ export class BoardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<BoardDto>>('get',`${this.basePath}/api/Boards`,
+        return this.httpClient.request<Array<BoardDto>>('get',`${this.basePath}/api/boards`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -137,7 +137,7 @@ export class BoardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<any>('delete',`${this.basePath}/api/Boards/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('delete',`${this.basePath}/api/boards/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -183,7 +183,7 @@ export class BoardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<BoardDetailDto>('get',`${this.basePath}/api/Boards/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<BoardDetailDto>('get',`${this.basePath}/api/boards/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -229,7 +229,7 @@ export class BoardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<LabelDto>>('get',`${this.basePath}/api/Boards/${encodeURIComponent(String(id))}/labels`,
+        return this.httpClient.request<Array<LabelDto>>('get',`${this.basePath}/api/boards/${encodeURIComponent(String(id))}/labels`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -284,7 +284,7 @@ export class BoardsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/api/Boards/${encodeURIComponent(String(id))}/pinned`,
+        return this.httpClient.request<any>('put',`${this.basePath}/api/boards/${encodeURIComponent(String(id))}/pinned`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -340,7 +340,7 @@ export class BoardsService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.request<any>('put',`${this.basePath}/api/Boards/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<any>('put',`${this.basePath}/api/boards/${encodeURIComponent(String(id))}`,
             {
                 body: body,
                 withCredentials: this.configuration.withCredentials,
@@ -382,7 +382,7 @@ export class BoardsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<CreateBoardCommandResponse>('post',`${this.basePath}/api/Boards`,
+        return this.httpClient.request<CreateBoardCommandResponse>('post',`${this.basePath}/api/boards`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

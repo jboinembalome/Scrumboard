@@ -10,6 +10,6 @@
  * Do not edit the class manually.
  */
 
-export interface CreateBoardCommand { 
-    userId?: string;
+export interface CommentCreationModel { 
+    message?: string;
 }

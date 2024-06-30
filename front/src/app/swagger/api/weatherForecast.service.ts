@@ -86,7 +86,7 @@ export class WeatherForecastService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<WeatherForecast>>('get',`${this.basePath}/api/WeatherForecast`,
+        return this.httpClient.request<Array<WeatherForecast>>('get',`${this.basePath}/api/weather-forecast`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

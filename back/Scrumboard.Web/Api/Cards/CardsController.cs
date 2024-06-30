@@ -22,9 +22,11 @@ public class CardsController(ISender mediator) : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<CreateCardCommandResponse>> Create(CreateCardCommand command)
+    public async Task<ActionResult<CreateCardCommandResponse>> Create(
+        CreateCardCommand command,
+        CancellationToken cancellationToken)
     {
-        var response = await mediator.Send(command);
+        var response = await mediator.Send(command, cancellationToken);
 
         return CreatedAtAction(nameof(Get), new { id = response.Card.Id }, response);
     }
@@ -33,12 +35,17 @@ public class CardsController(ISender mediator) : ControllerBase
     /// Get a card by id.
     /// </summary>
     /// <param name="id">Id of the card.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<CardDetailDto>> Get(int id)
+    public async Task<ActionResult<CardDetailDto>> Get(
+        int id,
+        CancellationToken cancellationToken)
     {
-        var dto = await mediator.Send(new GetCardDetailQuery { CardId = id });
+        var dto = await mediator.Send(
+            new GetCardDetailQuery { CardId = id },
+            cancellationToken);
 
         return Ok(dto);
     }
@@ -48,16 +55,20 @@ public class CardsController(ISender mediator) : ControllerBase
     /// </summary>
     /// <param name="id">Id of the card.</param>
     /// <param name="command">Card to be updated.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> Update(int id, UpdateCardCommand command)
+    public async Task<ActionResult> Update(
+        int id, 
+        UpdateCardCommand command,
+        CancellationToken cancellationToken)
     {
         if (id != command.Id)
             return BadRequest();
 
-        var dto = await mediator.Send(command);
+        var dto = await mediator.Send(command, cancellationToken);
 
         return Ok(dto);
     }
@@ -66,27 +77,18 @@ public class CardsController(ISender mediator) : ControllerBase
     /// Delete a card.
     /// </summary>
     /// <param name="id">Id of the card.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<ActionResult> Delete(
+        int id,
+        CancellationToken cancellationToken)
     {
-        await mediator.Send(new DeleteCardCommand { CardId = id });
+        await mediator.Send(
+            new DeleteCardCommand { CardId = id },
+            cancellationToken);
 
         return NoContent();
-    }
-
-    /// <summary>
-    /// Get activities by card id.
-    /// </summary>
-    /// <param name="id">Id of the card.</param>
-    /// <returns></returns>
-    [HttpGet("{id}/activities")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ActivityDto>>> GetActivitiesByCardId(int id)
-    {
-        var dto = await mediator.Send(new GetActivitiesByCardIdQuery { CardId = id });
-
-        return Ok(dto);
     }
 }

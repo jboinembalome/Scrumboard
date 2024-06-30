@@ -19,9 +19,9 @@ public class AdherentsController(ISender mediator) : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<AdherentDto>>> Get()
+    public async Task<ActionResult<IEnumerable<AdherentDto>>> Get(CancellationToken cancellationToken)
     {
-        var dtos = await mediator.Send(new GetAdherentsQuery());
+        var dtos = await mediator.Send(new GetAdherentsQuery(), cancellationToken);
 
         return Ok(dtos);
     }
@@ -30,12 +30,15 @@ public class AdherentsController(ISender mediator) : ControllerBase
     /// Get avatar by identity Id of the adherent.
     /// </summary>
     /// <param name="identityId">Identity Id of the adherent.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpGet("avatar/{identityId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> GetAvatar(Guid identityId)
+    public async Task<ActionResult> GetAvatar(string identityId, CancellationToken cancellationToken)
     {
-        var avatar = await mediator.Send(new GetAvatarByIdentityIdQuery { IdentityId = identityId });
+        var avatar = await mediator.Send(
+            new GetAvatarByIdentityIdQuery { IdentityId = identityId }, 
+            cancellationToken);
             
         return File(avatar, "image/jpeg");
     }

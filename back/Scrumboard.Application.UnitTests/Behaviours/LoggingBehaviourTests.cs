@@ -24,13 +24,13 @@ public class LoggingBehaviourTests
     [Fact]
     public async Task Process_CallGetUserNameAsyncOnceIfAuthenticated()
     {
-            _currentUserService.Setup(x => x.UserId).Returns(Guid.Parse("43a19f1f-df2e-418f-bc4e-e0e98c792beb"));
+            _currentUserService.Setup(x => x.UserId).Returns("43a19f1f-df2e-418f-bc4e-e0e98c792beb");
 
             var loggingBehaviour = new LoggingBehaviour<CreateBoardCommand>(_logger.Object, _currentUserService.Object, _identityService.Object);
 
             await loggingBehaviour.Process(new CreateBoardCommand { CreatorId = _currentUserService.Object.UserId }, new CancellationToken());
 
-            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>(), default), Times.Once);
+            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>(), default), Times.Once);
         }
 
     [Fact]
@@ -40,7 +40,7 @@ public class LoggingBehaviourTests
 
             await requestLogger.Process(new CreateBoardCommand(), new CancellationToken());
 
-            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<Guid>(), default), Times.Never);
+            _identityService.Verify(i => i.GetUserNameAsync(It.IsAny<string>(), default), Times.Never);
         }
 
 }

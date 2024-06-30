@@ -5,7 +5,7 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Infrastructure.Identity;
 
-public sealed class ApplicationUser : IdentityUser<Guid>, IUser
+public sealed class ApplicationUser : IdentityUser, IUser
 {
     [PersonalData]
     public string FirstName { get; set; }
@@ -18,21 +18,4 @@ public sealed class ApplicationUser : IdentityUser<Guid>, IUser
 
     [PersonalData]
     public byte[] Avatar { get; set; }
-}
-
-public sealed class ApplicationRole : IdentityRole<Guid>
-{
-    /// <summary>
-    /// Initializes a new instance of <see cref="IdentityRole{TKey}"/>.
-    /// </summary>
-    public ApplicationRole() { }
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="IdentityRole{TKey}"/>.
-    /// </summary>
-    /// <param name="roleName">The role name.</param>
-    public ApplicationRole(string roleName)
-    {
-        Name = roleName;
-    }
 }

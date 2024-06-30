@@ -6,8 +6,7 @@ using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Common.Behaviours;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.Common.Profiles;
-using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Behaviours;
@@ -15,7 +14,7 @@ namespace Scrumboard.Application.UnitTests.Behaviours;
 public class ValidationBehaviourTests
 {
     private readonly IMapper _mapper;
-    private readonly Mock<IAsyncRepository<Board, int>> _mockBoardRepository;
+    private readonly Mock<IBoardsRepository> _mockBoardRepository;
 
     public ValidationBehaviourTests()
     {

@@ -5,5 +5,5 @@ namespace Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
 
 public sealed class GetBoardsByUserIdQuery : IRequest<IEnumerable<BoardDto>>
 {
-    public Guid UserId { get; set; }
+    public string UserId { get; set; } = string.Empty;
 }

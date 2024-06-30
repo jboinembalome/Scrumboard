@@ -1,19 +1,18 @@
 ﻿using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Cards.Comments.Specifications;
-using Scrumboard.Application.Cards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Common;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
 namespace Scrumboard.Application.Cards.Comments.Commands.DeleteComment;
 
 internal sealed class DeleteCommentCommandHandler(
     IMapper mapper,
-    IAsyncRepository<Comment, int> commentRepository,
-    IAsyncRepository<Card, int> cardRepository,
+    IActivitiesRepository activitiesRepository,
+    ICommentsRepository commentsRepository,
     ICurrentUserService currentUserService)
     : IRequestHandler<DeleteCommentCommand>
 {
@@ -23,30 +22,19 @@ internal sealed class DeleteCommentCommandHandler(
         DeleteCommentCommand request, 
         CancellationToken cancellationToken)
     {
-        var specification = new CommentWithAdherentSpec(request.CommentId);
-        var commentToDelete = await commentRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        var commentToDelete = await commentsRepository.TryGetByIdAsync(request.CommentId, cancellationToken);
 
         if (commentToDelete is null)
             throw new NotFoundException(nameof(Comment), request.CommentId);
-
         
+        // TODO: Add Policy for that?
         if (commentToDelete.CreatedBy != currentUserService.UserId)
             throw new ForbiddenAccessException();
-
-        var cardSpecification = new CardByCommentSpec(commentToDelete.Id);
-        var card = await cardRepository.FirstOrDefaultAsync(cardSpecification, cancellationToken);
         
-        if (card is null)
-            throw new NotFoundException(nameof(Card));
+        await commentsRepository.DeleteAsync(commentToDelete.Id, cancellationToken);
         
-        card.Comments.Remove(commentToDelete);
+        var activity = new Activity(commentToDelete.CardId, ActivityType.Removed, ActivityField.Comment, commentToDelete.Message, string.Empty);
         
-        var activity = new Activity(ActivityType.Removed, ActivityField.Comment, commentToDelete.Message, string.Empty);
-        card.Activities.Add(activity);
-        
-        // TODO: Analyze this behavior
-        await cardRepository.UpdateAsync(card, cancellationToken);
-
-        await commentRepository.DeleteAsync(commentToDelete, cancellationToken);
+        await activitiesRepository.AddAsync(activity, cancellationToken);
     }
 }

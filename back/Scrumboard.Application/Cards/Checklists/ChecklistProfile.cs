@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Domain.Cards.Checklists;
 
@@ -10,16 +9,12 @@ internal sealed class ChecklistProfile : Profile
     public ChecklistProfile()
     {
         // Write 
-        CreateMap<ChecklistDto, Checklist>()
-            .EqualityComparison((dest, src) => dest.Id == src.Id);
-        CreateMap<ChecklistItemDto, ChecklistItem>()
-            .EqualityComparison((dest, src) => dest.Id == src.Id);
+        CreateMap<ChecklistDto, Checklist>();
+        CreateMap<ChecklistItemDto, ChecklistItem>();
         
         // Read
-        CreateMap<Checklist, ChecklistDto>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        CreateMap<Checklist, ChecklistDto>();
 
-        CreateMap<ChecklistItem, ChecklistItemDto>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        CreateMap<ChecklistItem, ChecklistItemDto>();
     }
 }

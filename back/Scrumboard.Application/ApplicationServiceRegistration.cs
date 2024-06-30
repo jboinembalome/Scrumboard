@@ -2,7 +2,8 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using AutoMapper.EquivalencyExpression;
+using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Application.Cards;
 using Scrumboard.Application.Common.Behaviours;
 
 namespace Scrumboard.Application;
@@ -13,7 +14,6 @@ public static class ApplicationServiceRegistration
     {
         services.AddAutoMapper(cfg =>
         {
-            cfg.AddCollectionMappers();
             // Configuration code
         }, Assembly.GetExecutingAssembly());
         
@@ -26,6 +26,9 @@ public static class ApplicationServiceRegistration
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
+        
+        // Cards
+        services.AddScoped<ICardsService, CardsService>();
 
         return services;
     }

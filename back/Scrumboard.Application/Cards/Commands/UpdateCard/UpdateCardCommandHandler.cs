@@ -1,23 +1,20 @@
-﻿using System.Collections.ObjectModel;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Cards.Dtos;
-using Scrumboard.Application.Cards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
-using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
 
 namespace Scrumboard.Application.Cards.Commands.UpdateCard;
 
 internal sealed class UpdateCardCommandHandler(
     IMapper mapper,
-    IAsyncRepository<Card, int> cardRepository,
-    IIdentityService identityService,
-    ICurrentUserService currentUserService)
+    IActivitiesRepository activitiesRepository,
+    ICardsRepository cardsRepository,
+    IIdentityService identityService)
     : IRequestHandler<UpdateCardCommand, UpdateCardCommandResponse>
 {
     public async Task<UpdateCardCommandResponse> Handle(
@@ -25,69 +22,40 @@ internal sealed class UpdateCardCommandHandler(
         CancellationToken cancellationToken)
     {
         var updateCardCommandResponse = new UpdateCardCommandResponse();
+        
+        var cardToUpdate = await cardsRepository.TryGetByIdAsync(request.Id, cancellationToken);
 
-        var specification = new CardWithAllExceptCommentSpec(request.Id);
-        var cardToUpdate = await cardRepository.FirstOrDefaultAsync(specification, cancellationToken);
-
-        if (cardToUpdate == null)
+        if (cardToUpdate is null)
             throw new NotFoundException(nameof(Card), request.Id);
         
-        var adherent = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
+        // TODO: Update Activities (no more included by cardRepository.TryGetByIdAsync)
         var newActivities = await GetNewActivities(cardToUpdate, request, cancellationToken);
 
-        foreach (var activity in newActivities)
+        if (newActivities.Count > 0)
         {
-            if (cardToUpdate.Activities.Any())
-                cardToUpdate.Activities.Add(activity);
+            await activitiesRepository.AddAsync(newActivities, cancellationToken);
         }
-
-        if (!cardToUpdate.Activities.Any())
-            cardToUpdate.Activities = new Collection<Activity>(newActivities);
           
         mapper.Map(request, cardToUpdate, typeof(UpdateCardCommand), typeof(Card));
 
-        await cardRepository.UpdateAsync(cardToUpdate, cancellationToken);
+        await cardsRepository.UpdateAsync(cardToUpdate, cancellationToken);
 
         updateCardCommandResponse.Card = mapper.Map<CardDetailDto>(cardToUpdate);
 
         if (updateCardCommandResponse.Card.Assignees.Any())
         {
-            var users = await identityService.GetListAsync(cardToUpdate.Assignees, cancellationToken);
+            var assigneeIds = cardToUpdate.Assignees.Select(x => x.Id);
+            var users = await identityService.GetListAsync(assigneeIds, cancellationToken);
+            
             mapper.Map(users, updateCardCommandResponse.Card.Assignees);
-        }
-
-        if (updateCardCommandResponse.Card.Comments.Any())
-        {
-            var users = await identityService.GetListAsync(cardToUpdate.Comments.Select(c => c.LastModifiedBy ?? c.CreatedBy), cancellationToken);
-            var adherentDtos = updateCardCommandResponse.Card.Comments.Select(c => c.Adherent).ToList();
-
-            MapUsers(users, adherentDtos);
-        }
-
-        if (updateCardCommandResponse.Card.Activities.Any())
-        {
-            var users = await identityService.GetListAsync(cardToUpdate.Activities.Select(c => c.LastModifiedBy ?? c.CreatedBy), cancellationToken);
-            var adherentDtos = updateCardCommandResponse.Card.Activities.Select(c => c.Adherent).ToList();
-
-            MapUsers(users, adherentDtos);
         }
 
 
         return updateCardCommandResponse;
     }
-
-    public void MapUsers(IEnumerable<IUser> users, IEnumerable<AdherentDto> adherents)
-    {
-        foreach (var adherent in adherents)
-        {
-            var user = users.FirstOrDefault(u => u.Id == adherent.Id);
-            if (user == null)
-                continue;
-
-            mapper.Map(user, adherent);
-        }
-    }
-
+    
+    // TODO: Move new activities logic into a specific service
+    
     /// <summary>
     /// Retrieves the card activies. 
     /// </summary>
@@ -99,13 +67,13 @@ internal sealed class UpdateCardCommandHandler(
         var activities = new List<Activity>();
         #region Name
         if (oldCard.Name != updatedCard.Name)
-            activities.Add(new Activity(ActivityType.Updated, ActivityField.Name, oldCard.Name, updatedCard.Name));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Updated, ActivityField.Name, oldCard.Name, updatedCard.Name));
 
         #endregion
 
         #region Description
         if (oldCard.Description != updatedCard.Description)
-            activities.Add(new Activity(ActivityType.Updated, ActivityField.Description, oldCard.Description, updatedCard.Description));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Updated, ActivityField.Description, oldCard.Description, updatedCard.Description));
 
         #endregion
 
@@ -113,13 +81,13 @@ internal sealed class UpdateCardCommandHandler(
         if (oldCard.DueDate != updatedCard.DueDate)
         {
             if (!oldCard.DueDate.HasValue && updatedCard.DueDate.HasValue)
-                activities.Add(new Activity(ActivityType.Added, ActivityField.DueDate, string.Empty, updatedCard.DueDate.Value.ToShortDateString()));
+                activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.DueDate, string.Empty, updatedCard.DueDate.Value.ToShortDateString()));
 
             if (oldCard.DueDate.HasValue && !updatedCard.DueDate.HasValue)
-                activities.Add(new Activity(ActivityType.Removed, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), string.Empty));
+                activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), string.Empty));
 
             if (oldCard.DueDate.HasValue && updatedCard.DueDate.HasValue && oldCard.DueDate.Value != updatedCard.DueDate.Value)
-                activities.Add(new Activity(ActivityType.Updated, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), updatedCard.DueDate.Value.ToShortDateString()));
+                activities.Add(new Activity(updatedCard.Id, ActivityType.Updated, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), updatedCard.DueDate.Value.ToShortDateString()));
         }
 
         #endregion
@@ -128,27 +96,27 @@ internal sealed class UpdateCardCommandHandler(
         if (!oldCard.Assignees.Any() && updatedCard.Assignees.Any())
         {
             var adherent = updatedCard.Assignees.First();
-            activities.Add(new Activity(ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
         }
 
         if (oldCard.Assignees.Any() && !updatedCard.Assignees.Any())
         {
             var adherent = oldCard.Assignees.First();
-            var user = await identityService.GetUserAsync(adherent, cancellationToken);
-            activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
+            var user = await identityService.GetUserAsync(adherent.Id, cancellationToken);
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
 
         if (oldCard.Assignees.Count < updatedCard.Assignees.Count())
         {
-            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Contains(l.Id));
-            activities.Add(new Activity(ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
+            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Select(o => o.Id).Contains(l.Id));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
         }
 
         if (oldCard.Assignees.Count > updatedCard.Assignees.Count())
         {
-            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l));
-            var user = await identityService.GetUserAsync(adherent, cancellationToken);
-            activities.Add(new Activity(ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
+            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l.Id));
+            var user = await identityService.GetUserAsync(adherent.Id, cancellationToken);
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
         #endregion
 
@@ -156,25 +124,25 @@ internal sealed class UpdateCardCommandHandler(
         if (!oldCard.Checklists.Any() && updatedCard.Checklists.Any())
         {
             var checklist = updatedCard.Checklists.First();
-            activities.Add(new Activity(ActivityType.Added, ActivityField.Checklist, string.Empty, checklist.Name));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Checklist, string.Empty, checklist.Name));
         }
 
         if (oldCard.Checklists.Any() && !updatedCard.Checklists.Any())
         {
             var checklist = oldCard.Checklists.First();
-            activities.Add(new Activity(ActivityType.Removed, ActivityField.Checklist, checklist.Name, string.Empty));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Checklist, checklist.Name, string.Empty));
         }
 
         if (oldCard.Checklists.Count < updatedCard.Checklists.Count())
         {
             var checklist = updatedCard.Checklists.First(l => !oldCard.Checklists.Select(o => o.Id).Contains(l.Id));
-            activities.Add(new Activity(ActivityType.Added, ActivityField.Checklist, string.Empty, checklist.Name));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Checklist, string.Empty, checklist.Name));
         }
 
         if (oldCard.Checklists.Count > updatedCard.Checklists.Count())
         {
             var checklist = oldCard.Checklists.First(l => !updatedCard.Checklists.Select(o => o.Id).Contains(l.Id));
-            activities.Add(new Activity(ActivityType.Removed, ActivityField.Checklist, checklist.Name, string.Empty));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Checklist, checklist.Name, string.Empty));
         }
 
         if (oldCard.Checklists.Any() && updatedCard.Checklists.Any() && oldCard.Checklists.Count == updatedCard.Checklists.Count())
@@ -186,31 +154,31 @@ internal sealed class UpdateCardCommandHandler(
                     continue;
 
                 if (oldChecklist.Name != updateChecklist.Name)
-                    activities.Add(new Activity(ActivityType.Updated, ActivityField.Checklist, oldChecklist.Name, updateChecklist.Name));
+                    activities.Add(new Activity(updatedCard.Id, ActivityType.Updated, ActivityField.Checklist, oldChecklist.Name, updateChecklist.Name));
 
                 #region ChecklistItem
                 if (!oldChecklist.ChecklistItems.Any() && updateChecklist.ChecklistItems.Any())
                 {
                     var checklistItem = updateChecklist.ChecklistItems.First();
-                    activities.Add(new Activity(ActivityType.Added, ActivityField.ChecklistItem, string.Empty, checklistItem.Name));
+                    activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.ChecklistItem, string.Empty, checklistItem.Name));
                 }
 
                 if (oldChecklist.ChecklistItems.Any() && !updateChecklist.ChecklistItems.Any())
                 {
                     var checklistItem = oldChecklist.ChecklistItems.First();
-                    activities.Add(new Activity(ActivityType.Removed, ActivityField.ChecklistItem, checklistItem.Name, string.Empty));
+                    activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.ChecklistItem, checklistItem.Name, string.Empty));
                 }
 
                 if (oldChecklist.ChecklistItems.Count < updateChecklist.ChecklistItems.Count())
                 {
                     var checklistItem = updateChecklist.ChecklistItems.First(l => !oldChecklist.ChecklistItems.Select(o => o.Id).Contains(l.Id));
-                    activities.Add(new Activity(ActivityType.Added, ActivityField.ChecklistItem, string.Empty, checklistItem.Name));
+                    activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.ChecklistItem, string.Empty, checklistItem.Name));
                 }
 
                 if (oldChecklist.ChecklistItems.Count > updateChecklist.ChecklistItems.Count())
                 {
                     var checklistItem = oldChecklist.ChecklistItems.First(l => !updateChecklist.ChecklistItems.Select(o => o.Id).Contains(l.Id));
-                    activities.Add(new Activity(ActivityType.Removed, ActivityField.ChecklistItem, checklistItem.Name, string.Empty));
+                    activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.ChecklistItem, checklistItem.Name, string.Empty));
                 }
 
                 if (oldChecklist.ChecklistItems.Any() && updateChecklist.ChecklistItems.Any() && oldChecklist.ChecklistItems.Count == updateChecklist.ChecklistItems.Count())
@@ -222,20 +190,20 @@ internal sealed class UpdateCardCommandHandler(
                             continue;
 
                         if (oldChecklistItem.Name != updateChecklistItem.Name)
-                            activities.Add(new Activity(ActivityType.Updated, ActivityField.ChecklistItem, oldChecklistItem.Name, updateChecklistItem.Name));
+                            activities.Add(new Activity(updatedCard.Id, ActivityType.Updated, ActivityField.ChecklistItem, oldChecklistItem.Name, updateChecklistItem.Name));
 
                         if (!oldChecklistItem.IsChecked && updateChecklistItem.IsChecked)
-                            activities.Add(new Activity(ActivityType.Checked, ActivityField.ChecklistItem, string.Empty, $"{updateChecklistItem.Name} in {updateChecklist.Name}"));
+                            activities.Add(new Activity(updatedCard.Id, ActivityType.Checked, ActivityField.ChecklistItem, string.Empty, $"{updateChecklistItem.Name} in {updateChecklist.Name}"));
 
                         if (oldChecklistItem.IsChecked && !updateChecklistItem.IsChecked)
-                            activities.Add(new Activity(ActivityType.Unchecked, ActivityField.ChecklistItem, string.Empty, $"{updateChecklistItem.Name} in {updateChecklist.Name}"));
+                            activities.Add(new Activity(updatedCard.Id, ActivityType.Unchecked, ActivityField.ChecklistItem, string.Empty, $"{updateChecklistItem.Name} in {updateChecklist.Name}"));
                     }
 
                     if (!oldChecklist.ChecklistItems.All(c => c.IsChecked) && updateChecklist.ChecklistItems.All(c => c.IsChecked))
-                        activities.Add(new Activity(ActivityType.Finished, ActivityField.Checklist, string.Empty, oldChecklist.Name));
+                        activities.Add(new Activity(updatedCard.Id, ActivityType.Finished, ActivityField.Checklist, string.Empty, oldChecklist.Name));
 
                     if (oldChecklist.ChecklistItems.All(c => c.IsChecked) && !updateChecklist.ChecklistItems.All(c => c.IsChecked))
-                        activities.Add(new Activity(ActivityType.NotFinished, ActivityField.Checklist, string.Empty, oldChecklist.Name));
+                        activities.Add(new Activity(updatedCard.Id, ActivityType.NotFinished, ActivityField.Checklist, string.Empty, oldChecklist.Name));
 
                 }
                 #endregion
@@ -247,25 +215,25 @@ internal sealed class UpdateCardCommandHandler(
         if (!oldCard.Labels.Any() && updatedCard.Labels.Any())
         {
             var label = updatedCard.Labels.First();
-            activities.Add(new Activity(ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
         }
 
         if (oldCard.Labels.Any() && !updatedCard.Labels.Any())
         {
             var label = oldCard.Labels.First();
-            activities.Add(new Activity(ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
         }
 
         if (oldCard.Labels.Count < updatedCard.Labels.Count())
         {
             var label = updatedCard.Labels.First(l => !oldCard.Labels.Select(o => o.Id).Contains(l.Id));
-            activities.Add(new Activity(ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
         }
 
         if (oldCard.Labels.Count > updatedCard.Labels.Count())
         {
             var label = oldCard.Labels.First(l => !updatedCard.Labels.Select(o => o.Id).Contains(l.Id));
-            activities.Add(new Activity(ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
         }
 
         if (oldCard.Labels.Any() && updatedCard.Labels.Any() && oldCard.Labels.Count == updatedCard.Labels.Count())
@@ -277,10 +245,10 @@ internal sealed class UpdateCardCommandHandler(
                     continue;
 
                 if (oldLabel.Name != updateLabel.Name)
-                    activities.Add(new Activity(ActivityType.Updated, ActivityField.Label, oldLabel.Name, updateLabel.Name));
+                    activities.Add(new Activity(updatedCard.Id, ActivityType.Updated, ActivityField.Label, oldLabel.Name, updateLabel.Name));
 
                 if (oldLabel.Colour.Code != updateLabel.Colour.Colour)
-                    activities.Add(new Activity(ActivityType.Updated, ActivityField.Label, oldLabel.Colour.Code, updateLabel.Colour.Colour));
+                    activities.Add(new Activity(updatedCard.Id, ActivityType.Updated, ActivityField.Label, oldLabel.Colour.Code, updateLabel.Colour.Colour));
             }
         }
         #endregion

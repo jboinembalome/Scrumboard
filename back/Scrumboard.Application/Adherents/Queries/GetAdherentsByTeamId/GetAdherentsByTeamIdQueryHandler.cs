@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Adherents.Dtos;
-using Scrumboard.Application.Adherents.Specifications;
-using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 
 namespace Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
 
 internal sealed class GetAdherentsByTeamIdQueryHandler(
     IMapper mapper,
-    IAsyncRepository<Team, int> teamRepository,
+    ITeamsQueryRepository teamsQueryRepository,
     IIdentityService identityService)
     : IRequestHandler<GetAdherentsByTeamIdQuery, IEnumerable<AdherentDto>>
 {
@@ -18,16 +16,16 @@ internal sealed class GetAdherentsByTeamIdQueryHandler(
         GetAdherentsByTeamIdQuery request, 
         CancellationToken cancellationToken)
     {
-        var specification = new AllAdherentsInTeamSpec(request.TeamId);
-        
-        var team = await teamRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        var team = await teamsQueryRepository.TryGetByIdAsync(request.TeamId, cancellationToken);
 
         if (team is null)
         {
             return [];
         }
         
-        var adherents = team.Adherents.ToHashSet();
+        var adherents = team.Adherents
+            .Select(x => x.Id)
+            .ToHashSet();
         
         var users = await identityService.GetListAsync(adherents, cancellationToken);
 

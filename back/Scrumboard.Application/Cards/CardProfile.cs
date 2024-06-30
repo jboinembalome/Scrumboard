@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Cards.Commands.CreateCard;
 using Scrumboard.Application.Cards.Commands.UpdateCard;
 using Scrumboard.Application.Cards.Dtos;
@@ -15,18 +14,15 @@ internal sealed class CardProfile : Profile
         CreateMap<CreateCardCommand, Card>();
 
         CreateMap<UpdateCardCommand, Card>();
-        CreateMap<CardDto, Card>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        CreateMap<CardDto, Card>();
         
         // Read
         CreateMap<Card, CardDto>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id)
             .ForMember(dest => dest.ListBoardId, opt => opt.MapFrom(src => src.ListBoardId))
             .ForMember(dest => dest.ChecklistItemsCount, opt => opt.MapFrom(src => src.Checklists.SelectMany(ch => ch.ChecklistItems).Count()))
             .ForMember(dest => dest.ChecklistItemsDoneCount, opt => opt.MapFrom(src => src.Checklists.SelectMany(ch => ch.ChecklistItems).Count(i => i.IsChecked)));
 
         CreateMap<Card, CardDetailDto>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id)
             .ForMember(dest => dest.ListBoardId, opt => opt.MapFrom(src => src.ListBoardId));
     }
 }

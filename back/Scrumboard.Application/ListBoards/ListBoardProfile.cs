@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.ListBoards.Dtos;
 using Scrumboard.Domain.ListBoards;
 
@@ -10,11 +9,9 @@ internal sealed class ListBoardProfile : Profile
     public ListBoardProfile()
     {
         // Write
-        CreateMap<ListBoardDto, ListBoard>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        CreateMap<ListBoardDto, ListBoard>();
         
         // Read
-        CreateMap<ListBoard, ListBoardDto>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        CreateMap<ListBoard, ListBoardDto>();
     }
 }

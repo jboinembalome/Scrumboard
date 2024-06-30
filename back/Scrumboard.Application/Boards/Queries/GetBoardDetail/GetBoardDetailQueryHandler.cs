@@ -2,17 +2,16 @@
 using MediatR;
 using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Boards.Dtos;
-using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Application.Boards.Queries.GetBoardDetail;
 
 internal sealed class GetBoardDetailQueryHandler(
     IMapper mapper,
-    IAsyncRepository<Board, int> boardRepository,
+    IBoardsQueryRepository boardsQueryRepository,
     IIdentityService identityService)
     : IRequestHandler<GetBoardDetailQuery, BoardDetailDto>
 {
@@ -20,13 +19,15 @@ internal sealed class GetBoardDetailQueryHandler(
         GetBoardDetailQuery request, 
         CancellationToken cancellationToken)
     {
-        var specification = new BoardWithAllSpec(request.BoardId);
-        var board = await boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        var board = await boardsQueryRepository.TryGetByIdAsync(request.BoardId, cancellationToken);
 
         if (board is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
-        var userIds = board.Team.Adherents;
+        var userIds = board.Team.Adherents
+            .Select(x => x.Id)
+            .ToHashSet();
+        
         var users = await identityService.GetListAsync(userIds, cancellationToken);
         
         var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(board.Team.Adherents).ToList();    

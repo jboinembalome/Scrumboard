@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Boards.Specifications;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.ListBoards.Dtos;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 
 internal sealed class UpdateBoardCommandHandler(
     IMapper mapper,
-    IAsyncRepository<Board, int> boardRepository)
+    IBoardsRepository boardsRepository)
     : IRequestHandler<UpdateBoardCommand, UpdateBoardCommandResponse>
 {
     public async Task<UpdateBoardCommandResponse> Handle(
@@ -18,22 +17,19 @@ internal sealed class UpdateBoardCommandHandler(
         CancellationToken cancellationToken)
     {
         var updateBoardCommandResponse = new UpdateBoardCommandResponse();
-
-        var specification = new UpdateBoardSpec(request.BoardId);
-        var boardToUpdate = await boardRepository.FirstOrDefaultAsync(specification, cancellationToken);
+        
+        var boardToUpdate = await boardsRepository.TryGetByIdAsync(request.BoardId, cancellationToken);
 
         if (boardToUpdate is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
         mapper.Map(request, boardToUpdate, opt => opt.BeforeMap((s, d) => MoveCards(s, d)));
 
-        await boardRepository.UpdateAsync(boardToUpdate, cancellationToken);
+        await boardsRepository.UpdateAsync(boardToUpdate, cancellationToken);
 
         updateBoardCommandResponse.ListBoards = mapper.Map<IEnumerable<ListBoardDto>>(boardToUpdate.ListBoards);
 
         return updateBoardCommandResponse;
-
-        //return Unit.Value;
     }
 
     /// <summary>
@@ -53,14 +49,16 @@ internal sealed class UpdateBoardCommandHandler(
             return;
         }
 
-        // TODO: Refoctor this...
+        // TODO: Refactor this...
         foreach (var listBoardDto in updateBoardCommand.ListBoards)
         {
             // Loop only on old values, so the id of the card will not be zero.
             foreach (var cardDto in listBoardDto.Cards.Where(c => c.Id != 0))
             {
                 // Checks if the card in the source is present in the listBoard in the destination
-                var card = board.ListBoards.SelectMany(l => l.Cards).FirstOrDefault(c => c.Id == cardDto.Id);
+                var card = board.ListBoards
+                    .SelectMany(l => l.Cards)
+                    .FirstOrDefault(c => c.Id == cardDto.Id);
 
                 if (card is null 
                     || card.ListBoardId == listBoardDto.Id)

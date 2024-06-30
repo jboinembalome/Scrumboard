@@ -1,27 +1,23 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Application.Boards.Commands.DeleteBoard;
 
 internal sealed class DeleteBoardCommandHandler(
-    IMapper mapper,
-    IAsyncRepository<Board, int> boardRepository)
+    IBoardsRepository boardsRepository)
     : IRequestHandler<DeleteBoardCommand>
 {
-    private readonly IMapper _mapper = mapper;
-
     public async Task Handle(
         DeleteBoardCommand request, 
         CancellationToken cancellationToken)
     {
-        var boardToDelete = await boardRepository.GetByIdAsync(request.BoardId, cancellationToken);
+        var boardToDelete = await boardsRepository.TryGetByIdAsync(request.BoardId, cancellationToken);
 
         if (boardToDelete is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
-        await boardRepository.DeleteAsync(boardToDelete, cancellationToken);
+        await boardsRepository.DeleteAsync(boardToDelete.Id, cancellationToken);
     }
 }

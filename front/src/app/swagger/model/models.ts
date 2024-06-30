@@ -1,4 +1,5 @@
 export * from './accessTokenResponse';
+export * from './activityDto';
 export * from './adherentDto';
 export * from './boardDetailDto';
 export * from './boardDto';

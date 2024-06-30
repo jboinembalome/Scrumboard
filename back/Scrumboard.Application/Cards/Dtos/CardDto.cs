@@ -18,5 +18,4 @@ public sealed class CardDto
     public int AttachmentsCount { get; set; }
     public int ChecklistItemsCount { get; set; }
     public int ChecklistItemsDoneCount { get; set; }
-    public int CommentsCount { get; set; }
 }

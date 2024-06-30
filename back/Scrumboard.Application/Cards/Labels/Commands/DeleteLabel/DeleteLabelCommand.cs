@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Scrumboard.Application.Boards.Labels.Commands.DeleteLabel;
+namespace Scrumboard.Application.Cards.Labels.Commands.DeleteLabel;
 
 public sealed class DeleteLabelCommand : IRequest
 {

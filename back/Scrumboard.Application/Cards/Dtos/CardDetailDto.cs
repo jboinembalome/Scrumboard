@@ -17,6 +17,4 @@ public sealed class CardDetailDto
     public IEnumerable<LabelDto> Labels { get; set; }
     public IEnumerable<AdherentDto> Assignees { get; set; }
     public IEnumerable<ChecklistDto> Checklists { get; set; }
-    public IEnumerable<CommentDto> Comments { get; set; }
-    public IEnumerable<ActivityDto> Activities { get; set; }
 }

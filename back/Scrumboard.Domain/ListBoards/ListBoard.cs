@@ -5,15 +5,15 @@ using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Domain.ListBoards;
 
-public sealed class ListBoard : IAuditableEntity, IEntity<int>
+public sealed class ListBoard : IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; }
     public int Position { get; set; }
     public int BoardId { get; set; }
     public ICollection<Card> Cards { get; set; }
-    public Guid CreatedBy { get; set; }
+    public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public Guid? LastModifiedBy { get; set; }
+    public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

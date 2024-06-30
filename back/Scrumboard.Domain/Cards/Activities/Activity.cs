@@ -4,18 +4,19 @@
 
 namespace Scrumboard.Domain.Cards.Activities;
 
-public sealed class Activity : IAuditableEntity, IEntity<int>
+public sealed class Activity : IEntity<int>
 {
     public Activity()
     {
     }
 
-    public Activity(ActivityType activityType, ActivityField activityField, string? oldValue, string? newValue)
+    public Activity(int cardId, ActivityType activityType, ActivityField activityField, string? oldValue, string? newValue)
     {
         ActivityType = activityType;
         ActivityField = activityField;
         OldValue = oldValue;
         NewValue = newValue;
+        CardId = cardId;
     }
 
     public int Id { get; set; }
@@ -24,8 +25,8 @@ public sealed class Activity : IAuditableEntity, IEntity<int>
     public string? OldValue { get; set; }
     public string? NewValue { get; set; }
     public int CardId { get; set; }
-    public Guid CreatedBy { get; set; }
+    public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public Guid? LastModifiedBy { get; set; }
+    public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

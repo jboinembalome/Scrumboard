@@ -6,7 +6,7 @@ using Scrumboard.Domain.Teams;
 
 namespace Scrumboard.Domain.Boards;
 
-public class Board : IAuditableEntity, IEntity<int>
+public class Board : IEntity<int>
 {
     public int Id { get; set; }
     public string Name { get; set; } = "Untitled Board";
@@ -15,9 +15,9 @@ public class Board : IAuditableEntity, IEntity<int>
     public Team Team { get; set; }
     public BoardSetting BoardSetting { get; set; }
     public ICollection<ListBoard> ListBoards { get; set; }
-    public Guid CreatedBy { get; set; }
+    public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public Guid? LastModifiedBy { get; set; }
+    public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
     
     public string GetInitials()

@@ -1,15 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <ItemGroup>
-    <PackageReference Include="Ardalis.Specification" />
     <PackageReference Include="AutoMapper" />
-    <PackageReference Include="AutoMapper.Collection" />
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="MediatR" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Scrumboard.Application.Abstractions\Scrumboard.Application.Abstractions.csproj" />
     <ProjectReference Include="..\Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj" />
     <ProjectReference Include="..\Scrumboard.Domain\Scrumboard.Domain.csproj" />
   </ItemGroup>

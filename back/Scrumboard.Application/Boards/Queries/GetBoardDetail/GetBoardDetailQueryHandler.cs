@@ -29,11 +29,10 @@ internal sealed class GetBoardDetailQueryHandler(
             .ToHashSet();
         
         var users = await identityService.GetListAsync(userIds, cancellationToken);
-        
-        var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(board.Team.Adherents).ToList();    
-
+        var adherentDtos = mapper.Map<IReadOnlyCollection<AdherentDto>>(users);
+      
         var boardDto = mapper.Map<BoardDetailDto>(board);
-        boardDto.Team.Adherents = mapper.Map(users, adherentDtos);
+        boardDto.Team.Adherents = adherentDtos;
         boardDto.Creator = adherentDtos.First(a => a.Id == board.CreatedBy);
 
         var adherentDtosInBoard = boardDto.ListBoards
@@ -48,11 +47,12 @@ internal sealed class GetBoardDetailQueryHandler(
         return boardDto;
     }
 
-    private void MapUsers(IEnumerable<IUser> users, IEnumerable<AdherentDto> adherents)
+    private void MapUsers(IReadOnlyList<IUser> users, IReadOnlyCollection<AdherentDto> adherents)
     {
         foreach (var adherent in adherents)
         {
             var user = users.FirstOrDefault(u => u.Id == adherent.Id);
+            
             if (user == null)
                 continue;
 

@@ -321,12 +321,8 @@ public class ScrumboardDbContextInitializer(
                 IsPinned = true,
                 Team = team,
                 ListBoards = [listboards[4]],
-                BoardSetting = boardSettings[0],
+                BoardSetting = boardSettings[1],
                 CreatedBy = adherent.Id
-            },
-            new()
-            {
-                Name = "Scrumboard Test", Uri = "scrumboard-test", Team = team2, BoardSetting = boardSettings[1], CreatedBy = adherent.Id
             }
         };
 

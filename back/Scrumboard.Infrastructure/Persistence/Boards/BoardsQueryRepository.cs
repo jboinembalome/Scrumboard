@@ -38,6 +38,8 @@ internal sealed class BoardsQueryRepository(
         => dbContext.Boards
             .AsNoTracking()
             .AsSplitQuery()
+            .Include(b => b.Team)
+                .ThenInclude(t => t.Adherents)
             .Include(b => b.BoardSetting)
             .Include(b => b.ListBoards)
                 .ThenInclude(l => l.Cards)

@@ -87,7 +87,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.currentUser = this._authService.getUser();
     // Get all the adherents
     this.allAdherents = this._adherentsService.apiAdherentsGet()
-      .pipe(map(a => a.filter(a => a.id !== this.board.adherent.id)));
+      .pipe(map(a => a.filter(a => a.id !== this.board.creator.id)));
   }
 
   ngOnDestroy() {
@@ -168,6 +168,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       name: this.board.name,
       uri: this.board.uri,
       boardSetting: this.board.boardSetting,
+      team: this.board.team,
       listBoards: this.board.listBoards
     };
 
@@ -180,8 +181,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   * Updates the team board.
   */
   updateTeam(adherents: AdherentDto[]): void {
-    if (!adherents.some(a => a.id === this.board.adherent.id))
-      adherents.push(this.board.adherent);
+    if (!adherents.some(a => a.id === this.board.creator.id))
+      adherents.push(this.board.creator);
 
     const updateTeamCommand: UpdateTeamCommand = {
       id: this.board.team.id,

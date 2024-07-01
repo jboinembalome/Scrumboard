@@ -52,7 +52,7 @@
                     @for (adherent of board.team.adherents; track trackByFn($index, adherent)) {
                         @if (adherent.hasAvatar) {
                             <img matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
-                                class="inline-block h-8 w-8 rounded-full" [src]="urlAvatar + adherent.identityId">
+                                class="inline-block h-8 w-8 rounded-full" [src]="urlAvatar + adherent.id">
                         }
                         @else {
                             <span matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
@@ -63,7 +63,7 @@
                         }
                     }
 
-                    @if ((currentUser | async)?.id === board.adherent.identityId) {
+                    @if ((currentUser | async)?.id === board.creator.id) {
                         <button [matMenuTriggerFor]="adherentMenu" #adherentMenuTrigger="matMenuTrigger"
                             class="rounded-full bg-transparent text-gray-900 dark:text-gray-100">
                             <mat-icon class="pt-1 h-8 w-8 bg-indigo-600 text-indigo-100 rounded-full">add</mat-icon>

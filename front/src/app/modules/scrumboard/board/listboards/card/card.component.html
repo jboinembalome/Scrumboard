@@ -21,12 +21,12 @@
      }
 
     <!-- Card members -->
-     @if (card.adherents) {
+     @if (card.assignees) {
         <div class="flex space-x-1 overflow-hidden">
-            @for (adherent of card.adherents; track trackByFn($index, adherent)) {
+            @for (adherent of card.assignees; track trackByFn($index, adherent)) {
                 @if (adherent.hasAvatar) {
                     <img matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
-                        class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + adherent.identityId">
+                        class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + adherent.id">
                 }
                 @else {
                     <span matTooltip="{{adherent.firstName}} {{ adherent.lastName }}" class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
@@ -37,7 +37,7 @@
         </div>
      }
     
-     @if (card.dueDate || card.attachmentsCount || card.commentsCount || card.checklistItemsCount) {
+     @if (card.dueDate || card.checklistItemsCount) {
         <div class="flex items-center p-1 pl-0">
             @if (card.dueDate) {
                 <!-- Due date -->
@@ -46,26 +46,6 @@
                     <mat-icon class="text-base">schedule</mat-icon>
                     <div class="ml-0">
                         {{card.dueDate | date: 'mediumDate'}}
-                    </div>
-                </div>
-            }
-
-            @if (card.attachmentsCount) {
-                <!-- Card attachments count -->
-                <div class="flex items-center ml-2 rounded text-xs text-gray-400">
-                    <mat-icon class="text-base">attachment</mat-icon>
-                    <div class="ml-0">
-                        {{card.attachmentsCount}}
-                    </div>
-                </div>
-            }
-
-            @if (card.commentsCount) {
-                <!-- Card comments count -->
-                <div class="flex items-center ml-2 rounded text-xs text-gray-400">
-                    <mat-icon class="text-base">comment</mat-icon>
-                    <div class="ml-0">
-                        {{card.commentsCount}}
                     </div>
                 </div>
             }

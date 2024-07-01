@@ -2,7 +2,9 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Application.Boards;
 using Scrumboard.Application.Cards;
 using Scrumboard.Application.Common.Behaviours;
 
@@ -26,6 +28,9 @@ public static class ApplicationServiceRegistration
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         });
+        
+        // Boards
+        services.AddScoped<IBoardsService, BoardsService>();
         
         // Cards
         services.AddScoped<ICardsService, CardsService>();

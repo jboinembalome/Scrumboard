@@ -6,7 +6,7 @@
         <div class="flex items-center space-x-3">
           <div class="flex-shrink-0">
             @if (adherent.hasAvatar) {
-              <img class="h-10 w-10 rounded-full" [src]="urlAvatar + adherent.identityId" alt="">
+              <img class="h-10 w-10 rounded-full" [src]="urlAvatar + adherent.id" alt="">
             }
             @else {
               <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-gray-500">

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IUser } from 'app/core/auth/models/user.model';
 import { AuthService } from 'app/core/auth/services/auth.service';
 import { BlouppyUtils } from 'app/shared/utils/blouppyUtils';
-import { CardDetailDto, CommentDto, CommentsService } from 'app/swagger';
+import { CardDetailDto, CommentCreationModel, CommentDto, CommentsService } from 'app/swagger';
 import { CreateCommentCommand } from 'app/swagger/model/createCommentCommand';
 import { AsyncPipe } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
@@ -46,12 +46,11 @@ export class CommentAddComponent implements OnInit {
   }
 
   addComment(): void {
-    const createCommentCommand: CreateCommentCommand = {
+    const createCommentCommand: CommentCreationModel = {
       message: this.commentForm.get('message').value,
-      cardId: this.card.id,
     };
 
-    this._commentsService.apiCommentsPost(createCommentCommand).subscribe(response => {
+    this._commentsService.apiCardsCardIdCommentsPost(this.card.id, createCommentCommand).subscribe(response => {
       this.commentAdded.emit(response.comment);
       this.commentForm.reset();
     });

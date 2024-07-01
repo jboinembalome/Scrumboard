@@ -27,6 +27,12 @@
               </mat-form-field>
             </div>
     
+            <!-- End date -->
+            <!-- TODO: Use mat-calendar and mat-menu (mat-form-field should be inside the form) -->
+            <mat-form-field class="w-0 h-0 invisible">
+              <input matInput [matDatepicker]="endDatePicker" [formControlName]="'dueDate'">
+            </mat-form-field>
+
             <!-- Description -->
             <div class="w-full">
               <div class="flex items-center justify-between pb-1">
@@ -66,7 +72,7 @@
             <!-- Comments -->
               @if (card.comments.length > 0) {
               <div class="w-full">
-                <comments [comments]="card.comments" (commentsUpdated)="updateComments($event)"></comments>
+                <comments [cardId]="card.id" [comments]="comments" (commentsUpdated)="updateComments($event)"></comments>
               </div>
               }
             
@@ -113,17 +119,17 @@
           </div>
 
          
-          <div class="w-full" [class.hidden]="card.adherents.length === 0">
+          <div class="w-full" [class.hidden]="card.assignees.length === 0">
               <mat-chip-set 
                 #assigneeChipList 
                 aria-label="Assignee selection">
-                @for (assignee of card.adherents; track $index) {
+                @for (assignee of card.assignees; track $index) {
                   <mat-chip
                     (removed)="removeMemberChip(assignee)">
                     <img
                       matChipAvatar
                       [src]="assignee.hasAvatar 
-                              ? urlAvatar + assignee.identityId 
+                              ? urlAvatar + assignee.id 
                               : 'assets/images/avatars/profile.jpg'"
                       class="rounded-full" />
                     {{assignee.firstName}}
@@ -145,7 +151,7 @@
         
           <button type="button" [matMenuTriggerFor]="assigneeMenu" #assigneeMenuTrigger="matMenuTrigger"
             class="w-full inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-primary-600 dark:text-primary-100 hover:bg-primary-600 dark:hover:bg-primary-800 hover:text-white"
-            [class.hidden]="card.adherents.length > 0">
+            [class.hidden]="card.assignees.length > 0">
             <mat-icon class="mr-1">person</mat-icon>
             Set assignees
           </button>
@@ -155,7 +161,7 @@
   
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
               <!-- Members -->
-              <adherent-selector [selectedAdherents]="card.adherents" [adherents]="allMembers"
+              <adherent-selector [selectedAdherents]="card.assignees" [adherents]="allMembers"
                 (adherentUpdated)="updateMembers($event)">
               </adherent-selector>
             </div>
@@ -189,11 +195,6 @@
               Set end date
             </button>
           }
-
-          <!-- TODO: Use mat-calendar and mat-menu (mat-form-field should be inside the form) -->
-          <mat-form-field class="w-0 h-0 invisible">
-            <input matInput [matDatepicker]="endDatePicker" [formControlName]="'dueDate'">
-          </mat-form-field>
 
           <mat-datepicker #endDatePicker>
             <mat-datepicker-actions>

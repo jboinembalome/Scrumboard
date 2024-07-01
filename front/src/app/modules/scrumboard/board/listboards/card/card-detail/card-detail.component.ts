@@ -18,17 +18,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdherentSelectorComponent } from 'app/shared/components/adherent-selector/adherent-selector.component';
-import { ActivitiesComponent } from './dialog-card/activities/activities.component';
-import { ChecklistAddComponent } from './dialog-card/checklists/checklist/checklist-add/checklist-add.component';
-import { ChecklistsComponent } from './dialog-card/checklists/checklists.component';
-import { CommentAddComponent } from './dialog-card/comments/comment/comment-add/comment-add.component';
-import { CommentsComponent } from './dialog-card/comments/comments.component';
-import { LabelAddComponent } from './dialog-card/label/label-add/label-add.component';
-import { LabelSelectorComponent } from './dialog-card/label/label-selector/label-selector.component';
+import { ActivitiesComponent } from './activities/activities.component';
+import { ChecklistAddComponent } from './checklists/checklist/checklist-add/checklist-add.component';
+import { ChecklistsComponent } from './checklists/checklists.component';
+import { CommentAddComponent } from './comments/comment/comment-add/comment-add.component';
+import { CommentsComponent } from './comments/comments.component';
+import { LabelAddComponent } from './label/label-add/label-add.component';
+import { LabelSelectorComponent } from './label/label-selector/label-selector.component';
 import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { ENTER } from '@angular/cdk/keycodes';
 import { BlouppyConfirmationService } from 'app/shared/services/confirmation';
-import { CardDetailDto, LabelDto, AdherentDto, ActivityDto, BoardsService, CardsService, TeamsService, UpdateCardCommand, ChecklistDto, CommentDto, BoardDetailDto } from 'app/swagger';
+import { CardDetailDto, LabelDto, AdherentDto, ActivityDto, BoardsService, CardsService, TeamsService, UpdateCardCommand, ChecklistDto, CommentDto, BoardDetailDto, ActivitiesService, CommentsService } from 'app/swagger';
 import { DateTime } from 'luxon';
 import { BreadcrumbComponent } from 'app/shared/components/breadcrumb/breadcrumb.component';
 import { Navigation } from 'app/core/navigation/models/navigation.model';
@@ -47,7 +47,6 @@ import { Navigation } from 'app/core/navigation/models/navigation.model';
       MatButtonModule,
       MatChipsModule,
       MatDatepickerModule,
-      //MatDialogModule,
       MatDivider,
       MatFormFieldModule,
       MatIconModule,
@@ -109,6 +108,9 @@ export class CardDetailComponent implements OnInit, OnDestroy {
   labelCtrl = new UntypedFormControl();
   filteredLabels: Observable<LabelDto[]>;
   allLabels: LabelDto[] = [];
+  comments: CommentDto[] = [];
+  activities: ActivityDto[] = [];
+
   @ViewChild('labelInput') labelInput: ElementRef<HTMLInputElement>;
 
   /*** Members ***/
@@ -134,9 +136,12 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     private _boardsService: BoardsService,
     private _cardsService: CardsService,
     private _teamsService: TeamsService,
+    private _activitiesService: ActivitiesService,
+    private _commentsService: CommentsService,
     private _scrumboardService: ScrumboardService,
     private _blouppyConfirmationService: BlouppyConfirmationService,
-    private _formBuilder: UntypedFormBuilder) {
+    private _formBuilder: UntypedFormBuilder,
+    private _router: Router) {
 
     this.id = this._activatedRoute.snapshot.paramMap.get('cardId');
     this.boardId = this._activatedRoute.snapshot.paramMap.get('boardId');
@@ -151,31 +156,34 @@ export class CardDetailComponent implements OnInit, OnDestroy {
       startWith(<string>null),
       map((member: string | null) => member
         ? this.filterMember(member)
-        : this.allMembers.filter(member => this.card.adherents.every(m => m.id !== member.id))));
+        : this.allMembers.filter(member => this.card.assignees.every(m => m.id !== member.id))));
   }
 
   ngOnInit(): void {
-    console.log('id:', this.boardId);
-    console.log('boardId:', this.boardId);
-
     forkJoin({
       card: this._scrumboardService.card$
         .pipe(take(1)),
       board: this._scrumboardService.board$
         .pipe(take(1)),
       labels: this._boardsService.apiBoardsIdLabelsGet(this.boardId)
+        .pipe(takeUntil(this._unsubscribeAll)),
+      comments: this._commentsService.apiCardsCardIdCommentsGet(this.id)
+        .pipe(takeUntil(this._unsubscribeAll)),
+      activities: this._activitiesService.apiCardsCardIdActivitiesGet(this.id)
         .pipe(takeUntil(this._unsubscribeAll))
     }).pipe(
-      mergeMap(({ card, board, labels }) => {
+      mergeMap(({ card, board, labels, comments, activities }) => {
         this.card = card;
         this.board = board;
         this.allLabels = labels;
+        this.comments = comments;
+        this.activities = activities;
     
         // Now that this.card and this.board are initialized, call initializeBreadcrumb
         this.initializeBreadcrumb();
     
-        if (this.card.activities) {
-          this.activitiesEmitter$.next(this.card.activities);
+        if (this.activities) {
+          this.activitiesEmitter$.next(this.activities);
         }
     
         // Prepare the card form
@@ -231,7 +239,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
       // If the confirm button pressed then remove the card
       if (result === 'confirmed') {
         this._cardsService.apiCardsIdDelete(card.id).subscribe(() => {
-          //this.matDialogRef.close();
+          this._router.navigate(['/scrumboard', this.boardId]);
         }, error => console.error(error));
       }
     });
@@ -249,7 +257,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
         this.addLabelToCard(this.allLabels[index]);
       }
       else {
-        const newLabel: LabelDto = { name: value, colour: { colour: 'bg-gray-500' }, cardIds: [this.id] };
+        const newLabel: LabelDto = { name: value, colour: { colour: 'bg-gray-500' } };
         this.addLabelToCard(newLabel);
         this.allLabels.push(newLabel);
       }
@@ -318,31 +326,31 @@ export class CardDetailComponent implements OnInit, OnDestroy {
   }
 
   selectedMemberChip(event: MatAutocompleteSelectedEvent): void {
-    this.card.adherents.push(event.option.value);
+    this.card.assignees.push(event.option.value);
 
     // Update the card form data
-    this.cardForm.get('members').patchValue(this.card.adherents);
+    this.cardForm.get('members').patchValue(this.card.assignees);
 
     this.memberInput.nativeElement.value = '';
     this.memberCtrl.setValue(null);
   }
 
   addMember(member: AdherentDto): void {
-    const index = this.card.adherents.findIndex(m => m.id === member.id);
+    const index = this.card.assignees.findIndex(m => m.id === member.id);
     if (index < 0)
-      this.card.adherents.push(member);
+      this.card.assignees.push(member);
 
     // Update the card form data
-    this.cardForm.get('members').patchValue(this.card.adherents);
+    this.cardForm.get('members').patchValue(this.card.assignees);
 
     this.memberCtrl.setValue(null);
   }
 
   updateMembers(members: AdherentDto[]): void {
-    this.card.adherents = members;
+    this.card.assignees = members;
 
     // Update the card form data
-    this.cardForm.get('members').patchValue(this.card.adherents);
+    this.cardForm.get('members').patchValue(this.card.assignees);
 
     this.memberCtrl.setValue(null);
   }
@@ -364,18 +372,20 @@ export class CardDetailComponent implements OnInit, OnDestroy {
 
 
   addComment(comment: CommentDto): void {
-    this.card.comments.push(comment);
+    this.comments.push(comment);
+
+    this._commentsService.apiCardsCardIdCommentsPost(this.card.id, { message: comment.message });
     
     // get the activities
-    this._cardsService.apiCardsIdActivitiesGet(this.card.id)
+    this._activitiesService.apiCardsCardIdActivitiesGet(this.card.id)
       .subscribe((activities: ActivityDto[]) => this.activitiesEmitter$.next(activities));
   }
 
   updateComments(comments: CommentDto[]): void {
-    this.card.comments = comments;
+    this.comments = comments;
 
     // get the activities
-    this._cardsService.apiCardsIdActivitiesGet(this.card.id)
+    this._activitiesService.apiCardsCardIdActivitiesGet(this.card.id)
     .subscribe((activities: ActivityDto[]) => this.activitiesEmitter$.next(activities));  
   }
 
@@ -410,7 +420,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
       name: this.card.name,
       description: this.card.description,
       labels: this.card.labels,
-      members: this.card.adherents,
+      members: this.card.assignees,
       checklists: this.card.checklists,
       dueDate: this.card.dueDate
     });
@@ -427,7 +437,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
             this.card.name = value.name;
             this.card.description = value.description;
             this.card.labels = value.labels;
-            this.card.adherents = value.members;
+            this.card.assignees = value.members;
             this.card.checklists = value.checklists;
             this.card.dueDate = value.dueDate;
           }),
@@ -447,15 +457,14 @@ export class CardDetailComponent implements OnInit, OnDestroy {
       suscribed: value.suscribed,
       dueDate: value.dueDate,
       labels: value.labels,
-      adherents: value.members,
-      attachments: null,
+      assignees: value.members,
       checklists: value.checklists,
     };
 
     // Update the card on the server and get the activities
     this._cardsService.apiCardsIdPut(updateCardCommand.id, updateCardCommand)
       .pipe(
-        switchMap((response: any) => this._cardsService.apiCardsIdActivitiesGet(response.card.id)))
+        switchMap((response: any) => this._activitiesService.apiCardsCardIdActivitiesGet(response.card.id)))
       .subscribe((activities: ActivityDto[]) => this.activitiesEmitter$.next(activities));
   }
 
@@ -468,13 +477,10 @@ export class CardDetailComponent implements OnInit, OnDestroy {
   private filterMember(value: string | AdherentDto): AdherentDto[] {
     const filterValue = (<AdherentDto>value).firstName ? (<AdherentDto>value).firstName.toLowerCase() : (<string>value).toLowerCase();
 
-    return this.allMembers.filter(member => this.card.adherents.every(m => m.firstName !== member.firstName) && member.firstName.toLowerCase().includes(filterValue));
+    return this.allMembers.filter(member => this.card.assignees.every(m => m.firstName !== member.firstName) && member.firstName.toLowerCase().includes(filterValue));
   }
 
   private addLabelToCard(label: LabelDto): void {
-    if (label.cardIds.indexOf(this.id) === -1)
-      label.cardIds.push(this.id);
-
     this.card.labels.unshift(label);
 
     // Update the card form data
@@ -485,10 +491,6 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     const index = this.card.labels.findIndex(l => l === label);
 
     if (index >= 0) {
-      const cardIdIndex = label.cardIds.indexOf(this.id);
-      if (cardIdIndex === -1)
-        label.cardIds.splice(cardIdIndex, 1);
-
       this.card.labels.splice(index, 1);
 
       // Update the card form data
@@ -496,14 +498,14 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private removeMemberFromCard(member: LabelDto): void {
-    const index = this.card.adherents.findIndex(m => m === member);
+  private removeMemberFromCard(member: AdherentDto): void {
+    const index = this.card.assignees.findIndex(m => m === member);
 
     if (index >= 0)
-      this.card.adherents.splice(index, 1);
+      this.card.assignees.splice(index, 1);
 
     // Update the card form data
-    this.cardForm.get('members').patchValue(this.card.adherents);
+    this.cardForm.get('members').patchValue(this.card.assignees);
   }
 
   private initializeBreadcrumb() {

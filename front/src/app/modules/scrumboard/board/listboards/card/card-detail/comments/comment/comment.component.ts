@@ -35,7 +35,7 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     // Load the current user's data to check if we can update or remove the comment
     this._authService.getUser().subscribe(user => {
-      if (this.comment.adherent.identityId === user.id)
+      if (this.comment.adherent.id === user.id)
         this.canModify = true;
       else
         this.canModify = false;

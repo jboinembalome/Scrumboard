@@ -11,13 +11,14 @@ import { CommentComponent } from './comment/comment.component';
 })
 export class CommentsComponent {
   @Input() comments: CommentDto[];
+  @Input() cardId: number;
   @Output() commentsUpdated = new EventEmitter<CommentDto[]>();
 
   constructor(private _commentsService: CommentsService) {
   }
 
   removeComment(comment: CommentDto): void {
-    this._commentsService.apiCommentsIdDelete(comment.id).subscribe(() => {
+    this._commentsService.apiCardsCardIdCommentsIdDelete(this.cardId, comment.id).subscribe(() => {
       this.comments.splice(this.comments.indexOf(comment), 1);
       this.commentsUpdated.emit(this.comments);  
     });
@@ -29,7 +30,7 @@ export class CommentsComponent {
       message: comment.message,
     };
 
-    this._commentsService.apiCommentsIdPut(comment.id, updateCommentCommand).subscribe(response => {
+    this._commentsService.apiCardsCardIdCommentsIdPut(this.cardId, comment.id, updateCommentCommand).subscribe(response => {
       var index = this.comments.findIndex(c => c.id === response.comment.id);
       if (index >= 0) {
         this.comments[index] = response.comment;

@@ -1,7 +1,7 @@
 <div class="flex space-x-3">
   <div class="flex-shrink-0">
     @if (comment.adherent.hasAvatar) {
-      <img class="h-10 w-10 rounded-full" [src]="urlAvatar + comment.adherent.identityId">
+      <img class="h-10 w-10 rounded-full" [src]="urlAvatar + comment.adherent.id">
     }
     @else {
       <img class="h-10 w-10 rounded-full" src="assets/images/avatars/profile.jpg">

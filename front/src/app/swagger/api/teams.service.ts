@@ -58,6 +58,51 @@ export class TeamsService {
 
 
     /**
+     * Get board team.
+     * 
+     * @param boardId Id of the board.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiBoardsBoardIdTeamsGet(boardId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiBoardsBoardIdTeamsGet(boardId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiBoardsBoardIdTeamsGet(boardId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiBoardsBoardIdTeamsGet(boardId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (boardId === null || boardId === undefined) {
+            throw new Error('Required parameter boardId was null or undefined when calling apiBoardsBoardIdTeamsGet.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('get',`${this.basePath}/api/boards/${encodeURIComponent(String(boardId))}/teams`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Get a team by id.
      * 
      * @param id Id of the team.

@@ -1,8 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { WeatherForecast } from './fetch-data.model';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgClass, AsyncPipe, DatePipe } from '@angular/common';
+import { WeatherForecast, WeatherForecastService } from 'app/swagger';
 
 @Component({
     selector: 'app-fetch-data',
@@ -19,11 +18,10 @@ export class FetchDataComponent implements OnInit {
   forecasts: Observable<WeatherForecast[]>;
 
   constructor(
-    private _httpClient: HttpClient, 
-    @Inject('BASE_URL') private _baseUrl: string) {  
+    private _weatherForecastService : WeatherForecastService) {  
   }
 
   ngOnInit(): void {
-    this.forecasts = this._httpClient.get<WeatherForecast[]>(this._baseUrl + '/api/weatherforecast');
+    this.forecasts = this._weatherForecastService.apiWeatherForecastGet();
   }
 }

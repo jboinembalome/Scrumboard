@@ -11,13 +11,11 @@
  */
 import { BoardSettingDto } from './boardSettingDto';
 import { ListBoardDto } from './listBoardDto';
-import { TeamDto } from './teamDto';
 
 export interface UpdateBoardCommand { 
     boardId?: number;
     name?: string;
     uri?: string;
-    team?: TeamDto;
     boardSetting?: BoardSettingDto;
     listBoards?: Array<ListBoardDto>;
 }

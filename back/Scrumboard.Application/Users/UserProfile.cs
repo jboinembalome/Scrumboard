@@ -12,6 +12,12 @@ internal sealed class UserProfile : Profile
         CreateMap<IUser, UserDto>()
             .ForMember(dest => dest.HasAvatar, opt => opt.MapFrom(src => src.Avatar.Any()));
         
+        CreateMap<string, UserDto>()
+            .ConstructUsing(userId => new UserDto
+            {
+                Id = userId
+            });
+        
         // Write
         CreateMap<UserDto, string>()
             .ConstructUsing(x => x.Id);

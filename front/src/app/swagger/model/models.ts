@@ -1,6 +1,5 @@
 export * from './accessTokenResponse';
 export * from './activityDto';
-export * from './adherentDto';
 export * from './boardDetailDto';
 export * from './boardDto';
 export * from './boardSettingDto';
@@ -35,4 +34,5 @@ export * from './updateCardCommand';
 export * from './updateCommentCommand';
 export * from './updatePinnedBoardCommand';
 export * from './updateTeamCommand';
+export * from './userDto';
 export * from './weatherForecast';

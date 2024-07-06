@@ -9,10 +9,11 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { UserDto } from './userDto';
 
-export interface TeamDto { 
-    id?: number;
-    name?: string;
-    members?: Array<UserDto>;
+export interface UserDto { 
+    id?: string;
+    firstName?: string;
+    lastName?: string;
+    job?: string;
+    hasAvatar?: boolean;
 }

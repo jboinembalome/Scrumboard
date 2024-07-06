@@ -17,9 +17,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { AdherentDto } from '../model/adherentDto';
 import { ProblemDetails } from '../model/problemDetails';
 import { UpdateTeamCommand } from '../model/updateTeamCommand';
+import { UserDto } from '../model/userDto';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -109,9 +109,9 @@ export class TeamsService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiTeamsIdGet(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<AdherentDto>>;
-    public apiTeamsIdGet(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<AdherentDto>>>;
-    public apiTeamsIdGet(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<AdherentDto>>>;
+    public apiTeamsIdGet(id: number, observe?: 'body', reportProgress?: boolean): Observable<Array<UserDto>>;
+    public apiTeamsIdGet(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<UserDto>>>;
+    public apiTeamsIdGet(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<UserDto>>>;
     public apiTeamsIdGet(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (id === null || id === undefined) {
@@ -138,7 +138,7 @@ export class TeamsService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.request<Array<AdherentDto>>('get',`${this.basePath}/api/teams/${encodeURIComponent(String(id))}`,
+        return this.httpClient.request<Array<UserDto>>('get',`${this.basePath}/api/teams/${encodeURIComponent(String(id))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -1,7 +1,5 @@
 export * from './activities.service';
 import { ActivitiesService } from './activities.service';
-export * from './adherents.service';
-import { AdherentsService } from './adherents.service';
 export * from './boards.service';
 import { BoardsService } from './boards.service';
 export * from './cards.service';
@@ -14,6 +12,8 @@ export * from './scrumboardWeb.service';
 import { ScrumboardWebService } from './scrumboardWeb.service';
 export * from './teams.service';
 import { TeamsService } from './teams.service';
+export * from './users.service';
+import { UsersService } from './users.service';
 export * from './weatherForecast.service';
 import { WeatherForecastService } from './weatherForecast.service';
-export const APIS = [ActivitiesService, AdherentsService, BoardsService, CardsService, CommentsService, LabelsService, ScrumboardWebService, TeamsService, WeatherForecastService];
+export const APIS = [ActivitiesService, BoardsService, CardsService, CommentsService, LabelsService, ScrumboardWebService, TeamsService, UsersService, WeatherForecastService];

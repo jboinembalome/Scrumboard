@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { ActivitiesService } from './api/activities.service';
-import { AdherentsService } from './api/adherents.service';
 import { BoardsService } from './api/boards.service';
 import { CardsService } from './api/cards.service';
 import { CommentsService } from './api/comments.service';
 import { LabelsService } from './api/labels.service';
 import { ScrumboardWebService } from './api/scrumboardWeb.service';
 import { TeamsService } from './api/teams.service';
+import { UsersService } from './api/users.service';
 import { WeatherForecastService } from './api/weatherForecast.service';
 
 @NgModule({
@@ -19,13 +19,13 @@ import { WeatherForecastService } from './api/weatherForecast.service';
   exports:      [],
   providers: [
     ActivitiesService,
-    AdherentsService,
     BoardsService,
     CardsService,
     CommentsService,
     LabelsService,
     ScrumboardWebService,
     TeamsService,
+    UsersService,
     WeatherForecastService ]
 })
 export class ApiModule {

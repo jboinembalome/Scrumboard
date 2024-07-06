@@ -9,16 +9,16 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { AdherentDto } from './adherentDto';
 import { BoardSettingDto } from './boardSettingDto';
 import { ListBoardDto } from './listBoardDto';
 import { TeamDto } from './teamDto';
+import { UserDto } from './userDto';
 
 export interface BoardDetailDto { 
     id?: number;
     name?: string;
     uri?: string;
-    creator?: AdherentDto;
+    creator?: UserDto;
     team?: TeamDto;
     boardSetting?: BoardSettingDto;
     listBoards?: Array<ListBoardDto>;

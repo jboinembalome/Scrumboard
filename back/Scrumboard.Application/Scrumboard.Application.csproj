@@ -2,6 +2,7 @@
   
   <ItemGroup>
     <PackageReference Include="AutoMapper" />
+    <PackageReference Include="AutoMapper.Collection" />
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="MediatR" />

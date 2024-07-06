@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using AutoMapper.EquivalencyExpression;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -47,7 +46,6 @@ public static class InfrastructureServiceRegistration
             
             services.AddAutoMapper(cfg =>
             {
-                cfg.AddCollectionMappers();
                 // Configuration code
             }, Assembly.GetExecutingAssembly());
         

@@ -25,9 +25,9 @@ internal sealed class UpdateBoardCommandHandler(
 
         mapper.Map(request, boardToUpdate, opt => opt.BeforeMap((s, d) => MoveCards(s, d)));
 
-        await boardsRepository.UpdateAsync(boardToUpdate, cancellationToken);
+        var updatedBoard = await boardsRepository.UpdateAsync(boardToUpdate, cancellationToken);
 
-        updateBoardCommandResponse.ListBoards = mapper.Map<IEnumerable<ListBoardDto>>(boardToUpdate.ListBoards);
+        updateBoardCommandResponse.ListBoards = mapper.Map<IEnumerable<ListBoardDto>>(updatedBoard.ListBoards);
 
         return updateBoardCommandResponse;
     }

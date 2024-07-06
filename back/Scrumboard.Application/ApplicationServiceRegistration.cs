@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Boards;
@@ -17,6 +18,7 @@ public static class ApplicationServiceRegistration
         services.AddAutoMapper(cfg =>
         {
             // Configuration code
+            cfg.AddCollectionMappers();
         }, Assembly.GetExecutingAssembly());
         
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

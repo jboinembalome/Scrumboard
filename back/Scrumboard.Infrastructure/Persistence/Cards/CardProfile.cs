@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 using Scrumboard.Domain.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
@@ -9,8 +8,7 @@ internal sealed class CardProfile : Profile
     public CardProfile()
     {
         // Write
-        CreateMap<Card, CardDao>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        CreateMap<Card, CardDao>();
         
         CreateMap<string, CardAssigneeDao>()
             .ConstructUsing(assigneeId => new CardAssigneeDao
@@ -19,10 +17,8 @@ internal sealed class CardProfile : Profile
             });
         
         // Read
-        CreateMap<CardDao, Card>()
-            .EqualityComparison((src, dest) => src.Id == dest.Id);
+        CreateMap<CardDao, Card>();
         
-        CreateMap<CardAssigneeDao, string>()
-            .ConstructUsing(cardAssigneeDao =>  cardAssigneeDao.AssigneeId);
+        CreateMap<CardAssigneeDao, string>();
     }
 }

@@ -36,6 +36,7 @@ public class ScrumboardDbContext(
     {
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
         {
+            // TODO: Use interceptors
             switch (entry)
             {
                 case { State: EntityState.Added }:
@@ -49,15 +50,8 @@ public class ScrumboardDbContext(
                     }
                     break;
                 case { State: EntityState.Modified }:
-                    // TODO: Hack to not depend on httpContextAccessor when using ScrumboardDbContextSeed
-                    // (Will be removed later)
-                    // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                    if (entry.Entity.CreatedBy is null)
-                    {
-                        entry.Entity.LastModifiedBy = currentUserService.UserId;
-                        entry.Entity.LastModifiedDate = dateTime.Now;
-                    }
-
+                    entry.Entity.LastModifiedBy = currentUserService.UserId;
+                    entry.Entity.LastModifiedDate = dateTime.Now;
                     break;
             }
         }

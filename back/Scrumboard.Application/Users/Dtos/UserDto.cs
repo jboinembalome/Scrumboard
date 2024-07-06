@@ -1,8 +1,8 @@
 ﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
-namespace Scrumboard.Application.Adherents.Dtos;
+namespace Scrumboard.Application.Users.Dtos;
 
-public sealed class AdherentDto
+public sealed class UserDto
 {
     public string Id { get; set; }
     public string FirstName { get; set; }

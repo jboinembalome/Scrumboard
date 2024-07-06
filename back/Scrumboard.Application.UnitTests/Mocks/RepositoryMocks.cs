@@ -15,13 +15,13 @@ public class RepositoryMocks
     // TODO: Move mock
     public static Mock<IBoardsRepository> GetBoardRepository()
     {
-        var adherent1Model = "2cd08f87-33a6-4cbc-a0de-71d428986b85";
+        var user1Model = "2cd08f87-33a6-4cbc-a0de-71d428986b85";
 
         var team1 = new Team 
         { 
             Id = 1, 
             Name = "Developer Team",
-            Members = [adherent1Model]
+            Members = [user1Model]
         };
 
         #region Fake data for the frontend board
@@ -68,7 +68,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0], labelsForFrontEndScrumboard[1] },
-                            Assignees = [adherent1Model],
+                            Assignees = [user1Model],
                             Checklists = new Collection<Checklist>
                             {
                                 new Checklist
@@ -135,7 +135,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[2] },
-                            Assignees = [adherent1Model]
+                            Assignees = [user1Model]
                         },
                     }
                 },
@@ -193,7 +193,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForBackEndScrumboard[1] },
-                            Assignees = [adherent1Model]
+                            Assignees = [user1Model]
                         },
                         new Card
                         {

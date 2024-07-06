@@ -95,28 +95,28 @@ internal sealed class UpdateCardCommandHandler(
         #region Member
         if (!oldCard.Assignees.Any() && updatedCard.Assignees.Any())
         {
-            var adherent = updatedCard.Assignees.First();
-            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
+            var firstAssigneeDto = updatedCard.Assignees.First();
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssigneeDto.FirstName} {firstAssigneeDto.LastName}"));
         }
 
         if (oldCard.Assignees.Any() && !updatedCard.Assignees.Any())
         {
-            var adherent = oldCard.Assignees.First();
-            var user = await identityService.GetUserAsync(adherent, cancellationToken);
-            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
+            var firstAssigneeId = oldCard.Assignees.First();
+            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
         }
 
         if (oldCard.Assignees.Count < updatedCard.Assignees.Count())
         {
-            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Contains(l.Id));
-            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
+            var firstAssigneeDto = updatedCard.Assignees.First(l => !oldCard.Assignees.Contains(l.Id));
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssigneeDto.FirstName} {firstAssigneeDto.LastName}"));
         }
 
         if (oldCard.Assignees.Count > updatedCard.Assignees.Count())
         {
-            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l));
-            var user = await identityService.GetUserAsync(adherent, cancellationToken);
-            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
+            var firstAssigneeId = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l));
+            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
+            activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
         }
         #endregion
 

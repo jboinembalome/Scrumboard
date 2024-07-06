@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Adherents\Queries\" />
+    <Folder Include="Users\Queries\" />
     <Folder Include="Boards\Commands\" />
     <Folder Include="Boards\Queries\" />
     <Folder Include="Cards\Activities\Queries\" />

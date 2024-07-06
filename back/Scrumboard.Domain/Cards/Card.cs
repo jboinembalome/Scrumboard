@@ -1,5 +1,4 @@
-﻿using Scrumboard.Domain.Adherents;
-using Scrumboard.Domain.Boards;
+﻿using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.Common;
 

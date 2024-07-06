@@ -1,5 +1,5 @@
-﻿using Scrumboard.Application.Adherents.Dtos;
-using Scrumboard.Application.Boards.Dtos;
+﻿using Scrumboard.Application.Boards.Dtos;
+using Scrumboard.Application.Users.Dtos;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -15,6 +15,6 @@ public sealed class CardDetailDto
     public int Position { get; set; }
     public int ListBoardId { get; set; }
     public IEnumerable<LabelDto> Labels { get; set; }
-    public IEnumerable<AdherentDto> Assignees { get; set; }
+    public IEnumerable<UserDto> Assignees { get; set; }
     public IEnumerable<ChecklistDto> Checklists { get; set; }
 }

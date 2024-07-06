@@ -39,7 +39,7 @@ internal sealed class UpdateCommentCommandHandler(
         
         var commentDto = mapper.Map<CommentDto>(commentToUpdate);
 
-        mapper.Map(user, commentDto.Adherent);
+        mapper.Map(user, commentDto.User);
         
         updateCommentCommandResponse.Comment = commentDto;
 

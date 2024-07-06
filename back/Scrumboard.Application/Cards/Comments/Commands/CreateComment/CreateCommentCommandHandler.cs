@@ -34,7 +34,7 @@ internal sealed class CreateCommentCommandHandler(
         
         var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
         var commentDto = mapper.Map<CommentDto>(comment);
-        mapper.Map(user, commentDto.Adherent);
+        mapper.Map(user, commentDto.User);
         createCommentCommandResponse.Comment = commentDto;
 
         return createCommentCommandResponse;

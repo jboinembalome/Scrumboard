@@ -35,10 +35,10 @@ public class ScrumboardDbContextInitializer(
     UserManager<ApplicationUser> userManager,
     RoleManager<IdentityRole> roleManager)
 {
-    private const string AdherentUserId = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private const string AdherentUserId2 = "633f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private const string AdherentUserId3 = "635f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private const string AdherentUserId4 = "637f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private const string UserId = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private const string UserId2 = "633f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private const string UserId3 = "635f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private const string UserId4 = "637f27ad-d3e8-4fe7-9259-ee4ef713dbea";
 
     public async Task InitialiseAsync()
     {
@@ -83,9 +83,9 @@ public class ScrumboardDbContextInitializer(
     {
         var roles = new[] { "Adherent" };
         
-        var adherent = new ApplicationUser
+        var user = new ApplicationUser
         {
-            Id = AdherentUserId,
+            Id = UserId,
             FirstName = "Jimmy",
             LastName = "Boinembalome",
             UserName = "adherent@localhost",
@@ -93,9 +93,9 @@ public class ScrumboardDbContextInitializer(
             Job = "Software Engineer",
             Avatar = []
         };
-        var adherent2 = new ApplicationUser
+        var user2 = new ApplicationUser
         {
-            Id = AdherentUserId2,
+            Id = UserId2,
             FirstName = "Guyliane",
             LastName = "De Jesus Pimenta",
             UserName = "adherent2@localhost",
@@ -103,9 +103,9 @@ public class ScrumboardDbContextInitializer(
             Job = "Software Engineer",
             Avatar = []
         };
-        var adherent3 = new ApplicationUser
+        var user3 = new ApplicationUser
         {
-            Id = AdherentUserId3,
+            Id = UserId3,
             FirstName = "Corentin",
             LastName = "Hugot",
             UserName = "adherent3@localhost",
@@ -113,9 +113,9 @@ public class ScrumboardDbContextInitializer(
             Job = "Systems and Networks Engineer",
             Avatar = []
         };
-        var adherent4 = new ApplicationUser
+        var user4 = new ApplicationUser
         {
-            Id = AdherentUserId4,
+            Id = UserId4,
             FirstName = "Patrice",
             LastName = "Fouque",
             UserName = "adherent4@localhost",
@@ -124,17 +124,17 @@ public class ScrumboardDbContextInitializer(
             Avatar = []
         };
 
-        await CreateUser(userManager, adherent, "Adherent1!");
-        await AddUserToRoles(userManager, roleManager, roles, adherent);
+        await CreateUser(userManager, user, "Adherent1!");
+        await AddUserToRoles(userManager, roleManager, roles, user);
 
-        await CreateUser(userManager, adherent2, "Adherent2!");
-        await AddUserToRole(userManager, roleManager, roles[0], adherent2);
+        await CreateUser(userManager, user2, "Adherent2!");
+        await AddUserToRole(userManager, roleManager, roles[0], user2);
 
-        await CreateUser(userManager, adherent3, "Adherent3!");
-        await AddUserToRole(userManager, roleManager, roles[0], adherent3);
+        await CreateUser(userManager, user3, "Adherent3!");
+        await AddUserToRole(userManager, roleManager, roles[0], user3);
 
-        await CreateUser(userManager, adherent4, "Adherent4!");
-        await AddUserToRole(userManager, roleManager, roles[0], adherent4);
+        await CreateUser(userManager, user4, "Adherent4!");
+        await AddUserToRole(userManager, roleManager, roles[0], user4);
     }
 
     private static async Task SeedSampleDataAsync(ScrumboardDbContext context)
@@ -142,36 +142,36 @@ public class ScrumboardDbContextInitializer(
         var team = new TeamDao
         {
             Name = "Developer Team",
-            CreatedBy = AdherentUserId
+            CreatedBy = UserId
         };
 
         team.Members =
         [
-            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId, },
-            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId2, },
-            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId3, },
-            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId4, }
+            new TeamMemberDao { TeamId = team.Id, MemberId = UserId, },
+            new TeamMemberDao { TeamId = team.Id, MemberId = UserId2, },
+            new TeamMemberDao { TeamId = team.Id, MemberId = UserId3, },
+            new TeamMemberDao { TeamId = team.Id, MemberId = UserId4, }
         ];
         
         var team2 = new TeamDao
         {
             Name = "Test Team", 
-            CreatedBy = AdherentUserId2
+            CreatedBy = UserId2
         };
         
         team2.Members =
         [
-            new TeamMemberDao { TeamId = team2.Id, MemberId = AdherentUserId2 },
+            new TeamMemberDao { TeamId = team2.Id, MemberId = UserId2 },
         ];
 
         var labels = new Collection<LabelDao>
         {
-            new() { Name = "Design", Colour = Colour.Violet, CreatedBy = AdherentUserId },
-            new() { Name = "App", Colour = Colour.Gray, CreatedBy = AdherentUserId },
-            new() { Name = "Feature", Colour = Colour.Red, CreatedBy = AdherentUserId },
-            new() { Name = "Log", Colour = Colour.Blue, CreatedBy = AdherentUserId },
-            new() { Name = "Documentation", Colour = Colour.Rose, CreatedBy = AdherentUserId },
-            new() { Name = "Persistence", Colour = Colour.Yellow, CreatedBy = AdherentUserId }
+            new() { Name = "Design", Colour = Colour.Violet, CreatedBy = UserId },
+            new() { Name = "App", Colour = Colour.Gray, CreatedBy = UserId },
+            new() { Name = "Feature", Colour = Colour.Red, CreatedBy = UserId },
+            new() { Name = "Log", Colour = Colour.Blue, CreatedBy = UserId },
+            new() { Name = "Documentation", Colour = Colour.Rose, CreatedBy = UserId },
+            new() { Name = "Persistence", Colour = Colour.Yellow, CreatedBy = UserId }
         };
 
         var boardSettings = new Collection<BoardSettingDao>
@@ -195,18 +195,18 @@ public class ScrumboardDbContextInitializer(
                     Name = "Checklist",
                     ChecklistItems = new Collection<ChecklistItemDao>
                     {
-                        new() { Name = "Create template for the login page", IsChecked = true, CreatedBy = AdherentUserId },
-                        new() { Name = "Validate template for the login page", IsChecked = false, CreatedBy = AdherentUserId }
+                        new() { Name = "Create template for the login page", IsChecked = true, CreatedBy = UserId },
+                        new() { Name = "Validate template for the login page", IsChecked = false, CreatedBy = UserId }
                     },
-                    CreatedBy = AdherentUserId
+                    CreatedBy = UserId
                 }
             ],
-            CreatedBy = AdherentUserId
+            CreatedBy = UserId
         };
 
         card1.Assignees = 
         [
-            new CardAssigneeDao { CardId = card1.Id, AssigneeId = AdherentUserId }
+            new CardAssigneeDao { CardId = card1.Id, AssigneeId = UserId }
         ];
         
         CardDao card2 = new()
@@ -217,7 +217,7 @@ public class ScrumboardDbContextInitializer(
             DueDate = null,
             Position = 131072,
             Labels = [labels[0]],
-            CreatedBy = AdherentUserId
+            CreatedBy = UserId
         };
         CardDao card3 = new()
         {
@@ -227,7 +227,7 @@ public class ScrumboardDbContextInitializer(
             DueDate = new DateTime(2021, 5, 15),
             Position = 65536,
             Labels = [labels[1]],
-            CreatedBy = AdherentUserId
+            CreatedBy = UserId
         };
         CardDao card4 = new()
         {
@@ -237,12 +237,12 @@ public class ScrumboardDbContextInitializer(
             DueDate = null,
             Position = 65536,
             Labels = [labels[2]],
-            CreatedBy = AdherentUserId
+            CreatedBy = UserId
         };
         
         card4.Assignees = 
         [
-            new CardAssigneeDao { CardId = card4.Id, AssigneeId = AdherentUserId }
+            new CardAssigneeDao { CardId = card4.Id, AssigneeId = UserId }
         ];
         
         var cards = new Collection<CardDao>
@@ -261,12 +261,12 @@ public class ScrumboardDbContextInitializer(
             DueDate = null,
             Position = 65536,
             Labels = [labels[4]],
-            CreatedBy = AdherentUserId
+            CreatedBy = UserId
         };
         
         card5.Assignees = 
         [
-            new CardAssigneeDao { CardId = card5.Id, AssigneeId = AdherentUserId }
+            new CardAssigneeDao { CardId = card5.Id, AssigneeId = UserId }
         ];
         
         CardDao card6 = new()
@@ -278,14 +278,14 @@ public class ScrumboardDbContextInitializer(
             Position = 131072,
             Assignees = [],
             Labels = new Collection<LabelDao> { labels[3] },
-            CreatedBy = AdherentUserId
+            CreatedBy = UserId
         };
         var listboards = new Collection<ListBoardDao>
         {
-            new() { Name = "Design", Position = 65536, Cards = [cards[0], cards[1]], CreatedBy = AdherentUserId },
-            new() { Name = "Development", Position = 131072, Cards = [cards[2]], CreatedBy = AdherentUserId },
-            new() { Name = "Upcoming Features", Position = 196608, Cards = [cards[3]], CreatedBy = AdherentUserId },
-            new() { Name = "Known Bugs", Position = 262144, CreatedBy = AdherentUserId },
+            new() { Name = "Design", Position = 65536, Cards = [cards[0], cards[1]], CreatedBy = UserId },
+            new() { Name = "Development", Position = 131072, Cards = [cards[2]], CreatedBy = UserId },
+            new() { Name = "Upcoming Features", Position = 196608, Cards = [cards[3]], CreatedBy = UserId },
+            new() { Name = "Known Bugs", Position = 262144, CreatedBy = UserId },
             new()
             {
                 Name = "Backlog",
@@ -295,7 +295,7 @@ public class ScrumboardDbContextInitializer(
                     card5,
                     card6,
                 },
-                CreatedBy = AdherentUserId
+                CreatedBy = UserId
             }
         };
 
@@ -315,7 +315,7 @@ public class ScrumboardDbContextInitializer(
                     listboards[3]
                 ],
                 BoardSetting = boardSettings[0],
-                CreatedBy = AdherentUserId
+                CreatedBy = UserId
             },
             new()
             {
@@ -325,7 +325,7 @@ public class ScrumboardDbContextInitializer(
                 Team = team,
                 ListBoards = [listboards[4]],
                 BoardSetting = boardSettings[1],
-                CreatedBy = AdherentUserId
+                CreatedBy = UserId
             }
         };
 

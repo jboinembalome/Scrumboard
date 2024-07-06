@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Boards.Dtos;
 using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.Application.Users.Dtos;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
@@ -28,34 +28,34 @@ internal sealed class GetBoardDetailQueryHandler(
             .ToHashSet();
         
         var users = await identityService.GetListAsync(userIds, cancellationToken);
-        var adherentDtos = mapper.Map<IReadOnlyCollection<AdherentDto>>(users);
+        var userDtos = mapper.Map<IReadOnlyCollection<UserDto>>(users);
       
         var boardDto = mapper.Map<BoardDetailDto>(board);
-        boardDto.Team.Adherents = adherentDtos;
-        boardDto.Creator = adherentDtos.First(a => a.Id == board.CreatedBy);
+        boardDto.Team.Members = userDtos;
+        boardDto.Creator = userDtos.First(a => a.Id == board.CreatedBy);
 
-        var adherentDtosInBoard = boardDto.ListBoards
+        var userDtosInBoard = boardDto.ListBoards
             .SelectMany(l => l.Cards
                 .SelectMany(c => c.Assignees
-                    .Where(a => adherentDtos
+                    .Where(a => userDtos
                         .Any(ad => ad.Id == a.Id))))
             .ToList();
         
-        MapUsers(users, adherentDtosInBoard);
+        MapUsers(users, userDtosInBoard);
         
         return boardDto;
     }
 
-    private void MapUsers(IReadOnlyList<IUser> users, IReadOnlyCollection<AdherentDto> adherents)
+    private void MapUsers(IReadOnlyList<IUser> users, IReadOnlyCollection<UserDto> userDtos)
     {
-        foreach (var adherent in adherents)
+        foreach (var userDto in userDtos)
         {
-            var user = users.FirstOrDefault(u => u.Id == adherent.Id);
+            var user = users.FirstOrDefault(u => u.Id == userDto.Id);
             
             if (user == null)
                 continue;
 
-            mapper.Map(user, adherent);
+            mapper.Map(user, userDto);
         }
     }
 }

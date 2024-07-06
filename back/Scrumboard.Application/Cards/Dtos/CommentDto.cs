@@ -1,4 +1,4 @@
-﻿using Scrumboard.Application.Adherents.Dtos;
+﻿using Scrumboard.Application.Users.Dtos;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -10,5 +10,5 @@ public sealed class CommentDto
     public string Message { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime? LastModifiedDate { get; set; }
-    public AdherentDto Adherent { get; set; }
+    public UserDto User { get; set; }
 }

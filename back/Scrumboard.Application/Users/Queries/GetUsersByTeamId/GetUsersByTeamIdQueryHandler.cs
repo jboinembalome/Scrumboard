@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Adherents.Dtos;
+using Scrumboard.Application.Users.Dtos;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 
-namespace Scrumboard.Application.Adherents.Queries.GetAdherentsByTeamId;
+namespace Scrumboard.Application.Users.Queries.GetUsersByTeamId;
 
-internal sealed class GetAdherentsByTeamIdQueryHandler(
+internal sealed class GetUsersByTeamIdQueryHandler(
     IMapper mapper,
     ITeamsQueryRepository teamsQueryRepository,
     IIdentityService identityService)
-    : IRequestHandler<GetAdherentsByTeamIdQuery, IEnumerable<AdherentDto>>
+    : IRequestHandler<GetUsersByTeamIdQuery, IEnumerable<UserDto>>
 {
-    public async Task<IEnumerable<AdherentDto>> Handle(
-        GetAdherentsByTeamIdQuery request, 
+    public async Task<IEnumerable<UserDto>> Handle(
+        GetUsersByTeamIdQuery request, 
         CancellationToken cancellationToken)
     {
         var team = await teamsQueryRepository.TryGetByIdAsync(request.TeamId, cancellationToken);
@@ -28,8 +28,8 @@ internal sealed class GetAdherentsByTeamIdQueryHandler(
         
         var users = await identityService.GetListAsync(members, cancellationToken);
 
-        var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(members);
+        var userDtos = mapper.Map<IEnumerable<UserDto>>(members);
 
-        return mapper.Map(users, adherentDtos);
+        return mapper.Map(users, userDtos);
     }
 }

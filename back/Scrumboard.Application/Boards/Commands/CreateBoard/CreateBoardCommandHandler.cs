@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Scrumboard.Application.Boards.Dtos;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Common;
@@ -23,13 +22,13 @@ internal sealed class CreateBoardCommandHandler(
     {
         var createBoardCommandResponse = new CreateBoardCommandResponse();
         
-        var adherent = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
+        var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
         
         var board = mapper.Map<Board>(request);
         board.BoardSetting = new BoardSetting();
         // TODO: Update code for team name
         board.Team = new Team { Name = "Team 1", Members = [] };
-        board.Team.Members.Add(adherent.Id);
+        board.Team.Members.Add(user.Id);
 
         board = await boardsRepository.AddAsync(board, cancellationToken);
 

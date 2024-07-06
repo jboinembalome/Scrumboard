@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
-using Scrumboard.Application.Adherents.Dtos;
 using Scrumboard.Application.Cards.Dtos;
+using Scrumboard.Application.Users.Dtos;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
@@ -29,25 +29,25 @@ internal sealed class GetCommentsByCardIdQueryHandler(
         var users = await identityService.GetListAsync(comments
                 .Select(a => a.CreatedBy), cancellationToken);
         
-        var adherentDtos = commentDtos.Select(c => c.Adherent).ToList();
+        var userDtos = commentDtos.Select(c => c.User).ToList();
 
-        MapUsers(users, adherentDtos);
+        MapUsers(users, userDtos);
 
         return commentDtos;
     }
 
-    private void MapUsers(IReadOnlyList<IUser> users, IEnumerable<AdherentDto> adherents)
+    private void MapUsers(IReadOnlyList<IUser> users, IEnumerable<UserDto> userDtos)
     {
-        foreach (var adherent in adherents)
+        foreach (var userDto in userDtos)
         {
-            var user = users.FirstOrDefault(u => u.Id == adherent.Id);
+            var user = users.FirstOrDefault(u => u.Id == userDto.Id);
 
             if (user is null)
             {
                 continue;
             }
 
-            mapper.Map(user, adherent);
+            mapper.Map(user, userDto);
         }
     }
 }

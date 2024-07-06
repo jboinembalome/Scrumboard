@@ -25,6 +25,7 @@ public class TeamsController(ISender mediator) : ControllerBase
         int id,
         CancellationToken cancellationToken)
     {
+        // TODO: Return the team.
         var dto = await mediator.Send(
             new GetUsersByTeamIdQuery { TeamId = id },
             cancellationToken);

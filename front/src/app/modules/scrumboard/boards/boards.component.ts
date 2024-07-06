@@ -119,7 +119,8 @@ export class BoardsComponent implements OnInit, OnDestroy {
     this.filteredBoard = this.filteredBoard.filter(b => b !== board);
     this.boards = this.boards.filter(b => b !== board);
 
-    this.boardsSubscription = this._boardsService.apiBoardsIdDelete(board.id).subscribe(error => console.error(error));
+    this.boardsSubscription = this._boardsService.apiBoardsIdDelete(board.id)
+    .subscribe({error: console.error});
   }
 
   /*

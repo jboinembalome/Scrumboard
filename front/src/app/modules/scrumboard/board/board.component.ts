@@ -174,7 +174,6 @@ export class BoardComponent implements OnInit, OnDestroy {
       name: this.board.name,
       uri: this.board.uri,
       boardSetting: this.board.boardSetting,
-      team: this.board.team,
       listBoards: this.board.listBoards
     };
 

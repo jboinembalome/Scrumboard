@@ -11,9 +11,18 @@ internal sealed class CardProfile : Profile
         // Write
         CreateMap<Card, CardDao>()
             .EqualityComparison((src, dest) => src.Id == dest.Id);
-
+        
+        CreateMap<string, CardAssigneeDao>()
+            .ConstructUsing(assigneeId => new CardAssigneeDao
+            {
+                AssigneeId = assigneeId
+            });
+        
         // Read
         CreateMap<CardDao, Card>()
             .EqualityComparison((src, dest) => src.Id == dest.Id);
+        
+        CreateMap<CardAssigneeDao, string>()
+            .ConstructUsing(cardAssigneeDao =>  cardAssigneeDao.AssigneeId);
     }
 }

@@ -10,7 +10,16 @@ internal sealed class TeamProfile : Profile
         // Write
         CreateMap<Team, TeamDao>();
         
+        CreateMap<string, TeamMemberDao>()
+            .ConstructUsing(memberId => new TeamMemberDao
+            {
+                MemberId = memberId
+            });
+        
         // Read
         CreateMap<TeamDao, Team>();
+        
+        CreateMap<TeamMemberDao, string>()
+            .ConstructUsing(teamMemberDao =>  teamMemberDao.MemberId);
     }
 }

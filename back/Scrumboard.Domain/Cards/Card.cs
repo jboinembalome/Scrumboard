@@ -18,7 +18,7 @@ public sealed class Card : IEntity<int>
     public int ListBoardId { get; set; }
     public ICollection<Label> Labels { get; set; }
     public ICollection<Checklist> Checklists { get; set; }
-    public ICollection<Adherent> Assignees { get; set; }
+    public ICollection<string> Assignees { get; set; }
     public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
     public string? LastModifiedBy { get; set; }

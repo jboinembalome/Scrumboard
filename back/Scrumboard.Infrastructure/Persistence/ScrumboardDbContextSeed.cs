@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scrumboard.Domain.Common;
-using Scrumboard.Infrastructure.Persistence.Adherents;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Cards;
@@ -140,54 +139,39 @@ public class ScrumboardDbContextInitializer(
 
     private static async Task SeedSampleDataAsync(ScrumboardDbContext context)
     {
-        var adherent = new AdherentDao
-        {
-            Id = AdherentUserId
-        };
-
-        var adherent2 = new AdherentDao
-        {
-            Id = AdherentUserId2
-        };
-
-        var adherent3 = new AdherentDao
-        {
-            Id = AdherentUserId3
-        };
-
-        var adherent4 = new AdherentDao
-        {
-            Id = AdherentUserId4
-        };
-
-        
         var team = new TeamDao
         {
             Name = "Developer Team",
-            Adherents =
-            [
-                adherent,
-                adherent2,
-                adherent3,
-                adherent4
-            ],
-            CreatedBy = adherent.Id
+            CreatedBy = AdherentUserId
         };
+
+        team.Members =
+        [
+            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId, },
+            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId2, },
+            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId3, },
+            new TeamMemberDao { TeamId = team.Id, MemberId = AdherentUserId4, }
+        ];
+        
         var team2 = new TeamDao
         {
             Name = "Test Team", 
-            Adherents = [adherent2],
-            CreatedBy = adherent2.Id
+            CreatedBy = AdherentUserId2
         };
+        
+        team2.Members =
+        [
+            new TeamMemberDao { TeamId = team2.Id, MemberId = AdherentUserId2 },
+        ];
 
         var labels = new Collection<LabelDao>
         {
-            new() { Name = "Design", Colour = Colour.Violet, CreatedBy = adherent.Id },
-            new() { Name = "App", Colour = Colour.Gray, CreatedBy = adherent.Id },
-            new() { Name = "Feature", Colour = Colour.Red, CreatedBy = adherent.Id },
-            new() { Name = "Log", Colour = Colour.Blue, CreatedBy = adherent.Id },
-            new() { Name = "Documentation", Colour = Colour.Rose, CreatedBy = adherent.Id },
-            new() { Name = "Persistence", Colour = Colour.Yellow, CreatedBy = adherent.Id }
+            new() { Name = "Design", Colour = Colour.Violet, CreatedBy = AdherentUserId },
+            new() { Name = "App", Colour = Colour.Gray, CreatedBy = AdherentUserId },
+            new() { Name = "Feature", Colour = Colour.Red, CreatedBy = AdherentUserId },
+            new() { Name = "Log", Colour = Colour.Blue, CreatedBy = AdherentUserId },
+            new() { Name = "Documentation", Colour = Colour.Rose, CreatedBy = AdherentUserId },
+            new() { Name = "Persistence", Colour = Colour.Yellow, CreatedBy = AdherentUserId }
         };
 
         var boardSettings = new Collection<BoardSettingDao>
@@ -196,103 +180,122 @@ public class ScrumboardDbContextInitializer(
             new() { Colour = Colour.Yellow, }
         };
 
-        var cards = new Collection<CardDao>
+        CardDao card1 = new()
         {
-            new()
-            {
-                Name = "Create login page",
-                Description = "Create login page with social network authentication.",
-                Suscribed = false,
-                DueDate = DateTime.Now,
-                Position = 65536,
-                Labels = [labels[0], labels[1]],
-                Assignees = [adherent],
-                Checklists =
-                [
-                    new ChecklistDao
+            Name = "Create login page",
+            Description = "Create login page with social network authentication.",
+            Suscribed = false,
+            DueDate = DateTime.Now,
+            Position = 65536,
+            Labels = [labels[0], labels[1]],
+            Checklists =
+            [
+                new ChecklistDao
+                {
+                    Name = "Checklist",
+                    ChecklistItems = new Collection<ChecklistItemDao>
                     {
-                        Name = "Checklist",
-                        ChecklistItems = new Collection<ChecklistItemDao>
-                        {
-                            new() { Name = "Create template for the login page", IsChecked = true, CreatedBy = adherent.Id },
-                            new() { Name = "Validate template for the login page", IsChecked = false, CreatedBy = adherent.Id }
-                        },
-                        CreatedBy = adherent.Id
-                    }
-                ],
-                CreatedBy = adherent.Id
-            },
-            new()
-            {
-                Name = "Change background colors",
-                Description = "",
-                Suscribed = false,
-                DueDate = null,
-                Position = 131072,
-                Assignees = [],
-                Labels = [labels[0]],
-                CreatedBy = adherent.Id
-            },
-            new()
-            {
-                Name = "Fix splash screen bugs",
-                Description = "",
-                Suscribed = true,
-                DueDate = new DateTime(2021, 5, 15),
-                Position = 65536,
-                Assignees = [],
-                Labels = [labels[1]],
-                CreatedBy = adherent.Id
-            },
-            new()
-            {
-                Name = "Add a notification when a user adds a comment",
-                Description = "",
-                Suscribed = false,
-                DueDate = null,
-                Position = 65536,
-                Assignees = [adherent],
-                Labels = [labels[2]],
-                CreatedBy = adherent.Id
-            },
+                        new() { Name = "Create template for the login page", IsChecked = true, CreatedBy = AdherentUserId },
+                        new() { Name = "Validate template for the login page", IsChecked = false, CreatedBy = AdherentUserId }
+                    },
+                    CreatedBy = AdherentUserId
+                }
+            ],
+            CreatedBy = AdherentUserId
         };
 
+        card1.Assignees = 
+        [
+            new CardAssigneeDao { CardId = card1.Id, AssigneeId = AdherentUserId }
+        ];
+        
+        CardDao card2 = new()
+        {
+            Name = "Change background colors",
+            Description = "",
+            Suscribed = false,
+            DueDate = null,
+            Position = 131072,
+            Labels = [labels[0]],
+            CreatedBy = AdherentUserId
+        };
+        CardDao card3 = new()
+        {
+            Name = "Fix splash screen bugs",
+            Description = "",
+            Suscribed = true,
+            DueDate = new DateTime(2021, 5, 15),
+            Position = 65536,
+            Labels = [labels[1]],
+            CreatedBy = AdherentUserId
+        };
+        CardDao card4 = new()
+        {
+            Name = "Add a notification when a user adds a comment",
+            Description = "",
+            Suscribed = false,
+            DueDate = null,
+            Position = 65536,
+            Labels = [labels[2]],
+            CreatedBy = AdherentUserId
+        };
+        
+        card4.Assignees = 
+        [
+            new CardAssigneeDao { CardId = card4.Id, AssigneeId = AdherentUserId }
+        ];
+        
+        var cards = new Collection<CardDao>
+        {
+            card1,
+            card2,
+            card3,
+            card4,
+        };
+
+        CardDao card5 = new()
+        {
+            Name = "Write documentation for the naming convention",
+            Description = "",
+            Suscribed = false,
+            DueDate = null,
+            Position = 65536,
+            Labels = [labels[4]],
+            CreatedBy = AdherentUserId
+        };
+        
+        card5.Assignees = 
+        [
+            new CardAssigneeDao { CardId = card5.Id, AssigneeId = AdherentUserId }
+        ];
+        
+        CardDao card6 = new()
+        {
+            Name = "Add Serilog for logs",
+            Description = "",
+            Suscribed = false,
+            DueDate = null,
+            Position = 131072,
+            Assignees = [],
+            Labels = new Collection<LabelDao> { labels[3] },
+            CreatedBy = AdherentUserId
+        };
         var listboards = new Collection<ListBoardDao>
         {
-            new() { Name = "Design", Position = 65536, Cards = [cards[0], cards[1]], CreatedBy = adherent.Id },
-            new() { Name = "Development", Position = 131072, Cards = [cards[2]], CreatedBy = adherent.Id },
-            new() { Name = "Upcoming Features", Position = 196608, Cards = [cards[3]], CreatedBy = adherent.Id },
-            new() { Name = "Known Bugs", Position = 262144, CreatedBy = adherent.Id },
+            new() { Name = "Design", Position = 65536, Cards = [cards[0], cards[1]], CreatedBy = AdherentUserId },
+            new() { Name = "Development", Position = 131072, Cards = [cards[2]], CreatedBy = AdherentUserId },
+            new() { Name = "Upcoming Features", Position = 196608, Cards = [cards[3]], CreatedBy = AdherentUserId },
+            new() { Name = "Known Bugs", Position = 262144, CreatedBy = AdherentUserId },
             new()
             {
                 Name = "Backlog",
                 Position = 65536,
                 Cards = new Collection<CardDao>
                 {
-                    new()
-                    {
-                        Name = "Write documentation for the naming convention",
-                        Description = "",
-                        Suscribed = false,
-                        DueDate = null,
-                        Position = 65536,
-                        Assignees = [adherent],
-                        Labels = [labels[4]],
-                        CreatedBy = adherent.Id
-                    },
-                    new()
-                    {
-                        Name = "Add Serilog for logs",
-                        Description = "",
-                        Suscribed = false,
-                        DueDate = null,
-                        Position = 131072,
-                        Assignees = [],
-                        Labels = new Collection<LabelDao> { labels[3] },
-                        CreatedBy = adherent.Id
-                    },
+                    card5,
+                    card6,
                 },
-                CreatedBy = adherent.Id
+                CreatedBy = AdherentUserId
             }
         };
 
@@ -312,7 +315,7 @@ public class ScrumboardDbContextInitializer(
                     listboards[3]
                 ],
                 BoardSetting = boardSettings[0],
-                CreatedBy = adherent.Id
+                CreatedBy = AdherentUserId
             },
             new()
             {
@@ -322,7 +325,7 @@ public class ScrumboardDbContextInitializer(
                 Team = team,
                 ListBoards = [listboards[4]],
                 BoardSetting = boardSettings[1],
-                CreatedBy = adherent.Id
+                CreatedBy = AdherentUserId
             }
         };
 

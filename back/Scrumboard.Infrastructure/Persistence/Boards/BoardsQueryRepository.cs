@@ -23,12 +23,12 @@ internal sealed class BoardsQueryRepository(
             .AsNoTracking()
             .AsSplitQuery()
             .Include(b => b.Team)
-                .ThenInclude(t => t.Adherents)
+                .ThenInclude(t => t.Members)
             .Include(b => b.BoardSetting)
                 .ThenInclude(bs => bs.Colour);
         
         var daos = await query
-            .Where(b => b.Team.Adherents.Any(a => a.Id == userId))
+            .Where(b => b.Team.Members.Any(a => a.MemberId == userId))
             .ToListAsync(cancellationToken);
         
         return mapper.Map<IReadOnlyList<Board>>(daos);
@@ -39,7 +39,7 @@ internal sealed class BoardsQueryRepository(
             .AsNoTracking()
             .AsSplitQuery()
             .Include(b => b.Team)
-                .ThenInclude(t => t.Adherents)
+                .ThenInclude(t => t.Members)
             .Include(b => b.BoardSetting)
             .Include(b => b.ListBoards)
                 .ThenInclude(l => l.Cards)

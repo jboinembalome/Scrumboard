@@ -31,8 +31,8 @@ internal sealed class GetCardDetailQueryHandler(
         }
 
         var assigneeIds = card.Assignees
-            .Select(x => x.Id)
             .ToHashSet();
+        
         var users = await identityService.GetListAsync(assigneeIds, cancellationToken);
         mapper.Map(users, cardDto.Assignees);
 

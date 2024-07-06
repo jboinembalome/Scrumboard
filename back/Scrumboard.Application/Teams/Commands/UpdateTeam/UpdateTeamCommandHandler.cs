@@ -29,9 +29,9 @@ internal sealed class UpdateTeamCommandHandler(
 
         await teamsRepository.UpdateAsync(teamToUpdate, cancellationToken);
 
-        var userIds = teamToUpdate.Adherents
-            .Select(x => x.Id)
+        var userIds = teamToUpdate.Members
             .ToHashSet();
+        
         var users = await identityService.GetListAsync(userIds, cancellationToken);
         
         var teamDto = mapper.Map<TeamDto>(teamToUpdate);

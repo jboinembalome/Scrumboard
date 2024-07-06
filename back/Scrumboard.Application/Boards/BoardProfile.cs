@@ -26,7 +26,7 @@ internal sealed class BoardProfile : Profile
         CreateMap<Board, BoardDto>()
             .ForMember(dest => dest.Initials, opt => opt.MapFrom(src => GetInitials(src)))
             .ForMember(dest => dest.LastActivity, opt => opt.MapFrom(src => src.LastModifiedDate))
-            .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Team.Adherents.Count));
+            .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Team.Members.Count));
         CreateMap<Board, BoardDetailDto>();
         
         CreateMap<BoardSetting, BoardSettingDto>();

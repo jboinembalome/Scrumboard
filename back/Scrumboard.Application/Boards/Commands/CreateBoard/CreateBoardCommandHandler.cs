@@ -28,8 +28,8 @@ internal sealed class CreateBoardCommandHandler(
         var board = mapper.Map<Board>(request);
         board.BoardSetting = new BoardSetting();
         // TODO: Update code for team name
-        board.Team = new Team { Name = "Team 1", Adherents = [] };
-        board.Team.Adherents.Add(new Adherent{ Id = adherent.Id});
+        board.Team = new Team { Name = "Team 1", Members = [] };
+        board.Team.Members.Add(adherent.Id);
 
         board = await boardsRepository.AddAsync(board, cancellationToken);
 

@@ -23,13 +23,12 @@ internal sealed class GetAdherentsByTeamIdQueryHandler(
             return [];
         }
         
-        var adherents = team.Adherents
-            .Select(x => x.Id)
+        var members = team.Members
             .ToHashSet();
         
-        var users = await identityService.GetListAsync(adherents, cancellationToken);
+        var users = await identityService.GetListAsync(members, cancellationToken);
 
-        var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(adherents);
+        var adherentDtos = mapper.Map<IEnumerable<AdherentDto>>(members);
 
         return mapper.Map(users, adherentDtos);
     }

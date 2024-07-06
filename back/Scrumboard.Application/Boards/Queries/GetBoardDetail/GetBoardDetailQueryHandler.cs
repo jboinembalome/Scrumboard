@@ -24,8 +24,7 @@ internal sealed class GetBoardDetailQueryHandler(
         if (board is null)
             throw new NotFoundException(nameof(Board), request.BoardId);
 
-        var userIds = board.Team.Adherents
-            .Select(x => x.Id)
+        var userIds = board.Team.Members
             .ToHashSet();
         
         var users = await identityService.GetListAsync(userIds, cancellationToken);

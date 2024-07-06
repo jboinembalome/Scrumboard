@@ -22,21 +22,6 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CardsAssignees", b =>
-                {
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AssigneeId")
-                        .HasColumnType("nvarchar(36)");
-
-                    b.HasKey("CardId", "AssigneeId");
-
-                    b.HasIndex("AssigneeId");
-
-                    b.ToTable("CardsAssignees");
-                });
-
             modelBuilder.Entity("CardsLabels", b =>
                 {
                     b.Property<int>("CardId")
@@ -266,17 +251,6 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Adherents.AdherentDao", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Adherents", (string)null);
-                });
-
             modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.BoardDao", b =>
                 {
                     b.Property<int>("Id")
@@ -425,6 +399,20 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                     b.HasIndex("CardId");
 
                     b.ToTable("Activities", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardAssigneeDao", b =>
+                {
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AssigneeId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.HasKey("CardId", "AssigneeId");
+
+                    b.ToTable("CardAssignees", (string)null);
                 });
 
             modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardDao", b =>
@@ -649,34 +637,18 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                     b.ToTable("Teams", (string)null);
                 });
 
-            modelBuilder.Entity("TeamsMembers", b =>
+            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Teams.TeamMemberDao", b =>
                 {
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<string>("MemberId")
+                        .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
                     b.HasKey("TeamId", "MemberId");
 
-                    b.HasIndex("MemberId");
-
-                    b.ToTable("TeamsMembers");
-                });
-
-            modelBuilder.Entity("CardsAssignees", b =>
-                {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Adherents.AdherentDao", null)
-                        .WithMany()
-                        .HasForeignKey("AssigneeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Cards.CardDao", null)
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("TeamMembers", (string)null);
                 });
 
             modelBuilder.Entity("CardsLabels", b =>
@@ -823,6 +795,15 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardAssigneeDao", b =>
+                {
+                    b.HasOne("Scrumboard.Infrastructure.Persistence.Cards.CardDao", null)
+                        .WithMany("Assignees")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardDao", b =>
                 {
                     b.HasOne("Scrumboard.Infrastructure.Persistence.Boards.ListBoards.ListBoardDao", null)
@@ -882,16 +863,10 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TeamsMembers", b =>
+            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Teams.TeamMemberDao", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Adherents.AdherentDao", null)
-                        .WithMany()
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Scrumboard.Infrastructure.Persistence.Teams.TeamDao", null)
-                        .WithMany()
+                        .WithMany("Members")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -912,12 +887,19 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardDao", b =>
                 {
+                    b.Navigation("Assignees");
+
                     b.Navigation("Checklists");
                 });
 
             modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.Checklists.ChecklistDao", b =>
                 {
                     b.Navigation("ChecklistItems");
+                });
+
+            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Teams.TeamDao", b =>
+                {
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

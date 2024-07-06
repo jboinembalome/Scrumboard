@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Infrastructure.Persistence.Adherents;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Persistence.Cards.Comments;
 using Scrumboard.Infrastructure.Persistence.Cards.Labels;
@@ -22,20 +21,8 @@ internal sealed class CardDaoConfiguration : IEntityTypeConfiguration<CardDao>
         
         builder
             .HasMany(x => x.Assignees)
-            .WithMany()
-            .UsingEntity(
-                "CardsAssignees",
-                l => l
-                    .HasOne(typeof(AdherentDao))
-                    .WithMany()
-                    .HasForeignKey("AssigneeId")
-                    .HasPrincipalKey(nameof(AdherentDao.Id)),
-                r => r
-                    .HasOne(typeof(CardDao))
-                    .WithMany()
-                    .HasForeignKey("CardId")
-                    .HasPrincipalKey(nameof(CardDao.Id)),
-                j => j.HasKey("CardId", "AssigneeId"));
+            .WithOne()
+            .HasForeignKey(x => x.CardId);
             
         builder
             .HasMany(x => x.Checklists)
@@ -50,13 +37,11 @@ internal sealed class CardDaoConfiguration : IEntityTypeConfiguration<CardDao>
                 l => l
                     .HasOne(typeof(LabelDao))
                     .WithMany()
-                    .HasForeignKey("LabelId")
-                    .HasPrincipalKey(nameof(LabelDao.Id)),
+                    .HasForeignKey("LabelId"),
                 r => r
                     .HasOne(typeof(CardDao))
                     .WithMany()
-                    .HasForeignKey("CardId")
-                    .HasPrincipalKey(nameof(CardDao.Id)),
+                    .HasForeignKey("CardId"),
                 j => j.HasKey("CardId", "LabelId"));
         
         builder

@@ -44,7 +44,7 @@ internal sealed class UpdateCardCommandHandler(
 
         if (updateCardCommandResponse.Card.Assignees.Any())
         {
-            var assigneeIds = cardToUpdate.Assignees.Select(x => x.Id);
+            var assigneeIds = cardToUpdate.Assignees;
             var users = await identityService.GetListAsync(assigneeIds, cancellationToken);
             
             mapper.Map(users, updateCardCommandResponse.Card.Assignees);
@@ -102,20 +102,20 @@ internal sealed class UpdateCardCommandHandler(
         if (oldCard.Assignees.Any() && !updatedCard.Assignees.Any())
         {
             var adherent = oldCard.Assignees.First();
-            var user = await identityService.GetUserAsync(adherent.Id, cancellationToken);
+            var user = await identityService.GetUserAsync(adherent, cancellationToken);
             activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
 
         if (oldCard.Assignees.Count < updatedCard.Assignees.Count())
         {
-            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Select(o => o.Id).Contains(l.Id));
+            var adherent = updatedCard.Assignees.First(l => !oldCard.Assignees.Contains(l.Id));
             activities.Add(new Activity(updatedCard.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{adherent.FirstName} {adherent.LastName}"));
         }
 
         if (oldCard.Assignees.Count > updatedCard.Assignees.Count())
         {
-            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l.Id));
-            var user = await identityService.GetUserAsync(adherent.Id, cancellationToken);
+            var adherent = oldCard.Assignees.First(l => !updatedCard.Assignees.Select(o => o.Id).Contains(l));
+            var user = await identityService.GetUserAsync(adherent, cancellationToken);
             activities.Add(new Activity(updatedCard.Id, ActivityType.Removed, ActivityField.Member, $"{user.FirstName} {user.LastName}", string.Empty));
         }
         #endregion

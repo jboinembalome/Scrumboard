@@ -1,6 +1,5 @@
 ﻿using Moq;
 using System.Collections.ObjectModel;
-using Scrumboard.Domain.Adherents;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Checklists;
@@ -22,7 +21,7 @@ public class RepositoryMocks
         { 
             Id = 1, 
             Name = "Developer Team",
-            Adherents = new Collection<Adherent>{ new() { Id = adherent1Model }  }
+            Members = [adherent1Model]
         };
 
         #region Fake data for the frontend board
@@ -69,10 +68,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[0], labelsForFrontEndScrumboard[1] },
-                            Assignees = new Collection<Adherent>
-                            {
-                                new() { Id = adherent1Model }
-                            },
+                            Assignees = [adherent1Model],
                             Checklists = new Collection<Checklist>
                             {
                                 new Checklist
@@ -139,10 +135,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForFrontEndScrumboard[2] },
-                            Assignees = new Collection<Adherent>
-                            {
-                                new() { Id = adherent1Model }
-                            }
+                            Assignees = [adherent1Model]
                         },
                     }
                 },
@@ -200,10 +193,7 @@ public class RepositoryMocks
                             Suscribed = false,
                             DueDate = null,
                             Labels = new Collection<Label> { labelsForBackEndScrumboard[1] },
-                            Assignees = new Collection<Adherent>
-                            {
-                                new() { Id = adherent1Model }
-                            }
+                            Assignees = [adherent1Model]
                         },
                         new Card
                         {

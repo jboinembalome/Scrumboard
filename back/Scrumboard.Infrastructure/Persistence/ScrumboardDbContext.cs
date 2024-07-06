@@ -3,7 +3,6 @@ using Scrumboard.Infrastructure.Identity;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Abstractions.Common;
-using Scrumboard.Infrastructure.Persistence.Adherents;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Cards;
@@ -22,7 +21,7 @@ public class ScrumboardDbContext(
     : IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<ActivityDao> Activities { get; set; }
-    public DbSet<AdherentDao> Adherents { get; set; }
+    
     public DbSet<BoardDao> Boards { get; set; }
     public DbSet<BoardSettingDao> BoardSettings { get; set; }
     public DbSet<CardDao> Cards { get; set; }

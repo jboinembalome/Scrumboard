@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/material/sidenav';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, Subscription, forkJoin } from 'rxjs';
+import { map, mergeMap, take, takeUntil } from 'rxjs/operators';
 import { IUser } from 'app/core/auth/models/user.model';
 import { AuthService } from 'app/core/auth/services/auth.service';
-import { BoardDetailDto, UpdateBoardCommand, BoardsService, ListBoardDto, CardDto, AdherentDto, UpdateTeamCommand, TeamsService, AdherentsService } from 'app/swagger';
+import { BoardDetailDto, UpdateBoardCommand, BoardsService, ListBoardDto, CardDto, UserDto, UpdateTeamCommand, TeamsService, UsersService, TeamDto } from 'app/swagger';
 import { ScrumboardService } from '../scrumboard.service';
 import { InitialPipe } from '../../../shared/pipes/initial.pipe';
 import { AsyncPipe } from '@angular/common';
@@ -52,41 +52,47 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   id: any;
   board: BoardDetailDto;
+  team: TeamDto;
   currentUser: Observable<IUser>;
 
-  allAdherents: Observable<AdherentDto[]>;
+  allUsers: Observable<UserDto[]>;
 
   oldBoardName: string;
   isEditBoardName: boolean = false;
 
-  urlAvatar: string = location.origin + "/api/adherents/avatar/";
+  urlAvatar: string = location.origin + "/api/users/avatar/";
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _scrumboardService: ScrumboardService,
     private _boardsService: BoardsService,
     private _teamsService: TeamsService,
-    private _adherentsService: AdherentsService,
+    private _usersService: UsersService,
     private _authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.id = this._activatedRoute.snapshot.paramMap.get('boardId');
 
-    // Get the board
-    this._scrumboardService.board$
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((board: BoardDetailDto) => {
-        this.board = { ...board };
-
+    forkJoin({
+      board: this._scrumboardService.board$
+        .pipe(take(1)),
+      team: this._teamsService.apiBoardsBoardIdTeamsGet(this.id)
+        .pipe(takeUntil(this._unsubscribeAll)),
+    }).subscribe(({ board, team }) => {
+       
+        this.board = board;
+        this.team = team;
+       
         // Sort the board lists
         this.board.listBoards.sort((a, b) => a.position - b.position);
       });
 
     // Get the current user
     this.currentUser = this._authService.getUser();
-    // Get all the adherents
-    this.allAdherents = this._adherentsService.apiAdherentsGet()
+
+    // Get all users
+    this.allUsers = this._usersService.apiUsersGet()
       .pipe(map(a => a.filter(a => a.id !== this.board.creator.id)));
   }
 
@@ -180,19 +186,19 @@ export class BoardComponent implements OnInit, OnDestroy {
   /**
   * Updates the team board.
   */
-  updateTeam(adherents: AdherentDto[]): void {
-    if (!adherents.some(a => a.id === this.board.creator.id))
-      adherents.push(this.board.creator);
+  updateTeam(members: UserDto[]): void {
+    if (!members.some(a => a.id === this.board.creator.id))
+      members.push(this.board.creator);
 
     const updateTeamCommand: UpdateTeamCommand = {
       id: this.board.team.id,
-      adherents: adherents
+      members: members
     };
 
     // Update the team on the server
     this._teamsService.apiTeamsIdPut(this.board.team.id, updateTeamCommand)
       .subscribe(
-        () => this.board.team.adherents = adherents,
+        () => this.board.team.members = members,
         error => console.error(error));
 
   }

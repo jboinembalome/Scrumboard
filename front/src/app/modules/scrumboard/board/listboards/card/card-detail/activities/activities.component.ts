@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DateTime } from 'luxon';
 import { ActivityDto } from 'app/swagger';
 import { MatIcon } from '@angular/material/icon';
@@ -42,7 +41,7 @@ export class ActivitiesComponent {
   */
   getDescription(activity: ActivityDto): string {
     const activityType = activity.activityType == 'NotFinished' ? 'not finished' : activity.activityType.toLowerCase();
-    let description = '<strong>' + activity.adherent.firstName + ' ' + activity.adherent.lastName + '</strong> has ' + activityType + ' the ' + '<strong>' + activity.activityField.field + '</strong> ';
+    let description = '<strong>' + activity.user.firstName + ' ' + activity.user.lastName + '</strong> has ' + activityType + ' the ' + '<strong>' + activity.activityField.field + '</strong> ';
     switch (activity.activityType) {
       case 'Added':
         return description + '"' + activity.newValue + '"' + '.';

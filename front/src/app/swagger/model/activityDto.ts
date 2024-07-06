@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 import { ActivityFieldDto } from './activityFieldDto';
-import { AdherentDto } from './adherentDto';
+import { UserDto } from './userDto';
 
 export interface ActivityDto { 
     id?: number;
@@ -19,5 +19,5 @@ export interface ActivityDto {
     activityField?: ActivityFieldDto;
     oldValue?: string;
     newValue?: string;
-    adherent?: AdherentDto;
+    user?: UserDto;
 }

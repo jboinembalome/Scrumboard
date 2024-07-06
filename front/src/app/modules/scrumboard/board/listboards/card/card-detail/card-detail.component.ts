@@ -28,7 +28,7 @@ import { LabelSelectorComponent } from './label/label-selector/label-selector.co
 import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { ENTER } from '@angular/cdk/keycodes';
 import { BlouppyConfirmationService } from 'app/shared/services/confirmation';
-import { CardDetailDto, LabelDto, AdherentDto, ActivityDto, BoardsService, CardsService, TeamsService, UpdateCardCommand, ChecklistDto, CommentDto, BoardDetailDto, ActivitiesService, CommentsService } from 'app/swagger';
+import { CardDetailDto, LabelDto, UserDto, ActivityDto, BoardsService, CardsService, TeamsService, UpdateCardCommand, ChecklistDto, CommentDto, BoardDetailDto, ActivitiesService, CommentsService } from 'app/swagger';
 import { DateTime } from 'luxon';
 import { BreadcrumbComponent } from 'app/shared/components/breadcrumb/breadcrumb.component';
 import { Navigation } from 'app/core/navigation/models/navigation.model';
@@ -117,9 +117,9 @@ export class CardDetailComponent implements OnInit, OnDestroy {
   selectableMember = true;
   removableMember = true;
   memberCtrl = new UntypedFormControl();
-  filteredMembers: Observable<AdherentDto[]>;
-  members: AdherentDto[] = [];
-  allMembers: AdherentDto[] = [];
+  filteredMembers: Observable<UserDto[]>;
+  members: UserDto[] = [];
+  allMembers: UserDto[] = [];
 
   @ViewChild('memberInput') memberInput: ElementRef<HTMLInputElement>;
 
@@ -205,8 +205,8 @@ export class CardDetailComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this._unsubscribeAll));
       })
     ).subscribe({
-      next: (adherents: AdherentDto[]) => {
-        this.allMembers = adherents;
+      next: (members: UserDto[]) => {
+        this.allMembers = members;
       },
       error: (error) => {
         console.error('Error:', error);
@@ -318,7 +318,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     this.card.labels = this.card.labels.filter(l => l.id !== label.id);
   }
 
-  removeMemberChip(member: AdherentDto): void {
+  removeMemberChip(member: UserDto): void {
     this.removeMemberFromCard(member);
 
     // Hack to update the member list regarding the autocompletion
@@ -335,7 +335,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     this.memberCtrl.setValue(null);
   }
 
-  addMember(member: AdherentDto): void {
+  addMember(member: UserDto): void {
     const index = this.card.assignees.findIndex(m => m.id === member.id);
     if (index < 0)
       this.card.assignees.push(member);
@@ -346,8 +346,8 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     this.memberCtrl.setValue(null);
   }
 
-  updateMembers(members: AdherentDto[]): void {
-    this.card.assignees = members;
+  updateMembers(assignees: UserDto[]): void {
+    this.card.assignees = assignees;
 
     // Update the card form data
     this.cardForm.get('members').patchValue(this.card.assignees);
@@ -474,8 +474,8 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     return this.allLabels.filter(label => this.card.labels.every(l => l.name !== label.name) && label.name.toLowerCase().includes(filterValue));
   }
 
-  private filterMember(value: string | AdherentDto): AdherentDto[] {
-    const filterValue = (<AdherentDto>value).firstName ? (<AdherentDto>value).firstName.toLowerCase() : (<string>value).toLowerCase();
+  private filterMember(value: string | UserDto): UserDto[] {
+    const filterValue = (<UserDto>value).firstName ? (<UserDto>value).firstName.toLowerCase() : (<string>value).toLowerCase();
 
     return this.allMembers.filter(member => this.card.assignees.every(m => m.firstName !== member.firstName) && member.firstName.toLowerCase().includes(filterValue));
   }
@@ -498,7 +498,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  private removeMemberFromCard(member: AdherentDto): void {
+  private removeMemberFromCard(member: UserDto): void {
     const index = this.card.assignees.findIndex(m => m === member);
 
     if (index >= 0)

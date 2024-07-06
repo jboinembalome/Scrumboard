@@ -26,7 +26,7 @@ import { CdkDrag, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
 export class CardComponent {
   @Input() card: CardDto;
 
-  urlAvatar: string = location.origin + "/api/adherents/avatar/";
+  urlAvatar: string = location.origin + "/api/users/avatar/";
   
   constructor() {
   }

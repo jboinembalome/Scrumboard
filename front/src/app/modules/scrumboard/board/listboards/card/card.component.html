@@ -20,17 +20,17 @@
         </div>
      }
 
-    <!-- Card members -->
+    <!-- Assignees -->
      @if (card.assignees) {
         <div class="flex space-x-1 overflow-hidden">
-            @for (adherent of card.assignees; track trackByFn($index, adherent)) {
-                @if (adherent.hasAvatar) {
-                    <img matTooltip="{{adherent.firstName}} {{ adherent.lastName }}"
-                        class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + adherent.id">
+            @for (assignee of card.assignees; track trackByFn($index, assignee)) {
+                @if (assignee.hasAvatar) {
+                    <img matTooltip="{{assignee.firstName}} {{ assignee.lastName }}"
+                        class="inline-block h-6 w-6 rounded-full" [src]="urlAvatar + assignee.id">
                 }
                 @else {
-                    <span matTooltip="{{adherent.firstName}} {{ adherent.lastName }}" class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
-                        <span class="text-xs font-medium leading-none text-white">{{(adherent.firstName + " " + adherent.lastName) | initial}}</span>
+                    <span matTooltip="{{assignee.firstName}} {{ assignee.lastName }}" class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-gray-500">
+                        <span class="text-xs font-medium leading-none text-white">{{(assignee.firstName + " " + assignee.lastName) | initial}}</span>
                     </span>
                 }
             }

@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AdherentSelectorComponent } from 'app/shared/components/adherent-selector/adherent-selector.component';
+import { UserSelectorComponent } from 'app/shared/components/user-selector/user-selector.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { ChecklistAddComponent } from './checklists/checklist/checklist-add/checklist-add.component';
 import { ChecklistsComponent } from './checklists/checklists.component';
@@ -59,7 +59,7 @@ import { Navigation } from 'app/core/navigation/models/navigation.model';
       CommentAddComponent,
       CommentsComponent,
       ActivitiesComponent,
-      AdherentSelectorComponent,
+      UserSelectorComponent,
       LabelSelectorComponent,
       LabelAddComponent,
       ChecklistAddComponent,
@@ -95,7 +95,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
   card: CardDetailDto;
   cardForm: UntypedFormGroup;
 
-  urlAvatar: string = location.origin + "/api/adherents/avatar/";
+  urlAvatar: string = location.origin + "/api/users/avatar/";
 
   canModify: boolean;
   separatorKeysCodes: number[] = [ENTER];

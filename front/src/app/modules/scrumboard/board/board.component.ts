@@ -11,7 +11,7 @@ import { InitialPipe } from '../../../shared/pipes/initial.pipe';
 import { AsyncPipe } from '@angular/common';
 import { ListBoardsComponent } from './listboards/listboards.component';
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import { AdherentSelectorComponent } from '../../../shared/components/adherent-selector/adherent-selector.component';
+import { UserSelectorComponent } from '../../../shared/components/user-selector/user-selector.component';
 import { MatMenuTrigger, MatMenu } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIcon } from '@angular/material/icon';
@@ -35,7 +35,7 @@ import { SettingComponent } from './setting/setting.component';
       MatTooltip, 
       MatMenuTrigger, 
       MatMenu, 
-      AdherentSelectorComponent, 
+      UserSelectorComponent, 
       CdkScrollable, 
       ListBoardsComponent, 
       RouterOutlet, 

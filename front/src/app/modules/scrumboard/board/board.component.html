@@ -76,10 +76,10 @@
     
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
                                 <!-- Members -->
-                                <adherent-selector [selectedAdherents]="team.members"
-                                    [adherents]="allUsers | async" [unshift]="false"
-                                    (adherentUpdated)="updateTeam($event)">
-                                </adherent-selector>
+                                <user-selector [selectedUsers]="team.members"
+                                    [users]="allUsers | async" [unshift]="false"
+                                    (userUpdated)="updateTeam($event)">
+                                </user-selector>
                             </div>
                         </mat-menu>
                     </div>

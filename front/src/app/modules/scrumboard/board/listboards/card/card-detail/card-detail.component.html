@@ -161,9 +161,9 @@
   
               <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">Members</label>
               <!-- Members -->
-              <adherent-selector [selectedAdherents]="card.assignees" [adherents]="allMembers"
-                (adherentUpdated)="updateMembers($event)">
-              </adherent-selector>
+              <user-selector [selectedUsers]="card.assignees" [users]="allMembers"
+                (userUpdated)="updateMembers($event)">
+              </user-selector>
             </div>
           </mat-menu>
         </div>

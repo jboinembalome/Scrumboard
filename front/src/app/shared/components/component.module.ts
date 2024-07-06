@@ -4,19 +4,19 @@ import { ColorPickerComponent } from './color-picker/color-picker.component';
 import { SimpleColorPickerComponent } from './color-picker/simple-color-picker/simple-color-picker.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { SimpleCardComponent } from './cards/simple-card/simple-card.component';
-import { AdherentSelectorComponent } from './adherent-selector/adherent-selector.component';
+import { UserSelectorComponent } from './user-selector/user-selector.component';
 
 @NgModule({
     imports: [
     RouterModule,
-    AdherentSelectorComponent,
+    UserSelectorComponent,
     ColorPickerComponent,
     SimpleColorPickerComponent,
     ToggleComponent,
     SimpleCardComponent
 ],
     exports: [
-        AdherentSelectorComponent,
+        UserSelectorComponent,
         ColorPickerComponent,
         SimpleColorPickerComponent,
         ToggleComponent,

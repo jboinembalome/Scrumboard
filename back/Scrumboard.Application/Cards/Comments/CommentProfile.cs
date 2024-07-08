@@ -15,6 +15,7 @@ internal sealed class CommentProfile : Profile
         CreateMap<UpdateCommentCommand, Comment>();
         
         // Read
-        CreateMap<Comment, CommentDto>();
+        CreateMap<Comment, CommentDto>()
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.CreatedBy));
     }
 }

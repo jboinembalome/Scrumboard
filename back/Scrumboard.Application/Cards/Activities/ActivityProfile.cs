@@ -10,7 +10,9 @@ internal sealed class ActivityProfile : Profile
     {
         // Read
         CreateMap<Activity, ActivityDto>()
-            .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.ActivityType.ToString()));
+            .ForMember(dest => dest.ActivityType, opt => opt.MapFrom(src => src.ActivityType.ToString()))
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.CreatedBy));
+
 
         CreateMap<ActivityField, ActivityFieldDto>();
     }

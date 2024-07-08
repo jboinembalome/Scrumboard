@@ -26,14 +26,14 @@ internal sealed class CreateCommentCommandHandler(
         
         var comment = mapper.Map<Comment>(request);
         
-        await commentsRepository.AddAsync(comment, cancellationToken);
+        var newComment = await commentsRepository.AddAsync(comment, cancellationToken);
         
-        var activity = new Activity(comment.CardId, ActivityType.Added, ActivityField.Comment, string.Empty, request.Message);
+        var activity = new Activity(newComment.CardId, ActivityType.Added, ActivityField.Comment, string.Empty, request.Message);
         
         await activitiesRepository.AddAsync(activity, cancellationToken);
         
         var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
-        var commentDto = mapper.Map<CommentDto>(comment);
+        var commentDto = mapper.Map<CommentDto>(newComment);
         mapper.Map(user, commentDto.User);
         createCommentCommandResponse.Comment = commentDto;
 

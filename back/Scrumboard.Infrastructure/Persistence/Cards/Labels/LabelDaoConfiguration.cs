@@ -22,5 +22,8 @@ internal sealed class LabelDaoConfiguration : IEntityTypeConfiguration<LabelDao>
         // or modify other FOREIGN KEY constraints.
         builder.Property(l => l.BoardId)
             .IsRequired();
+        
+        builder.HasIndex(x => new { x.Id, x.BoardId })
+            .IsUnique();
     }
 }

@@ -36,15 +36,15 @@ internal sealed class UpdateCardCommandHandler(
             await activitiesRepository.AddAsync(newActivities, cancellationToken);
         }
           
-        mapper.Map(request, cardToUpdate, typeof(UpdateCardCommand), typeof(Card));
+        mapper.Map(request, cardToUpdate);
 
-        await cardsRepository.UpdateAsync(cardToUpdate, cancellationToken);
+        var updatedCard = await cardsRepository.UpdateAsync(cardToUpdate, cancellationToken);
 
-        updateCardCommandResponse.Card = mapper.Map<CardDetailDto>(cardToUpdate);
+        updateCardCommandResponse.Card = mapper.Map<CardDetailDto>(updatedCard);
 
         if (updateCardCommandResponse.Card.Assignees.Any())
         {
-            var assigneeIds = cardToUpdate.Assignees;
+            var assigneeIds = updatedCard.Assignees;
             var users = await identityService.GetListAsync(assigneeIds, cancellationToken);
             
             mapper.Map(users, updateCardCommandResponse.Card.Assignees);

@@ -12,25 +12,14 @@ internal sealed class LabelsQueryRepository(
 {
     public async Task<IReadOnlyList<Label>> GetByBoardIdAsync(int boardId, CancellationToken cancellationToken = default)
     {
-        var daos = await BoardQuery()
-            .AsNoTracking()
-            .Where(x => x.Id == boardId 
-                        && x.ListBoards
-                            .Any(y => y.Cards
-                                .Any(z => z.Labels.Count > 0)))
-            .SelectMany(x => x.ListBoards
-                .SelectMany(y => y.Cards
-                    .SelectMany(z => z.Labels)))
-            .Distinct()
+        var daos = await LabelQuery()
+            .Where(x => x.BoardId == boardId)
             .ToListAsync(cancellationToken);
 
         return mapper.Map<IReadOnlyList<Label>>(daos);
     }
 
-    private IQueryable<BoardDao> BoardQuery() 
-        => dbContext.Boards
-            .AsNoTracking()
-            .Include(x => x.ListBoards)
-                .ThenInclude(y => y.Cards)
-                .ThenInclude(z => z.Labels);
+    private IQueryable<LabelDao> LabelQuery() 
+        => dbContext.Labels
+            .AsNoTracking();
 }

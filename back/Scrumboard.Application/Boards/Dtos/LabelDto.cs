@@ -9,4 +9,5 @@ public sealed class LabelDto
     public int Id { get; set; }
     public string Name { get; set; }
     public ColourDto Colour { get; set; }
+    public int BoardId { get; set; }
 }

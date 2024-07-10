@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Scrumboard.Infrastructure.Persistence.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Labels;
 
@@ -16,14 +17,9 @@ internal sealed class LabelDaoConfiguration : IEntityTypeConfiguration<LabelDao>
             .HasMaxLength(255)
             .IsRequired();
         
-        // No foreign key to avoid SQL Server error:
-        // Introducing FOREIGN KEY constraint 'FK_Labels_Boards_BoardId' on table 'Labels'
-        // may cause cycles or multiple cascade paths. Specify ON DELETE NO ACTION or ON UPDATE NO ACTION,
-        // or modify other FOREIGN KEY constraints.
-        builder.Property(l => l.BoardId)
-            .IsRequired();
-        
-        builder.HasIndex(x => new { x.Id, x.BoardId })
-            .IsUnique();
+        builder.HasOne<BoardDao>()
+            .WithMany()
+            .HasForeignKey(x => x.BoardId)
+            .OnDelete(DeleteBehavior.ClientCascade);
     }
 }

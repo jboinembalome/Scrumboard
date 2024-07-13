@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using FluentAssertions;
+using FluentValidation;
 using Moq;
 using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Commands.UpdateBoard;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.Common.Profiles;
 using Scrumboard.Application.UnitTests.Mocks;
-using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Xunit;
 
@@ -17,10 +16,12 @@ public class UpdateBoardCommandHandlerTests
 {
     private readonly IMapper _mapper;
     private readonly Mock<IBoardsRepository> _mockBoardRepository;
-
+    private readonly IValidator<UpdateBoardCommand> _updateBoardCommandValidator;
     public UpdateBoardCommandHandlerTests()
     {
         _mockBoardRepository = RepositoryMocks.GetBoardRepository();
+        _updateBoardCommandValidator = Mock.Of<IValidator<UpdateBoardCommand>>();
+        
         var configurationProvider = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<MappingProfile>();
@@ -34,7 +35,7 @@ public class UpdateBoardCommandHandlerTests
     public async Task UpdateBoardTest_ExistingBoardId_BoardUpdated()
     {
         // Arrange
-        var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
+        var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object, _updateBoardCommandValidator);
         var updateBoardCommand = new UpdateBoardCommand { Name = "My new name", BoardId = 1 };
 
         // Act
@@ -49,7 +50,7 @@ public class UpdateBoardCommandHandlerTests
     public async Task UpdateBoardTest_NoExistingBoardId_ThrowsAnExceptionNotFound()
     {
         // Arrange
-        var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object);
+        var handler = new UpdateBoardCommandHandler(_mapper, _mockBoardRepository.Object, _updateBoardCommandValidator);
         var updateBoardCommand = new UpdateBoardCommand { Name = "My new name", BoardId = 0 };
 
         // Act

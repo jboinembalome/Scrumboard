@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Application.ListBoards.Dtos;
@@ -9,13 +10,16 @@ namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
 
 internal sealed class UpdateBoardCommandHandler(
     IMapper mapper,
-    IBoardsRepository boardsRepository)
+    IBoardsRepository boardsRepository,
+    IValidator<UpdateBoardCommand> updateBoardCommandValidator)
     : IRequestHandler<UpdateBoardCommand, UpdateBoardCommandResponse>
 {
     public async Task<UpdateBoardCommandResponse> Handle(
         UpdateBoardCommand request,
         CancellationToken cancellationToken)
     {
+        await updateBoardCommandValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
         var updateBoardCommandResponse = new UpdateBoardCommandResponse();
         
         var boardToUpdate = await boardsRepository.TryGetByIdAsync(request.BoardId, cancellationToken);

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Domain.Cards.Activities;
@@ -14,6 +15,7 @@ internal sealed class CreateCommentCommandHandler(
     IMapper mapper,
     IActivitiesRepository activitiesRepository,
     ICommentsRepository commentsRepository,
+    IValidator<CreateCommentCommand> createCommentCommandValidator,
     ICurrentUserService currentUserService,
     IIdentityService identityService)
     : IRequestHandler<CreateCommentCommand, CreateCommentCommandResponse>
@@ -22,6 +24,8 @@ internal sealed class CreateCommentCommandHandler(
         CreateCommentCommand request, 
         CancellationToken cancellationToken)
     {
+        await createCommentCommandValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
         var createCommentCommandResponse = new CreateCommentCommandResponse();
         
         var comment = mapper.Map<Comment>(request);

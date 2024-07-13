@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Common.Exceptions;
@@ -12,6 +13,7 @@ namespace Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
 internal sealed class UpdateCommentCommandHandler(
     IMapper mapper,
     ICommentsRepository commentsRepository,
+    IValidator<UpdateCommentCommand> updateCommentCommentValidator,
     ICurrentUserService currentUserService,
     IIdentityService identityService)
     : IRequestHandler<UpdateCommentCommand, UpdateCommentCommandResponse>
@@ -20,6 +22,8 @@ internal sealed class UpdateCommentCommandHandler(
         UpdateCommentCommand request, 
         CancellationToken cancellationToken)
     {
+        await updateCommentCommentValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
         var updateCommentCommandResponse = new UpdateCommentCommandResponse();
         
         var commentToUpdate = await commentsRepository.TryGetByIdAsync(request.Id, cancellationToken);

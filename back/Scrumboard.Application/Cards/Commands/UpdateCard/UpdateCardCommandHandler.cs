@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Application.Common.Exceptions;
@@ -14,6 +15,7 @@ internal sealed class UpdateCardCommandHandler(
     IMapper mapper,
     IActivitiesRepository activitiesRepository,
     ICardsRepository cardsRepository,
+    IValidator<UpdateCardCommand> updateCardCommandValidator,
     IIdentityService identityService)
     : IRequestHandler<UpdateCardCommand, UpdateCardCommandResponse>
 {
@@ -21,6 +23,8 @@ internal sealed class UpdateCardCommandHandler(
         UpdateCardCommand request, 
         CancellationToken cancellationToken)
     {
+        await updateCardCommandValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
         var updateCardCommandResponse = new UpdateCardCommandResponse();
         
         var cardToUpdate = await cardsRepository.TryGetByIdAsync(request.Id, cancellationToken);

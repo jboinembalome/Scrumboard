@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Common.Exceptions;
@@ -41,7 +42,11 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-        await httpContext.Response.WriteAsJsonAsync(new ValidationProblemDetails(exception.Errors)
+        var errors = exception.Errors
+            .GroupBy(x => x.PropertyName, x => x.ErrorMessage)
+            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+        
+        await httpContext.Response.WriteAsJsonAsync(new ValidationProblemDetails(errors)
         {
             Status = StatusCodes.Status400BadRequest,
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"

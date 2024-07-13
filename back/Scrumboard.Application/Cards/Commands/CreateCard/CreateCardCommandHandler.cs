@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Domain.Cards;
@@ -8,13 +9,16 @@ namespace Scrumboard.Application.Cards.Commands.CreateCard;
 
 internal sealed class CreateCardCommandHandler(
     IMapper mapper,
-    ICardsRepository cardsRepository)
+    ICardsRepository cardsRepository,
+    IValidator<CreateCardCommand> createCardCommandValidator)
     : IRequestHandler<CreateCardCommand, CreateCardCommandResponse>
 {
     public async Task<CreateCardCommandResponse> Handle(
         CreateCardCommand request, 
         CancellationToken cancellationToken)
     {
+        await createCardCommandValidator.ValidateAndThrowAsync(request, cancellationToken);
+        
         var createCardCommandResponse = new CreateCardCommandResponse();
         
         var card = mapper.Map<Card>(request);

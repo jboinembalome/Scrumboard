@@ -7,7 +7,7 @@ namespace Scrumboard.Web.ExceptionHandlers;
 internal sealed class GlobalExceptionHandler : IExceptionHandler
 {
     // Register known exception types and handlers.
-    private readonly Dictionary<Type, Func<HttpContext, Exception, Task>> _exceptionHandlers = new()
+    private readonly Dictionary<Type, Func<HttpContext, Exception, CancellationToken, Task>> _exceptionHandlers = new()
     {
         { typeof(ValidationException), HandleValidationExceptionAsync },
         { typeof(NotFoundException), HandleNotFoundExceptionAsync },
@@ -27,12 +27,15 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             return false;
         }
 
-        await handler.Invoke(httpContext, exception);
+        await handler.Invoke(httpContext, exception, cancellationToken);
         
         return true;
     }
 
-    private static async Task HandleValidationExceptionAsync(HttpContext httpContext, Exception ex)
+    private static async Task HandleValidationExceptionAsync(
+        HttpContext httpContext, 
+        Exception ex,
+        CancellationToken cancellationToken)
     {
         var exception = (ValidationException)ex;
 
@@ -42,10 +45,13 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         {
             Status = StatusCodes.Status400BadRequest,
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-        });
+        }, cancellationToken);
     }
 
-    private static async Task HandleNotFoundExceptionAsync(HttpContext httpContext, Exception ex)
+    private static async Task HandleNotFoundExceptionAsync(
+        HttpContext httpContext,
+        Exception ex,
+        CancellationToken cancellationToken)
     {
         var exception = (NotFoundException)ex;
 
@@ -57,10 +63,13 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             //Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
             Title = "The specified resource was not found.",
             Detail = exception.Message
-        });
+        }, cancellationToken);
     }
 
-    private static async Task HandleUnauthorizedAccessExceptionAsync(HttpContext httpContext, Exception ex)
+    private static async Task HandleUnauthorizedAccessExceptionAsync(
+        HttpContext httpContext, 
+        Exception ex,
+        CancellationToken cancellationToken)
     {
         httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 
@@ -69,10 +78,13 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             Status = StatusCodes.Status401Unauthorized,
             Type = "https://tools.ietf.org/html/rfc7235#section-3.1",
             Title = "Unauthorized"
-        });
+        }, cancellationToken);
     }
 
-    private static async Task HandleForbiddenAccessExceptionAsync(HttpContext httpContext, Exception ex)
+    private static async Task HandleForbiddenAccessExceptionAsync(
+        HttpContext httpContext, 
+        Exception ex,
+        CancellationToken cancellationToken)
     {
         httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
 
@@ -81,6 +93,6 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
             Status = StatusCodes.Status403Forbidden,
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3",
             Title = "Forbidden"
-        });
+        }, cancellationToken);
     }
 }

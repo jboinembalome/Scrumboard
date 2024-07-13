@@ -70,7 +70,7 @@
             </div>
     
             <!-- Comments -->
-              @if (card.comments.length > 0) {
+              @if (comments.length > 0) {
               <div class="w-full">
                 <comments [cardId]="card.id" [comments]="comments" (commentsUpdated)="updateComments($event)"></comments>
               </div>

@@ -33,6 +33,8 @@ public class Startup
         services.AddHttpContextAccessor();
 
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
+        
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddHealthChecks()
             .AddDbContextCheck<ScrumboardDbContext>();

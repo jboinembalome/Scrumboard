@@ -221,7 +221,7 @@ public class RepositoryMocks
                 return board;
             });
 
-        mockBoardRepository.Setup(repo => repo.AddAsync(It.IsAny<Board>(), It.IsAny<CancellationToken>())).ReturnsAsync(
+        mockBoardRepository.Setup(repo => repo.AddAsync(It.IsAny<BoardCreation>(), It.IsAny<CancellationToken>())).ReturnsAsync(
             (Board board, CancellationToken cancellationToken) =>
             {
                 board.Id = boards.Count + 1;
@@ -229,7 +229,7 @@ public class RepositoryMocks
                 return board;
             });
 
-        mockBoardRepository.Setup(repo => repo.UpdateAsync(It.IsAny<Board>(), It.IsAny<CancellationToken>())).Callback(
+        mockBoardRepository.Setup(repo => repo.UpdateAsync(It.IsAny<BoardEdition>(), It.IsAny<CancellationToken>())).Callback(
             (Board board, CancellationToken cancellationToken) =>
             {
                 var boardToBeUpdated = boards.First(b => b.Id == board.Id);

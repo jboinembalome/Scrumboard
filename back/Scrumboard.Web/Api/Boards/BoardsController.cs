@@ -1,15 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Boards.Commands.CreateBoard;
-using Scrumboard.Application.Boards.Commands.DeleteBoard;
-using Scrumboard.Application.Boards.Commands.UpdateBoard;
-using Scrumboard.Application.Boards.Commands.UpdatePinnedBoard;
-using Scrumboard.Application.Boards.Dtos;
-using Scrumboard.Application.Boards.Queries.GetBoardDetail;
-using Scrumboard.Application.Boards.Queries.GetBoardsByUserId;
+using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Cards.Labels.Queries.GetLabelsByBoardId;
-using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Web.Api.Boards;
 
@@ -19,7 +14,8 @@ namespace Scrumboard.Web.Api.Boards;
 [Route("api/[controller]")]
 public class BoardsController(
     ISender mediator,
-    ICurrentUserService currentUserService) : ControllerBase
+    IMapper mapper,
+    IBoardsService boardsService) : ControllerBase
 {
     /// <summary>
     /// Get the boards of the current user.
@@ -29,10 +25,10 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<BoardDto>>>Get(CancellationToken cancellationToken)
     {
-        var dtos = await mediator.Send(
-            new GetBoardsByUserIdQuery { UserId = currentUserService.UserId },
-            cancellationToken);
-
+        var boards = await boardsService.GetAsync(cancellationToken);
+        
+        var dtos = mapper.Map<IEnumerable<BoardDto>>(boards);
+        
         return Ok(dtos);
     }
 
@@ -42,13 +38,13 @@ public class BoardsController(
     /// <param name="id">Id of the board.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<BoardDetailDto>> Get(int id, CancellationToken cancellationToken)
     {
-        var dto = await mediator.Send(
-            new GetBoardDetailQuery { BoardId = id },
-            cancellationToken);
+        var board = await boardsService.GetByIdAsync(id, cancellationToken);
+        
+        var dto = mapper.Map<BoardDto>(board);
 
         return Ok(dto);
     }
@@ -59,61 +55,45 @@ public class BoardsController(
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<CreateBoardCommandResponse>> Create(CancellationToken cancellationToken)
+    public async Task<ActionResult<BoardDetailDto>> Create(
+        BoardCreationDto boardCreationDto, 
+        CancellationToken cancellationToken)
     {
-        var response = await mediator.Send(
-            new CreateBoardCommand { CreatorId = currentUserService.UserId },
-            cancellationToken);
+        var boardCreation = mapper.Map<BoardCreation>(boardCreationDto);
+        
+        var board = await boardsService.AddAsync(boardCreation, cancellationToken);
+        
+        var dto = mapper.Map<BoardDto>(board);
 
-        return CreatedAtAction(nameof(Get), new { id = response.Board.Id }, response);
+        return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
     }
 
     /// <summary>
     /// Update a board.
     /// </summary>
     /// <param name="id">Id of the board.</param>
-    /// <param name="command">Board to be updated.</param>
+    /// <param name="boardEditionDto">Board to be updated.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> Update(
+    public async Task<ActionResult<BoardDetailDto>> Update(
         int id, 
-        UpdateBoardCommand command,
+        BoardEditionDto boardEditionDto,
         CancellationToken cancellationToken)
     {
-        if (id != command.BoardId)
+        if (id != boardEditionDto.Id)
             return BadRequest();
-
-        var dto = await mediator.Send(command, cancellationToken);
+        
+        var boardEdition = mapper.Map<BoardEdition>(boardEditionDto);
+        
+        var board = await boardsService.UpdateAsync(boardEdition, cancellationToken);
+        
+        var dto = mapper.Map<BoardDto>(board);
 
         return Ok(dto);
     }
-
-    /// <summary>
-    /// Update the pinned board.
-    /// </summary>
-    /// <param name="id">Id of the board.</param>
-    /// <param name="command">Pinned board to be updated.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [HttpPut("{id}/pinned")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> UpdatePinned(
-        int id, 
-        UpdatePinnedBoardCommand command,
-        CancellationToken cancellationToken)
-    {
-        if (id != command.BoardId)
-            return BadRequest();
-
-        await mediator.Send(command, cancellationToken);
-
-        return NoContent();
-    }
-
 
     /// <summary>
     /// Delete a board.
@@ -121,15 +101,18 @@ public class BoardsController(
     /// <param name="id">Id of the board.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        await mediator.Send(new DeleteBoardCommand { BoardId = id }, cancellationToken);
+        await boardsService.DeleteAsync(id, cancellationToken);
 
         return NoContent();
     }
 
+    
+    // TODO: Refactor below 
+    
     /// <summary>
     /// Get labels by board id.
     /// </summary>

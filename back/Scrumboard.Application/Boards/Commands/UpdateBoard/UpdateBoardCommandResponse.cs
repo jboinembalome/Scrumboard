@@ -1,9 +1,0 @@
-﻿using Scrumboard.Application.Common.Models;
-using Scrumboard.Application.ListBoards.Dtos;
-
-namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
-
-public sealed class UpdateBoardCommandResponse : BaseResponse
-{
-    public IEnumerable<ListBoardDto> ListBoards { get; set; } = [];
-}

@@ -17,9 +17,9 @@ internal sealed class BoardsRepository(
         return mapper.Map<Board>(dao);
     }
 
-    public async Task<Board> AddAsync(Board board, CancellationToken cancellationToken = default)
+    public async Task<Board> AddAsync(BoardCreation boardCreation, CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<BoardDao>(board);
+        var dao = mapper.Map<BoardDao>(boardCreation);
         
         dbContext.Boards.Add(dao);
         
@@ -28,12 +28,12 @@ internal sealed class BoardsRepository(
         return mapper.Map<Board>(dao);
     }
 
-    public async Task<Board> UpdateAsync(Board board, CancellationToken cancellationToken = default)
+    public async Task<Board> UpdateAsync(BoardEdition boardEdition, CancellationToken cancellationToken = default)
     {
         var dao = await Query()
-            .FirstAsync(x => x.Id == board.Id, cancellationToken);
+            .FirstAsync(x => x.Id == boardEdition.Id, cancellationToken);
 
-        mapper.Map(board, dao);
+        mapper.Map(boardEdition, dao);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         

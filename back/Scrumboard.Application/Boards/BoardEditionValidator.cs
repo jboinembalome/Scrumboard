@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
-namespace Scrumboard.Application.Boards.Commands.UpdateBoard;
+namespace Scrumboard.Application.Boards;
 
-internal sealed class UpdateBoardCommandValidator : AbstractValidator<UpdateBoardCommand>
+internal sealed class BoardEditionValidator : AbstractValidator<BoardEdition>
 {
-    public UpdateBoardCommandValidator()
+    public BoardEditionValidator()
     {
         RuleFor(p => p.Name)
             .NotEmpty().WithMessage("{PropertyName} is required.")

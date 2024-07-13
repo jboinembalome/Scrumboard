@@ -24,7 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Boards\" />
     <Folder Include="Mocks\" />
+    <Folder Include="Profile\" />
   </ItemGroup>
 
 </Project>

@@ -11,6 +11,7 @@ public sealed class UpdateBoardCommand : IRequest<UpdateBoardCommandResponse>
     public int BoardId { get; set; }
     public string Name { get; set; }
     public string Uri { get; set; }
+    // TODO: Refactor DTO in command (Should not map all properties)
     public BoardSettingDto BoardSetting { get; set; }
     public IEnumerable<ListBoardDto> ListBoards { get; set; }
 }

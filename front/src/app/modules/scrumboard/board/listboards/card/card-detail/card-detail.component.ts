@@ -88,6 +88,7 @@ import { Navigation } from 'app/core/navigation/models/navigation.model';
     ]
 })
 export class CardDetailComponent implements OnInit, OnDestroy {
+  // TODO: Test Card Detail
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   id: any;
   boardId: any;
@@ -176,6 +177,7 @@ export class CardDetailComponent implements OnInit, OnDestroy {
         this.card = card;
         this.board = board;
         this.allLabels = labels;
+        console.log(this.allLabels);
         this.comments = comments;
         this.activities = activities;
     

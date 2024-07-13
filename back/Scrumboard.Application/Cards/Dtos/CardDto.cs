@@ -15,6 +15,8 @@ public sealed class CardDto
     public int ListBoardId { get; set; }
     public IEnumerable<LabelDto> Labels { get; set; }
     public IEnumerable<UserDto> Assignees { get; set; }
+    
+    // TODO: Remove Count properties
     public int AttachmentsCount { get; set; }
     public int ChecklistItemsCount { get; set; }
     public int ChecklistItemsDoneCount { get; set; }

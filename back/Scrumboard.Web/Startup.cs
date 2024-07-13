@@ -10,6 +10,7 @@ using Scrumboard.Application;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Web.Api;
 using Scrumboard.Web.ExceptionHandlers;
+using Scrumboard.Web.Middlewares;
 
 namespace Scrumboard.Web;
 
@@ -34,6 +35,7 @@ public class Startup
 
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
+        services.AddScoped<LoggingMiddleware>();
 
         services.AddHealthChecks()
             .AddDbContextCheck<ScrumboardDbContext>();
@@ -47,6 +49,8 @@ public class Startup
             .AddFluentValidationClientsideAdapters();
 
         services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddExceptionHandler<UnhandledExceptionHandler>();
+        
         services.AddProblemDetails();
         
         services.AddRazorPages();
@@ -99,6 +103,8 @@ public class Startup
 
         app.UseRouting();
 
+        app.UseMiddleware<LoggingMiddleware>();
+        
         app.UseExceptionHandler();
         
         app.UseAuthentication();

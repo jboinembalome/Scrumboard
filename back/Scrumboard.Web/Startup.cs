@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Scrumboard.Infrastructure;
 using Scrumboard.Infrastructure.Persistence;
-using Scrumboard.Web.Filters;
 using Scrumboard.Web.Services;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Scrumboard.Application;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Web.Api;
+using Scrumboard.Web.ExceptionHandlers;
 
 namespace Scrumboard.Web;
 
@@ -41,12 +41,14 @@ public class Startup
         services.AddControllersWithViews(options =>
         {
             options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
-            options.Filters.Add<ApiExceptionFilterAttribute>();
         });
         
         services.AddFluentValidationAutoValidation()
             .AddFluentValidationClientsideAdapters();
 
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
+        
         services.AddRazorPages();
         
         services.AddEndpointsApiExplorer();
@@ -97,6 +99,8 @@ public class Startup
 
         app.UseRouting();
 
+        app.UseExceptionHandler();
+        
         app.UseAuthentication();
         app.UseAuthorization();
         

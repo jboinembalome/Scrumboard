@@ -16,6 +16,8 @@ internal sealed class ActivitiesQueryRepository(
             .Where(x => x.CardId == cardId)
             .ToListAsync(cancellationToken);
 
-        return mapper.Map<IReadOnlyList<Activity>>(daos);
+        return daos.Count > 0 
+            ? mapper.Map<IReadOnlyList<Activity>>(daos)  
+            : [];
     }
 }

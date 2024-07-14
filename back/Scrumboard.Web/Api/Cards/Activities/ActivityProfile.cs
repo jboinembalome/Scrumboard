@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Scrumboard.Application.Cards.Dtos;
 using Scrumboard.Domain.Cards.Activities;
 
-namespace Scrumboard.Application.Cards.Activities;
+namespace Scrumboard.Web.Api.Cards.Activities;
 
 internal sealed class ActivityProfile : Profile
 {

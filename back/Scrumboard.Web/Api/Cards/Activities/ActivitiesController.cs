@@ -1,18 +1,22 @@
-﻿using MediatR;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Cards;
-using Scrumboard.Application.Cards.Activities.Queries.GetActivitiesByCardId;
+using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Cards.Activities;
 
 [Authorize]
 [ApiController]
 [Produces("application/json")]
-[Route("api/cards/{cardId}/[controller]")]
+[Route("api/cards/{cardId:int}/[controller]")]
 public class ActivitiesController(
-    ISender mediator,
-    ICardsService cardsService) : ControllerBase
+    IMapper mapper,
+    IActivitiesService activitiesService,
+    ICardsService cardsService,
+    IIdentityService identityService) : ControllerBase
 {
     /// <summary>
     /// Get card activities.
@@ -22,7 +26,7 @@ public class ActivitiesController(
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> GetActivitiesByCardId(
+    public async Task<ActionResult<IReadOnlyCollection<ActivityDto>>> GetActivitiesByCardId(
         int cardId, 
         CancellationToken cancellationToken)
     {
@@ -30,11 +34,48 @@ public class ActivitiesController(
         {
             return NotFound($"Card ({cardId}) not found.");
         }
-        
-        var dtos = await mediator.Send(
-            new GetActivitiesByCardIdQuery { CardId = cardId }, 
-            cancellationToken);
 
-        return Ok(dtos);
+        var activities = await activitiesService.GetByCardIdAsync(cardId, cancellationToken);
+        
+        if (activities.Count == 0)
+        {
+            return Ok(Array.Empty<ActivityDto>());
+        }
+        
+        var activityDtos = await GetActivityDtosAsync(activities, cancellationToken);
+
+        return Ok(activityDtos);
+    }
+
+    private async Task<IReadOnlyCollection<ActivityDto>> GetActivityDtosAsync(
+        IReadOnlyCollection<Activity> activities,
+        CancellationToken cancellationToken)
+    {
+        var activityDtos = mapper.Map<IEnumerable<ActivityDto>>(activities).ToList();
+        
+        var users = await identityService
+            .GetListAsync(activities
+                .Select(a => a.CreatedBy), cancellationToken);
+        
+        var userDtos = activityDtos.Select(c => c.User).ToList();
+
+        MapUsers(users, userDtos);
+
+        return activityDtos;
+    }
+    
+    private void MapUsers(IReadOnlyList<IUser> users, IEnumerable<UserDto> userDtos)
+    {
+        foreach (var userDto in userDtos)
+        {
+            var user = users.FirstOrDefault(u => u.Id == userDto.Id);
+
+            if (user is null)
+            {
+                continue;
+            }
+
+            mapper.Map(user, userDto);
+        }
     }
 }

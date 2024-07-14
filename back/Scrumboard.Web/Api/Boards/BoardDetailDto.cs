@@ -1,6 +1,6 @@
 ﻿using Scrumboard.Application.ListBoards.Dtos;
-using Scrumboard.Application.Users.Dtos;
-using TeamDto = Scrumboard.Web.Api.Teams.TeamDto;
+using Scrumboard.Web.Api.Teams;
+using Scrumboard.Web.Api.Users;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 

@@ -2,7 +2,7 @@
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
-namespace Scrumboard.Application.Teams.Dtos;
+namespace Scrumboard.Web.Api.Teams;
 
 public sealed class TeamDto
 {

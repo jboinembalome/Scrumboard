@@ -17,9 +17,9 @@ internal sealed class TeamsRepository(
         return mapper.Map<Team>(dao);
     }
 
-    public async Task<Team> AddAsync(Team team, CancellationToken cancellationToken = default)
+    public async Task<Team> AddAsync(TeamCreation teamCreation, CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<TeamDao>(team);
+        var dao = mapper.Map<TeamDao>(teamCreation);
         
         dbContext.Teams.Add(dao);
         
@@ -28,14 +28,14 @@ internal sealed class TeamsRepository(
         return mapper.Map<Team>(dao);
     }
 
-    public async Task<Team> UpdateAsync(Team team, CancellationToken cancellationToken = default)
+    public async Task<Team> UpdateAsync(TeamEdition teamEdition, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { team.Id };
+        var keyValues = new object[] { teamEdition.Id };
         var dao = await dbContext.Teams.FindAsync(keyValues, cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
 
-        mapper.Map(team, dao);
+        mapper.Map(teamEdition, dao);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         

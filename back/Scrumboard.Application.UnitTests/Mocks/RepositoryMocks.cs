@@ -21,7 +21,7 @@ public class RepositoryMocks
         { 
             Id = 1, 
             Name = "Developer Team",
-            Members = [user1Model]
+            MemberIds = [user1Model]
         };
 
         #region Fake data for the frontend board

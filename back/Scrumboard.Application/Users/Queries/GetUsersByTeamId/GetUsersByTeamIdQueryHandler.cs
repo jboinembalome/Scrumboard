@@ -23,7 +23,7 @@ internal sealed class GetUsersByTeamIdQueryHandler(
             return [];
         }
         
-        var members = team.Members
+        var members = team.MemberIds
             .ToHashSet();
         
         var users = await identityService.GetListAsync(members, cancellationToken);

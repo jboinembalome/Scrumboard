@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Teams.Commands.UpdateTeam;
-using Scrumboard.Application.Users.Dtos;
-using Scrumboard.Application.Users.Queries.GetUsersByTeamId;
+using Scrumboard.Application.Abstractions.Teams;
+using Scrumboard.Domain.Teams;
+using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 
 namespace Scrumboard.Web.Api.Teams;
 
@@ -11,7 +12,10 @@ namespace Scrumboard.Web.Api.Teams;
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]
-public class TeamsController(ISender mediator) : ControllerBase
+public class TeamsController(
+    IMapper mapper,
+    ITeamsService teamsService,
+    IIdentityService identityService) : ControllerBase
 {
     /// <summary>
     /// Get a team by id.
@@ -19,41 +23,94 @@ public class TeamsController(ISender mediator) : ControllerBase
     /// <param name="id">Id of the team.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetByTeamId(
+    public async Task<ActionResult<TeamDto>> GetByTeamId(
         int id,
         CancellationToken cancellationToken)
     {
-        // TODO: Return the team.
-        var dto = await mediator.Send(
-            new GetUsersByTeamIdQuery { TeamId = id },
-            cancellationToken);
+        var team = await teamsService.GetByIdAsync(id, cancellationToken);
+        
+        var teamDto = mapper.Map<TeamDto>(team);
 
-        return Ok(dto);
+        return Ok(teamDto);
+    }
+    
+    /// <summary>
+    /// Create a team.
+    /// </summary>
+    /// <param name="teamCreationDto">Team to be created.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Update(
+        TeamCreationDto teamCreationDto,
+        CancellationToken cancellationToken)
+    {
+        var teamCreation = mapper.Map<TeamCreation>(teamCreationDto);
+
+        var team = await teamsService.AddAsync(teamCreation, cancellationToken);
+
+        var teamDto = await GetTeamDtoAsync(team, cancellationToken);
+        
+        return Ok(teamDto);
     }
 
     /// <summary>
     /// Update a team.
     /// </summary>
     /// <param name="id">Id of the team.</param>
-    /// <param name="command">Team to be updated.</param>
+    /// <param name="teamEditionDto">Team to be updated.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Update(
         int id, 
-        UpdateTeamCommand command,
+        TeamEditionDto teamEditionDto,
         CancellationToken cancellationToken)
     {
-        if (id != command.Id)
+        if (id != teamEditionDto.Id)
             return BadRequest();
 
-        var dto = await mediator.Send(command, cancellationToken);
+        var teamEdition = mapper.Map<TeamEdition>(teamEditionDto);
 
-        return Ok(dto);
+        var team = await teamsService.UpdateAsync(teamEdition, cancellationToken);
+
+        var teamDto = await GetTeamDtoAsync(team, cancellationToken);
+
+        return Ok(teamDto);
     }
 
+    /// <summary>
+    /// Delete a team.
+    /// </summary>
+    /// <param name="id">Id of the team.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        await teamsService.DeleteAsync(id, cancellationToken);
+
+        return NoContent();
+    }
+    
+    private async Task<TeamDto> GetTeamDtoAsync(Team team, CancellationToken cancellationToken)
+    {
+        var memberIds = team.MemberIds
+            .ToHashSet();
+        
+        var members = await identityService.GetListAsync(memberIds, cancellationToken);
+        
+        var teamDto = mapper.Map<TeamDto>(team);
+        
+        mapper.Map(members, teamDto.Members);
+        
+        return teamDto;
+    }
 }

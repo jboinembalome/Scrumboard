@@ -1,18 +1,23 @@
-﻿using MediatR;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
-using Scrumboard.Application.Teams.Queries.GetTeamsByBoardId;
+using Scrumboard.Application.Abstractions.Teams;
+using Scrumboard.Domain.Teams;
+using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Web.Api.Teams;
 
 namespace Scrumboard.Web.Api.Boards.Teams;
 
 [Authorize]
 [ApiController]
 [Produces("application/json")]
-[Route("api/boards/{boardId}/[controller]")]
+[Route("api/boards/{boardId:int}/[controller]")]
 public class TeamsController(
-    ISender mediator,
-    IBoardsService boardsService) : ControllerBase
+    IMapper mapper,
+    IBoardsService boardsService,
+    ITeamsService teamsService,
+    IIdentityService identityService) : ControllerBase
 {
     /// <summary>
     /// Get board team.
@@ -22,7 +27,7 @@ public class TeamsController(
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> GetTeamsByBoardId(
+    public async Task<ActionResult<TeamDto>> GetTeamsByBoardId(
         int boardId, 
         CancellationToken cancellationToken)
     {
@@ -31,10 +36,25 @@ public class TeamsController(
             return NotFound($"Board ({boardId}) not found.");
         }
         
-        var dto = await mediator.Send(
-            new GetTeamsByBoardIdQuery { BoardId = boardId }, 
-            cancellationToken);
-
-        return Ok(dto);
+        // TODO: Refactor with Reference
+        var team = await teamsService.GetByBoardIdAsync(boardId, cancellationToken);
+        
+        var teamDto = await GetTeamDtoAsync(team, cancellationToken);
+        
+        return Ok(teamDto);
+    }
+    
+    private async Task<TeamDto> GetTeamDtoAsync(Team team, CancellationToken cancellationToken)
+    {
+        var memberIds = team.MemberIds
+            .ToHashSet();
+        
+        var members = await identityService.GetListAsync(memberIds, cancellationToken);
+        
+        var teamDto = mapper.Map<TeamDto>(team);
+        
+        mapper.Map(members, teamDto.Members);
+        
+        return teamDto;
     }
 }

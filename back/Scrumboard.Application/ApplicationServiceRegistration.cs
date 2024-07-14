@@ -4,8 +4,10 @@ using System.Reflection;
 using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Application.Boards;
 using Scrumboard.Application.Cards;
+using Scrumboard.Application.Teams;
 
 namespace Scrumboard.Application;
 
@@ -30,7 +32,10 @@ public static class ApplicationServiceRegistration
         
         // Cards
         services.AddScoped<ICardsService, CardsService>();
-
+        
+        // Teams
+        services.AddScoped<ITeamsService, TeamsService>();
+        
         return services;
     }
 }

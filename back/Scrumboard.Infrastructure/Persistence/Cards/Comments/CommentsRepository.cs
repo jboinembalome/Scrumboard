@@ -17,9 +17,9 @@ internal sealed class CommentsRepository(
         return mapper.Map<Comment>(dao);
     }
 
-    public async Task<Comment> AddAsync(Comment comment, CancellationToken cancellationToken = default)
+    public async Task<Comment> AddAsync(CommentCreation commentCreation, CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<CommentDao>(comment);
+        var dao = mapper.Map<CommentDao>(commentCreation);
         
         dbContext.Comments.Add(dao);
         
@@ -28,14 +28,14 @@ internal sealed class CommentsRepository(
         return mapper.Map<Comment>(dao);
     }
 
-    public async Task<Comment> UpdateAsync(Comment comment, CancellationToken cancellationToken = default)
+    public async Task<Comment> UpdateAsync(CommentEdition commentEdition, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { comment.Id };
+        var keyValues = new object[] { commentEdition.Id };
         var dao = await dbContext.Comments.FindAsync(keyValues, cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
 
-        mapper.Map(comment, dao);
+        mapper.Map(commentEdition, dao);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         
@@ -44,7 +44,10 @@ internal sealed class CommentsRepository(
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Comments.FirstAsync(x => x.Id == id, cancellationToken);
+        var keyValues = new object[] { id };
+        var dao = await dbContext.Comments.FindAsync(keyValues, cancellationToken);
+        
+        ArgumentNullException.ThrowIfNull(dao);
         
         dbContext.Comments.Remove(dao);
         

@@ -8,6 +8,7 @@ using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Application.Boards;
 using Scrumboard.Application.Cards;
 using Scrumboard.Application.Cards.Activities;
+using Scrumboard.Application.Cards.Comments;
 using Scrumboard.Application.Teams;
 
 namespace Scrumboard.Application;
@@ -34,7 +35,8 @@ public static class ApplicationServiceRegistration
         // Cards
         services
             .AddScoped<IActivitiesService, ActivitiesService>()
-            .AddScoped<ICardsService, CardsService>();
+            .AddScoped<ICardsService, CardsService>()
+            .AddScoped<ICommentsService, CommentsService>();
         
         // Teams
         services.AddScoped<ITeamsService, TeamsService>();

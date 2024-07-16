@@ -1,21 +1,23 @@
-﻿using MediatR;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Cards;
-using Scrumboard.Application.Cards.Comments.Commands.CreateComment;
-using Scrumboard.Application.Cards.Comments.Commands.DeleteComment;
-using Scrumboard.Application.Cards.Comments.Commands.UpdateComment;
-using Scrumboard.Application.Cards.Comments.Queries.GetCommentsByCardId;
+using Scrumboard.Domain.Cards.Comments;
+using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
+using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Cards.Comments;
 
 [Authorize]
 [ApiController]
 [Produces("application/json")]
-[Route("api/cards/{cardId}/[controller]")]
+[Route("api/cards/{cardId:int}/[controller]")]
 public class CommentsController(
-    ISender mediator,
-    ICardsService cardsService) : ControllerBase
+    IMapper mapper,
+    ICardsService cardsService,
+    ICommentsService commentsService,
+    IIdentityService identityService) : ControllerBase
 {
     /// <summary>
     /// Get card comments.
@@ -25,7 +27,7 @@ public class CommentsController(
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> GetAll(
+    public async Task<ActionResult<IEnumerable<CommentDto>>> GetAll(
         int cardId, 
         CancellationToken cancellationToken)
     {
@@ -33,12 +35,38 @@ public class CommentsController(
         {
             return NotFound($"Card ({cardId}) not found.");
         }
-        
-        var dtos = await mediator.Send(
-            new GetCommentsByCardIdQuery { CardId = cardId }, 
-            cancellationToken);
 
+        var comments = await commentsService.GetByCardIdAsync(cardId, cancellationToken);
+        
+        var dtos = await GetCommentDtosAsync(comments, cancellationToken);
+        
         return Ok(dtos);
+    }
+    
+    /// <summary>
+    /// Get card comment by id.
+    /// </summary>
+    /// <param name="cardId">Id of the card.</param>
+    /// <param name="id">Id of the comment.</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<CommentDto>> Get(
+        int cardId, 
+        int id, 
+        CancellationToken cancellationToken)
+    {
+        if (!await cardsService.ExistsAsync(cardId, cancellationToken))
+        {
+            return NotFound($"Card ({cardId}) not found.");
+        }
+
+        var comment = await commentsService.GetByIdAsync(id, cancellationToken);
+
+        var dto = await GetCommentDtoAsync(comment, cancellationToken);
+        
+        return Ok(dto);
     }
     
     /// <summary>
@@ -50,7 +78,7 @@ public class CommentsController(
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<CreateCommentCommandResponse>> Create(
+    public async Task<ActionResult<CommentDto>> Create(
         int cardId, 
         CommentCreationModel commentCreationModel,
         CancellationToken cancellationToken)
@@ -59,12 +87,14 @@ public class CommentsController(
         {
             return NotFound($"Card ({cardId}) not found.");
         }
-        
-        var response = await mediator.Send(
-            new CreateCommentCommand { Message = commentCreationModel.Message, CardId = cardId }, 
-            cancellationToken);
 
-        return new ObjectResult(response) { StatusCode = StatusCodes.Status201Created };
+        var commentCreation = mapper.Map<CommentCreation>(commentCreationModel);
+        
+        var comment = await commentsService.AddAsync(commentCreation, cancellationToken);
+
+        var dto = await GetCommentDtoAsync(comment, cancellationToken);
+
+        return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
     }
 
     /// <summary>
@@ -72,19 +102,19 @@ public class CommentsController(
     /// </summary>
     /// <param name="cardId">Id of the card.</param>
     /// <param name="id">Id of the comment.</param>
-    /// <param name="command">Comment to be updated.</param>
+    /// <param name="commentEditionModel">Comment to be updated.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Update(
         int cardId, 
         int id, 
-        UpdateCommentCommand command,
+        CommentEditionModel commentEditionModel,
         CancellationToken cancellationToken)
     {
-        if (id != command.Id)
+        if (id != commentEditionModel.Id)
             return BadRequest();
         
         if (!await cardsService.ExistsAsync(cardId, cancellationToken))
@@ -92,7 +122,11 @@ public class CommentsController(
             return NotFound($"Card ({cardId}) not found.");
         }
 
-        var dto = await mediator.Send(command, cancellationToken);
+        var commentEdition = mapper.Map<CommentEdition>(commentEditionModel);
+        
+        var comment = await commentsService.UpdateAsync(commentEdition, cancellationToken);
+
+        var dto = await GetCommentDtoAsync(comment, cancellationToken);
 
         return Ok(dto);
     }
@@ -104,7 +138,7 @@ public class CommentsController(
     /// <param name="id">Id of the comment.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(
         int cardId, 
@@ -116,8 +150,53 @@ public class CommentsController(
             return NotFound($"Card ({cardId}) not found.");
         }
         
-        await mediator.Send(new DeleteCommentCommand { CommentId = id }, cancellationToken);
+        await commentsService.DeleteAsync(id, cancellationToken);
 
         return NoContent();
+    }
+    
+    private async Task<IReadOnlyCollection<CommentDto>> GetCommentDtosAsync(
+        IReadOnlyCollection<Comment> comments,
+        CancellationToken cancellationToken)
+    {
+        var commentDtos = mapper.Map<IEnumerable<CommentDto>>(comments).ToList();
+        
+        var users = await identityService
+            .GetListAsync(comments
+                .Select(a => a.CreatedBy), cancellationToken);
+        
+        var userDtos = commentDtos.Select(c => c.User).ToList();
+
+        MapUsers(users, userDtos);
+
+        return commentDtos;
+    }
+    
+    private async Task<CommentDto> GetCommentDtoAsync(
+        Comment comment,
+        CancellationToken cancellationToken)
+    {
+        var commentDto = mapper.Map<CommentDto>(comment);
+        
+        var user = await identityService.GetUserAsync(comment.CreatedBy, cancellationToken);
+
+        mapper.Map(user, commentDto.User);
+
+        return commentDto;
+    }
+    
+    private void MapUsers(IReadOnlyList<IUser> users, IEnumerable<UserDto> userDtos)
+    {
+        foreach (var userDto in userDtos)
+        {
+            var user = users.FirstOrDefault(u => u.Id == userDto.Id);
+
+            if (user is null)
+            {
+                continue;
+            }
+
+            mapper.Map(user, userDto);
+        }
     }
 }

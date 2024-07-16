@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Users\Queries\" />
     <Folder Include="Cards\Commands\" />
-    <Folder Include="Cards\Comments\Commands\" />
     <Folder Include="Cards\Queries\" />
     <Folder Include="Common\" />
     <Folder Include="WeatherForecasts\Queries\" />

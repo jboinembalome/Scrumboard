@@ -44,7 +44,10 @@ internal sealed class LabelsRepository(
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Labels.FirstAsync(x => x.Id == id, cancellationToken);
+        var keyValues = new object[] { id };
+        var dao = await dbContext.Labels.FindAsync(keyValues, cancellationToken);
+        
+        ArgumentNullException.ThrowIfNull(dao);
         
         dbContext.Labels.Remove(dao);
         

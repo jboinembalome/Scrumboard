@@ -44,7 +44,10 @@ internal sealed class TeamsRepository(
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Teams.FirstAsync(x => x.Id == id, cancellationToken);
+        var keyValues = new object[] { id };
+        var dao = await dbContext.Teams.FindAsync(keyValues, cancellationToken);
+        
+        ArgumentNullException.ThrowIfNull(dao);
         
         dbContext.Teams.Remove(dao);
         

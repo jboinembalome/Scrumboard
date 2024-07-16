@@ -25,6 +25,11 @@ internal sealed class TeamsService(
     public Task<Team> UpdateAsync(TeamEdition teamEdition, CancellationToken cancellationToken = default) 
         => teamsRepository.UpdateAsync(teamEdition, cancellationToken);
 
-    public Task DeleteAsync(int id, CancellationToken cancellationToken = default)
-        => teamsRepository.DeleteAsync(id, cancellationToken);
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    {
+        _ = await teamsRepository.TryGetByIdAsync(id, cancellationToken) 
+            ?? throw new NotFoundException(nameof(Team), id);
+        
+        await teamsRepository.DeleteAsync(id, cancellationToken);
+    }
 }

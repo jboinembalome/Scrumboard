@@ -53,10 +53,8 @@ internal sealed class BoardsService(
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var boardToDelete = await boardsRepository.TryGetByIdAsync(id, cancellationToken);
-
-        if (boardToDelete is null)
-            throw new NotFoundException(nameof(Board), id);
+        _ = await boardsRepository.TryGetByIdAsync(id, cancellationToken)
+            ?? throw new NotFoundException(nameof(Board), id);;
         
         await boardsRepository.DeleteAsync(id, cancellationToken);
     }

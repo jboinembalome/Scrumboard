@@ -1,15 +1,12 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Common.Exceptions;
-using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
 namespace Scrumboard.Application.Cards.Comments;
 
 internal sealed class CommentsService(
-    ICardsRepository cardsRepository,
     ICommentsRepository commentsRepository,
     ICommentsQueryRepository commentsQueryRepository,
     IValidator<CommentCreation> commentCreationValidator,
@@ -19,13 +16,8 @@ internal sealed class CommentsService(
         => await commentsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Comment), id);
 
-    public async Task<IReadOnlyList<Comment>> GetByCardIdAsync(int cardId, CancellationToken cancellationToken = default)
-    {
-        _ = await cardsRepository.TryGetByIdAsync(cardId, cancellationToken)
-            ?? throw new NotFoundException(nameof(Card), cardId);
-        
-        return await commentsQueryRepository.GetByCardIdAsync(cardId, cancellationToken);
-    }
+    public Task<IReadOnlyList<Comment>> GetByCardIdAsync(int cardId, CancellationToken cancellationToken = default) 
+        => commentsQueryRepository.GetByCardIdAsync(cardId, cancellationToken);
 
     public async Task<Comment> AddAsync(CommentCreation commentCreation, CancellationToken cancellationToken = default)
     {

@@ -5,4 +5,5 @@ namespace Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 public sealed class CommentCreation
 {
     public string Message { get; set; } = string.Empty;
+    public int CardId { get; set; }
 }

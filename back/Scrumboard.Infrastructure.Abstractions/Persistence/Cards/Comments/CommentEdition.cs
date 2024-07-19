@@ -6,4 +6,5 @@ public sealed class CommentEdition
 {
     public int Id { get; set; }
     public string Message { get; set; } = string.Empty;
+    public int CardId { get; set; }
 }

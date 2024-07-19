@@ -11,4 +11,5 @@ public sealed class CommentDto
     public DateTime CreatedDate { get; set; }
     public DateTime? LastModifiedDate { get; set; }
     public UserDto User { get; set; }
+    public int CardId { get; set; }
 }

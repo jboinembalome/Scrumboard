@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
@@ -17,9 +16,9 @@ internal sealed class LabelsRepository(
         return mapper.Map<Label>(dao);
     }
 
-    public async Task<Label> AddAsync(Label label, CancellationToken cancellationToken = default)
+    public async Task<Label> AddAsync(LabelCreation labelCreation, CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<LabelDao>(label);
+        var dao = mapper.Map<LabelDao>(labelCreation);
         
         dbContext.Labels.Add(dao);
         
@@ -28,14 +27,14 @@ internal sealed class LabelsRepository(
         return mapper.Map<Label>(dao);
     }
 
-    public async Task<Label> UpdateAsync(Label label, CancellationToken cancellationToken = default)
+    public async Task<Label> UpdateAsync(LabelEdition labelEdition, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { label.Id };
+        var keyValues = new object[] { labelEdition.Id };
         var dao = await dbContext.Labels.FindAsync(keyValues, cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
 
-        mapper.Map(label, dao);
+        mapper.Map(labelEdition, dao);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         

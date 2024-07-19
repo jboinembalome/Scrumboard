@@ -6,6 +6,7 @@ using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Application.Boards;
+using Scrumboard.Application.Boards.Labels;
 using Scrumboard.Application.Cards;
 using Scrumboard.Application.Cards.Activities;
 using Scrumboard.Application.Cards.Comments;
@@ -30,7 +31,9 @@ public static class ApplicationServiceRegistration
         });
         
         // Boards
-        services.AddScoped<IBoardsService, BoardsService>();
+        services
+            .AddScoped<IBoardsService, BoardsService>()
+            .AddScoped<ILabelsService, LabelsService>();
         
         // Cards
         services

@@ -43,8 +43,4 @@
     <None Remove="Properties\serviceDependencies.local.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Api\Common\" />
-  </ItemGroup>
-
 </Project>

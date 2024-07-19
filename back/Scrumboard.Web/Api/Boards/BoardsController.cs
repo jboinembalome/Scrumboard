@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
-using Scrumboard.Application.Cards.Labels.Queries.GetLabelsByBoardId;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Web.Api.Boards;
@@ -13,7 +11,6 @@ namespace Scrumboard.Web.Api.Boards;
 [Produces("application/json")]
 [Route("api/[controller]")]
 public class BoardsController(
-    ISender mediator,
     IMapper mapper,
     IBoardsService boardsService) : ControllerBase
 {
@@ -108,25 +105,5 @@ public class BoardsController(
         await boardsService.DeleteAsync(id, cancellationToken);
 
         return NoContent();
-    }
-
-    
-    // TODO: Refactor below 
-    
-    /// <summary>
-    /// Get labels by board id.
-    /// </summary>
-    /// <param name="id">Id of the board.</param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [HttpGet("{id}/labels")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<LabelDto>>> GetByBoardId(int id, CancellationToken cancellationToken)
-    {
-        var dtos = await mediator.Send(
-            new GetLabelsByBoardIdQuery { BoardId = id },
-            cancellationToken);
-
-        return Ok(dtos);
     }
 }

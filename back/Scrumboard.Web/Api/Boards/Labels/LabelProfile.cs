@@ -2,17 +2,17 @@
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
-namespace Scrumboard.Infrastructure.Persistence.Cards.Labels;
+namespace Scrumboard.Web.Api.Boards.Labels;
 
 internal sealed class LabelProfile : Profile
 {
     public LabelProfile()
     {
         // Write
-        CreateMap<LabelCreation, LabelDao>();
-        CreateMap<LabelEdition, LabelDao>();
-
+        CreateMap<LabelCreationModel, LabelCreation>();
+        CreateMap<LabelEditionModel, LabelEdition>();
+        
         // Read
-        CreateMap<LabelDao, Label>();
+        CreateMap<Label, LabelDto>();
     }
 }

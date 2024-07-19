@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
-using Scrumboard.Infrastructure.Persistence.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Labels;
 
@@ -12,14 +11,22 @@ internal sealed class LabelsQueryRepository(
 {
     public async Task<IReadOnlyList<Label>> GetByBoardIdAsync(int boardId, CancellationToken cancellationToken = default)
     {
-        var daos = await LabelQuery()
+        var daos = await Query()
             .Where(x => x.BoardId == boardId)
             .ToListAsync(cancellationToken);
 
         return mapper.Map<IReadOnlyList<Label>>(daos);
     }
 
-    private IQueryable<LabelDao> LabelQuery() 
+    public async Task<Label?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var dao = await Query()
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        return mapper.Map<Label>(dao);
+    }
+
+    private IQueryable<LabelDao> Query() 
         => dbContext.Labels
             .AsNoTracking();
 }

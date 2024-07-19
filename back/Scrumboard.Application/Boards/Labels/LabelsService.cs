@@ -2,7 +2,6 @@ using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
 namespace Scrumboard.Application.Boards.Labels;
@@ -10,18 +9,12 @@ namespace Scrumboard.Application.Boards.Labels;
 internal sealed class LabelsService(
     ILabelsQueryRepository labelsQueryRepository,
     ILabelsRepository labelsRepository,
-    IBoardsRepository boardsRepository,
     IValidator<LabelCreation> labelCreationValidator,
     IValidator<LabelEdition> labelEditionValidator) : ILabelsService
 {
-    public async Task<IReadOnlyList<Label>> GetByBoardIdAsync(int boardId, CancellationToken cancellationToken = default)
-    {
-        _ = await boardsRepository.TryGetByIdAsync(boardId, cancellationToken)
-            ?? throw new NotFoundException(nameof(Board), boardId);
-        
-        return await labelsQueryRepository.GetByBoardIdAsync(boardId, cancellationToken);
-    }
-    
+    public Task<IReadOnlyList<Label>> GetByBoardIdAsync(int boardId, CancellationToken cancellationToken = default) 
+        => labelsQueryRepository.GetByBoardIdAsync(boardId, cancellationToken);
+
     public async Task<Label> GetByIdAsync(int id, CancellationToken cancellationToken = default) 
         => await labelsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Label), id);

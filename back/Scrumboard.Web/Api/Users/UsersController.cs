@@ -1,9 +1,7 @@
-﻿using MediatR;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Users.Dtos;
-using Scrumboard.Application.Users.Queries.GetAvatarByUserId;
-using Scrumboard.Application.Users.Queries.GetUsers;
+using Scrumboard.Application.Abstractions.Users;
 
 namespace Scrumboard.Web.Api.Users;
 
@@ -11,7 +9,9 @@ namespace Scrumboard.Web.Api.Users;
 [ApiController]
 [Produces("application/json")]
 [Route("api/[controller]")]
-public class UsersController(ISender mediator) : ControllerBase
+public class UsersController(
+    IMapper mapper,
+    IUsersService usersService) : ControllerBase
 {
     /// <summary>
     /// Get users.
@@ -21,7 +21,9 @@ public class UsersController(ISender mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<UserDto>>> Get(CancellationToken cancellationToken)
     {
-        var dtos = await mediator.Send(new GetUsersQuery(), cancellationToken);
+        var users = await usersService.GetAsync(cancellationToken);
+        
+        var dtos = mapper.Map<IEnumerable<UserDto>>(users);
 
         return Ok(dtos);
     }
@@ -36,9 +38,7 @@ public class UsersController(ISender mediator) : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> GetAvatar(string userId, CancellationToken cancellationToken)
     {
-        var avatar = await mediator.Send(
-            new GetAvatarByUserIdQuery { UserId = userId }, 
-            cancellationToken);
+        var avatar = await usersService.GetAvatarByUserIdAsync(userId, cancellationToken);
             
         return File(avatar, "image/jpeg");
     }

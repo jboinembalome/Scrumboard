@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
-using Scrumboard.Application.ListBoards.Dtos;
 using Scrumboard.Domain.ListBoards;
 
-namespace Scrumboard.Application.ListBoards;
+namespace Scrumboard.Web.Api.Boards.ListBoards;
 
 internal sealed class ListBoardProfile : Profile
 {

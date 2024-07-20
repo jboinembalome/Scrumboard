@@ -1,4 +1,4 @@
-﻿using Scrumboard.Application.ListBoards.Dtos;
+﻿using Scrumboard.Web.Api.Boards.ListBoards;
 using Scrumboard.Web.Api.Teams;
 using Scrumboard.Web.Api.Users;
 

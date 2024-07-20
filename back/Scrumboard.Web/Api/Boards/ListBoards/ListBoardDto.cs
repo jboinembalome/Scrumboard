@@ -2,10 +2,11 @@
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
-namespace Scrumboard.Application.ListBoards.Dtos;
+namespace Scrumboard.Web.Api.Boards.ListBoards;
 
 public sealed class ListBoardDto
 {
+    // TODO: Update model
     public int Id { get; set; }
     public string Name { get; set; }
     public int Position { get; set; }

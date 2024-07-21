@@ -1,6 +1,4 @@
-﻿using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Cards.Checklists;
-using Scrumboard.Domain.Common;
+﻿using Scrumboard.Domain.Common;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -15,9 +13,8 @@ public sealed class Card : IEntity<int>
     public DateTime? DueDate { get; set; }
     public int Position { get; set; }
     public int ListBoardId { get; set; }
-    public ICollection<Label> Labels { get; set; }
-    public ICollection<Checklist> Checklists { get; set; }
-    public ICollection<string> Assignees { get; set; }
+    public ICollection<int> LabelIds { get; set; }
+    public ICollection<string> AssigneeIds { get; set; }
     public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
     public string? LastModifiedBy { get; set; }

@@ -17,9 +17,9 @@ internal sealed class CardsRepository(
         return mapper.Map<Card>(dao);
     }
 
-    public async Task<Card> AddAsync(Card card, CancellationToken cancellationToken = default)
+    public async Task<Card> AddAsync(CardCreation cardCreation, CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<CardDao>(card);
+        var dao = mapper.Map<CardDao>(cardCreation);
         
         dbContext.Cards.Add(dao);
         
@@ -28,12 +28,13 @@ internal sealed class CardsRepository(
         return mapper.Map<Card>(dao);
     }
 
-    public async Task<Card> UpdateAsync(Card card, CancellationToken cancellationToken = default)
+    public async Task<Card> UpdateAsync(CardEdition cardEdition, CancellationToken cancellationToken = default)
     {
+        // TODO: Use LoadAsync
         var dao = await Query()
-            .FirstAsync(x => x.Id == card.Id, cancellationToken);
+            .FirstAsync(x => x.Id == cardEdition.Id, cancellationToken);
 
-        mapper.Map(card, dao);
+        mapper.Map(cardEdition, dao);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         
@@ -51,12 +52,10 @@ internal sealed class CardsRepository(
         
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-    
+
     private IQueryable<CardDao> Query()
         => dbContext.Cards
             .AsSplitQuery()
             .Include(x => x.Labels)
-            .Include(x => x.Assignees)
-            .Include(x => x.Checklists)
-                .ThenInclude(y => y.ChecklistItems);
+            .Include(x => x.Assignees);
 }

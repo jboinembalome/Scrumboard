@@ -18,6 +18,22 @@ internal sealed class LabelsQueryRepository(
         return mapper.Map<IReadOnlyList<Label>>(daos);
     }
 
+    public async Task<IReadOnlyList<Label>> GetAsync(IEnumerable<int> labelIds, CancellationToken cancellationToken = default)
+    {
+        var idValues = labelIds.ToHashSet();
+        
+        if (idValues.Count == 0)
+        {
+            return [];
+        }
+        
+        var daos = await Query()
+            .Where(x =>idValues.Contains(x.Id))
+            .ToListAsync(cancellationToken);
+
+        return mapper.Map<IReadOnlyList<Label>>(daos);
+    }
+
     public async Task<Label?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         var dao = await Query()

@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
-using Scrumboard.Domain.Cards.Checklists;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
@@ -67,31 +66,8 @@ public class RepositoryMocks
                             Description = "Create login page with social network authenfication.",
                             Suscribed = false,
                             DueDate = null,
-                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[0], labelsForFrontEndScrumboard[1] },
-                            Assignees = [user1Model],
-                            Checklists = new Collection<Checklist>
-                            {
-                                new Checklist
-                                {
-                                    Id = 1,
-                                    Name = "Checklist",
-                                    ChecklistItems = new Collection<ChecklistItem>
-                                    {
-                                        new ChecklistItem
-                                        {
-                                            Id = 1,
-                                            Name = "Create template for the login page",
-                                            IsChecked = true,
-                                        },
-                                        new ChecklistItem
-                                        {
-                                            Id = 2,
-                                            Name = "Validate template for the login page",
-                                            IsChecked = false,
-                                        }
-                                    }
-                                }
-                            }
+                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[0].Id, labelsForFrontEndScrumboard[1].Id },
+                            AssigneeIds = [user1Model]
                         },
                         new Card
                         {
@@ -100,7 +76,7 @@ public class RepositoryMocks
                             Description = null!,
                             Suscribed = false,
                             DueDate = null,
-                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[0] }
+                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[0].Id }
                         }
                     }
                 },
@@ -117,7 +93,7 @@ public class RepositoryMocks
                             Description = "",
                             Suscribed = true,
                             DueDate = new DateTime(2021, 5, 15),
-                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[1] }
+                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[1].Id }
                         },
                     }
                 },
@@ -134,8 +110,8 @@ public class RepositoryMocks
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            Labels = new Collection<Label> { labelsForFrontEndScrumboard[2] },
-                            Assignees = [user1Model]
+                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[2].Id },
+                            AssigneeIds = [user1Model]
                         },
                     }
                 },
@@ -192,8 +168,8 @@ public class RepositoryMocks
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            Labels = new Collection<Label> { labelsForBackEndScrumboard[1] },
-                            Assignees = [user1Model]
+                            LabelIds = new Collection<int> { labelsForBackEndScrumboard[1].Id },
+                            AssigneeIds = [user1Model]
                         },
                         new Card
                         {
@@ -202,7 +178,7 @@ public class RepositoryMocks
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            Labels = new Collection<Label> { labelsForBackEndScrumboard[0] }
+                            LabelIds = new Collection<int> { labelsForBackEndScrumboard[0].Id }
                         },
                     }
                 }

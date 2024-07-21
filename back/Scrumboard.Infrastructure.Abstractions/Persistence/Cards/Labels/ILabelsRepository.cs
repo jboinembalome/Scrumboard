@@ -4,6 +4,7 @@ namespace Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
 public interface ILabelsRepository
 {
+    Task<IReadOnlyList<Label>> GetAsync(IEnumerable<int> labelIds, CancellationToken cancellationToken = default);
     Task<Label?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default);
     Task<Label> AddAsync(LabelCreation labelCreation, CancellationToken cancellationToken = default);
     Task<Label> UpdateAsync(LabelEdition labelEdition, CancellationToken cancellationToken = default);

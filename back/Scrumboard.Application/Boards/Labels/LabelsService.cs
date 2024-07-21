@@ -15,6 +15,9 @@ internal sealed class LabelsService(
     public Task<IReadOnlyList<Label>> GetByBoardIdAsync(int boardId, CancellationToken cancellationToken = default) 
         => labelsQueryRepository.GetByBoardIdAsync(boardId, cancellationToken);
 
+    public Task<IReadOnlyList<Label>> GetAsync(IEnumerable<int> labelIds, CancellationToken cancellationToken = default)
+        => labelsQueryRepository.GetAsync(labelIds, cancellationToken);
+    
     public async Task<Label> GetByIdAsync(int id, CancellationToken cancellationToken = default) 
         => await labelsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Label), id);

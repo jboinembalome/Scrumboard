@@ -56,8 +56,12 @@ internal sealed class IdentityService(
         IEnumerable<string> userIds, 
         CancellationToken cancellationToken = default)
     {
+        var idValues = userIds
+            .Select(x => x)
+            .ToHashSet();
+        
         var users = await userManager.Users
-            .Where(u => userIds.Contains(u.Id))
+            .Where(u => idValues.Contains(u.Id))
             .ToListAsync(cancellationToken);
 
         return users;

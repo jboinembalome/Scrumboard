@@ -16,6 +16,7 @@ internal sealed class CommentEditionValidator : AbstractValidator<CommentEdition
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
         
+        // TODO: Throw NotFoundException instead
         RuleFor(x => x.CardId)
             .MustAsync(CardExistsAsync)
             .WithMessage("{PropertyName} not found.");

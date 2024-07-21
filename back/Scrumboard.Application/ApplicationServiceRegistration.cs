@@ -30,10 +30,6 @@ public static class ApplicationServiceRegistration
         
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         
-        services.AddMediatR(cfg => {
-            cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-        });
-        
         // Boards
         services
             .AddScoped<IBoardsService, BoardsService>()

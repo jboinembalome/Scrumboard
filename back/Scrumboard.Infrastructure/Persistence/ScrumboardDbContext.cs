@@ -4,12 +4,12 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Persistence.Boards;
-using Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Persistence.Cards.Checklists;
 using Scrumboard.Infrastructure.Persistence.Cards.Comments;
 using Scrumboard.Infrastructure.Persistence.Cards.Labels;
+using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
 
 namespace Scrumboard.Infrastructure.Persistence;

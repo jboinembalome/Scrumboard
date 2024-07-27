@@ -7,10 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Persistence.Boards;
-using Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Checklists;
 using Scrumboard.Infrastructure.Persistence.Cards.Labels;
+using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
 
 namespace Scrumboard.Infrastructure.Persistence;

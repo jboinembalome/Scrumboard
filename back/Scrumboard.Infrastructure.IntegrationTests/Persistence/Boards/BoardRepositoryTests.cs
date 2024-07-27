@@ -7,7 +7,6 @@ using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Persistence.Boards;
-using Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Persistence.Teams;

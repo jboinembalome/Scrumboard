@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
+namespace Scrumboard.Infrastructure.Persistence.ListBoards;
 
 internal sealed class ListBoardDaoConfiguration : IEntityTypeConfiguration<ListBoardDao>
 {

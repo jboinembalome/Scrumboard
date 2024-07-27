@@ -1,8 +1,8 @@
 ﻿using Scrumboard.Domain.ListBoards;
 
-namespace Scrumboard.Infrastructure.Abstractions.Persistence.Boards.ListBoards;
+namespace Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
-public interface IListBoardsRepository
+public interface IListBoardsQueryRepository
 {
     Task<ListBoard?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default);
 }

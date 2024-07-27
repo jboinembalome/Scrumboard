@@ -109,6 +109,8 @@ public class CardsController(
         return NoContent();
     }
     
+    // TODO: endpoint to move a card
+    
     private async Task<IEnumerable<LabelDto>> GetLabelDtosAsync(
         Card card,
         CancellationToken cancellationToken)

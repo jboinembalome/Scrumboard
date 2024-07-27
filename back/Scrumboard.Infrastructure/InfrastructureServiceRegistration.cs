@@ -8,11 +8,11 @@ using Scrumboard.Infrastructure.Abstractions.FileExport;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Logging;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
+using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 using Scrumboard.Infrastructure.Common;
 using Scrumboard.Infrastructure.FileExport;
@@ -20,11 +20,11 @@ using Scrumboard.Infrastructure.Identity;
 using Scrumboard.Infrastructure.Logging;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Persistence.Boards;
-using Scrumboard.Infrastructure.Persistence.Boards.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Persistence.Cards.Comments;
 using Scrumboard.Infrastructure.Persistence.Cards.Labels;
+using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
 
 namespace Scrumboard.Infrastructure;
@@ -59,7 +59,6 @@ public static class InfrastructureServiceRegistration
             // Boards
             services.AddScoped<IBoardsRepository, BoardsRepository>();
             services.AddScoped<IBoardsQueryRepository, BoardsQueryRepository>();
-            services.AddScoped<IListBoardsRepository, ListBoardsRepository>();
             
             // Cards
             services.AddScoped<ICardsQueryRepository, CardsQueryRepository>();
@@ -70,6 +69,10 @@ public static class InfrastructureServiceRegistration
             services.AddScoped<ICommentsRepository, CommentsRepository>();
             services.AddScoped<ILabelsQueryRepository, LabelsQueryRepository>();
             services.AddScoped<ILabelsRepository, LabelsRepository>();
+            
+            // ListBoards
+            services.AddScoped<IListBoardsQueryRepository, ListBoardsQueryRepository>();
+            services.AddScoped<IListBoardsRepository, ListBoardsRepository>();
             
             // Teams
             services.AddScoped<ITeamsQueryRepository, TeamsQueryRepository>();

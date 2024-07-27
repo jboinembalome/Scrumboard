@@ -42,8 +42,6 @@ internal sealed class BoardsService(
         return boardsRepository.AddAsync(boardCreation, cancellationToken);
     }
 
-    // TODO: Add listBoard endpoints
-    // TODO: Add endpoints to move listBoard and card positions
     public async Task<Board> UpdateAsync(BoardEdition boardEdition, CancellationToken cancellationToken = default)
     {
         await boardEditionValidator.ValidateAndThrowAsync(boardEdition, cancellationToken);

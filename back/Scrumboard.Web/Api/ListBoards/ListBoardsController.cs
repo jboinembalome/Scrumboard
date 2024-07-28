@@ -95,6 +95,4 @@ public class ListBoardsController(
         
         return NoContent();
     }
-    
-    // TODO: endpoint to move a list
 }

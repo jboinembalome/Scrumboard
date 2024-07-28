@@ -28,7 +28,7 @@ internal sealed class LabelEditionValidator : AbstractValidator<LabelEdition>
                 .WithMessage("{PropertyName} is not supported.");
 
         RuleFor(x => x.Id)
-            .MustAsync(BoardExistsAsync)
+            .MustAsync(LabelExistsAsync)
             .WithMessage("{PropertyName} not found.");
             
         RuleFor(x => x.BoardId)

@@ -5,11 +5,13 @@ using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Cards;
 
-public sealed class CardCreationModel
+public sealed class CardEditionDto
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string? Description { get; set; }
     public DateTime? DueDate { get; set; }
+    public int Position { get; set; }
     public int ListBoardId { get; set; }
     public IEnumerable<LabelDto> Labels { get; set; }
     public IEnumerable<UserDto> Assignees { get; set; }

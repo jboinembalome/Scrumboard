@@ -69,14 +69,14 @@ public sealed class LabelsController(
     /// Create a label on a board.
     /// </summary>
     /// <param name="boardId">Id of the board.</param>
-    /// <param name="labelCreationModel">Label to be added.</param>
+    /// <param name="labelCreationDto">Label to be added.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<LabelDto>> Create(
         int boardId, 
-        LabelCreationModel labelCreationModel,
+        LabelCreationDto labelCreationDto,
         CancellationToken cancellationToken)
     {
         if (!await boardsService.ExistsAsync(boardId, cancellationToken))
@@ -84,7 +84,7 @@ public sealed class LabelsController(
             return NotFound($"Board ({boardId}) not found.");
         }
 
-        var labelCreation = mapper.Map<LabelCreation>(labelCreationModel);
+        var labelCreation = mapper.Map<LabelCreation>(labelCreationDto);
         
         var label = await labelsService.AddAsync(labelCreation, cancellationToken);
 
@@ -98,7 +98,7 @@ public sealed class LabelsController(
     /// </summary>
     /// <param name="boardId">Id of the board.</param>
     /// <param name="id">Id of the label.</param>
-    /// <param name="labelEditionModel">Label to be updated.</param>
+    /// <param name="labelEditionDto">Label to be updated.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPut("{id:int}")]
@@ -107,10 +107,10 @@ public sealed class LabelsController(
     public async Task<ActionResult<LabelDto>> Update(
         int boardId, 
         int id, 
-        LabelEditionModel labelEditionModel,
+        LabelEditionDto labelEditionDto,
         CancellationToken cancellationToken)
     {
-        if (id != labelEditionModel.Id)
+        if (id != labelEditionDto.Id)
             return BadRequest();
         
         if (!await boardsService.ExistsAsync(boardId, cancellationToken))
@@ -118,7 +118,7 @@ public sealed class LabelsController(
             return NotFound($"Board ({boardId}) not found.");
         }
 
-        var labelEdition = mapper.Map<LabelEdition>(labelEditionModel);
+        var labelEdition = mapper.Map<LabelEdition>(labelEditionDto);
         
         var label = await labelsService.UpdateAsync(labelEdition, cancellationToken);
 

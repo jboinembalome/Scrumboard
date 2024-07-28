@@ -9,11 +9,11 @@ internal sealed class CardProfile : Profile
     public CardProfile()
     {
         // Write
-        CreateMap<CardCreationModel, CardCreation>()
+        CreateMap<CardCreationDto, CardCreation>()
             .ForMember(dest => dest.LabelIds, opt => opt.MapFrom(src => src.Labels))
             .ForMember(dest => dest.AssigneeIds, opt => opt.MapFrom(src => src.Assignees));
 
-        CreateMap<CardEditionModel, CardEdition>()
+        CreateMap<CardEditionDto, CardEdition>()
             .ForMember(dest => dest.LabelIds, opt => opt.MapFrom(src => src.Labels))
             .ForMember(dest => dest.AssigneeIds, opt => opt.MapFrom(src => src.Assignees));
         

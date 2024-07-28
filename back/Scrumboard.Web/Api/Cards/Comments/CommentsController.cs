@@ -73,14 +73,14 @@ public class CommentsController(
     /// Create a comment on a card.
     /// </summary>
     /// <param name="cardId">Id of the card.</param>
-    /// <param name="commentCreationModel">Comment to be added.</param>
+    /// <param name="commentCreationDto">Comment to be added.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CommentDto>> Create(
         int cardId, 
-        CommentCreationModel commentCreationModel,
+        CommentCreationDto commentCreationDto,
         CancellationToken cancellationToken)
     {
         if (!await cardsService.ExistsAsync(cardId, cancellationToken))
@@ -88,7 +88,7 @@ public class CommentsController(
             return NotFound($"Card ({cardId}) not found.");
         }
 
-        var commentCreation = mapper.Map<CommentCreation>(commentCreationModel);
+        var commentCreation = mapper.Map<CommentCreation>(commentCreationDto);
         
         var comment = await commentsService.AddAsync(commentCreation, cancellationToken);
 
@@ -102,7 +102,7 @@ public class CommentsController(
     /// </summary>
     /// <param name="cardId">Id of the card.</param>
     /// <param name="id">Id of the comment.</param>
-    /// <param name="commentEditionModel">Comment to be updated.</param>
+    /// <param name="commentEditionDto">Comment to be updated.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPut("{id:int}")]
@@ -111,10 +111,10 @@ public class CommentsController(
     public async Task<ActionResult> Update(
         int cardId, 
         int id, 
-        CommentEditionModel commentEditionModel,
+        CommentEditionDto commentEditionDto,
         CancellationToken cancellationToken)
     {
-        if (id != commentEditionModel.Id)
+        if (id != commentEditionDto.Id)
             return BadRequest();
         
         if (!await cardsService.ExistsAsync(cardId, cancellationToken))
@@ -122,7 +122,7 @@ public class CommentsController(
             return NotFound($"Card ({cardId}) not found.");
         }
 
-        var commentEdition = mapper.Map<CommentEdition>(commentEditionModel);
+        var commentEdition = mapper.Map<CommentEdition>(commentEditionDto);
         
         var comment = await commentsService.UpdateAsync(commentEdition, cancellationToken);
 

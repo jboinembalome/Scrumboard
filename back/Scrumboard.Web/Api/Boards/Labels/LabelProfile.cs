@@ -9,8 +9,8 @@ internal sealed class LabelProfile : Profile
     public LabelProfile()
     {
         // Write
-        CreateMap<LabelCreationModel, LabelCreation>();
-        CreateMap<LabelEditionModel, LabelEdition>();
+        CreateMap<LabelCreationDto, LabelCreation>();
+        CreateMap<LabelEditionDto, LabelEdition>();
         
         CreateMap<LabelDto, int>()
             .ConstructUsing(labelDto => labelDto.Id);

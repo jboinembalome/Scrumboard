@@ -49,10 +49,10 @@ public class CardsController(
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<CardDetailDto>> Create(
-        CardCreationModel cardCreationModel,
+        CardCreationDto cardCreationDto,
         CancellationToken cancellationToken)
     {
-        var cardCreation = mapper.Map<CardCreation>(cardCreationModel);
+        var cardCreation = mapper.Map<CardCreation>(cardCreationDto);
         
         var card = await cardsService.AddAsync(cardCreation, cancellationToken);
 
@@ -67,7 +67,7 @@ public class CardsController(
     /// Update a card.
     /// </summary>
     /// <param name="id">Id of the card.</param>
-    /// <param name="cardEditionModel">Card to be updated.</param>
+    /// <param name="cardEditionDto">Card to be updated.</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     [HttpPut("{id:int}")]
@@ -75,13 +75,13 @@ public class CardsController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CardDetailDto>> Update(
         int id, 
-        CardEditionModel cardEditionModel,
+        CardEditionDto cardEditionDto,
         CancellationToken cancellationToken)
     {
-        if (id != cardEditionModel.Id)
+        if (id != cardEditionDto.Id)
             return BadRequest();
         
-        var cardEdition = mapper.Map<CardEdition>(cardEditionModel);
+        var cardEdition = mapper.Map<CardEdition>(cardEditionDto);
         
         var card = await cardsService.UpdateAsync(cardEdition, cancellationToken);
 

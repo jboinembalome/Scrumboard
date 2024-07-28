@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Web.Api.Boards.Labels;
 
-public sealed class LabelCreationModel
+public sealed class LabelCreationDto
 {
     public string Name { get; set; }
     public string Colour { get; set; }

@@ -4,13 +4,13 @@
 
 namespace Scrumboard.Domain.Cards.Comments;
 
-public sealed class Comment : IEntity<int>
+public sealed class Comment
 {
-    public int Id { get; set; }
+    public CommentId Id { get; set; }
     public string Message { get; set; }
-    public int CardId { get; set; }
-    public string CreatedBy { get; set; }
+    public CardId CardId { get; set; }
+    public UserId CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string? LastModifiedBy { get; set; }
+    public UserId? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

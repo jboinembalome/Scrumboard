@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
@@ -41,14 +42,14 @@ internal sealed class LabelEditionValidator : AbstractValidator<LabelEdition>
     private static bool ColourExists(Colour colour) 
         => Colour.SupportedColours.Any(x => Equals(x, colour));
     
-    private async Task<bool> LabelExistsAsync(int id, CancellationToken cancellationToken)
+    private async Task<bool> LabelExistsAsync(LabelId id, CancellationToken cancellationToken)
     {
         var label = await _labelsRepository.TryGetByIdAsync(id, cancellationToken);
 
         return label is not null;
     }
     
-    private async Task<bool> BoardExistsAsync(int boardId, CancellationToken cancellationToken)
+    private async Task<bool> BoardExistsAsync(BoardId boardId, CancellationToken cancellationToken)
     {
         var board = await _boardsRepository.TryGetByIdAsync(boardId, cancellationToken);
 
@@ -57,7 +58,7 @@ internal sealed class LabelEditionValidator : AbstractValidator<LabelEdition>
     
     private async Task<bool> BoardHasListBoardAsync(
         LabelEdition labelEdition,
-        int boardId,
+        BoardId boardId,
         ValidationContext<LabelEdition> validationContext,
         CancellationToken cancellationToken)
     {

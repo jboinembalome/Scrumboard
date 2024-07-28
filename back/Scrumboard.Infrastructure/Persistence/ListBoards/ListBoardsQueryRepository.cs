@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
@@ -10,7 +11,7 @@ internal sealed class ListBoardsQueryRepository(
     IMapper mapper) : IListBoardsQueryRepository
 {
     public async Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(
-        int boardId, 
+        BoardId boardId, 
         bool? includeCards, 
         CancellationToken cancellationToken = default)
     {
@@ -32,7 +33,7 @@ internal sealed class ListBoardsQueryRepository(
         return mapper.Map<IReadOnlyList<ListBoard>>(daos);
     }
 
-    public async Task<ListBoard?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<ListBoard?> TryGetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);

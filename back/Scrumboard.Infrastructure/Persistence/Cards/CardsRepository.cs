@@ -9,7 +9,7 @@ internal sealed class CardsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : ICardsRepository
 {
-    public async Task<Card?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Card?> TryGetByIdAsync(CardId id, CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -41,7 +41,7 @@ internal sealed class CardsRepository(
         return mapper.Map<Card>(dao);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(CardId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.Cards.FindAsync(keyValues, cancellationToken);

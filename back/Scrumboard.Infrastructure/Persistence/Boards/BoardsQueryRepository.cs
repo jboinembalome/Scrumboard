@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards;
@@ -9,7 +10,7 @@ internal sealed class BoardsQueryRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : IBoardsQueryRepository
 {
-    public async Task<Board?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Board?> TryGetByIdAsync(BoardId id, CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -17,7 +18,7 @@ internal sealed class BoardsQueryRepository(
         return mapper.Map<Board>(dao);
     }
 
-    public async Task<IReadOnlyList<Board>> GetByUserIdAsync(string userId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Board>> GetByUserIdAsync(UserId userId, CancellationToken cancellationToken = default)
     {
         var daos = await Query()
             .Where(b => b.Team.Members.Any(a => a.MemberId == userId))

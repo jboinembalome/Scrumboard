@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
@@ -27,7 +28,7 @@ internal sealed class CardEditionValidator : CardInputBaseValidator<CardEdition>
             .WithMessage("{PropertyName} not found.");
     }
     
-    private async Task<bool> CardExistsAsync(int cardId, CancellationToken cancellationToken)
+    private async Task<bool> CardExistsAsync(CardId cardId, CancellationToken cancellationToken)
     {
         var card = await _cardsRepository.TryGetByIdAsync(cardId, cancellationToken);
 

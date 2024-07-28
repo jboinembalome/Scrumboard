@@ -6,18 +6,18 @@ using Scrumboard.Domain.Teams;
 
 namespace Scrumboard.Domain.Boards;
 
-public class Board : IEntity<int>
+public sealed class Board
 {
-    public int Id { get; set; }
+    public BoardId Id { get; set; }
     public string Name { get; set; } = "Untitled Board";
     public string Uri { get; set; } = "untitled-board";
     public bool IsPinned { get; set; }
     public Team Team { get; set; }
     public BoardSetting BoardSetting { get; set; }
     public ICollection<ListBoard> ListBoards { get; set; }
-    public string CreatedBy { get; set; }
+    public UserId CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string? LastModifiedBy { get; set; }
+    public UserId? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
     
     public string GetInitials()

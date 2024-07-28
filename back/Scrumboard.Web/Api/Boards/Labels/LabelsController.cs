@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
 namespace Scrumboard.Web.Api.Boards.Labels;
@@ -27,12 +28,14 @@ public sealed class LabelsController(
         int boardId, 
         CancellationToken cancellationToken)
     {
-        if (!await boardsService.ExistsAsync(boardId, cancellationToken))
+        var typedBoardId = new BoardId(boardId);
+
+        if (!await boardsService.ExistsAsync(typedBoardId, cancellationToken))
         {
             return NotFound($"Board ({boardId}) not found.");
         }
         
-        var labels = await labelsService.GetByBoardIdAsync(boardId, cancellationToken);
+        var labels = await labelsService.GetByBoardIdAsync(typedBoardId, cancellationToken);
 
         var dtos = mapper.Map<IEnumerable<LabelDto>>(labels);
         
@@ -53,12 +56,12 @@ public sealed class LabelsController(
         int id, 
         CancellationToken cancellationToken)
     {
-        if (!await boardsService.ExistsAsync(boardId, cancellationToken))
+        if (!await boardsService.ExistsAsync(new BoardId(boardId), cancellationToken))
         {
             return NotFound($"Board ({boardId}) not found.");
         }
 
-        var label = await labelsService.GetByIdAsync(id, cancellationToken);
+        var label = await labelsService.GetByIdAsync(new LabelId(id), cancellationToken);
 
         var dto = mapper.Map<LabelDto>(label);
         
@@ -79,7 +82,7 @@ public sealed class LabelsController(
         LabelCreationDto labelCreationDto,
         CancellationToken cancellationToken)
     {
-        if (!await boardsService.ExistsAsync(boardId, cancellationToken))
+        if (!await boardsService.ExistsAsync(new BoardId(boardId), cancellationToken))
         {
             return NotFound($"Board ({boardId}) not found.");
         }
@@ -113,7 +116,7 @@ public sealed class LabelsController(
         if (id != labelEditionDto.Id)
             return BadRequest();
         
-        if (!await boardsService.ExistsAsync(boardId, cancellationToken))
+        if (!await boardsService.ExistsAsync(new BoardId(boardId), cancellationToken))
         {
             return NotFound($"Board ({boardId}) not found.");
         }
@@ -142,12 +145,12 @@ public sealed class LabelsController(
         int id, 
         CancellationToken cancellationToken)
     {
-        if (!await boardsService.ExistsAsync(boardId, cancellationToken))
+        if (!await boardsService.ExistsAsync(new BoardId(boardId), cancellationToken))
         {
             return NotFound($"Board ({boardId}) not found.");
         }
 
-        await labelsService.DeleteAsync(id, cancellationToken);
+        await labelsService.DeleteAsync(new LabelId(id), cancellationToken);
         
         return NoContent();
     }

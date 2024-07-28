@@ -10,10 +10,15 @@ internal sealed class LabelsRepository(
     IMapper mapper) : ILabelsRepository
 {
     public async Task<IReadOnlyList<Label>> GetAsync(
-        IEnumerable<int> labelIds,
+        IEnumerable<LabelId> labelIds,
         CancellationToken cancellationToken = default)
     {
-        var idValues = labelIds.ToHashSet();
+        var idValues = labelIds
+            .ToHashSet()
+            .Select(x => x.Value)
+            .ToList();
+
+
 
         if (idValues.Count == 0)
         {
@@ -27,7 +32,7 @@ internal sealed class LabelsRepository(
         return mapper.Map<IReadOnlyList<Label>>(daos);
     }
 
-    public async Task<Label?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Label?> TryGetByIdAsync(LabelId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.Labels.FindAsync(keyValues, cancellationToken);
@@ -60,7 +65,7 @@ internal sealed class LabelsRepository(
         return mapper.Map<Label>(dao);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(LabelId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.Labels.FindAsync(keyValues, cancellationToken);

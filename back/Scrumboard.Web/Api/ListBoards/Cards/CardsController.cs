@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Abstractions.ListBoards;
+using Scrumboard.Domain.ListBoards;
 using Scrumboard.Web.Api.Cards;
 
 namespace Scrumboard.Web.Api.ListBoards.Cards;
@@ -28,12 +29,14 @@ public class CardsController(
         int listBoardId, 
         CancellationToken cancellationToken)
     {
-        if (!await listBoardsService.ExistsAsync(listBoardId, cancellationToken))
+        var typedListBoardId = new ListBoardId(listBoardId);
+
+        if (!await listBoardsService.ExistsAsync(typedListBoardId, cancellationToken))
         {
             return NotFound($"ListBoard ({listBoardId}) not found.");
         }
         
-        var labels = await cardsService.GetByListBoardIdAsync(listBoardId, cancellationToken);
+        var labels = await cardsService.GetByListBoardIdAsync(typedListBoardId, cancellationToken);
 
         var dtos = mapper.Map<IEnumerable<CardDto>>(labels);
         

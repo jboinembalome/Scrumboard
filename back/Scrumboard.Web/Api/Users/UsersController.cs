@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Users;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Web.Api.Users;
 
@@ -38,7 +40,7 @@ public class UsersController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> GetAvatar(string userId, CancellationToken cancellationToken)
     {
-        var avatar = await usersService.GetAvatarByUserIdAsync(userId, cancellationToken);
+        var avatar = await usersService.GetAvatarByUserIdAsync(new UserId(userId), cancellationToken);
             
         return File(avatar, "image/jpeg");
     }

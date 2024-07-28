@@ -1,10 +1,11 @@
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Comments;
 
 namespace Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
 public sealed class CommentEdition
 {
-    public int Id { get; set; }
+    public CommentId Id { get; set; }
     public string Message { get; set; } = string.Empty;
-    public int CardId { get; set; }
+    public CardId CardId { get; set; }
 }

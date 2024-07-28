@@ -1,6 +1,7 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
@@ -12,11 +13,11 @@ internal sealed class CommentsService(
     IValidator<CommentCreation> commentCreationValidator,
     IValidator<CommentEdition> commentEditionValidator) : ICommentsService
 {
-    public async Task<Comment> GetByIdAsync(int id, CancellationToken cancellationToken = default) 
+    public async Task<Comment> GetByIdAsync(CommentId id, CancellationToken cancellationToken = default) 
         => await commentsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Comment), id);
 
-    public Task<IReadOnlyList<Comment>> GetByCardIdAsync(int cardId, CancellationToken cancellationToken = default) 
+    public Task<IReadOnlyList<Comment>> GetByCardIdAsync(CardId cardId, CancellationToken cancellationToken = default) 
         => commentsQueryRepository.GetByCardIdAsync(cardId, cancellationToken);
 
     public async Task<Comment> AddAsync(CommentCreation commentCreation, CancellationToken cancellationToken = default)
@@ -36,7 +37,7 @@ internal sealed class CommentsService(
         return await commentsRepository.UpdateAsync(commentEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(CommentId id, CancellationToken cancellationToken = default)
     {
         _ = await commentsRepository.TryGetByIdAsync(id, cancellationToken) 
             ?? throw new NotFoundException(nameof(Comment), id);

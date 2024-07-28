@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
@@ -28,7 +29,7 @@ internal abstract class ListBoardInputBaseValidator<TInput>
                 .WithMessage("{PropertyName} not found.");
     }
     
-    private async Task<bool> BoardExistsAsync(int boardId, CancellationToken cancellationToken)
+    private async Task<bool> BoardExistsAsync(BoardId boardId, CancellationToken cancellationToken)
     {
         var board = await _boardsRepository.TryGetByIdAsync(boardId, cancellationToken);
 

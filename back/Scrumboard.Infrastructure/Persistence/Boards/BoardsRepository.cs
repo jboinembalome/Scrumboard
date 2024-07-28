@@ -9,7 +9,7 @@ internal sealed class BoardsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : IBoardsRepository
 {
-    public async Task<Board?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Board?> TryGetByIdAsync(BoardId id, CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -40,7 +40,7 @@ internal sealed class BoardsRepository(
         return mapper.Map<Board>(dao);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(BoardId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.Boards.FindAsync(keyValues, cancellationToken);

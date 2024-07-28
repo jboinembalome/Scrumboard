@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
@@ -31,12 +32,14 @@ public class CommentsController(
         int cardId, 
         CancellationToken cancellationToken)
     {
-        if (!await cardsService.ExistsAsync(cardId, cancellationToken))
+        var typedCardId = new CardId(cardId);
+
+        if (!await cardsService.ExistsAsync(typedCardId, cancellationToken))
         {
             return NotFound($"Card ({cardId}) not found.");
         }
 
-        var comments = await commentsService.GetByCardIdAsync(cardId, cancellationToken);
+        var comments = await commentsService.GetByCardIdAsync(typedCardId, cancellationToken);
         
         var dtos = await GetCommentDtosAsync(comments, cancellationToken);
         
@@ -57,12 +60,12 @@ public class CommentsController(
         int id, 
         CancellationToken cancellationToken)
     {
-        if (!await cardsService.ExistsAsync(cardId, cancellationToken))
+        if (!await cardsService.ExistsAsync(new CardId(cardId), cancellationToken))
         {
             return NotFound($"Card ({cardId}) not found.");
         }
 
-        var comment = await commentsService.GetByIdAsync(id, cancellationToken);
+        var comment = await commentsService.GetByIdAsync(new CommentId(id), cancellationToken);
 
         var dto = await GetCommentDtoAsync(comment, cancellationToken);
         
@@ -83,7 +86,7 @@ public class CommentsController(
         CommentCreationDto commentCreationDto,
         CancellationToken cancellationToken)
     {
-        if (!await cardsService.ExistsAsync(cardId, cancellationToken))
+        if (!await cardsService.ExistsAsync(new CardId(cardId), cancellationToken))
         {
             return NotFound($"Card ({cardId}) not found.");
         }
@@ -117,7 +120,7 @@ public class CommentsController(
         if (id != commentEditionDto.Id)
             return BadRequest();
         
-        if (!await cardsService.ExistsAsync(cardId, cancellationToken))
+        if (!await cardsService.ExistsAsync(new CardId(cardId), cancellationToken))
         {
             return NotFound($"Card ({cardId}) not found.");
         }
@@ -145,12 +148,12 @@ public class CommentsController(
         int id,
         CancellationToken cancellationToken)
     {
-        if (!await cardsService.ExistsAsync(cardId, cancellationToken))
+        if (!await cardsService.ExistsAsync(new CardId(cardId), cancellationToken))
         {
             return NotFound($"Card ({cardId}) not found.");
         }
         
-        await commentsService.DeleteAsync(id, cancellationToken);
+        await commentsService.DeleteAsync(new CommentId(id), cancellationToken);
 
         return NoContent();
     }

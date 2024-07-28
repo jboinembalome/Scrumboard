@@ -1,4 +1,7 @@
 ﻿using FluentValidation;
+using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Common;
+using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
@@ -46,7 +49,7 @@ internal abstract class CardInputBaseValidator<TInput>
             .WithMessage("{PropertyName} has not found values: {AssigneeIdsNotFound}.");
     }
     
-    private async Task<bool> ListBoardExistsAsync(int listBoardId, CancellationToken cancellationToken)
+    private async Task<bool> ListBoardExistsAsync(ListBoardId listBoardId, CancellationToken cancellationToken)
     {
         var listBoard = await _listBoardsRepository.TryGetByIdAsync(listBoardId, cancellationToken);
 
@@ -55,7 +58,7 @@ internal abstract class CardInputBaseValidator<TInput>
     
     private async Task<bool> LabelsExistAsync(
         TInput cardInput, 
-        IEnumerable<int> labelIds,
+        IEnumerable<LabelId> labelIds,
         ValidationContext<TInput> validationContext,
         CancellationToken cancellationToken)
     {
@@ -81,7 +84,7 @@ internal abstract class CardInputBaseValidator<TInput>
     
     private async Task<bool> AssigneesExistAsync(
         TInput cardInput, 
-        IEnumerable<string> assigneeIds,
+        IEnumerable<UserId> assigneeIds,
         ValidationContext<TInput> validationContext,
         CancellationToken cancellationToken)
     {
@@ -90,7 +93,7 @@ internal abstract class CardInputBaseValidator<TInput>
         var assignees = await _identityService.GetListAsync(ids, cancellationToken);
 
         var idsNotFound = assignees
-            .Select(x => x.Id)
+            .Select(x => (UserId)x.Id)
             .Except(ids)
             .ToArray();
 

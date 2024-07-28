@@ -4,13 +4,13 @@
 
 namespace Scrumboard.Domain.Teams;
 
-public sealed class Team : IEntity<int>
+public sealed class Team
 {
-    public int Id { get; set; }
+    public TeamId Id { get; set; }
     public string Name { get; set; }
-    public ICollection<string> MemberIds { get; set; }
-    public string CreatedBy { get; set; }
+    public ICollection<UserId> MemberIds { get; set; }
+    public UserId CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string? LastModifiedBy { get; set; }
+    public UserId? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

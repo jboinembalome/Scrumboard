@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Web.Api.Boards;
@@ -39,7 +40,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<BoardDetailDto>> Get(int id, CancellationToken cancellationToken)
     {
-        var board = await boardsService.GetByIdAsync(id, cancellationToken);
+        var board = await boardsService.GetByIdAsync(new BoardId(id), cancellationToken);
         
         var dto = mapper.Map<BoardDto>(board);
 
@@ -102,7 +103,7 @@ public class BoardsController(
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        await boardsService.DeleteAsync(id, cancellationToken);
+        await boardsService.DeleteAsync(new BoardId(id), cancellationToken);
 
         return NoContent();
     }

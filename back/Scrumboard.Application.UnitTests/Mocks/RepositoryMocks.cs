@@ -18,9 +18,9 @@ public class RepositoryMocks
 
         var team1 = new Team 
         { 
-            Id = 1, 
+            Id = (TeamId)1, 
             Name = "Developer Team",
-            MemberIds = [user1Model]
+            MemberIds = [(UserId)user1Model]
         };
 
         #region Fake data for the frontend board
@@ -28,26 +28,26 @@ public class RepositoryMocks
         {
             new Label
             {
-                Id = 1,
+                Id = (LabelId)1,
                 Name = "Design",
                 Colour = Colour.Blue
             },
             new Label
             {
-                Id = 2,
+                Id = (LabelId)2,
                 Name = "App",
                 Colour = Colour.Orange
             },
             new Label
             {
-                Id = 3,
+                Id = (LabelId)3,
                 Name = "Feature",
                 Colour = Colour.Red
             }
         };
         var boardFrontEndScrumboard = new Board
         {
-            Id = 1,
+            Id = (BoardId)1,
             Name = "Scrumboard FrontEnd",
             Uri = "scrumboard-frontend",
             Team = team1,
@@ -55,69 +55,69 @@ public class RepositoryMocks
             {
                 new ListBoard
                 {
-                    Id = 1,
+                    Id = (ListBoardId)1,
                     Name = "Design",
                     Cards = new Collection<Card>
                     {
                         new Card
                         {
-                            Id = 1,
+                            Id = (CardId)1,
                             Name = "Create login page",
                             Description = "Create login page with social network authenfication.",
                             Suscribed = false,
                             DueDate = null,
-                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[0].Id, labelsForFrontEndScrumboard[1].Id },
-                            AssigneeIds = [user1Model]
+                            LabelIds = new Collection<LabelId> { labelsForFrontEndScrumboard[0].Id, labelsForFrontEndScrumboard[1].Id },
+                            AssigneeIds = [(UserId)user1Model]
                         },
                         new Card
                         {
-                            Id = 2,
+                            Id = (CardId)2,
                             Name = "Change background colors",
                             Description = null!,
                             Suscribed = false,
                             DueDate = null,
-                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[0].Id }
+                            LabelIds = new Collection<LabelId> { labelsForFrontEndScrumboard[0].Id }
                         }
                     }
                 },
                 new ListBoard
                 {
-                    Id = 2,
+                    Id = (ListBoardId)2,
                     Name = "Development",
                     Cards = new Collection<Card>
                     {
                         new Card
                         {
-                            Id = 3,
+                            Id = (CardId)3,
                             Name = "Fix splash screen bugs",
                             Description = "",
                             Suscribed = true,
                             DueDate = new DateTime(2021, 5, 15),
-                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[1].Id }
+                            LabelIds = new Collection<LabelId> { labelsForFrontEndScrumboard[1].Id }
                         },
                     }
                 },
                 new ListBoard
                 {
-                    Id = 3,
+                    Id = (ListBoardId)3,
                     Name = "Upcoming Features",
                     Cards = new Collection<Card>
                     {
                         new Card
                         {
-                            Id = 4,
+                            Id = (CardId)4,
                             Name = "Add a notification when a user adds a comment",
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            LabelIds = new Collection<int> { labelsForFrontEndScrumboard[2].Id },
-                            AssigneeIds = [user1Model]
+                            LabelIds = new Collection<LabelId> { labelsForFrontEndScrumboard[2].Id },
+                            AssigneeIds = [(UserId)user1Model]
                         },
                     }
                 },
                 new ListBoard
                 {
-                    Id = 4,
+                    Id = (ListBoardId)4,
                     Name = "Known Bugs",
                     Cards = new Collection<Card>{ }
                 }
@@ -130,26 +130,26 @@ public class RepositoryMocks
         {
             new Label
             {
-                Id = 4,
+                Id = (LabelId)4,
                 Name = "Log",
                 Colour = Colour.Blue
             },
             new Label
             {
-                Id = 5,
+                Id = (LabelId)5,
                 Name = "Documentation",
                 Colour = Colour.Orange
             },
             new Label
             {
-                Id = 6,
+                Id = (LabelId)6,
                 Name = "Persitence",
                 Colour = Colour.Red
             }
         };
         var boardScrumboardBackEnd = new Board
         {
-            Id = 2,
+            Id = (BoardId)2,
             Name = "Scrumboard BackEnd",
             Uri = "scrumboard-backend",
             Team = team1,
@@ -157,28 +157,28 @@ public class RepositoryMocks
             {
                 new ListBoard
                 {
-                    Id = 5,
+                    Id = (ListBoardId)5,
                     Name = "Backlog",
                     Cards = new Collection<Card>
                     {
                         new Card
                         {
-                            Id = 5,
+                            Id = (CardId)5,
                             Name = "Write documentation for the naming convention",
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            LabelIds = new Collection<int> { labelsForBackEndScrumboard[1].Id },
-                            AssigneeIds = [user1Model]
+                            LabelIds = new Collection<LabelId> { labelsForBackEndScrumboard[1].Id },
+                            AssigneeIds = [(UserId)user1Model]
                         },
                         new Card
                         {
-                            Id = 6,
+                            Id = (CardId)6,
                             Name = "Add Serilog for logs",
                             Description = "",
                             Suscribed = false,
                             DueDate = null,
-                            LabelIds = new Collection<int> { labelsForBackEndScrumboard[0].Id }
+                            LabelIds = new Collection<LabelId> { labelsForBackEndScrumboard[0].Id }
                         },
                     }
                 }
@@ -190,8 +190,8 @@ public class RepositoryMocks
 
         var mockBoardRepository = new Mock<IBoardsRepository>();
 
-        mockBoardRepository.Setup(repo => repo.TryGetByIdAsync(It.IsAny<int>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(
-            (int id, CancellationToken cancellationToken) =>
+        mockBoardRepository.Setup(repo => repo.TryGetByIdAsync(It.IsAny<BoardId>(), It.IsAny<CancellationToken>()))!.ReturnsAsync(
+            (BoardId id, CancellationToken cancellationToken) =>
             {
                 var board = boards.FirstOrDefault(b => b.Id == id);
                 return board;
@@ -200,7 +200,7 @@ public class RepositoryMocks
         mockBoardRepository.Setup(repo => repo.AddAsync(It.IsAny<BoardCreation>(), It.IsAny<CancellationToken>())).ReturnsAsync(
             (Board board, CancellationToken cancellationToken) =>
             {
-                board.Id = boards.Count + 1;
+                board.Id = (BoardId)(boards.Count + 1);
                 boards.Add(board);
                 return board;
             });
@@ -214,8 +214,8 @@ public class RepositoryMocks
                 return boardToBeUpdated; 
             });
 
-        mockBoardRepository.Setup(repo => repo.DeleteAsync(It.IsAny<int>(), It.IsAny<CancellationToken>())).Callback(
-            (int id, CancellationToken cancellationToken) =>
+        mockBoardRepository.Setup(repo => repo.DeleteAsync(It.IsAny<BoardId>(), It.IsAny<CancellationToken>())).Callback(
+            (BoardId id, CancellationToken cancellationToken) =>
             {
                 var boardToBeRemoved = boards.First(b => b.Id == id);
                 boards.Remove(boardToBeRemoved);

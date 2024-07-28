@@ -8,7 +8,7 @@ internal sealed class CommentsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : ICommentsRepository
 {
-    public async Task<Comment?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Comment?> TryGetByIdAsync(CommentId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.Comments.FindAsync(keyValues, cancellationToken);
@@ -41,7 +41,7 @@ internal sealed class CommentsRepository(
         return mapper.Map<Comment>(dao);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(CommentId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.Comments.FindAsync(keyValues, cancellationToken);

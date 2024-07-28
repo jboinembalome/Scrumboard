@@ -1,14 +1,15 @@
 using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 
 namespace Scrumboard.Application.Abstractions.Cards;
 
 public interface ICardsService
 {
-    Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default);
-    Task<IReadOnlyList<Card>> GetByListBoardIdAsync(int listBoardId, CancellationToken cancellationToken = default);
-    Task<Card> GetByIdAsync(int id, CancellationToken cancellationToken = default);
+    Task<bool> ExistsAsync(CardId id, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Card>> GetByListBoardIdAsync(ListBoardId listBoardId, CancellationToken cancellationToken = default);
+    Task<Card> GetByIdAsync(CardId id, CancellationToken cancellationToken = default);
     Task<Card> AddAsync(CardCreation cardCreation, CancellationToken cancellationToken = default);
     Task<Card> UpdateAsync(CardEdition cardEdition, CancellationToken cancellationToken = default);
-    Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task DeleteAsync(CardId id, CancellationToken cancellationToken = default);
 }

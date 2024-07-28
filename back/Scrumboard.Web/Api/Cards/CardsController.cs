@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
@@ -33,7 +34,7 @@ public class CardsController(
         int id,
         CancellationToken cancellationToken)
     {
-        var card = await cardsService.GetByIdAsync(id, cancellationToken);
+        var card = await cardsService.GetByIdAsync(new CardId(id), cancellationToken);
 
         var dto = mapper.Map<CardDetailDto>(card);
         dto.Labels = await GetLabelDtosAsync(card, cancellationToken);
@@ -104,7 +105,7 @@ public class CardsController(
         int id,
         CancellationToken cancellationToken)
     {
-        await cardsService.DeleteAsync(id, cancellationToken);
+        await cardsService.DeleteAsync(new CardId(id), cancellationToken);
         
         return NoContent();
     }

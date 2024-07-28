@@ -1,8 +1,10 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
+using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
@@ -19,17 +21,17 @@ internal sealed class CardsService(
     IValidator<CardCreation> cardCreationValidator,
     IValidator<CardEdition> cardEditionValidator) : ICardsService
 {
-    public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsAsync(CardId id, CancellationToken cancellationToken = default)
     {
         var card = await cardsRepository.TryGetByIdAsync(id, cancellationToken);
 
         return card is not null;
     }
 
-    public Task<IReadOnlyList<Card>> GetByListBoardIdAsync(int listBoardId, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<Card>> GetByListBoardIdAsync(ListBoardId listBoardId, CancellationToken cancellationToken = default)
         => cardsQueryRepository.GetByListBoardIdAsync(listBoardId, cancellationToken);
 
-    public async Task<Card> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Card> GetByIdAsync(CardId id, CancellationToken cancellationToken = default)
         => await cardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Card), id);
 
@@ -63,7 +65,7 @@ internal sealed class CardsService(
         return await cardsRepository.UpdateAsync(cardEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(CardId id, CancellationToken cancellationToken = default)
     {
         _ = await cardsRepository.TryGetByIdAsync(id, cancellationToken) 
             ?? throw new NotFoundException(nameof(Card), id);
@@ -184,7 +186,7 @@ internal sealed class CardsService(
         {
             foreach (var oldLabelId in oldCard.LabelIds)
             {
-                var updateLabelId = (int?)cardEdition.LabelIds.FirstOrDefault(x => x == oldLabelId);
+                var updateLabelId = (LabelId?)cardEdition.LabelIds.FirstOrDefault(x => x == oldLabelId);
                 if (updateLabelId is null)
                     continue;
 

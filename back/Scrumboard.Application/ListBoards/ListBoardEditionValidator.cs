@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
@@ -22,7 +23,7 @@ internal sealed class ListBoardEditionValidator
     
     private async Task<bool> BoardHasListBoardAsync(
         ListBoardEdition listBoardEdition,
-        int boardId,
+        BoardId boardId,
         ValidationContext<ListBoardEdition> validationContext,
         CancellationToken cancellationToken)
     {

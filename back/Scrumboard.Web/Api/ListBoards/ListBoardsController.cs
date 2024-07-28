@@ -2,6 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.ListBoards;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
 namespace Scrumboard.Web.Api.ListBoards;
@@ -26,7 +28,7 @@ public class ListBoardsController(
         int id,
         CancellationToken cancellationToken)
     {
-        var listBoard = await listBoardsService.GetByIdAsync(id, cancellationToken);
+        var listBoard = await listBoardsService.GetByIdAsync(new ListBoardId(id), cancellationToken);
 
         var dto = mapper.Map<ListBoardDto>(listBoard);
         
@@ -91,7 +93,7 @@ public class ListBoardsController(
         int id,
         CancellationToken cancellationToken)
     {
-        await listBoardsService.DeleteAsync(id, cancellationToken);
+        await listBoardsService.DeleteAsync(new ListBoardId(id), cancellationToken);
         
         return NoContent();
     }

@@ -6,7 +6,7 @@ namespace Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 public sealed class BoardEdition
 {
-    public int Id { get; set; }
+    public BoardId Id { get; set; }
     public string Name { get; set; }
     public bool IsPinned { get; set; }
     public BoardSetting BoardSetting { get; set; }

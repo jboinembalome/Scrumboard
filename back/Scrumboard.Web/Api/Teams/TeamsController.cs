@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Teams;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
@@ -29,7 +30,7 @@ public class TeamsController(
         int id,
         CancellationToken cancellationToken)
     {
-        var team = await teamsService.GetByIdAsync(id, cancellationToken);
+        var team = await teamsService.GetByIdAsync(new TeamId(id), cancellationToken);
         
         var teamDto = mapper.Map<TeamDto>(team);
 
@@ -95,7 +96,7 @@ public class TeamsController(
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        await teamsService.DeleteAsync(id, cancellationToken);
+        await teamsService.DeleteAsync(new TeamId(id), cancellationToken);
 
         return NoContent();
     }

@@ -1,6 +1,7 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.ListBoards;
 using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
@@ -12,17 +13,17 @@ internal sealed class ListBoardsService(
     IValidator<ListBoardCreation> listBoardCreationValidator,
     IValidator<ListBoardEdition> listBoardEditionValidator) : IListBoardsService
 {
-    public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
         var listBoard = await listBoardsRepository.TryGetByIdAsync(id, cancellationToken);
 
         return listBoard is not null;
     }
     
-    public Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(int boardId, bool? includeCards, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(BoardId boardId, bool? includeCards, CancellationToken cancellationToken = default)
         => listBoardsQueryRepository.GetByBoardIdAsync(boardId, includeCards, cancellationToken);
 
-    public async Task<ListBoard> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<ListBoard> GetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
         => await listBoardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(ListBoard), id);
 
@@ -45,7 +46,7 @@ internal sealed class ListBoardsService(
         return await listBoardsRepository.UpdateAsync(listBoardEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
         _ = await listBoardsRepository.TryGetByIdAsync(id, cancellationToken) 
             ?? throw new NotFoundException(nameof(ListBoard), id);

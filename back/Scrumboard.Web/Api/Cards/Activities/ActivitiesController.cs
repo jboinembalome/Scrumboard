@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Web.Api.Users;
@@ -30,12 +31,14 @@ public class ActivitiesController(
         int cardId, 
         CancellationToken cancellationToken)
     {
-        if (!await cardsService.ExistsAsync(cardId, cancellationToken))
+        var typedCardId = new CardId(cardId);
+
+        if (!await cardsService.ExistsAsync(typedCardId, cancellationToken))
         {
             return NotFound($"Card ({cardId}) not found.");
         }
 
-        var activities = await activitiesService.GetByCardIdAsync(cardId, cancellationToken);
+        var activities = await activitiesService.GetByCardIdAsync(typedCardId, cancellationToken);
         
         if (activities.Count == 0)
         {

@@ -4,14 +4,14 @@
 
 namespace Scrumboard.Domain.Boards;
 
-public sealed class Label : IEntity<int>
+public sealed class Label
 {
-    public int Id { get; set; }
+    public LabelId Id { get; set; }
     public string Name { get; set; }
     public Colour Colour { get; set; }
-    public int BoardId { get; set; }
-    public string CreatedBy { get; set; }
+    public BoardId BoardId { get; set; }
+    public UserId CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
-    public string? LastModifiedBy { get; set; }
+    public UserId? LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
 }

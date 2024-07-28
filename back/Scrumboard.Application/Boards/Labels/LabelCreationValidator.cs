@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
@@ -31,7 +32,7 @@ internal sealed class LabelCreationValidator : AbstractValidator<LabelCreation>
     private static bool ColourExists(Colour colour) 
         => Colour.SupportedColours.Any(x => Equals(x, colour));
     
-    private async Task<bool> BoardExistsAsync(int boardId, CancellationToken cancellationToken)
+    private async Task<bool> BoardExistsAsync(BoardId boardId, CancellationToken cancellationToken)
     {
         var board = await _boardsRepository.TryGetByIdAsync(boardId, cancellationToken);
 

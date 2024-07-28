@@ -1,5 +1,6 @@
 using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 
@@ -9,11 +10,11 @@ internal sealed class TeamsService(
     ITeamsRepository teamsRepository,
     ITeamsQueryRepository teamsQueryRepository) : ITeamsService
 {
-    public async Task<Team> GetByIdAsync(int id, CancellationToken cancellationToken = default) 
+    public async Task<Team> GetByIdAsync(TeamId id, CancellationToken cancellationToken = default) 
         => await teamsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Team), id);
     
-    public async Task<Team> GetByBoardIdAsync(int boardId, CancellationToken cancellationToken = default) 
+    public async Task<Team> GetByBoardIdAsync(BoardId boardId, CancellationToken cancellationToken = default) 
         => await teamsQueryRepository.TryGetByBoardIdAsync(boardId, cancellationToken) 
            ?? throw new NotFoundException(nameof(Team), boardId);
 
@@ -25,7 +26,7 @@ internal sealed class TeamsService(
     public Task<Team> UpdateAsync(TeamEdition teamEdition, CancellationToken cancellationToken = default) 
         => teamsRepository.UpdateAsync(teamEdition, cancellationToken);
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(TeamId id, CancellationToken cancellationToken = default)
     {
         _ = await teamsRepository.TryGetByIdAsync(id, cancellationToken) 
             ?? throw new NotFoundException(nameof(Team), id);

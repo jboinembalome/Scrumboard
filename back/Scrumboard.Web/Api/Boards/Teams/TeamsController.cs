@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Teams;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Web.Api.Teams;
@@ -31,13 +32,15 @@ public class TeamsController(
         int boardId, 
         CancellationToken cancellationToken)
     {
-        if (!await boardsService.ExistsAsync(boardId, cancellationToken))
+        var typedBoardId = new BoardId(boardId);
+
+        if (!await boardsService.ExistsAsync(typedBoardId, cancellationToken))
         {
             return NotFound($"Board ({boardId}) not found.");
         }
         
         // TODO: Refactor with Reference
-        var team = await teamsService.GetByBoardIdAsync(boardId, cancellationToken);
+        var team = await teamsService.GetByBoardIdAsync(typedBoardId, cancellationToken);
         
         var teamDto = await GetTeamDtoAsync(team, cancellationToken);
         

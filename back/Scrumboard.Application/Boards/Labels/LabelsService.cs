@@ -12,13 +12,13 @@ internal sealed class LabelsService(
     IValidator<LabelCreation> labelCreationValidator,
     IValidator<LabelEdition> labelEditionValidator) : ILabelsService
 {
-    public Task<IReadOnlyList<Label>> GetByBoardIdAsync(int boardId, CancellationToken cancellationToken = default) 
+    public Task<IReadOnlyList<Label>> GetByBoardIdAsync(BoardId boardId, CancellationToken cancellationToken = default) 
         => labelsQueryRepository.GetByBoardIdAsync(boardId, cancellationToken);
 
-    public Task<IReadOnlyList<Label>> GetAsync(IEnumerable<int> labelIds, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<Label>> GetAsync(IEnumerable<LabelId> labelIds, CancellationToken cancellationToken = default)
         => labelsQueryRepository.GetAsync(labelIds, cancellationToken);
     
-    public async Task<Label> GetByIdAsync(int id, CancellationToken cancellationToken = default) 
+    public async Task<Label> GetByIdAsync(LabelId id, CancellationToken cancellationToken = default) 
         => await labelsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Label), id);
 
@@ -39,7 +39,7 @@ internal sealed class LabelsService(
         return await labelsRepository.UpdateAsync(labelEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(LabelId id, CancellationToken cancellationToken = default)
     {
         _ = await labelsRepository.TryGetByIdAsync(id, cancellationToken) 
             ?? throw new NotFoundException(nameof(Label), id);

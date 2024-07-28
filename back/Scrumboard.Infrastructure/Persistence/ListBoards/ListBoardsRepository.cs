@@ -8,7 +8,7 @@ internal sealed class ListBoardsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : IListBoardsRepository
 {
-    public async Task<ListBoard?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<ListBoard?> TryGetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.ListBoards.FindAsync(keyValues, cancellationToken);
@@ -41,7 +41,7 @@ internal sealed class ListBoardsRepository(
         return mapper.Map<ListBoard>(dao);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
         var keyValues = new object[] { id };
         var dao = await dbContext.ListBoards.FindAsync(keyValues, cancellationToken);

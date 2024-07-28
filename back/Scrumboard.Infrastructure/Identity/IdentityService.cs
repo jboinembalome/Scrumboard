@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 
 namespace Scrumboard.Infrastructure.Identity;
@@ -13,7 +14,7 @@ internal sealed class IdentityService(
     : IIdentityService
 {
     public async Task<IUser?> TryGetUserAsync(
-        string userId, 
+        UserId userId, 
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
@@ -21,7 +22,7 @@ internal sealed class IdentityService(
         return user;
     }
     public async Task<IUser> GetUserAsync(
-        string userId, 
+        UserId userId, 
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.Users.FirstAsync(u => u.Id == userId, cancellationToken);
@@ -30,7 +31,7 @@ internal sealed class IdentityService(
     }
 
     public async Task<string?> GetUserNameAsync(
-        string userId, 
+        UserId userId, 
         CancellationToken cancellationToken = default)
     {
         var user = await userManager.Users.FirstAsync(u => u.Id == userId, cancellationToken);
@@ -53,11 +54,11 @@ internal sealed class IdentityService(
     }
 
     public async Task<IReadOnlyList<IUser>> GetListAsync(
-        IEnumerable<string> userIds, 
+        IEnumerable<UserId> userIds, 
         CancellationToken cancellationToken = default)
     {
         var idValues = userIds
-            .Select(x => x)
+            .Select(x => (string)x)
             .ToHashSet();
         
         var users = await userManager.Users
@@ -67,7 +68,7 @@ internal sealed class IdentityService(
         return users;
     }
 
-    public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
+    public async Task<(Result Result, UserId UserId)> CreateUserAsync(string userName, string password)
     {
         var user = new ApplicationUser
         {
@@ -77,17 +78,17 @@ internal sealed class IdentityService(
 
         var result = await userManager.CreateAsync(user, password);
 
-        return (result.ToApplicationResult(), user.Id);
+        return (result.ToApplicationResult(), (UserId)user.Id);
     }
 
-    public async Task<bool> IsInRoleAsync(string userId, string role)
+    public async Task<bool> IsInRoleAsync(UserId userId, string role)
     {
         var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
 
         return user is not null && await userManager.IsInRoleAsync(user, role);
     }
 
-    public async Task AddUserToRolesAsync(string userId, IEnumerable<string> roles)
+    public async Task AddUserToRolesAsync(UserId userId, IEnumerable<string> roles)
     {
         var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
 
@@ -98,7 +99,7 @@ internal sealed class IdentityService(
             }
     }
 
-    public async Task AddUserToRoleAsync(string userId, string role)
+    public async Task AddUserToRoleAsync(UserId userId, string role)
     {
         var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
 
@@ -108,7 +109,7 @@ internal sealed class IdentityService(
         }
     }
 
-    public async Task<bool> AuthorizeAsync(string userId, string policyName)
+    public async Task<bool> AuthorizeAsync(UserId userId, string policyName)
     {
         var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
 
@@ -124,7 +125,7 @@ internal sealed class IdentityService(
         return false;
     }
 
-    public async Task<Result> DeleteUserAsync(string userId)
+    public async Task<Result> DeleteUserAsync(UserId userId)
     {
         var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
 

@@ -2,6 +2,7 @@ using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
@@ -13,19 +14,19 @@ internal sealed class BoardsService(
     IValidator<BoardEdition> boardEditionValidator,
     ICurrentUserService currentUserService) : IBoardsService
 {
-    public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsAsync(BoardId id, CancellationToken cancellationToken = default)
     {
         var board = await boardsRepository.TryGetByIdAsync(id, cancellationToken);
 
         return board is not null;
     }
 
-    public async Task<Board> GetByIdAsync(int id, CancellationToken cancellationToken = default) 
+    public async Task<Board> GetByIdAsync(BoardId id, CancellationToken cancellationToken = default) 
         => await boardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Board), id);
 
     public Task<IReadOnlyList<Board>> GetAsync(CancellationToken cancellationToken = default)
-        => boardsQueryRepository.GetByUserIdAsync(currentUserService.UserId, cancellationToken);
+        => boardsQueryRepository.GetByUserIdAsync((UserId)currentUserService.UserId, cancellationToken);
 
     public Task<Board> AddAsync(BoardCreation boardCreation, CancellationToken cancellationToken = default)
     {
@@ -49,7 +50,7 @@ internal sealed class BoardsService(
         return await boardsRepository.UpdateAsync(boardEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(BoardId id, CancellationToken cancellationToken = default)
     {
         _ = await boardsRepository.TryGetByIdAsync(id, cancellationToken)
             ?? throw new NotFoundException(nameof(Board), id);;

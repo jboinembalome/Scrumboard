@@ -1,9 +1,10 @@
-﻿using Scrumboard.Domain.Cards.Comments;
+﻿using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Cards.Comments;
 
 namespace Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
 public interface ICommentsQueryRepository
 {
-    Task<Comment?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default);
-    Task<IReadOnlyList<Comment>> GetByCardIdAsync(int cardId, CancellationToken cancellationToken = default);
+    Task<Comment?> TryGetByIdAsync(CommentId id, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Comment>> GetByCardIdAsync(CardId cardId, CancellationToken cancellationToken = default);
 }

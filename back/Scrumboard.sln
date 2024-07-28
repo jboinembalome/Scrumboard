@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31129.286
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D4D5E508-FBD0-46BA-8516-B4C9269DF381}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,11 +29,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web.FunctionalTests", "Scrumboard.Web.FunctionalTests\Scrumboard.Web.FunctionalTests.csproj", "{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Web", "Scrumboard.Web\Scrumboard.Web.csproj", "{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Web", "Scrumboard.Web\Scrumboard.Web.csproj", "{65712D3F-45EC-4F44-A2CE-8D50CF18E73C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Infrastructure.Abstractions", "Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj", "{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrumboard.Infrastructure.Abstractions", "Scrumboard.Infrastructure.Abstractions\Scrumboard.Infrastructure.Abstractions.csproj", "{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Application.Abstractions", "Scrumboard.Application.Abstractions\Scrumboard.Application.Abstractions.csproj", "{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{8476D18A-BE91-41BF-A448-0D897A1D5FEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.SharedKernel", "Scrumboard.SharedKernel\Scrumboard.SharedKernel.csproj", "{56D0356C-1935-48B0-98F9-1E4BB48C0AF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +81,10 @@ Global
 		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56D0356C-1935-48B0-98F9-1E4BB48C0AF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56D0356C-1935-48B0-98F9-1E4BB48C0AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56D0356C-1935-48B0-98F9-1E4BB48C0AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56D0356C-1935-48B0-98F9-1E4BB48C0AF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,12 +93,13 @@ Global
 		{0906D5DE-F0FB-46C7-89BC-CEB3EAB26346} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
 		{43CE164A-334E-4BD4-8C14-F9DAAF4901B5} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
 		{CAD3D0AF-396E-4AEE-A614-2F16D51C53A3} = {B8D6C760-D88D-443C-8778-540472E6C025}
-		{65712D3F-45EC-4F44-A2CE-8D50CF18E73C} = {FC400F14-77F3-4B40-B21D-FBBBC53B1474}
-		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C} = {B8D6C760-D88D-443C-8778-540472E6C025}
 		{BD0FAF7A-3686-42FA-9C0A-9202F3BCF289} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
 		{A26B2A09-8ECB-4BA3-B36C-678D627CC3C6} = {B8D6C760-D88D-443C-8778-540472E6C025}
 		{AF1CF714-4138-4DAB-A8E8-DF699D01D3C9} = {FC400F14-77F3-4B40-B21D-FBBBC53B1474}
+		{65712D3F-45EC-4F44-A2CE-8D50CF18E73C} = {FC400F14-77F3-4B40-B21D-FBBBC53B1474}
+		{F1CF9E8D-F506-43C6-B9D2-339EF9123F5C} = {B8D6C760-D88D-443C-8778-540472E6C025}
 		{BE31B4DB-DBB4-4E7D-95B7-93B0EB90E51B} = {40FBB85C-649A-42D8-872F-708F5A9804D2}
+		{56D0356C-1935-48B0-98F9-1E4BB48C0AF7} = {8476D18A-BE91-41BF-A448-0D897A1D5FEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC39ECCE-AB63-4FAF-AC84-4AC6531F35A4}

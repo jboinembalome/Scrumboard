@@ -21,7 +21,7 @@ internal sealed class BoardsService(
     }
 
     public async Task<Board> GetByIdAsync(int id, CancellationToken cancellationToken = default) 
-        => await boardsRepository.TryGetByIdAsync(id, cancellationToken) 
+        => await boardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Board), id);
 
     public Task<IReadOnlyList<Board>> GetAsync(CancellationToken cancellationToken = default)

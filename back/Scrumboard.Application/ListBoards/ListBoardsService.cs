@@ -12,6 +12,16 @@ internal sealed class ListBoardsService(
     IValidator<ListBoardCreation> listBoardCreationValidator,
     IValidator<ListBoardEdition> listBoardEditionValidator) : IListBoardsService
 {
+    public async Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
+    {
+        var listBoard = await listBoardsRepository.TryGetByIdAsync(id, cancellationToken);
+
+        return listBoard is not null;
+    }
+    
+    public Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(int boardId, bool? includeCards, CancellationToken cancellationToken = default)
+        => listBoardsQueryRepository.GetByBoardIdAsync(boardId, includeCards, cancellationToken);
+
     public async Task<ListBoard> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         => await listBoardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(ListBoard), id);

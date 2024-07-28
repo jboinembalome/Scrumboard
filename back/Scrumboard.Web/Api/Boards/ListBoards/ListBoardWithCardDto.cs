@@ -2,9 +2,9 @@
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
-namespace Scrumboard.Web.Api.ListBoards;
+namespace Scrumboard.Web.Api.Boards.ListBoards;
 
-public sealed class ListBoardDetailDto
+public sealed class ListBoardWithCardDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -9,6 +9,15 @@ internal sealed class CardsQueryRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : ICardsQueryRepository
 {
+    public async Task<IReadOnlyList<Card>> GetByListBoardIdAsync(int listBoardId, CancellationToken cancellationToken = default)
+    {
+        var daos = await Query()
+            .Where(x => x.ListBoardId == listBoardId)
+            .ToListAsync(cancellationToken);
+        
+        return mapper.Map<IReadOnlyList<Card>>(daos);
+    }
+
     public async Task<Card?> TryGetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         var dao = await Query()

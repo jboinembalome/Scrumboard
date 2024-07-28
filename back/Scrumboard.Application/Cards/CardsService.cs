@@ -26,6 +26,9 @@ internal sealed class CardsService(
         return card is not null;
     }
 
+    public Task<IReadOnlyList<Card>> GetByListBoardIdAsync(int listBoardId, CancellationToken cancellationToken = default)
+        => cardsQueryRepository.GetByListBoardIdAsync(listBoardId, cancellationToken);
+
     public async Task<Card> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         => await cardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
            ?? throw new NotFoundException(nameof(Card), id);

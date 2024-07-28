@@ -19,15 +19,7 @@ internal sealed class BoardsQueryRepository(
 
     public async Task<IReadOnlyList<Board>> GetByUserIdAsync(string userId, CancellationToken cancellationToken = default)
     {
-        var query = dbContext.Boards
-            .AsNoTracking()
-            .AsSplitQuery()
-            .Include(b => b.Team)
-                .ThenInclude(t => t.Members)
-            .Include(b => b.BoardSetting)
-                .ThenInclude(bs => bs.Colour);
-        
-        var daos = await query
+        var daos = await Query()
             .Where(b => b.Team.Members.Any(a => a.MemberId == userId))
             .ToListAsync(cancellationToken);
         
@@ -40,11 +32,5 @@ internal sealed class BoardsQueryRepository(
             .AsSplitQuery()
             .Include(b => b.Team)
                 .ThenInclude(t => t.Members)
-            .Include(b => b.BoardSetting)
-            .Include(b => b.ListBoards)
-                .ThenInclude(l => l.Cards)
-                .ThenInclude(c => c.Labels)
-            .Include(b => b.ListBoards)
-                .ThenInclude(l => l.Cards)
-                .ThenInclude(c => c.Assignees);
+            .Include(b => b.BoardSetting);
 }

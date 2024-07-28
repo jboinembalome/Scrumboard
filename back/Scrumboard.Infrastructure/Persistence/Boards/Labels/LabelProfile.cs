@@ -2,7 +2,7 @@
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
-namespace Scrumboard.Infrastructure.Persistence.Cards.Labels;
+namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
 internal sealed class LabelProfile : Profile
 {
@@ -11,7 +11,7 @@ internal sealed class LabelProfile : Profile
         // Write
         CreateMap<LabelCreation, LabelDao>();
         CreateMap<LabelEdition, LabelDao>();
-        
+
         CreateMap<int, LabelDao>()
             .ConstructUsing(labelId => new LabelDao
             {
@@ -20,7 +20,7 @@ internal sealed class LabelProfile : Profile
 
         // Read
         CreateMap<LabelDao, Label>();
-        
+
         CreateMap<LabelDao, int>()
             .ConstructUsing(labelDao => labelDao.Id);
     }

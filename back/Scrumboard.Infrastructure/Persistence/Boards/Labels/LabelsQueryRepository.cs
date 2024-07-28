@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
-namespace Scrumboard.Infrastructure.Persistence.Cards.Labels;
+namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
 internal sealed class LabelsQueryRepository(
     ScrumboardDbContext dbContext,
@@ -21,14 +21,14 @@ internal sealed class LabelsQueryRepository(
     public async Task<IReadOnlyList<Label>> GetAsync(IEnumerable<int> labelIds, CancellationToken cancellationToken = default)
     {
         var idValues = labelIds.ToHashSet();
-        
+
         if (idValues.Count == 0)
         {
             return [];
         }
-        
+
         var daos = await Query()
-            .Where(x =>idValues.Contains(x.Id))
+            .Where(x => idValues.Contains(x.Id))
             .ToListAsync(cancellationToken);
 
         return mapper.Map<IReadOnlyList<Label>>(daos);
@@ -42,7 +42,7 @@ internal sealed class LabelsQueryRepository(
         return mapper.Map<Label>(dao);
     }
 
-    private IQueryable<LabelDao> Query() 
+    private IQueryable<LabelDao> Query()
         => dbContext.Labels
             .AsNoTracking();
 }

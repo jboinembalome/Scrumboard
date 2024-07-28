@@ -1,6 +1,6 @@
 ﻿using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Infrastructure.Persistence.Boards.Labels;
 using Scrumboard.Infrastructure.Persistence.Cards.Checklists;
-using Scrumboard.Infrastructure.Persistence.Cards.Labels;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 

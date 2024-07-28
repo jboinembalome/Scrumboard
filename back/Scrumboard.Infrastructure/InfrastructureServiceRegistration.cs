@@ -20,10 +20,10 @@ using Scrumboard.Infrastructure.Identity;
 using Scrumboard.Infrastructure.Logging;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Persistence.Boards;
+using Scrumboard.Infrastructure.Persistence.Boards.Labels;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Persistence.Cards.Comments;
-using Scrumboard.Infrastructure.Persistence.Cards.Labels;
 using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
 

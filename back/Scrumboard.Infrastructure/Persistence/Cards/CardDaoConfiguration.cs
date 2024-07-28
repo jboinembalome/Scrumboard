@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Scrumboard.Infrastructure.Persistence.Boards.Labels;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Persistence.Cards.Comments;
-using Scrumboard.Infrastructure.Persistence.Cards.Labels;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 

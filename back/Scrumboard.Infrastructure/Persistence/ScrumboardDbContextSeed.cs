@@ -9,9 +9,9 @@ using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Checklists;
-using Scrumboard.Infrastructure.Persistence.Cards.Labels;
 using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
+using Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
 namespace Scrumboard.Infrastructure.Persistence;
 

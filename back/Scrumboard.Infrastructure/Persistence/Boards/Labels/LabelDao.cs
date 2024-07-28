@@ -1,10 +1,9 @@
 ﻿using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
-using Scrumboard.Infrastructure.Persistence.Boards;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
-namespace Scrumboard.Infrastructure.Persistence.Cards.Labels;
+namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
 public sealed class LabelDao : IAuditableEntity
 {

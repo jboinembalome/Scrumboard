@@ -1,8 +1,6 @@
 ﻿
 using FluentAssertions;
-using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
-using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Teams;
 using Xunit;

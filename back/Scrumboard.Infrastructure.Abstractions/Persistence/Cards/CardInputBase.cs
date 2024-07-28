@@ -7,6 +7,7 @@ public abstract class CardInputBase
     public string Name { get; set; }
     public string? Description { get; set; }
     public DateTime? DueDate { get; set; }
+    public int Position { get; set; }
     public int ListBoardId { get; set; }
     public IEnumerable<int> LabelIds { get; set; }
     public IEnumerable<string> AssigneeIds { get; set; }

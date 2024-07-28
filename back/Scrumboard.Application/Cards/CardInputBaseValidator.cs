@@ -27,7 +27,10 @@ internal abstract class CardInputBaseValidator<TInput>
                 .WithMessage("{PropertyName} is required.")
             .MaximumLength(255)
                 .WithMessage("{PropertyName} must not exceed 255 characters.");
-        
+
+        RuleFor(p => p.Position)
+            .GreaterThan(0);
+
         RuleFor(x => x.ListBoardId)
             .MustAsync(ListBoardExistsAsync)
             .WithMessage("{PropertyName} not found.");

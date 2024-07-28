@@ -7,4 +7,5 @@ public sealed class ListBoardCreationDto
 {
     public string Name { get; set; }
     public int BoardId { get; set; }
+    public int Position { get; set; }
 }

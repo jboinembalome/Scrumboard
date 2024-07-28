@@ -1,6 +1,5 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
-using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
@@ -9,6 +8,7 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
+using Scrumboard.SharedKernel.Exceptions;
 
 namespace Scrumboard.Application.Cards;
 

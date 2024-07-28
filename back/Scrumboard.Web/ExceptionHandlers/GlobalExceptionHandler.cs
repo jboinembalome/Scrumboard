@@ -1,7 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Common.Exceptions;
+using Scrumboard.SharedKernel.Exceptions;
 
 namespace Scrumboard.Web.ExceptionHandlers;
 

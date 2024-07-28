@@ -1,9 +1,9 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.ListBoards;
-using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
+using Scrumboard.SharedKernel.Exceptions;
 
 namespace Scrumboard.Application.ListBoards;
 

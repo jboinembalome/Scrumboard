@@ -1,10 +1,10 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards;
-using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
+using Scrumboard.SharedKernel.Exceptions;
 
 namespace Scrumboard.Application.Boards;
 

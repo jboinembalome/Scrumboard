@@ -1,9 +1,9 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
-using Scrumboard.Application.Common.Exceptions;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
+using Scrumboard.SharedKernel.Exceptions;
 
 namespace Scrumboard.Application.Cards.Comments;
 

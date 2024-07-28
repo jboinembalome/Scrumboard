@@ -1,5 +1,5 @@
 ﻿using Scrumboard.Domain.Cards.Activities.Errors;
-using Scrumboard.Domain.Common;
+using Scrumboard.SharedKernel.ValueObjects;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 

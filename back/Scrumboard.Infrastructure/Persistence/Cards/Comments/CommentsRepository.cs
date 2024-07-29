@@ -10,8 +10,7 @@ internal sealed class CommentsRepository(
 {
     public async Task<Comment?> TryGetByIdAsync(CommentId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Comments.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Comments.FindAsync([id], cancellationToken);
         
         return mapper.Map<Comment>(dao);
     }
@@ -29,8 +28,7 @@ internal sealed class CommentsRepository(
 
     public async Task<Comment> UpdateAsync(CommentEdition commentEdition, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { commentEdition.Id };
-        var dao = await dbContext.Comments.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Comments.FindAsync([commentEdition.Id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
 
@@ -43,8 +41,7 @@ internal sealed class CommentsRepository(
 
     public async Task DeleteAsync(CommentId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Comments.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Comments.FindAsync([id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
         

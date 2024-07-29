@@ -10,8 +10,7 @@ internal sealed class ListBoardsRepository(
 {
     public async Task<ListBoard?> TryGetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.ListBoards.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken);
 
         return mapper.Map<ListBoard>(dao);
     }
@@ -29,8 +28,7 @@ internal sealed class ListBoardsRepository(
 
     public async Task<ListBoard> UpdateAsync(ListBoardEdition listBoardEdition, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { listBoardEdition.Id };
-        var dao = await dbContext.ListBoards.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.ListBoards.FindAsync([listBoardEdition.Id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
 
@@ -43,8 +41,7 @@ internal sealed class ListBoardsRepository(
 
     public async Task DeleteAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.ListBoards.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
         

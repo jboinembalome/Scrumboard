@@ -18,8 +18,6 @@ internal sealed class LabelsRepository(
             .Select(x => x.Value)
             .ToList();
 
-
-
         if (idValues.Count == 0)
         {
             return [];
@@ -34,8 +32,7 @@ internal sealed class LabelsRepository(
 
     public async Task<Label?> TryGetByIdAsync(LabelId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Labels.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Labels.FindAsync([id], cancellationToken);
 
         return mapper.Map<Label>(dao);
     }
@@ -53,8 +50,7 @@ internal sealed class LabelsRepository(
 
     public async Task<Label> UpdateAsync(LabelEdition labelEdition, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { labelEdition.Id };
-        var dao = await dbContext.Labels.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Labels.FindAsync([labelEdition.Id], cancellationToken);
 
         ArgumentNullException.ThrowIfNull(dao);
 
@@ -67,8 +63,7 @@ internal sealed class LabelsRepository(
 
     public async Task DeleteAsync(LabelId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Labels.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Labels.FindAsync([id], cancellationToken);
 
         ArgumentNullException.ThrowIfNull(dao);
 

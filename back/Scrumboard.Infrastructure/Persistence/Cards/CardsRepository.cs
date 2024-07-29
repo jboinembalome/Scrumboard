@@ -43,8 +43,7 @@ internal sealed class CardsRepository(
 
     public async Task DeleteAsync(CardId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Cards.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Cards.FindAsync([id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
         

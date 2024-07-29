@@ -42,8 +42,7 @@ internal sealed class BoardsRepository(
 
     public async Task DeleteAsync(BoardId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Boards.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Boards.FindAsync([id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
         

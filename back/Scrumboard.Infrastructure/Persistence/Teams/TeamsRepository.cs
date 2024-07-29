@@ -11,8 +11,7 @@ internal sealed class TeamsRepository(
 {
     public async Task<Team?> TryGetByIdAsync(TeamId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Teams.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Teams.FindAsync([id], cancellationToken);
         
         return mapper.Map<Team>(dao);
     }
@@ -30,8 +29,7 @@ internal sealed class TeamsRepository(
 
     public async Task<Team> UpdateAsync(TeamEdition teamEdition, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { teamEdition.Id };
-        var dao = await dbContext.Teams.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Teams.FindAsync([teamEdition.Id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
 
@@ -44,8 +42,7 @@ internal sealed class TeamsRepository(
 
     public async Task DeleteAsync(TeamId id, CancellationToken cancellationToken = default)
     {
-        var keyValues = new object[] { id };
-        var dao = await dbContext.Teams.FindAsync(keyValues, cancellationToken);
+        var dao = await dbContext.Teams.FindAsync([id], cancellationToken);
         
         ArgumentNullException.ThrowIfNull(dao);
         

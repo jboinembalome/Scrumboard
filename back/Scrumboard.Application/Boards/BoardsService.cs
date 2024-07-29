@@ -5,6 +5,7 @@ using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.SharedKernel.Exceptions;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Boards;
 
@@ -22,8 +23,8 @@ internal sealed class BoardsService(
     }
 
     public async Task<Board> GetByIdAsync(BoardId id, CancellationToken cancellationToken = default) 
-        => await boardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
-           ?? throw new NotFoundException(nameof(Board), id);
+        => await boardsQueryRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
 
     public Task<IReadOnlyList<Board>> GetAsync(CancellationToken cancellationToken = default)
         => boardsQueryRepository.GetByUserIdAsync((UserId)currentUserService.UserId, cancellationToken);
@@ -52,8 +53,8 @@ internal sealed class BoardsService(
 
     public async Task DeleteAsync(BoardId id, CancellationToken cancellationToken = default)
     {
-        _ = await boardsRepository.TryGetByIdAsync(id, cancellationToken)
-            ?? throw new NotFoundException(nameof(Board), id);;
+        await boardsRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
         
         await boardsRepository.DeleteAsync(id, cancellationToken);
     }

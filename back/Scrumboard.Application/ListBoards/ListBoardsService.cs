@@ -4,6 +4,7 @@ using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 using Scrumboard.SharedKernel.Exceptions;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.ListBoards;
 
@@ -23,9 +24,9 @@ internal sealed class ListBoardsService(
     public Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(BoardId boardId, bool? includeCards, CancellationToken cancellationToken = default)
         => listBoardsQueryRepository.GetByBoardIdAsync(boardId, includeCards, cancellationToken);
 
-    public async Task<ListBoard> GetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
-        => await listBoardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
-           ?? throw new NotFoundException(nameof(ListBoard), id);
+    public Task<ListBoard> GetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
+        => listBoardsQueryRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
 
     public async Task<ListBoard> AddAsync(ListBoardCreation listBoardCreation, CancellationToken cancellationToken = default)
     {
@@ -38,8 +39,8 @@ internal sealed class ListBoardsService(
 
     public async Task<ListBoard> UpdateAsync(ListBoardEdition listBoardEdition, CancellationToken cancellationToken = default)
     {
-        _ = await listBoardsRepository.TryGetByIdAsync(listBoardEdition.Id, cancellationToken) 
-                           ?? throw new NotFoundException(nameof(ListBoard), listBoardEdition.Id);
+        await listBoardsRepository.TryGetByIdAsync(listBoardEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(listBoardEdition.Id);
         
         await listBoardEditionValidator.ValidateAndThrowAsync(listBoardEdition, cancellationToken);
         
@@ -48,8 +49,8 @@ internal sealed class ListBoardsService(
 
     public async Task DeleteAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
-        _ = await listBoardsRepository.TryGetByIdAsync(id, cancellationToken) 
-            ?? throw new NotFoundException(nameof(ListBoard), id);
+        await listBoardsRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
         
         await listBoardsRepository.DeleteAsync(id, cancellationToken);
     }

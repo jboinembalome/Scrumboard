@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards;
 
@@ -42,9 +43,8 @@ internal sealed class BoardsRepository(
 
     public async Task DeleteAsync(BoardId id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Boards.FindAsync([id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Boards.FindAsync([id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
         
         dbContext.Boards.Remove(dao);
         

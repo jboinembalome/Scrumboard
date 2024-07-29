@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 
@@ -43,9 +44,8 @@ internal sealed class CardsRepository(
 
     public async Task DeleteAsync(CardId id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Cards.FindAsync([id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Cards.FindAsync([id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
         
         dbContext.Cards.Remove(dao);
         

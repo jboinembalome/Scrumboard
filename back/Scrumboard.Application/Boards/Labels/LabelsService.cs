@@ -3,6 +3,7 @@ using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.SharedKernel.Exceptions;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Boards.Labels;
 
@@ -18,9 +19,9 @@ internal sealed class LabelsService(
     public Task<IReadOnlyList<Label>> GetAsync(IEnumerable<LabelId> labelIds, CancellationToken cancellationToken = default)
         => labelsQueryRepository.GetAsync(labelIds, cancellationToken);
     
-    public async Task<Label> GetByIdAsync(LabelId id, CancellationToken cancellationToken = default) 
-        => await labelsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
-           ?? throw new NotFoundException(nameof(Label), id);
+    public Task<Label> GetByIdAsync(LabelId id, CancellationToken cancellationToken = default) 
+        => labelsQueryRepository.TryGetByIdAsync(id, cancellationToken)
+               .OrThrowResourceNotFoundAsync(id);
 
     public async Task<Label> AddAsync(LabelCreation labelCreation, CancellationToken cancellationToken = default)
     {
@@ -31,8 +32,8 @@ internal sealed class LabelsService(
 
     public async Task<Label> UpdateAsync(LabelEdition labelEdition, CancellationToken cancellationToken = default)
     {
-        _ = await labelsRepository.TryGetByIdAsync(labelEdition.Id, cancellationToken) 
-            ?? throw new NotFoundException(nameof(Label), labelEdition.Id);
+        await labelsRepository.TryGetByIdAsync(labelEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(labelEdition.Id);
         
         await labelEditionValidator.ValidateAndThrowAsync(labelEdition, cancellationToken);
 
@@ -41,8 +42,8 @@ internal sealed class LabelsService(
 
     public async Task DeleteAsync(LabelId id, CancellationToken cancellationToken = default)
     {
-        _ = await labelsRepository.TryGetByIdAsync(id, cancellationToken) 
-            ?? throw new NotFoundException(nameof(Label), id);
+        _ = await labelsRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
         
         await labelsRepository.DeleteAsync(id, cancellationToken);
     }

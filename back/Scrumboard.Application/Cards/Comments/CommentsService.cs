@@ -4,6 +4,7 @@ using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 using Scrumboard.SharedKernel.Exceptions;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Cards.Comments;
 
@@ -13,9 +14,9 @@ internal sealed class CommentsService(
     IValidator<CommentCreation> commentCreationValidator,
     IValidator<CommentEdition> commentEditionValidator) : ICommentsService
 {
-    public async Task<Comment> GetByIdAsync(CommentId id, CancellationToken cancellationToken = default) 
-        => await commentsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
-           ?? throw new NotFoundException(nameof(Comment), id);
+    public Task<Comment> GetByIdAsync(CommentId id, CancellationToken cancellationToken = default) 
+        => commentsQueryRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
 
     public Task<IReadOnlyList<Comment>> GetByCardIdAsync(CardId cardId, CancellationToken cancellationToken = default) 
         => commentsQueryRepository.GetByCardIdAsync(cardId, cancellationToken);
@@ -29,8 +30,8 @@ internal sealed class CommentsService(
 
     public async Task<Comment> UpdateAsync(CommentEdition commentEdition, CancellationToken cancellationToken = default)
     {
-        _ = await commentsRepository.TryGetByIdAsync(commentEdition.Id, cancellationToken) 
-            ?? throw new NotFoundException(nameof(Comment), commentEdition.Id);
+        await commentsRepository.TryGetByIdAsync(commentEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(commentEdition.Id);
         
         await commentEditionValidator.ValidateAndThrowAsync(commentEdition, cancellationToken);
 
@@ -39,8 +40,8 @@ internal sealed class CommentsService(
 
     public async Task DeleteAsync(CommentId id, CancellationToken cancellationToken = default)
     {
-        _ = await commentsRepository.TryGetByIdAsync(id, cancellationToken) 
-            ?? throw new NotFoundException(nameof(Comment), id);
+        await commentsRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
         
         await commentsRepository.DeleteAsync(id, cancellationToken);
     }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.Teams;
 
@@ -29,9 +30,8 @@ internal sealed class TeamsRepository(
 
     public async Task<Team> UpdateAsync(TeamEdition teamEdition, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Teams.FindAsync([teamEdition.Id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Teams.FindAsync([teamEdition.Id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
 
         mapper.Map(teamEdition, dao);
         
@@ -42,9 +42,8 @@ internal sealed class TeamsRepository(
 
     public async Task DeleteAsync(TeamId id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Teams.FindAsync([id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Teams.FindAsync([id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
         
         dbContext.Teams.Remove(dao);
         

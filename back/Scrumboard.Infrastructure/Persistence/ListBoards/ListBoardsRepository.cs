@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.ListBoards;
 
@@ -28,9 +29,8 @@ internal sealed class ListBoardsRepository(
 
     public async Task<ListBoard> UpdateAsync(ListBoardEdition listBoardEdition, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.ListBoards.FindAsync([listBoardEdition.Id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.ListBoards.FindAsync([listBoardEdition.Id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
 
         mapper.Map(listBoardEdition, dao);
         
@@ -41,9 +41,8 @@ internal sealed class ListBoardsRepository(
 
     public async Task DeleteAsync(ListBoardId id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
         
         dbContext.ListBoards.Remove(dao);
         

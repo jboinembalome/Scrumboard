@@ -9,6 +9,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.SharedKernel.Exceptions;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Cards;
 
@@ -31,9 +32,9 @@ internal sealed class CardsService(
     public Task<IReadOnlyList<Card>> GetByListBoardIdAsync(ListBoardId listBoardId, CancellationToken cancellationToken = default)
         => cardsQueryRepository.GetByListBoardIdAsync(listBoardId, cancellationToken);
 
-    public async Task<Card> GetByIdAsync(CardId id, CancellationToken cancellationToken = default)
-        => await cardsQueryRepository.TryGetByIdAsync(id, cancellationToken) 
-           ?? throw new NotFoundException(nameof(Card), id);
+    public Task<Card> GetByIdAsync(CardId id, CancellationToken cancellationToken = default)
+        => cardsQueryRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
 
     public async Task<Card> AddAsync(CardCreation cardCreation, CancellationToken cancellationToken = default)
     {
@@ -49,8 +50,8 @@ internal sealed class CardsService(
 
     public async Task<Card> UpdateAsync(CardEdition cardEdition, CancellationToken cancellationToken = default)
     {
-        var cardToUpdate = await cardsRepository.TryGetByIdAsync(cardEdition.Id, cancellationToken) 
-                       ?? throw new NotFoundException(nameof(Card), cardEdition.Id);
+        var cardToUpdate = await cardsRepository.TryGetByIdAsync(cardEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(cardEdition.Id);
         
         await cardEditionValidator.ValidateAndThrowAsync(cardEdition, cancellationToken);
 
@@ -66,9 +67,9 @@ internal sealed class CardsService(
     }
 
     public async Task DeleteAsync(CardId id, CancellationToken cancellationToken = default)
-    {
-        _ = await cardsRepository.TryGetByIdAsync(id, cancellationToken) 
-            ?? throw new NotFoundException(nameof(Card), id);
+    { 
+        await cardsRepository.TryGetByIdAsync(id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(id);
         
         await cardsRepository.DeleteAsync(id, cancellationToken);
     }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Comments;
 
@@ -28,9 +29,8 @@ internal sealed class CommentsRepository(
 
     public async Task<Comment> UpdateAsync(CommentEdition commentEdition, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Comments.FindAsync([commentEdition.Id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Comments.FindAsync([commentEdition.Id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
 
         mapper.Map(commentEdition, dao);
         
@@ -41,9 +41,8 @@ internal sealed class CommentsRepository(
 
     public async Task DeleteAsync(CommentId id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Comments.FindAsync([id], cancellationToken);
-        
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Comments.FindAsync([id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
         
         dbContext.Comments.Remove(dao);
         

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
+using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
@@ -50,9 +51,8 @@ internal sealed class LabelsRepository(
 
     public async Task<Label> UpdateAsync(LabelEdition labelEdition, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Labels.FindAsync([labelEdition.Id], cancellationToken);
-
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Labels.FindAsync([labelEdition.Id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
 
         mapper.Map(labelEdition, dao);
 
@@ -63,9 +63,8 @@ internal sealed class LabelsRepository(
 
     public async Task DeleteAsync(LabelId id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Labels.FindAsync([id], cancellationToken);
-
-        ArgumentNullException.ThrowIfNull(dao);
+        var dao = await dbContext.Labels.FindAsync([id], cancellationToken)
+            .OrThrowEntityNotFoundAsync();
 
         dbContext.Labels.Remove(dao);
 

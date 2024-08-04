@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
@@ -17,7 +18,7 @@ internal sealed class CardProfile : Profile
         CreateMap<CardCreation, CardDao>();
         CreateMap<CardEdition, CardDao>();
         
-        CreateMap<string, CardAssigneeDao>()
+        CreateMap<UserId, CardAssigneeDao>()
             .ConstructUsing(assigneeId => new CardAssigneeDao
             {
                 AssigneeId = assigneeId
@@ -28,6 +29,6 @@ internal sealed class CardProfile : Profile
             .ForMember(dest => dest.AssigneeIds, opt => opt.MapFrom(src => src.Assignees))
             .ForMember(dest => dest.LabelIds, opt => opt.MapFrom(src => src.Labels));
         
-        CreateMap<CardAssigneeDao, string>();
+        CreateMap<CardAssigneeDao, UserId>();
     }
 }

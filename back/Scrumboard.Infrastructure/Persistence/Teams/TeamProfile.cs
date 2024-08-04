@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Scrumboard.Domain.Common;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 
@@ -14,7 +15,7 @@ internal sealed class TeamProfile : Profile
         CreateMap<TeamEdition, TeamDao>()
             .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.MemberIds));
         
-        CreateMap<string, TeamMemberDao>()
+        CreateMap<UserId, TeamMemberDao>()
             .ConstructUsing(memberId => new TeamMemberDao
             {
                 MemberId = memberId
@@ -24,7 +25,7 @@ internal sealed class TeamProfile : Profile
         CreateMap<TeamDao, Team>()
             .ForMember(dest => dest.MemberIds, opt => opt.MapFrom(src => src.Members));
         
-        CreateMap<TeamMemberDao, string>()
-            .ConstructUsing(teamMemberDao =>  teamMemberDao.MemberId);
+        CreateMap<TeamMemberDao, UserId>()
+            .ConstructUsing(teamMemberDao =>  (UserId)teamMemberDao.MemberId);
     }
 }

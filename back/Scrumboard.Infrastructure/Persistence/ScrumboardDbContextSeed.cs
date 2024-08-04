@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Cards;
-using Scrumboard.Infrastructure.Persistence.Cards.Checklists;
 using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
 using Scrumboard.Infrastructure.Persistence.Boards.Labels;
@@ -188,19 +187,6 @@ public class ScrumboardDbContextInitializer(
             DueDate = DateTime.Now,
             Position = 65536,
             Labels = [labels[0], labels[1]],
-            Checklists =
-            [
-                new ChecklistDao
-                {
-                    Name = "Checklist",
-                    ChecklistItems = new Collection<ChecklistItemDao>
-                    {
-                        new() { Name = "Create template for the login page", IsChecked = true, CreatedBy = UserId },
-                        new() { Name = "Validate template for the login page", IsChecked = false, CreatedBy = UserId }
-                    },
-                    CreatedBy = UserId
-                }
-            ],
             CreatedBy = UserId
         };
 

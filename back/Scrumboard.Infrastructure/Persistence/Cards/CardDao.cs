@@ -1,6 +1,5 @@
 ﻿using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Persistence.Boards.Labels;
-using Scrumboard.Infrastructure.Persistence.Cards.Checklists;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -16,7 +15,6 @@ public sealed class CardDao : IAuditableEntity
     public int Position { get; set; }
     public int ListBoardId { get; set; }
     public ICollection<LabelDao> Labels { get; set; }
-    public ICollection<ChecklistDao> Checklists { get; set; }
     public ICollection<CardAssigneeDao> Assignees { get; set; }
     public string CreatedBy { get; set; }
     public DateTimeOffset CreatedDate { get; set; }

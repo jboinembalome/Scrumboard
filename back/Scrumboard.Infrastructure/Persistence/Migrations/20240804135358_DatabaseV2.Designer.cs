@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scrumboard.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Scrumboard.Infrastructure.Persistence;
 namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ScrumboardDbContext))]
-    partial class ScrumboardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240804135358_DatabaseV2")]
+    partial class DatabaseV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

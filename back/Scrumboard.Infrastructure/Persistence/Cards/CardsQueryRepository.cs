@@ -30,13 +30,11 @@ internal sealed class CardsQueryRepository(
 
         return mapper.Map<Card>(dao);
     }
-    
+
     private IQueryable<CardDao> Query()
         => dbContext.Cards
             .AsNoTracking()
             .AsSplitQuery()
             .Include(x => x.Labels)
-            .Include(x => x.Assignees)
-            .Include(x => x.Checklists)
-                .ThenInclude(y => y.ChecklistItems);
+            .Include(x => x.Assignees);
 }

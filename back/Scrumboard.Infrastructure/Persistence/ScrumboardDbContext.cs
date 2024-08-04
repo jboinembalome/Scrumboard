@@ -6,7 +6,6 @@ using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
-using Scrumboard.Infrastructure.Persistence.Cards.Checklists;
 using Scrumboard.Infrastructure.Persistence.Cards.Comments;
 using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
@@ -25,8 +24,6 @@ public class ScrumboardDbContext(
     public DbSet<BoardDao> Boards { get; set; }
     public DbSet<BoardSettingDao> BoardSettings { get; set; }
     public DbSet<CardDao> Cards { get; set; }
-    public DbSet<ChecklistDao> Checklists { get; set; }
-    public DbSet<ChecklistItemDao> ChecklistItems { get; set; }
     public DbSet<CommentDao> Comments { get; set; }
     public DbSet<LabelDao> Labels { get; set; }
     public DbSet<ListBoardDao> ListBoards { get; set; }

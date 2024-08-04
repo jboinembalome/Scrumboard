@@ -49,7 +49,7 @@ public static class InfrastructureServiceRegistration
                 // Configuration code
             }, Assembly.GetExecutingAssembly());
         
-            services.AddTransient<ICurrentDateService, CurrentDateServiceService>();
+            services.AddTransient<ICurrentDateService, CurrentDateService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient(typeof(ICsvExporter<>), typeof(CsvExporter<>));
 

@@ -23,11 +23,6 @@ internal sealed class CardDaoConfiguration : IEntityTypeConfiguration<CardDao>
             .HasMany(x => x.Assignees)
             .WithOne()
             .HasForeignKey(x => x.CardId);
-            
-        builder
-            .HasMany(x => x.Checklists)
-            .WithOne()
-            .HasForeignKey(x => x.CardId);
         
         builder
             .HasMany(x => x.Labels)

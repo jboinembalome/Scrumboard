@@ -2,7 +2,7 @@
 
 namespace Scrumboard.Infrastructure.Common;
 
-internal sealed class CurrentDateServiceService : ICurrentDateService
+internal sealed class CurrentDateService : ICurrentDateService
 {
     public DateTimeOffset Now => DateTimeOffset.Now;
 }

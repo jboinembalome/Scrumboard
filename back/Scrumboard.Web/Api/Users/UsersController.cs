@@ -21,7 +21,8 @@ public class UsersController(
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> Get(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<UserDto>>> Get(
+        CancellationToken cancellationToken)
     {
         var users = await usersService.GetAsync(cancellationToken);
         
@@ -38,7 +39,9 @@ public class UsersController(
     /// <returns></returns>
     [HttpGet("avatar/{userId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult> GetAvatar(string userId, CancellationToken cancellationToken)
+    public async Task<ActionResult> GetAvatar(
+        string userId, 
+        CancellationToken cancellationToken)
     {
         var avatar = await usersService.GetAvatarByUserIdAsync(new UserId(userId), cancellationToken);
             

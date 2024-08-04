@@ -15,21 +15,28 @@ internal sealed class BoardsService(
     IValidator<BoardEdition> boardEditionValidator,
     ICurrentUserService currentUserService) : IBoardsService
 {
-    public async Task<bool> ExistsAsync(BoardId id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsAsync(
+        BoardId id, 
+        CancellationToken cancellationToken = default)
     {
         var board = await boardsRepository.TryGetByIdAsync(id, cancellationToken);
 
         return board is not null;
     }
 
-    public async Task<Board> GetByIdAsync(BoardId id, CancellationToken cancellationToken = default) 
+    public async Task<Board> GetByIdAsync(
+        BoardId id, 
+        CancellationToken cancellationToken = default) 
         => await boardsQueryRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);
 
-    public Task<IReadOnlyList<Board>> GetAsync(CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<Board>> GetAsync(
+        CancellationToken cancellationToken = default)
         => boardsQueryRepository.GetByUserIdAsync((UserId)currentUserService.UserId, cancellationToken);
 
-    public Task<Board> AddAsync(BoardCreation boardCreation, CancellationToken cancellationToken = default)
+    public Task<Board> AddAsync(
+        BoardCreation boardCreation, 
+        CancellationToken cancellationToken = default)
     {
         //var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
         
@@ -44,14 +51,18 @@ internal sealed class BoardsService(
         return boardsRepository.AddAsync(boardCreation, cancellationToken);
     }
 
-    public async Task<Board> UpdateAsync(BoardEdition boardEdition, CancellationToken cancellationToken = default)
+    public async Task<Board> UpdateAsync(
+        BoardEdition boardEdition, 
+        CancellationToken cancellationToken = default)
     {
         await boardEditionValidator.ValidateAndThrowAsync(boardEdition, cancellationToken);
         
         return await boardsRepository.UpdateAsync(boardEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(BoardId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        BoardId id, 
+        CancellationToken cancellationToken = default)
     {
         await boardsRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);

@@ -94,7 +94,9 @@ public class TeamsController(
     /// <returns></returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult> Delete(
+        int id, 
+        CancellationToken cancellationToken)
     {
         await teamsService.DeleteAsync(new TeamId(id), cancellationToken);
 

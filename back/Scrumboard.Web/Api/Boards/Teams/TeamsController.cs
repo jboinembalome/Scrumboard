@@ -47,7 +47,9 @@ public class TeamsController(
         return Ok(teamDto);
     }
     
-    private async Task<TeamDto> GetTeamDtoAsync(Team team, CancellationToken cancellationToken)
+    private async Task<TeamDto> GetTeamDtoAsync(
+        Team team, 
+        CancellationToken cancellationToken)
     {
         var memberIds = team.MemberIds
             .ToHashSet();

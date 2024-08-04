@@ -9,14 +9,18 @@ internal sealed class CommentsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : ICommentsRepository
 {
-    public async Task<Comment?> TryGetByIdAsync(CommentId id, CancellationToken cancellationToken = default)
+    public async Task<Comment?> TryGetByIdAsync(
+        CommentId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Comments.FindAsync([id], cancellationToken);
         
         return mapper.Map<Comment>(dao);
     }
 
-    public async Task<Comment> AddAsync(CommentCreation commentCreation, CancellationToken cancellationToken = default)
+    public async Task<Comment> AddAsync(
+        CommentCreation commentCreation, 
+        CancellationToken cancellationToken = default)
     {
         var dao = mapper.Map<CommentDao>(commentCreation);
         
@@ -27,7 +31,9 @@ internal sealed class CommentsRepository(
         return mapper.Map<Comment>(dao);
     }
 
-    public async Task<Comment> UpdateAsync(CommentEdition commentEdition, CancellationToken cancellationToken = default)
+    public async Task<Comment> UpdateAsync(
+        CommentEdition commentEdition, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Comments.FindAsync([commentEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
@@ -39,7 +45,9 @@ internal sealed class CommentsRepository(
         return mapper.Map<Comment>(dao);
     }
 
-    public async Task DeleteAsync(CommentId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        CommentId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Comments.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();

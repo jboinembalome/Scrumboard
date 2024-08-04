@@ -10,7 +10,9 @@ internal sealed class ActivitiesQueryRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : IActivitiesQueryRepository
 {
-    public async Task<IReadOnlyList<Activity>> GetByCardIdAsync(CardId cardId, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Activity>> GetByCardIdAsync(
+        CardId cardId, 
+        CancellationToken cancellationToken = default)
     {
         var daos = await dbContext.Activities
             .AsNoTracking()

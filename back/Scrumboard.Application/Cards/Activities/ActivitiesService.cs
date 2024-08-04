@@ -8,6 +8,8 @@ namespace Scrumboard.Application.Cards.Activities;
 internal sealed class ActivitiesService(
     IActivitiesQueryRepository activitiesQueryRepository) : IActivitiesService
 {
-    public Task<IReadOnlyList<Activity>> GetByCardIdAsync(CardId cardId, CancellationToken cancellationToken = default) 
+    public Task<IReadOnlyList<Activity>> GetByCardIdAsync(
+        CardId cardId, 
+        CancellationToken cancellationToken = default) 
         => activitiesQueryRepository.GetByCardIdAsync(cardId, cancellationToken);
 }

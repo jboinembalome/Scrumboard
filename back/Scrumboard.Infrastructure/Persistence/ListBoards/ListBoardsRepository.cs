@@ -9,14 +9,18 @@ internal sealed class ListBoardsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : IListBoardsRepository
 {
-    public async Task<ListBoard?> TryGetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
+    public async Task<ListBoard?> TryGetByIdAsync(
+        ListBoardId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken);
 
         return mapper.Map<ListBoard>(dao);
     }
 
-    public async Task<ListBoard> AddAsync(ListBoardCreation listBoardCreation, CancellationToken cancellationToken = default)
+    public async Task<ListBoard> AddAsync(
+        ListBoardCreation listBoardCreation, 
+        CancellationToken cancellationToken = default)
     {
         var dao = mapper.Map<ListBoardDao>(listBoardCreation);
         
@@ -27,7 +31,9 @@ internal sealed class ListBoardsRepository(
         return mapper.Map<ListBoard>(dao);
     }
 
-    public async Task<ListBoard> UpdateAsync(ListBoardEdition listBoardEdition, CancellationToken cancellationToken = default)
+    public async Task<ListBoard> UpdateAsync(
+        ListBoardEdition listBoardEdition, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.ListBoards.FindAsync([listBoardEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
@@ -39,7 +45,9 @@ internal sealed class ListBoardsRepository(
         return mapper.Map<ListBoard>(dao);
     }
 
-    public async Task DeleteAsync(ListBoardId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        ListBoardId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();

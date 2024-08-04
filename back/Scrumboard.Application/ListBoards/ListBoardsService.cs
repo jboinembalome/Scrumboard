@@ -14,21 +14,30 @@ internal sealed class ListBoardsService(
     IValidator<ListBoardCreation> listBoardCreationValidator,
     IValidator<ListBoardEdition> listBoardEditionValidator) : IListBoardsService
 {
-    public async Task<bool> ExistsAsync(ListBoardId id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsAsync(
+        ListBoardId id, 
+        CancellationToken cancellationToken = default)
     {
         var listBoard = await listBoardsRepository.TryGetByIdAsync(id, cancellationToken);
 
         return listBoard is not null;
     }
     
-    public Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(BoardId boardId, bool? includeCards, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(
+        BoardId boardId, 
+        bool? includeCards, 
+        CancellationToken cancellationToken = default)
         => listBoardsQueryRepository.GetByBoardIdAsync(boardId, includeCards, cancellationToken);
 
-    public Task<ListBoard> GetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
+    public Task<ListBoard> GetByIdAsync(
+        ListBoardId id, 
+        CancellationToken cancellationToken = default)
         => listBoardsQueryRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);
 
-    public async Task<ListBoard> AddAsync(ListBoardCreation listBoardCreation, CancellationToken cancellationToken = default)
+    public async Task<ListBoard> AddAsync(
+        ListBoardCreation listBoardCreation, 
+        CancellationToken cancellationToken = default)
     {
         await listBoardCreationValidator.ValidateAndThrowAsync(listBoardCreation, cancellationToken);
         
@@ -37,7 +46,9 @@ internal sealed class ListBoardsService(
         return listBoard;
     }
 
-    public async Task<ListBoard> UpdateAsync(ListBoardEdition listBoardEdition, CancellationToken cancellationToken = default)
+    public async Task<ListBoard> UpdateAsync(
+        ListBoardEdition listBoardEdition, 
+        CancellationToken cancellationToken = default)
     {
         await listBoardsRepository.TryGetByIdAsync(listBoardEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(listBoardEdition.Id);
@@ -47,7 +58,9 @@ internal sealed class ListBoardsService(
         return await listBoardsRepository.UpdateAsync(listBoardEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(ListBoardId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        ListBoardId id, 
+        CancellationToken cancellationToken = default)
     {
         await listBoardsRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);

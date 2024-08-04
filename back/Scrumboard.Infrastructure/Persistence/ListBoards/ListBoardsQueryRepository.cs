@@ -33,7 +33,9 @@ internal sealed class ListBoardsQueryRepository(
         return mapper.Map<IReadOnlyList<ListBoard>>(daos);
     }
 
-    public async Task<ListBoard?> TryGetByIdAsync(ListBoardId id, CancellationToken cancellationToken = default)
+    public async Task<ListBoard?> TryGetByIdAsync(
+        ListBoardId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);

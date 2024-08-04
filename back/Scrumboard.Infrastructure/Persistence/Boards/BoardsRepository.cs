@@ -10,7 +10,9 @@ internal sealed class BoardsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : IBoardsRepository
 {
-    public async Task<Board?> TryGetByIdAsync(BoardId id, CancellationToken cancellationToken = default)
+    public async Task<Board?> TryGetByIdAsync(
+        BoardId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -18,7 +20,9 @@ internal sealed class BoardsRepository(
         return mapper.Map<Board>(dao);
     }
 
-    public async Task<Board> AddAsync(BoardCreation boardCreation, CancellationToken cancellationToken = default)
+    public async Task<Board> AddAsync(
+        BoardCreation boardCreation, 
+        CancellationToken cancellationToken = default)
     {
         var dao = mapper.Map<BoardDao>(boardCreation);
         
@@ -29,7 +33,9 @@ internal sealed class BoardsRepository(
         return mapper.Map<Board>(dao);
     }
 
-    public async Task<Board> UpdateAsync(BoardEdition boardEdition, CancellationToken cancellationToken = default)
+    public async Task<Board> UpdateAsync(
+        BoardEdition boardEdition, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstAsync(x => x.Id == boardEdition.Id, cancellationToken);
@@ -41,7 +47,9 @@ internal sealed class BoardsRepository(
         return mapper.Map<Board>(dao);
     }
 
-    public async Task DeleteAsync(BoardId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        BoardId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Boards.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();

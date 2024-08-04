@@ -8,7 +8,9 @@ internal sealed class ActivitiesRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : IActivitiesRepository
 {
-    public async Task<Activity> AddAsync(Activity activity, CancellationToken cancellationToken = default)
+    public async Task<Activity> AddAsync(
+        Activity activity, 
+        CancellationToken cancellationToken = default)
     {
         var dao = mapper.Map<ActivityDao>(activity);
         
@@ -19,7 +21,9 @@ internal sealed class ActivitiesRepository(
         return mapper.Map<Activity>(dao);
     }
     
-    public async Task<IReadOnlyList<Activity>> AddAsync(IEnumerable<Activity> activities, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Activity>> AddAsync(
+        IEnumerable<Activity> activities, 
+        CancellationToken cancellationToken = default)
     {
         var daos = mapper.Map<IEnumerable<ActivityDao>>(activities);
         

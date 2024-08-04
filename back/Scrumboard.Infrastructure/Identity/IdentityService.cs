@@ -39,14 +39,16 @@ internal sealed class IdentityService(
         return user.UserName;
     }
 
-    public async Task<IReadOnlyList<IUser>> GetListAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<IUser>> GetListAllAsync(
+        CancellationToken cancellationToken = default)
     {
         var users = await userManager.Users.ToListAsync(cancellationToken);
 
         return users;
     }
 
-    public async Task<IList<IUser>> GetUsersInRoleAsync(string role)
+    public async Task<IList<IUser>> GetUsersInRoleAsync(
+        string role)
     {
         var users = await userManager.GetUsersInRoleAsync(role);
 
@@ -68,7 +70,9 @@ internal sealed class IdentityService(
         return users;
     }
 
-    public async Task<(Result Result, UserId UserId)> CreateUserAsync(string userName, string password)
+    public async Task<(Result Result, UserId UserId)> CreateUserAsync(
+        string userName, 
+        string password)
     {
         var user = new ApplicationUser
         {
@@ -81,14 +85,18 @@ internal sealed class IdentityService(
         return (result.ToApplicationResult(), (UserId)user.Id);
     }
 
-    public async Task<bool> IsInRoleAsync(UserId userId, string role)
+    public async Task<bool> IsInRoleAsync(
+        UserId userId, 
+        string role)
     {
         var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
 
         return user is not null && await userManager.IsInRoleAsync(user, role);
     }
 
-    public async Task AddUserToRolesAsync(UserId userId, IEnumerable<string> roles)
+    public async Task AddUserToRolesAsync(
+        UserId userId, 
+        IEnumerable<string> roles)
     {
         var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
 
@@ -99,7 +107,9 @@ internal sealed class IdentityService(
             }
     }
 
-    public async Task AddUserToRoleAsync(UserId userId, string role)
+    public async Task AddUserToRoleAsync(
+        UserId userId, 
+        string role)
     {
         var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
 
@@ -109,7 +119,9 @@ internal sealed class IdentityService(
         }
     }
 
-    public async Task<bool> AuthorizeAsync(UserId userId, string policyName)
+    public async Task<bool> AuthorizeAsync(
+        UserId userId, 
+        string policyName)
     {
         var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
 
@@ -125,7 +137,8 @@ internal sealed class IdentityService(
         return false;
     }
 
-    public async Task<Result> DeleteUserAsync(UserId userId)
+    public async Task<Result> DeleteUserAsync(
+        UserId userId)
     {
         var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
 
@@ -135,14 +148,17 @@ internal sealed class IdentityService(
         return Result.Success();
     }
 
-    private async Task<Result> DeleteUserAsync(ApplicationUser user)
+    private async Task<Result> DeleteUserAsync(
+        ApplicationUser user)
     {
         var result = await userManager.DeleteAsync(user);
 
         return result.ToApplicationResult();
     }
 
-    private async Task AddUserToRole(ApplicationUser user, string role)
+    private async Task AddUserToRole(
+        ApplicationUser user, 
+        string role)
     {
         IdentityRole? identityRole;
         if (!await roleManager.RoleExistsAsync(role))

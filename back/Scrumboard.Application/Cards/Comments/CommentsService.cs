@@ -14,21 +14,29 @@ internal sealed class CommentsService(
     IValidator<CommentCreation> commentCreationValidator,
     IValidator<CommentEdition> commentEditionValidator) : ICommentsService
 {
-    public Task<Comment> GetByIdAsync(CommentId id, CancellationToken cancellationToken = default) 
+    public Task<Comment> GetByIdAsync(
+        CommentId id, 
+        CancellationToken cancellationToken = default) 
         => commentsQueryRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);
 
-    public Task<IReadOnlyList<Comment>> GetByCardIdAsync(CardId cardId, CancellationToken cancellationToken = default) 
+    public Task<IReadOnlyList<Comment>> GetByCardIdAsync(
+        CardId cardId, 
+        CancellationToken cancellationToken = default) 
         => commentsQueryRepository.GetByCardIdAsync(cardId, cancellationToken);
 
-    public async Task<Comment> AddAsync(CommentCreation commentCreation, CancellationToken cancellationToken = default)
+    public async Task<Comment> AddAsync(
+        CommentCreation commentCreation, 
+        CancellationToken cancellationToken = default)
     {
         await commentCreationValidator.ValidateAndThrowAsync(commentCreation, cancellationToken);
         
         return await commentsRepository.AddAsync(commentCreation, cancellationToken);
     }
 
-    public async Task<Comment> UpdateAsync(CommentEdition commentEdition, CancellationToken cancellationToken = default)
+    public async Task<Comment> UpdateAsync(
+        CommentEdition commentEdition, 
+        CancellationToken cancellationToken = default)
     {
         await commentsRepository.TryGetByIdAsync(commentEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(commentEdition.Id);
@@ -38,7 +46,9 @@ internal sealed class CommentsService(
         return await commentsRepository.UpdateAsync(commentEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(CommentId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        CommentId id, 
+        CancellationToken cancellationToken = default)
     {
         await commentsRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);

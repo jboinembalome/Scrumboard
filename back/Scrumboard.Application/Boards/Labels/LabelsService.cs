@@ -2,7 +2,6 @@ using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
-using Scrumboard.SharedKernel.Exceptions;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Boards.Labels;
@@ -13,24 +12,34 @@ internal sealed class LabelsService(
     IValidator<LabelCreation> labelCreationValidator,
     IValidator<LabelEdition> labelEditionValidator) : ILabelsService
 {
-    public Task<IReadOnlyList<Label>> GetByBoardIdAsync(BoardId boardId, CancellationToken cancellationToken = default) 
+    public Task<IReadOnlyList<Label>> GetByBoardIdAsync(
+        BoardId boardId, 
+        CancellationToken cancellationToken = default) 
         => labelsQueryRepository.GetByBoardIdAsync(boardId, cancellationToken);
 
-    public Task<IReadOnlyList<Label>> GetAsync(IEnumerable<LabelId> labelIds, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<Label>> GetAsync(
+        IEnumerable<LabelId> labelIds, 
+        CancellationToken cancellationToken = default)
         => labelsQueryRepository.GetAsync(labelIds, cancellationToken);
     
-    public Task<Label> GetByIdAsync(LabelId id, CancellationToken cancellationToken = default) 
+    public Task<Label> GetByIdAsync(
+        LabelId id, 
+        CancellationToken cancellationToken = default) 
         => labelsQueryRepository.TryGetByIdAsync(id, cancellationToken)
                .OrThrowResourceNotFoundAsync(id);
 
-    public async Task<Label> AddAsync(LabelCreation labelCreation, CancellationToken cancellationToken = default)
+    public async Task<Label> AddAsync(
+        LabelCreation labelCreation, 
+        CancellationToken cancellationToken = default)
     {
         await labelCreationValidator.ValidateAndThrowAsync(labelCreation, cancellationToken);
         
         return await labelsRepository.AddAsync(labelCreation, cancellationToken);
     }
 
-    public async Task<Label> UpdateAsync(LabelEdition labelEdition, CancellationToken cancellationToken = default)
+    public async Task<Label> UpdateAsync(
+        LabelEdition labelEdition, 
+        CancellationToken cancellationToken = default)
     {
         await labelsRepository.TryGetByIdAsync(labelEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(labelEdition.Id);
@@ -40,7 +49,9 @@ internal sealed class LabelsService(
         return await labelsRepository.UpdateAsync(labelEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(LabelId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        LabelId id, 
+        CancellationToken cancellationToken = default)
     {
         _ = await labelsRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);

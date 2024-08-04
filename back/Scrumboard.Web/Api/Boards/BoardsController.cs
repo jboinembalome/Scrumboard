@@ -21,7 +21,8 @@ public class BoardsController(
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<BoardDto>>>Get(CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<BoardDto>>>Get(
+        CancellationToken cancellationToken)
     {
         var boards = await boardsService.GetAsync(cancellationToken);
         
@@ -38,7 +39,9 @@ public class BoardsController(
     /// <returns></returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<BoardDetailDto>> Get(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<BoardDetailDto>> Get(
+        int id, 
+        CancellationToken cancellationToken)
     {
         var board = await boardsService.GetByIdAsync(new BoardId(id), cancellationToken);
         
@@ -101,7 +104,9 @@ public class BoardsController(
     /// <returns></returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult> Delete(
+        int id, 
+        CancellationToken cancellationToken)
     {
         await boardsService.DeleteAsync(new BoardId(id), cancellationToken);
 

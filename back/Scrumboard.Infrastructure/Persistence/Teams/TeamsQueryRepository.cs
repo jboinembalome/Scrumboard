@@ -10,7 +10,9 @@ internal sealed class TeamsQueryRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : ITeamsQueryRepository
 {
-    public async Task<Team?> TryGetByIdAsync(TeamId id, CancellationToken cancellationToken = default)
+    public async Task<Team?> TryGetByIdAsync(
+        TeamId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Teams
             .AsNoTracking()
@@ -19,7 +21,9 @@ internal sealed class TeamsQueryRepository(
         return mapper.Map<Team>(dao);
     }
 
-    public async Task<Team?> TryGetByBoardIdAsync(BoardId boardId, CancellationToken cancellationToken = default)
+    public async Task<Team?> TryGetByBoardIdAsync(
+        BoardId boardId, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Boards
             .AsNoTracking()

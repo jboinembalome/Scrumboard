@@ -10,7 +10,9 @@ internal sealed class CardsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : ICardsRepository
 {
-    public async Task<Card?> TryGetByIdAsync(CardId id, CancellationToken cancellationToken = default)
+    public async Task<Card?> TryGetByIdAsync(
+        CardId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
@@ -18,7 +20,9 @@ internal sealed class CardsRepository(
         return mapper.Map<Card>(dao);
     }
 
-    public async Task<Card> AddAsync(CardCreation cardCreation, CancellationToken cancellationToken = default)
+    public async Task<Card> AddAsync(
+        CardCreation cardCreation, 
+        CancellationToken cancellationToken = default)
     {
         var dao = mapper.Map<CardDao>(cardCreation);
         
@@ -29,9 +33,11 @@ internal sealed class CardsRepository(
         return mapper.Map<Card>(dao);
     }
 
-    public async Task<Card> UpdateAsync(CardEdition cardEdition, CancellationToken cancellationToken = default)
+    public async Task<Card> UpdateAsync(
+        CardEdition cardEdition, 
+        CancellationToken cancellationToken = default)
     {
-        // TODO: Use LoadAsync
+        // TODO: Use LoadAsync or ChangeTracker
         var dao = await Query()
             .FirstAsync(x => x.Id == cardEdition.Id, cancellationToken);
 

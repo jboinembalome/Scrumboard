@@ -6,7 +6,9 @@ namespace Scrumboard.Infrastructure.FileExport;
 
 internal sealed class CsvExporter<T> : ICsvExporter<T> where T : class
 {
-    public async Task<byte[]> ExportToCsvAsync(IEnumerable<T> records, CancellationToken cancellationToken)
+    public async Task<byte[]> ExportToCsvAsync(
+        IEnumerable<T> records, 
+        CancellationToken cancellationToken)
     {
         using var memoryStream = new MemoryStream();
 

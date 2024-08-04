@@ -31,14 +31,18 @@ internal sealed class LabelsRepository(
         return mapper.Map<IReadOnlyList<Label>>(daos);
     }
 
-    public async Task<Label?> TryGetByIdAsync(LabelId id, CancellationToken cancellationToken = default)
+    public async Task<Label?> TryGetByIdAsync(
+        LabelId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Labels.FindAsync([id], cancellationToken);
 
         return mapper.Map<Label>(dao);
     }
 
-    public async Task<Label> AddAsync(LabelCreation labelCreation, CancellationToken cancellationToken = default)
+    public async Task<Label> AddAsync(
+        LabelCreation labelCreation, 
+        CancellationToken cancellationToken = default)
     {
         var dao = mapper.Map<LabelDao>(labelCreation);
 
@@ -49,7 +53,9 @@ internal sealed class LabelsRepository(
         return mapper.Map<Label>(dao);
     }
 
-    public async Task<Label> UpdateAsync(LabelEdition labelEdition, CancellationToken cancellationToken = default)
+    public async Task<Label> UpdateAsync(
+        LabelEdition labelEdition, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Labels.FindAsync([labelEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
@@ -61,7 +67,9 @@ internal sealed class LabelsRepository(
         return mapper.Map<Label>(dao);
     }
 
-    public async Task DeleteAsync(LabelId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        LabelId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Labels.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();

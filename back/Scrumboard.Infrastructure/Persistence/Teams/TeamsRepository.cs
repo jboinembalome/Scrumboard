@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 using Scrumboard.SharedKernel.Extensions;
@@ -10,14 +9,18 @@ internal sealed class TeamsRepository(
     ScrumboardDbContext dbContext,
     IMapper mapper) : ITeamsRepository
 {
-    public async Task<Team?> TryGetByIdAsync(TeamId id, CancellationToken cancellationToken = default)
+    public async Task<Team?> TryGetByIdAsync(
+        TeamId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Teams.FindAsync([id], cancellationToken);
         
         return mapper.Map<Team>(dao);
     }
 
-    public async Task<Team> AddAsync(TeamCreation teamCreation, CancellationToken cancellationToken = default)
+    public async Task<Team> AddAsync(
+        TeamCreation teamCreation, 
+        CancellationToken cancellationToken = default)
     {
         var dao = mapper.Map<TeamDao>(teamCreation);
         
@@ -28,7 +31,9 @@ internal sealed class TeamsRepository(
         return mapper.Map<Team>(dao);
     }
 
-    public async Task<Team> UpdateAsync(TeamEdition teamEdition, CancellationToken cancellationToken = default)
+    public async Task<Team> UpdateAsync(
+        TeamEdition teamEdition, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Teams.FindAsync([teamEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
@@ -40,7 +45,9 @@ internal sealed class TeamsRepository(
         return mapper.Map<Team>(dao);
     }
 
-    public async Task DeleteAsync(TeamId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        TeamId id, 
+        CancellationToken cancellationToken = default)
     {
         var dao = await dbContext.Teams.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();

@@ -22,21 +22,29 @@ internal sealed class CardsService(
     IValidator<CardCreation> cardCreationValidator,
     IValidator<CardEdition> cardEditionValidator) : ICardsService
 {
-    public async Task<bool> ExistsAsync(CardId id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsAsync(
+        CardId id, 
+        CancellationToken cancellationToken = default)
     {
         var card = await cardsRepository.TryGetByIdAsync(id, cancellationToken);
 
         return card is not null;
     }
 
-    public Task<IReadOnlyList<Card>> GetByListBoardIdAsync(ListBoardId listBoardId, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<Card>> GetByListBoardIdAsync(
+        ListBoardId listBoardId, 
+        CancellationToken cancellationToken = default)
         => cardsQueryRepository.GetByListBoardIdAsync(listBoardId, cancellationToken);
 
-    public Task<Card> GetByIdAsync(CardId id, CancellationToken cancellationToken = default)
+    public Task<Card> GetByIdAsync(
+        CardId id, 
+        CancellationToken cancellationToken = default)
         => cardsQueryRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);
 
-    public async Task<Card> AddAsync(CardCreation cardCreation, CancellationToken cancellationToken = default)
+    public async Task<Card> AddAsync(
+        CardCreation cardCreation, 
+        CancellationToken cancellationToken = default)
     {
         await cardCreationValidator.ValidateAndThrowAsync(cardCreation, cancellationToken);
         
@@ -48,7 +56,9 @@ internal sealed class CardsService(
         return card;
     }
 
-    public async Task<Card> UpdateAsync(CardEdition cardEdition, CancellationToken cancellationToken = default)
+    public async Task<Card> UpdateAsync(
+        CardEdition cardEdition, 
+        CancellationToken cancellationToken = default)
     {
         var cardToUpdate = await cardsRepository.TryGetByIdAsync(cardEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(cardEdition.Id);
@@ -66,7 +76,9 @@ internal sealed class CardsService(
         return await cardsRepository.UpdateAsync(cardEdition, cancellationToken);
     }
 
-    public async Task DeleteAsync(CardId id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(
+        CardId id, 
+        CancellationToken cancellationToken = default)
     { 
         await cardsRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);
@@ -74,7 +86,7 @@ internal sealed class CardsService(
         await cardsRepository.DeleteAsync(id, cancellationToken);
     }
     
-    // TODO: Move new activities logic into a specific service
+    // TODO: Move new activities logic into a specific service or factory
     
     /// <summary>
     /// Retrieves the card activies. 

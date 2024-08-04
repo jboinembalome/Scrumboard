@@ -3,7 +3,6 @@ using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
-using Scrumboard.SharedKernel.Exceptions;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Cards.Comments;

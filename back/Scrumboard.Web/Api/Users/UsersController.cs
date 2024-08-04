@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Users;
-using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Common;
 
 namespace Scrumboard.Web.Api.Users;

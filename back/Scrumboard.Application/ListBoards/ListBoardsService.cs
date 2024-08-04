@@ -3,7 +3,6 @@ using Scrumboard.Application.Abstractions.ListBoards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
-using Scrumboard.SharedKernel.Exceptions;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.ListBoards;

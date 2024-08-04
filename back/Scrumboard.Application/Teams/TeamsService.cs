@@ -2,7 +2,6 @@ using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
-using Scrumboard.SharedKernel.Exceptions;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Teams;

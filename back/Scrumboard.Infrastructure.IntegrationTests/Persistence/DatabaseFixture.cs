@@ -3,9 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Respawn;
 using Scrumboard.Infrastructure.Persistence;
-using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 

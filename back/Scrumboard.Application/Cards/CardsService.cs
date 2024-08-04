@@ -8,7 +8,6 @@ using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
-using Scrumboard.SharedKernel.Exceptions;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Cards;

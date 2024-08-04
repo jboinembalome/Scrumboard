@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
   </ItemGroup>
 
 </Project>

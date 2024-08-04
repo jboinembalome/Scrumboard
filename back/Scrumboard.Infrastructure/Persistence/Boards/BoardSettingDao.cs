@@ -8,7 +8,5 @@ public sealed class BoardSettingDao
 {
     public int Id { get; set; }
     public Colour Colour { get; set; } = Colour.Gray;
-    public bool Subscribed { get; set; }
-    public bool CardCoverImage { get; set; }
     public int BoardId { get; set; }
 }

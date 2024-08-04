@@ -12,10 +12,6 @@ internal sealed class BoardConfiguration : IEntityTypeConfiguration<BoardDao>
         builder.Property(b => b.Name)
             .HasMaxLength(255)
             .IsRequired();
-
-        builder.Property(b => b.Uri)
-            .HasMaxLength(255)
-            .IsRequired();
         
         builder
             .HasOne(x => x.BoardSetting)

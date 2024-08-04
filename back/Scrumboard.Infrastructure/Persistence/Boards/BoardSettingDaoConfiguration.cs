@@ -8,12 +8,6 @@ internal sealed class BoardSettingDaoConfiguration : IEntityTypeConfiguration<Bo
     public void Configure(EntityTypeBuilder<BoardSettingDao> builder)
     {
         builder.ToTable("BoardSettings");
-        
-        builder.Property(b => b.CardCoverImage)
-            .IsRequired();
-
-        builder.Property(b => b.Subscribed)
-            .IsRequired();
 
         builder
             .OwnsOne(b => b.Colour);

@@ -10,7 +10,6 @@ public sealed class Board
 {
     public BoardId Id { get; set; }
     public string Name { get; set; } = "Untitled Board";
-    public string Uri { get; set; } = "untitled-board";
     public bool IsPinned { get; set; }
     public BoardSetting BoardSetting { get; set; }
     public UserId CreatedBy { get; set; }

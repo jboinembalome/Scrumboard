@@ -5,6 +5,7 @@ using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Boards;
+using Scrumboard.Infrastructure.Persistence.Teams;
 using Xunit;
 
 namespace Scrumboard.Infrastructure.UnitTests.Persistence.Boards;
@@ -22,6 +23,7 @@ public sealed class BoardProfileTests
         var mapperConfiguration = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<BoardProfile>();
+            cfg.AddProfile<TeamProfile>();
         });
         
         _mapper = mapperConfiguration.CreateMapper();
@@ -44,6 +46,16 @@ public sealed class BoardProfileTests
             BoardSetting = new BoardSettingDao
             {
                 Colour = boardCreation.BoardSetting.Colour
+            },
+            Team = new TeamDao
+            {
+                Name = boardCreation.Team.Name,
+                Members = boardCreation.Team.MemberIds
+                    .Select(memberId => new TeamMemberDao
+                    {
+                        MemberId = memberId
+                    })
+                    .ToArray()
             }
         };
 
@@ -71,9 +83,7 @@ public sealed class BoardProfileTests
             {
                 Id = boardEdition.BoardSetting.Id,
                 BoardId = boardEdition.BoardSetting.BoardId,
-                Colour = boardEdition.BoardSetting.Colour,
-                Subscribed = boardEdition.BoardSetting.Subscribed,
-                CardCoverImage = boardEdition.BoardSetting.CardCoverImage
+                Colour = boardEdition.BoardSetting.Colour
             }
         };
 
@@ -116,9 +126,7 @@ public sealed class BoardProfileTests
         {
             Id = boardSetting.Id,
             BoardId = boardSetting.BoardId,
-            Colour = boardSetting.Colour,
-            Subscribed = boardSetting.Subscribed,
-            CardCoverImage = boardSetting.CardCoverImage
+            Colour = boardSetting.Colour
         };
 
         boardSettingDao
@@ -141,14 +149,11 @@ public sealed class BoardProfileTests
             Id = (BoardId)boardDao.Id,
             Name = boardDao.Name,
             IsPinned = boardDao.IsPinned,
-            Uri = boardDao.Uri,
             BoardSetting = new BoardSetting
             {
                 Id = (BoardSettingId)boardDao.BoardSetting.Id,
                 BoardId = (BoardId)boardDao.BoardSetting.BoardId,
-                Colour = boardDao.BoardSetting.Colour,
-                Subscribed = boardDao.BoardSetting.Subscribed,
-                CardCoverImage = boardDao.BoardSetting.CardCoverImage
+                Colour = boardDao.BoardSetting.Colour
             },
             CreatedBy = (UserId)boardDao.CreatedBy,
             CreatedDate = boardDao.CreatedDate,
@@ -175,9 +180,7 @@ public sealed class BoardProfileTests
         {
             Id = (BoardSettingId)boardSettingDao.Id,
             BoardId = (BoardId)boardSettingDao.BoardId,
-            Colour = boardSettingDao.Colour,
-            Subscribed = boardSettingDao.Subscribed,
-            CardCoverImage = boardSettingDao.CardCoverImage
+            Colour = boardSettingDao.Colour
         };
 
         boardSetting

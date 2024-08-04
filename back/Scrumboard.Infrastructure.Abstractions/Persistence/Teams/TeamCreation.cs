@@ -7,5 +7,5 @@ namespace Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 public sealed class TeamCreation
 {
     public string Name { get; set; } = string.Empty;
-    public IReadOnlyCollection<UserId> MemberIds { get; set; }
+    public IReadOnlyCollection<UserId> MemberIds { get; set; } = [];
 }

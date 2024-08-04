@@ -7,6 +7,4 @@ public sealed class BoardSetting
     public BoardSettingId Id { get; set; }
     public BoardId BoardId { get; set; }
     public Colour Colour { get; set; } = Colour.Gray;
-    public bool Subscribed { get; set; }
-    public bool CardCoverImage { get; set; }
 }

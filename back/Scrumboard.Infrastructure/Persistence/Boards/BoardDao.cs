@@ -10,7 +10,6 @@ public sealed class BoardDao : IAuditableEntity
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string Uri { get; set; }
     public bool IsPinned { get; set; }
     public TeamDao Team { get; set; }
     public BoardSettingDao BoardSetting { get; set; }

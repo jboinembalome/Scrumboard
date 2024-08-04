@@ -283,11 +283,6 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                     b.Property<int>("TeamId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Uri")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TeamId");
@@ -305,12 +300,6 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
                     b.Property<int>("BoardId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("CardCoverImage")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Subscribed")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

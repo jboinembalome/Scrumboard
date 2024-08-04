@@ -17,21 +17,4 @@ public sealed class Board
     public DateTimeOffset CreatedDate { get; set; }
     public UserId? LastModifiedBy { get; set; }
     public DateTimeOffset? LastModifiedDate { get; set; }
-    
-    public string GetInitials()
-    {
-        if (string.IsNullOrEmpty(Name))
-            return Name;
-
-        var nameSplit = Name
-            .Trim()
-            .Split([",", " "], StringSplitOptions.RemoveEmptyEntries);
-        
-        var initials = string.Empty;
-
-        foreach (var item in nameSplit)
-            initials += item.Substring(0, 1);
-
-        return initials.ToUpper();
-    }
 }

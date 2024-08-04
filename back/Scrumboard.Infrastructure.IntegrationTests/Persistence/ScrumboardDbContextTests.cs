@@ -1,5 +1,4 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Teams;
@@ -7,29 +6,16 @@ using Xunit;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
 
-[Collection("Database collection")]
-public class ScrumboardDbContextTests : IAsyncLifetime
+public sealed class ScrumboardDbContextTests(
+    DatabaseFixture databaseFixture) : PersistenceTestsBase(databaseFixture)
 {
-    private readonly DatabaseFixture _database;
-
-    public ScrumboardDbContextTests(DatabaseFixture database)
-    {
-        _database = database;
-    }
-
-    public async Task DisposeAsync() => await _database.ResetState();
-
-    public Task InitializeAsync() => Task.CompletedTask;
-
     [Fact]
-    public async void SaveChangesAsync_SetCreatedByProperty()
+    public async void SaveChangesAsync_should_set_auditable_properties()
     {
         // Arrange
-        var _currentUserService = "00000000-0000-0000-0000-000000000000"; // Value of the current user in DatabaseFixture
-        var testBoardName = "testBoard";
         var board = new BoardDao
         {
-            Name = testBoardName,
+            Name = "testBoard",
             BoardSetting = new BoardSettingDao
             {
                 Colour = Colour.Gray
@@ -39,14 +25,16 @@ public class ScrumboardDbContextTests : IAsyncLifetime
                 Name = "Team 1"
             }
         };
-
-        _database.SetDbContext();
-
+        
+        DbContext.Boards.Add(board);
+        
         // Act
-        _database.DbContext!.Boards.Add(board);
-        await _database.DbContext.SaveChangesAsync();
+        
+        await DbContext.SaveChangesAsync();
 
         // Assert
-        board.CreatedBy.Should().Be(_currentUserService);
+        board.CreatedBy
+            .Should()
+            .Be("00000000-0000-0000-0000-000000000000");  // Value of the current user in DatabaseFixture
     }
 }

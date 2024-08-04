@@ -175,8 +175,8 @@ public class ScrumboardDbContextInitializer(
 
         var boardSettings = new Collection<BoardSettingDao>
         {
-            new() { Colour = Colour.Violet, CardCoverImage = true, Subscribed = true },
-            new() { Colour = Colour.Yellow, }
+            new() { Colour = Colour.Violet },
+            new() { Colour = Colour.Yellow }
         };
 
         CardDao card1 = new()
@@ -290,7 +290,6 @@ public class ScrumboardDbContextInitializer(
             new()
             {
                 Name = "Scrumboard Frontend",
-                Uri = "scrumboard-frontend",
                 IsPinned = false,
                 Team = team,
                 ListBoards =
@@ -306,7 +305,6 @@ public class ScrumboardDbContextInitializer(
             new()
             {
                 Name = "Scrumboard Backend",
-                Uri = "scrumboard-backend",
                 IsPinned = true,
                 Team = team,
                 ListBoards = [listboards[4]],

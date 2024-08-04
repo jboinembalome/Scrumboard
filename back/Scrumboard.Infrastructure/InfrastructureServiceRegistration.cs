@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.FileExport;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Logging;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
@@ -17,7 +16,6 @@ using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 using Scrumboard.Infrastructure.Common;
 using Scrumboard.Infrastructure.FileExport;
 using Scrumboard.Infrastructure.Identity;
-using Scrumboard.Infrastructure.Logging;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Boards.Labels;
@@ -52,8 +50,6 @@ public static class InfrastructureServiceRegistration
             services.AddTransient<ICurrentDateService, CurrentDateService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient(typeof(ICsvExporter<>), typeof(CsvExporter<>));
-
-            services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
             
             
             // Boards

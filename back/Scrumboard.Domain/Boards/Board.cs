@@ -12,9 +12,7 @@ public sealed class Board
     public string Name { get; set; } = "Untitled Board";
     public string Uri { get; set; } = "untitled-board";
     public bool IsPinned { get; set; }
-    public Team Team { get; set; }
     public BoardSetting BoardSetting { get; set; }
-    public ICollection<ListBoard> ListBoards { get; set; }
     public UserId CreatedBy { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
     public UserId? LastModifiedBy { get; set; }

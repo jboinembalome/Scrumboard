@@ -23,10 +23,4 @@
     <ProjectReference Include="..\Scrumboard.Application\Scrumboard.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Boards\" />
-    <Folder Include="Mocks\" />
-    <Folder Include="Profile\" />
-  </ItemGroup>
-
 </Project>

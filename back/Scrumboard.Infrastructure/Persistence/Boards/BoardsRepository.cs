@@ -51,7 +51,7 @@ internal sealed class BoardsRepository(
         BoardId id, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Boards.FindAsync([id], cancellationToken)
+        var dao = await dbContext.Boards.FindAsync([(int)id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
         
         dbContext.Boards.Remove(dao);

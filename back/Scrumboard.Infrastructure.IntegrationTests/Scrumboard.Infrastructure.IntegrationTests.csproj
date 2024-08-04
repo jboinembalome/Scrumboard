@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" />
     <PackageReference Include="AutoMapper" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -24,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Scrumboard.Application\Scrumboard.Application.csproj" />
     <ProjectReference Include="..\Scrumboard.Infrastructure\Scrumboard.Infrastructure.csproj" />
+    <ProjectReference Include="..\Scrumboard.Shared.TestHelpers\Scrumboard.Shared.TestHelpers.csproj" />
   </ItemGroup>
 
 </Project>

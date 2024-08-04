@@ -13,7 +13,7 @@ public sealed class BoardDetailDto
     public TeamDto Team { get; set; }
     public BoardSettingDto BoardSetting { get; set; }
     public UserDto CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public UserDto? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

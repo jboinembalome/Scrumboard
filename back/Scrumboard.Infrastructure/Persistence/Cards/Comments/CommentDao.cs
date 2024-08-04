@@ -10,7 +10,7 @@ public sealed class CommentDao : IAuditableEntity
     public string Message { get; set; }
     public int CardId { get; set; }
     public string CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public string? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

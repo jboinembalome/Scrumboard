@@ -14,7 +14,7 @@ namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
 public class DatabaseFixture : IDisposable
 {
     private const string DEFAULT_SQL_CONNECTION = "Server=(localdb)\\mssqllocaldb;Database=ScrumboardTestDb;Trusted_Connection=True;MultipleActiveResultSets=true;";
-    private readonly Mock<IDateTime> _mockDateTime;
+    private readonly Mock<ICurrentDateService> _mockCurrentDateService;
     
     public readonly Mock<ICurrentUserService> MockCurrentUserService;
     public ScrumboardDbContext DbContext { get; private set; }
@@ -25,8 +25,8 @@ public class DatabaseFixture : IDisposable
         MockCurrentUserService = new Mock<ICurrentUserService>();
         MockCurrentUserService.Setup(m => m.UserId).Returns(currentUserService);
 
-        _mockDateTime = new Mock<IDateTime>();
-        _mockDateTime.Setup(m => m.Now).Returns(DateTime.Now);
+        _mockCurrentDateService = new Mock<ICurrentDateService>();
+        _mockCurrentDateService.Setup(m => m.Now).Returns(DateTimeOffset.Now);
     }  
 
     // public IAsyncRepository<T, TId> GetRepository<T, TId>() where T : class, IEntity<TId>
@@ -67,7 +67,7 @@ public class DatabaseFixture : IDisposable
     {
         var options = CreateNewContextOptions();
         
-        DbContext = new ScrumboardDbContext(options, MockCurrentUserService.Object, _mockDateTime.Object);
+        DbContext = new ScrumboardDbContext(options, MockCurrentUserService.Object, _mockCurrentDateService.Object);
         DbContext.Database.Migrate();
     }
 

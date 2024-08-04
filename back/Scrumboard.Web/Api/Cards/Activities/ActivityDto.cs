@@ -7,7 +7,7 @@ namespace Scrumboard.Web.Api.Cards.Activities;
 public sealed class ActivityDto
 {
     public int Id { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public string ActivityType { get; set; }
     public ActivityFieldDto ActivityField { get; set; }
     public string OldValue { get; set; }

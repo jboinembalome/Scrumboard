@@ -92,7 +92,7 @@ public class RepositoryMocks
                             Name = "Fix splash screen bugs",
                             Description = "",
                             Suscribed = true,
-                            DueDate = new DateTime(2021, 5, 15),
+                            DueDate = new DateTimeOffset(new DateTime(2021, 5, 15)),
                             LabelIds = new Collection<LabelId> { labelsForFrontEndScrumboard[1].Id }
                         },
                     }

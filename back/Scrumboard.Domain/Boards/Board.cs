@@ -16,9 +16,9 @@ public sealed class Board
     public BoardSetting BoardSetting { get; set; }
     public ICollection<ListBoard> ListBoards { get; set; }
     public UserId CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public UserId? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
     
     public string GetInitials()
     {

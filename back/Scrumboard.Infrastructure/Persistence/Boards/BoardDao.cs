@@ -16,7 +16,7 @@ public sealed class BoardDao : IAuditableEntity
     public BoardSettingDao BoardSetting { get; set; }
     public ICollection<ListBoardDao> ListBoards { get; set; }
     public string CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public string? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

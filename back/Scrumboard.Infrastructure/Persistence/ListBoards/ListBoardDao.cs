@@ -13,7 +13,7 @@ public sealed class ListBoardDao : IAuditableEntity
     public int BoardId { get; set; }
     public ICollection<CardDao> Cards { get; set; }
     public string CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public string? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

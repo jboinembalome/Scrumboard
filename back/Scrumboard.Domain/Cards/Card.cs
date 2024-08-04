@@ -12,13 +12,13 @@ public sealed class Card
     public string Name { get; set; }
     public string? Description { get; set; }
     public bool Suscribed { get; set; }
-    public DateTime? DueDate { get; set; }
+    public DateTimeOffset? DueDate { get; set; }
     public int Position { get; set; }
     public ListBoardId ListBoardId { get; set; }
     public ICollection<LabelId> LabelIds { get; set; }
     public ICollection<UserId> AssigneeIds { get; set; }
     public UserId CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public UserId? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

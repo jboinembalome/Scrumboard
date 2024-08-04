@@ -17,7 +17,7 @@ namespace Scrumboard.Infrastructure.Persistence;
 public class ScrumboardDbContext(
     DbContextOptions options,
     ICurrentUserService currentUserService,
-    IDateTime dateTime)
+    ICurrentDateService currentDateService)
     : IdentityDbContext<ApplicationUser>(options)
 {
     public DbSet<ActivityDao> Activities { get; set; }
@@ -46,12 +46,12 @@ public class ScrumboardDbContext(
                     if (entry.Entity.CreatedBy is null)
                     {
                         entry.Entity.CreatedBy = currentUserService.UserId;
-                        entry.Entity.CreatedDate = dateTime.Now;
+                        entry.Entity.CreatedDate = currentDateService.Now;
                     }
                     break;
                 case { State: EntityState.Modified }:
                     entry.Entity.LastModifiedBy = currentUserService.UserId;
-                    entry.Entity.LastModifiedDate = dateTime.Now;
+                    entry.Entity.LastModifiedDate = currentDateService.Now;
                     break;
             }
         }

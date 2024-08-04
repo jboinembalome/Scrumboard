@@ -12,14 +12,14 @@ public sealed class CardDao : IAuditableEntity
     public string Name { get; set; }
     public string? Description { get; set; }
     public bool Suscribed { get; set; }
-    public DateTime? DueDate { get; set; }
+    public DateTimeOffset? DueDate { get; set; }
     public int Position { get; set; }
     public int ListBoardId { get; set; }
     public ICollection<LabelDao> Labels { get; set; }
     public ICollection<ChecklistDao> Checklists { get; set; }
     public ICollection<CardAssigneeDao> Assignees { get; set; }
     public string CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public string? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

@@ -14,7 +14,7 @@ public sealed class ListBoard
     public BoardId BoardId { get; set; }
     public ICollection<Card> Cards { get; set; }
     public UserId CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public UserId? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

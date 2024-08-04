@@ -10,7 +10,7 @@ public abstract class CardInputBase
 {
     public string Name { get; set; }
     public string? Description { get; set; }
-    public DateTime? DueDate { get; set; }
+    public DateTimeOffset? DueDate { get; set; }
     public int Position { get; set; }
     public ListBoardId ListBoardId { get; set; }
     public IEnumerable<LabelId> LabelIds { get; set; }

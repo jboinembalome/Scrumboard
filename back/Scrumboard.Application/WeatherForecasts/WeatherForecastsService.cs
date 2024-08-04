@@ -17,7 +17,7 @@ internal sealed class WeatherForecastsService : IWeatherForecastsService
         var weatherForecasts = Enumerable.Range(1, 5)
             .Select(index => new WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
+                Date = DateTimeOffset.Now.AddDays(index),
                 TemperatureC = random.Next(-20, 55),
                 Summary = Summaries[random.Next(Summaries.Length)]
             });

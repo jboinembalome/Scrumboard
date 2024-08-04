@@ -8,8 +8,8 @@ public sealed class CommentDto
 {
     public int Id { get; set; }
     public string Message { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
     public UserDto User { get; set; }
     public int CardId { get; set; }
 }

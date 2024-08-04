@@ -10,7 +10,7 @@ public sealed class Comment
     public string Message { get; set; }
     public CardId CardId { get; set; }
     public UserId CreatedBy { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
     public UserId? LastModifiedBy { get; set; }
-    public DateTime? LastModifiedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

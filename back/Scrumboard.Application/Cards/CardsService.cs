@@ -117,13 +117,13 @@ internal sealed class CardsService(
         if (oldCard.DueDate != cardEdition.DueDate)
         {
             if (!oldCard.DueDate.HasValue && cardEdition.DueDate.HasValue)
-                activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.DueDate, string.Empty, cardEdition.DueDate.Value.ToShortDateString()));
+                activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.DueDate, string.Empty, cardEdition.DueDate.Value.Date.ToShortDateString()));
 
             if (oldCard.DueDate.HasValue && !cardEdition.DueDate.HasValue)
-                activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), string.Empty));
+                activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.DueDate, oldCard.DueDate.Value.Date.ToShortDateString(), string.Empty));
 
             if (oldCard.DueDate.HasValue && cardEdition.DueDate.HasValue && oldCard.DueDate.Value != cardEdition.DueDate.Value)
-                activities.Add(new Activity(cardEdition.Id, ActivityType.Updated, ActivityField.DueDate, oldCard.DueDate.Value.ToShortDateString(), cardEdition.DueDate.Value.ToShortDateString()));
+                activities.Add(new Activity(cardEdition.Id, ActivityType.Updated, ActivityField.DueDate, oldCard.DueDate.Value.Date.ToShortDateString(), cardEdition.DueDate.Value.Date.ToShortDateString()));
         }
 
         #endregion

@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using AutoMapper.EquivalencyExpression;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Abstractions.ListBoards;
@@ -24,13 +23,7 @@ public static class ApplicationServiceRegistration
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddAutoMapper(cfg =>
-        {
-            // Configuration code
-            cfg.AddCollectionMappers();
-        }, Assembly.GetExecutingAssembly());
-        
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
         
         // Boards
         services

@@ -1,10 +1,11 @@
 using AutoFixture;
 using AutoFixture.Kernel;
 using Scrumboard.Domain.Common;
+using Scrumboard.Shared.TestHelpers.Fixtures;
 
-namespace Scrumboard.Shared.TestHelpers.Fixtures;
+namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Users;
 
-public sealed class UserIdCustomization : ICustomization
+public sealed class UserIdAppliedCustomization : IAutoAppliedCustomization
 {
     public void Customize(IFixture fixture)
     {

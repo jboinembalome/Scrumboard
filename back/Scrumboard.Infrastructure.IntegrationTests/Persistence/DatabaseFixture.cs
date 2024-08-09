@@ -13,20 +13,28 @@ public sealed class DatabaseFixture : IDisposable
 {
     private const string DEFAULT_SQL_CONNECTION = "Server=(localdb)\\mssqllocaldb;Database=ScrumboardTestDb;Trusted_Connection=True;MultipleActiveResultSets=true;";
     
-    private readonly ICurrentDateService _currentDateService;
-    private readonly ICurrentUserService _currentUserService;
-    
-    public ScrumboardDbContext DbContext { get; private set; }
+    private readonly DbContextOptions<ScrumboardDbContext> _dbContextOptions;
+    private readonly ScrumboardDbContext _dbContext;
 
+    private bool _disposed;
+    
+    public Mock<ICurrentUserService> CurrentUserServiceMock { get; }
+    public Mock<ICurrentDateService> CurrentDateServiceMock { get; }
+    
     public DatabaseFixture()
     {
-        _currentUserService = Mock.Of<ICurrentUserService>();
-        SetupCurrentUserService();
-
-        _currentDateService = Mock.Of<ICurrentDateService>();
-        SetupCurrentDateService();
-
-        SetupDbContext();
+        CurrentDateServiceMock = new Mock<ICurrentDateService>();
+        InitializeCurrentDate(DateTimeOffset.Now);
+        
+        CurrentUserServiceMock = new Mock<ICurrentUserService>();
+        InitializeCurrentUser("00000000-0000-0000-0000-000000000000");
+        
+        var serviceProvider = ConfigureServicesInternal()
+            .AddEntityFrameworkSqlServer()
+            .BuildServiceProvider();
+        
+        _dbContextOptions = GetDbContextOptions(serviceProvider);
+        _dbContext = CreateDbContext();
     }
     
     public static async Task ResetState()
@@ -39,44 +47,56 @@ public sealed class DatabaseFixture : IDisposable
         await checkpoint.ResetAsync(DEFAULT_SQL_CONNECTION);
     }
     
-    private void SetupDbContext()
+    public ScrumboardDbContext CreateDbContext()
     {
-        var options = CreateNewContextOptions();
+        var dbContext = new ScrumboardDbContext(_dbContextOptions, CurrentUserServiceMock.Object, CurrentDateServiceMock.Object);
         
-        DbContext = new ScrumboardDbContext(options, _currentUserService, _currentDateService);
-        DbContext.Database.Migrate();
+        dbContext.Database.Migrate();
+        
+        return dbContext;
     }
-
+    
     public void Dispose()
     {
-        DbContext.Database.EnsureDeleted();
+        Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
-    
-    private void SetupCurrentDateService() 
-        => Mock.Get(_currentDateService)
-            .Setup(m => m.Now)
-            .Returns(DateTimeOffset.Now);
 
-    private void SetupCurrentUserService() 
-        => Mock.Get(_currentUserService)
-            .Setup(m => m.UserId)
-            .Returns("00000000-0000-0000-0000-000000000000");
-    
-    private static DbContextOptions<ScrumboardDbContext> CreateNewContextOptions()
+    private void Dispose(bool disposing)
     {
-        // Create a fresh service provider, and therefore a fresh
-        // Sql Server database instance.
-        var serviceProvider = new ServiceCollection()
-            .AddEntityFrameworkSqlServer()
-            .BuildServiceProvider();
+        if (_disposed) return;
 
-        var builder = new DbContextOptionsBuilder<ScrumboardDbContext>();
-        
-        builder
-            .UseSqlServer(DEFAULT_SQL_CONNECTION)
-            .UseInternalServiceProvider(serviceProvider);
+        if (disposing)
+        {
+            _dbContext.Database.EnsureDeleted();
+            _dbContext.Dispose();
+        }
 
-        return builder.Options;
+        _disposed = true;
     }
+    
+    private ServiceCollection ConfigureServicesInternal()
+    {
+        var services = new ServiceCollection();
+
+        services.AddSingleton(CurrentUserServiceMock.Object);
+        
+        return services;
+    }
+    
+    private static DbContextOptions<ScrumboardDbContext> GetDbContextOptions(IServiceProvider serviceProvider) 
+        => new DbContextOptionsBuilder<ScrumboardDbContext>()
+            .UseSqlServer(DEFAULT_SQL_CONNECTION)
+            .UseInternalServiceProvider(serviceProvider)
+            .Options;
+    
+    private void InitializeCurrentDate(DateTimeOffset dateTimeOffset) 
+        => CurrentDateServiceMock
+            .Setup(m => m.Now)
+            .Returns(dateTimeOffset);
+    
+    private void InitializeCurrentUser(string userId) 
+        => CurrentUserServiceMock
+            .Setup(m => m.UserId)
+            .Returns(userId);
 }

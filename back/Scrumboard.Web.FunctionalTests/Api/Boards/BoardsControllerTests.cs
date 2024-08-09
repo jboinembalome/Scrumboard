@@ -65,11 +65,11 @@ public class BoardsControllerTests : IClassFixture<CustomWebApplicationFactoryFi
         response.EnsureSuccessStatusCode();
 
         var responseString = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<BoardDetailDto>(responseString);
+        var result = JsonConvert.DeserializeObject<BoardDto>(responseString);
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        result.Should().BeOfType<BoardDetailDto>();
+        result.Should().BeOfType<BoardDto>();
         result.Should().NotBeNull();
     }
 

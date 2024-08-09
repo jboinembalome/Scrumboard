@@ -39,7 +39,7 @@ public class BoardsController(
     /// <returns></returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<BoardDetailDto>> Get(
+    public async Task<ActionResult<BoardDto>> Get(
         int id, 
         CancellationToken cancellationToken)
     {
@@ -56,7 +56,7 @@ public class BoardsController(
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult<BoardDetailDto>> Create(
+    public async Task<ActionResult<BoardDto>> Create(
         BoardCreationDto boardCreationDto, 
         CancellationToken cancellationToken)
     {
@@ -79,7 +79,7 @@ public class BoardsController(
     [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<BoardDetailDto>> Update(
+    public async Task<ActionResult<BoardDto>> Update(
         int id, 
         BoardEditionDto boardEditionDto,
         CancellationToken cancellationToken)

@@ -7,5 +7,5 @@ public sealed class BoardEditionDto
     public int Id { get; set; }
     public string Name { get; set; }
     public bool IsPinned { get; set; }
-    public BoardSettingDto BoardSetting { get; set; }
+    public BoardSettingEditionDto BoardSetting { get; set; }
 }

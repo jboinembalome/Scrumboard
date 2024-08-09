@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Infrastructure.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Shared.TestHelpers", "Scrumboard.Shared.TestHelpers\Scrumboard.Shared.TestHelpers.csproj", "{29444D68-7B00-4727-BBA3-747233FA7C8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrumboard.Web.UnitTests", "Scrumboard.Web.UnitTests\Scrumboard.Web.UnitTests.csproj", "{6EC72965-2A4F-4826-AE32-42F1EC60265D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{29444D68-7B00-4727-BBA3-747233FA7C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29444D68-7B00-4727-BBA3-747233FA7C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29444D68-7B00-4727-BBA3-747233FA7C8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EC72965-2A4F-4826-AE32-42F1EC60265D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC72965-2A4F-4826-AE32-42F1EC60265D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC72965-2A4F-4826-AE32-42F1EC60265D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC72965-2A4F-4826-AE32-42F1EC60265D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +120,7 @@ Global
 		{56D0356C-1935-48B0-98F9-1E4BB48C0AF7} = {8476D18A-BE91-41BF-A448-0D897A1D5FEF}
 		{273687BB-2B04-4F77-B0AF-739746180FA3} = {B8D6C760-D88D-443C-8778-540472E6C025}
 		{29444D68-7B00-4727-BBA3-747233FA7C8F} = {8476D18A-BE91-41BF-A448-0D897A1D5FEF}
+		{6EC72965-2A4F-4826-AE32-42F1EC60265D} = {FC400F14-77F3-4B40-B21D-FBBBC53B1474}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC39ECCE-AB63-4FAF-AC84-4AC6531F35A4}

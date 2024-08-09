@@ -36,6 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).FunctionalTests" />
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Pages\Error.cshtml" />
     <None Include="Pages\Shared\_LoginPartial.cshtml" />
     <None Include="Pages\_ViewImports.cshtml" />

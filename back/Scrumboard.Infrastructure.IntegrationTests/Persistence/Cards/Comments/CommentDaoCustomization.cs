@@ -4,7 +4,7 @@ using Scrumboard.Shared.TestHelpers.Fixtures;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Cards.Comments;
 
-public sealed class CommentDaoAppliedCustomization : IAutoAppliedCustomization
+public sealed class CommentDaoCustomization : IAutoAppliedCustomization
 {
     public void Customize(IFixture fixture)
     {

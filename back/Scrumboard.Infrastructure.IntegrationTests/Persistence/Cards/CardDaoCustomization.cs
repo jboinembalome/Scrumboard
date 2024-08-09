@@ -4,7 +4,7 @@ using Scrumboard.Shared.TestHelpers.Fixtures;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Cards;
 
-public sealed class CardDaoAppliedCustomization : IAutoAppliedCustomization
+public sealed class CardDaoCustomization : IAutoAppliedCustomization
 {
     public void Customize(IFixture fixture)
     {

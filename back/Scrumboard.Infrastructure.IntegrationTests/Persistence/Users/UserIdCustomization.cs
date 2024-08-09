@@ -5,7 +5,7 @@ using Scrumboard.Shared.TestHelpers.Fixtures;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Users;
 
-public sealed class UserIdAppliedCustomization : IAutoAppliedCustomization
+public sealed class UserIdCustomization : IAutoAppliedCustomization
 {
     public void Customize(IFixture fixture)
     {

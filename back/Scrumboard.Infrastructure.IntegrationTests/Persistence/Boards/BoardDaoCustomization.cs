@@ -4,12 +4,13 @@ using Scrumboard.Shared.TestHelpers.Fixtures;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Boards;
 
-public sealed class BoardSettingDaoAppliedCustomization : IAutoAppliedCustomization
+public sealed class BoardDaoCustomization : IAutoAppliedCustomization
 {
     public void Customize(IFixture fixture)
     {
-        fixture.Customize<BoardSettingDao>(transform => transform
+        fixture.Customize<BoardDao>(transform => transform
             .Without(x => x.Id)
-            .Without(x => x.BoardId));
+            .Without(x => x.CreatedBy)
+            .Without(x => x.LastModifiedBy));
     }
 }

@@ -4,7 +4,7 @@ using Scrumboard.Shared.TestHelpers.Fixtures;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Boards.Labels;
 
-public sealed class LabelDaoAppliedCustomization : IAutoAppliedCustomization
+public sealed class LabelDaoCustomization : IAutoAppliedCustomization
 {
     public void Customize(IFixture fixture)
     {

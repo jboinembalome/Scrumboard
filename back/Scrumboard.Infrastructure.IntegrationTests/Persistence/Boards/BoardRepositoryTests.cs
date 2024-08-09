@@ -98,12 +98,9 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
         // Arrange
         var boardDao = await Given_a_board();
         var boardId = (BoardId)boardDao.Id;
-        var boardSettingId = (BoardSettingId)boardDao.BoardSetting.Id;
         
         var boardEdition = _fixture.Create<BoardEdition>();
         boardEdition.Id = boardId;
-        boardEdition.BoardSetting.Id = boardSettingId;
-        boardEdition.BoardSetting.BoardId = boardId;
         
         // Act
         await _sut.UpdateAsync(boardEdition);
@@ -118,7 +115,6 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
         updatedBoardDao.IsPinned.Should().Be(boardEdition.IsPinned);
 
         updatedBoardDao.BoardSetting.Should().NotBeNull();
-        updatedBoardDao.BoardSetting.Id.Should().Be(boardEdition.BoardSetting.Id);
         updatedBoardDao.BoardSetting.BoardId.Should().Be(updatedBoardDao.BoardSetting.BoardId);
         updatedBoardDao.BoardSetting.Colour.Should().Be(boardEdition.BoardSetting.Colour);
     }

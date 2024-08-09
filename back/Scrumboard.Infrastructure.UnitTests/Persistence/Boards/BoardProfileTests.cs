@@ -81,8 +81,6 @@ public sealed class BoardProfileTests
             IsPinned = boardEdition.IsPinned,
             BoardSetting = new BoardSettingDao
             {
-                Id = boardEdition.BoardSetting.Id,
-                BoardId = boardEdition.BoardSetting.BoardId,
                 Colour = boardEdition.BoardSetting.Colour
             }
         };
@@ -113,20 +111,18 @@ public sealed class BoardProfileTests
     }
     
     [Fact]
-    public void Should_map_BoardSetting_to_BoardSettingDao()
+    public void Should_map_BoardSettingEdition_to_BoardSettingDao()
     {
         // Arrange
-        var boardSetting = _fixture.Create<BoardSetting>();
+        var boardSettingEdition = _fixture.Create<BoardSettingEdition>();
         
         // Act
-        var boardSettingDao = _mapper.Map<BoardSettingDao>(boardSetting);
+        var boardSettingDao = _mapper.Map<BoardSettingDao>(boardSettingEdition);
         
         // Assert
         var expectedBoardSettingDao = new BoardSettingDao
         {
-            Id = boardSetting.Id,
-            BoardId = boardSetting.BoardId,
-            Colour = boardSetting.Colour
+            Colour = boardSettingEdition.Colour
         };
 
         boardSettingDao

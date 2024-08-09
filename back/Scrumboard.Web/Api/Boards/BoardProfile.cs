@@ -13,7 +13,7 @@ internal sealed class BoardProfile : Profile
         CreateMap<BoardEditionDto, BoardEdition>();
         
         CreateMap<BoardSettingCreationDto, BoardSetting>();
-        CreateMap<BoardSettingDto, BoardSetting>();
+        CreateMap<BoardSettingEditionDto, BoardSetting>();
         
         // Read
         CreateMap<Board, BoardDto>();

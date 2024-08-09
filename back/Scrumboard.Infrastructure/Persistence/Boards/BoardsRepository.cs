@@ -61,8 +61,5 @@ internal sealed class BoardsRepository(
 
     private IQueryable<BoardDao> Query()
         => dbContext.Boards
-            .AsSplitQuery()
-            .Include(b => b.BoardSetting)
-            .Include(b => b.ListBoards)
-                .ThenInclude(l => l.Cards);
+            .Include(b => b.BoardSetting);
 }

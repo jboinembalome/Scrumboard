@@ -63,8 +63,7 @@ internal sealed class CardsService(
             .OrThrowResourceNotFoundAsync(cardEdition.Id);
         
         await cardEditionValidator.ValidateAndThrowAsync(cardEdition, cancellationToken);
-
-        // TODO: Update Activities (no more included by cardRepository.TryGetByIdAsync)
+        
         var newActivities = await GetNewActivities(cardToUpdate, cardEdition, cancellationToken);
 
         if (newActivities.Count > 0)

@@ -4,6 +4,7 @@ using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
+using Scrumboard.SharedKernel.Entities;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Application.Boards;

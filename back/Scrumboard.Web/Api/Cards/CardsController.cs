@@ -115,12 +115,12 @@ public class CardsController(
         Card card,
         CancellationToken cancellationToken)
     {
-        if (card.LabelIds.Count == 0)
+        if (card.Labels.Count == 0)
         {
             return [];
         }
         
-        var labels = await labelsService.GetAsync(card.LabelIds, cancellationToken);
+        var labels = await labelsService.GetAsync(card.Labels.Select(x => x.LabelId), cancellationToken);
         
         return mapper.Map<IEnumerable<LabelDto>>(labels);
     }
@@ -129,12 +129,12 @@ public class CardsController(
         Card card,
         CancellationToken cancellationToken)
     {
-        if (card.AssigneeIds.Count == 0)
+        if (card.Assignees.Count == 0)
         {
             return [];
         }
         
-        var users = await identityService.GetListAsync(card.AssigneeIds, cancellationToken);
+        var users = await identityService.GetListAsync(card.Assignees.Select(x => x.AssigneeId), cancellationToken);
         
         return mapper.Map<IEnumerable<UserDto>>(users);
     }

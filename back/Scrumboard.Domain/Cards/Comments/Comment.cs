@@ -1,16 +1,12 @@
-﻿using Scrumboard.Domain.Common;
+﻿using Scrumboard.SharedKernel.Entities;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
 namespace Scrumboard.Domain.Cards.Comments;
 
-public sealed class Comment
+public sealed class Comment : AuditableEntityBase<CommentId>
 {
-    public CommentId Id { get; set; }
+    
     public string Message { get; set; }
     public CardId CardId { get; set; }
-    public UserId CreatedBy { get; set; }
-    public DateTimeOffset CreatedDate { get; set; }
-    public UserId? LastModifiedBy { get; set; }
-    public DateTimeOffset? LastModifiedDate { get; set; }
 }

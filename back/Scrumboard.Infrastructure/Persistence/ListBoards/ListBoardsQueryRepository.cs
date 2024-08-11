@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
@@ -7,8 +6,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 namespace Scrumboard.Infrastructure.Persistence.ListBoards;
 
 internal sealed class ListBoardsQueryRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : IListBoardsQueryRepository
+    ScrumboardDbContext dbContext) : IListBoardsQueryRepository
 {
     public async Task<IReadOnlyList<ListBoard>> GetByBoardIdAsync(
         BoardId boardId, 
@@ -25,25 +23,19 @@ internal sealed class ListBoardsQueryRepository(
                 .Include(b => b.Cards)
                     .ThenInclude(c => c.Assignees);
         }
-        
-        var daos = await query
+
+        return await query
             .Where(x => x.BoardId == boardId)
             .ToListAsync(cancellationToken);
-
-        return mapper.Map<IReadOnlyList<ListBoard>>(daos);
     }
 
     public async Task<ListBoard?> TryGetByIdAsync(
         ListBoardId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await Query()
+        CancellationToken cancellationToken = default) 
+        => await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-        return mapper.Map<ListBoard>(dao);
-    }
-    
-    private IQueryable<ListBoardDao> Query() 
+    private IQueryable<ListBoard> Query() 
         => dbContext.ListBoards
             .AsNoTracking();
 }

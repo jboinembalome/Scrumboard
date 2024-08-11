@@ -127,37 +127,37 @@ internal sealed class CardsService(
         #endregion
 
         #region Member
-        if (!oldCard.AssigneeIds.Any() && cardEdition.AssigneeIds.Any())
+        if (!oldCard.Assignees.Any() && cardEdition.AssigneeIds.Any())
         {
             var firstAssigneeId = cardEdition.AssigneeIds.First();
             var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssignee.FirstName} {firstAssignee.LastName}"));
         }
 
-        if (oldCard.AssigneeIds.Any() && !cardEdition.AssigneeIds.Any())
+        if (oldCard.Assignees.Any() && !cardEdition.AssigneeIds.Any())
         {
-            var firstAssigneeId = oldCard.AssigneeIds.First();
+            var firstAssigneeId = oldCard.Assignees.First().AssigneeId;
             var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
         }
 
-        if (oldCard.AssigneeIds.Count < cardEdition.AssigneeIds.Count())
+        if (oldCard.Assignees.Count < cardEdition.AssigneeIds.Count())
         {
-            var firstAssigneeId = cardEdition.AssigneeIds.First(x => !oldCard.AssigneeIds.Contains(x));
+            var firstAssigneeId = cardEdition.AssigneeIds.First(x => oldCard.Assignees.All(y => y.AssigneeId != x));
             var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssignee.FirstName} {firstAssignee.LastName}"));
         }
 
-        if (oldCard.AssigneeIds.Count > cardEdition.AssigneeIds.Count())
+        if (oldCard.Assignees.Count > cardEdition.AssigneeIds.Count())
         {
-            var firstAssigneeId = oldCard.AssigneeIds.First(l => !cardEdition.AssigneeIds.Select(x => x).Contains(l));
+            var firstAssigneeId = oldCard.Assignees.First(l => !cardEdition.AssigneeIds.Select(x => x).Contains(l.AssigneeId)).AssigneeId;
             var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
         }
         #endregion
         
         #region Label
-        if (!oldCard.LabelIds.Any() && cardEdition.LabelIds.Any())
+        if (!oldCard.Labels.Any() && cardEdition.LabelIds.Any())
         {
             var labelId = cardEdition.LabelIds.First();
             var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
@@ -166,48 +166,48 @@ internal sealed class CardsService(
             activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
         }
 
-        if (oldCard.LabelIds.Any() && !cardEdition.LabelIds.Any())
+        if (oldCard.Labels.Any() && !cardEdition.LabelIds.Any())
         {
-            var labelId = oldCard.LabelIds.First();
+            var labelId = oldCard.Labels.First().LabelId;
             var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
             ArgumentNullException.ThrowIfNull(label);
             
             activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
         }
 
-        if (oldCard.LabelIds.Count < cardEdition.LabelIds.Count())
+        if (oldCard.Labels.Count < cardEdition.LabelIds.Count())
         {
-            var labelId = cardEdition.LabelIds.First(l => !oldCard.LabelIds.Select(x => x).Contains(l));
+            var labelId = cardEdition.LabelIds.First(l => !oldCard.Labels.Select(x => x.LabelId).Contains(l));
             var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
             ArgumentNullException.ThrowIfNull(label);
             
             activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
         }
 
-        if (oldCard.LabelIds.Count > cardEdition.LabelIds.Count())
+        if (oldCard.Labels.Count > cardEdition.LabelIds.Count())
         {
-            var labelId = oldCard.LabelIds.First(l => !cardEdition.LabelIds.Select(x => x).Contains(l));
+            var labelId = oldCard.Labels.First(l => !cardEdition.LabelIds.Select(x => x).Contains(l.LabelId)).LabelId;
             var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
             ArgumentNullException.ThrowIfNull(label);
             
             activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
         }
 
-        if (oldCard.LabelIds.Any() && cardEdition.LabelIds.Any() && oldCard.LabelIds.Count == cardEdition.LabelIds.Count())
+        if (oldCard.Labels.Any() && cardEdition.LabelIds.Any() && oldCard.Labels.Count == cardEdition.LabelIds.Count())
         {
-            foreach (var oldLabelId in oldCard.LabelIds)
+            foreach (var oldLabelId in oldCard.Labels)
             {
-                var updateLabelId = (LabelId?)cardEdition.LabelIds.FirstOrDefault(x => x == oldLabelId);
+                var updateLabelId = (LabelId?)cardEdition.LabelIds.FirstOrDefault(x => x == oldLabelId.LabelId);
                 if (updateLabelId is null)
                     continue;
 
-                var oldLabel = await labelsRepository.TryGetByIdAsync(oldLabelId, cancellationToken);
+                var oldLabel = await labelsRepository.TryGetByIdAsync(oldLabelId.LabelId, cancellationToken);
                 ArgumentNullException.ThrowIfNull(oldLabel);
                 
                 var updateLabel = await labelsRepository.TryGetByIdAsync(updateLabelId.Value, cancellationToken);
                 ArgumentNullException.ThrowIfNull(updateLabel);
                 
-                if (oldLabelId != updateLabelId)
+                if (oldLabelId.LabelId != updateLabelId)
                     activities.Add(new Activity(cardEdition.Id, ActivityType.Updated, ActivityField.Label, oldLabel.Name, updateLabel.Name));
             }
         }

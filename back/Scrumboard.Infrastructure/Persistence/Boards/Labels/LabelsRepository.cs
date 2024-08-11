@@ -7,8 +7,8 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
 internal sealed class LabelsRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : ILabelsRepository
+    IMapper mapper,
+    ScrumboardDbContext dbContext) : ILabelsRepository
 {
     public async Task<IReadOnlyList<Label>> GetAsync(
         IEnumerable<LabelId> labelIds,
@@ -23,58 +23,52 @@ internal sealed class LabelsRepository(
         {
             return [];
         }
-
-        var daos = await dbContext.Labels
+        
+        return await dbContext.Labels
             .Where(x => idValues.Contains(x.Id))
             .ToListAsync(cancellationToken);
-
-        return mapper.Map<IReadOnlyList<Label>>(daos);
     }
 
     public async Task<Label?> TryGetByIdAsync(
         LabelId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await dbContext.Labels.FindAsync([id], cancellationToken);
-
-        return mapper.Map<Label>(dao);
-    }
+        CancellationToken cancellationToken = default) 
+        => await dbContext.Labels.FindAsync([id], cancellationToken);
 
     public async Task<Label> AddAsync(
         LabelCreation labelCreation, 
         CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<LabelDao>(labelCreation);
+        var label = mapper.Map<Label>(labelCreation);
 
-        dbContext.Labels.Add(dao);
+        dbContext.Labels.Add(label);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<Label>(dao);
+        return label;
     }
 
     public async Task<Label> UpdateAsync(
         LabelEdition labelEdition, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Labels.FindAsync([labelEdition.Id], cancellationToken)
+        var label = await dbContext.Labels.FindAsync([labelEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
 
-        mapper.Map(labelEdition, dao);
+        mapper.Map(labelEdition, label);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<Label>(dao);
+        return label;
     }
 
     public async Task DeleteAsync(
         LabelId id, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Labels.FindAsync([id], cancellationToken)
+        var label = await dbContext.Labels.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
 
-        dbContext.Labels.Remove(dao);
+        dbContext.Labels.Remove(label);
 
         await dbContext.SaveChangesAsync(cancellationToken);
     }

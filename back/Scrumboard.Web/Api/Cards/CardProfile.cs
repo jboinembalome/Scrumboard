@@ -19,11 +19,11 @@ internal sealed class CardProfile : Profile
         
         // Read
         CreateMap<Card, CardDto>()
-            .ForMember(dest => dest.Labels, opt => opt.MapFrom(src => src.LabelIds))
-            .ForMember(dest => dest.Assignees, opt => opt.MapFrom(src => src.AssigneeIds));
+            .ForMember(dest => dest.Labels, opt => opt.MapFrom(src => src.Labels))
+            .ForMember(dest => dest.Assignees, opt => opt.MapFrom(src => src.Assignees));
 
         CreateMap<Card, CardDetailDto>()
-            .ForMember(dest => dest.Labels, opt => opt.MapFrom(src => src.LabelIds))
-            .ForMember(dest => dest.Assignees, opt => opt.MapFrom(src => src.AssigneeIds));
+            .ForMember(dest => dest.Labels, opt => opt.MapFrom(src => src.Labels))
+            .ForMember(dest => dest.Assignees, opt => opt.MapFrom(src => src.Assignees));
     }
 }

@@ -14,13 +14,13 @@ internal sealed class ActivitiesQueryRepository(
         CardId cardId, 
         CancellationToken cancellationToken = default)
     {
-        var daos = await dbContext.Activities
+        var activities = await dbContext.Activities
             .AsNoTracking()
             .Where(x => x.CardId == cardId)
             .ToListAsync(cancellationToken);
 
-        return daos.Count > 0 
-            ? mapper.Map<IReadOnlyList<Activity>>(daos)  
+        return activities.Count > 0 
+            ? mapper.Map<IReadOnlyList<Activity>>(activities)  
             : [];
     }
 }

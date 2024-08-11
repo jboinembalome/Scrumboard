@@ -5,12 +5,12 @@ using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Common;
-using Scrumboard.Infrastructure.Persistence.Boards;
-using Scrumboard.Infrastructure.Persistence.Cards;
-using Scrumboard.Infrastructure.Persistence.ListBoards;
-using Scrumboard.Infrastructure.Persistence.Teams;
-using Scrumboard.Infrastructure.Persistence.Boards.Labels;
+using Scrumboard.Domain.ListBoards;
+using Scrumboard.Domain.Teams;
+using Scrumboard.SharedKernel.Entities;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
@@ -34,10 +34,10 @@ public class ScrumboardDbContextInitializer(
     UserManager<ApplicationUser> userManager,
     RoleManager<IdentityRole> roleManager)
 {
-    private const string UserId = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private const string UserId2 = "633f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private const string UserId3 = "635f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private const string UserId4 = "637f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private readonly UserId _userId = (UserId)"533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private readonly UserId _userId2 = (UserId)"633f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private readonly UserId _userId3 = (UserId)"635f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private readonly UserId _userId4 = (UserId)"637f27ad-d3e8-4fe7-9259-ee4ef713dbea";
 
     public async Task InitialiseAsync()
     {
@@ -76,7 +76,7 @@ public class ScrumboardDbContextInitializer(
         await SeedSampleDataAsync(context);
     }
 
-    private static async Task SeedDefaultUserAsync(
+    private async Task SeedDefaultUserAsync(
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
@@ -84,7 +84,7 @@ public class ScrumboardDbContextInitializer(
         
         var user = new ApplicationUser
         {
-            Id = UserId,
+            Id = _userId.Value,
             FirstName = "Jimmy",
             LastName = "Boinembalome",
             UserName = "adherent@localhost",
@@ -94,7 +94,7 @@ public class ScrumboardDbContextInitializer(
         };
         var user2 = new ApplicationUser
         {
-            Id = UserId2,
+            Id = _userId2,
             FirstName = "Guyliane",
             LastName = "De Jesus Pimenta",
             UserName = "adherent2@localhost",
@@ -104,7 +104,7 @@ public class ScrumboardDbContextInitializer(
         };
         var user3 = new ApplicationUser
         {
-            Id = UserId3,
+            Id = _userId3,
             FirstName = "Corentin",
             LastName = "Hugot",
             UserName = "adherent3@localhost",
@@ -114,7 +114,7 @@ public class ScrumboardDbContextInitializer(
         };
         var user4 = new ApplicationUser
         {
-            Id = UserId4,
+            Id = _userId4,
             FirstName = "Patrice",
             LastName = "Fouque",
             UserName = "adherent4@localhost",
@@ -136,102 +136,93 @@ public class ScrumboardDbContextInitializer(
         await AddUserToRole(userManager, roleManager, roles[0], user4);
     }
 
-    private static async Task SeedSampleDataAsync(ScrumboardDbContext context)
+    private async Task SeedSampleDataAsync(ScrumboardDbContext context)
     {
-        var team = new TeamDao
+        var team = new Team
         {
             Name = "Developer Team",
-            CreatedBy = UserId
+            CreatedBy = _userId
         };
 
-        team.Members =
-        [
-            new TeamMemberDao { TeamId = team.Id, MemberId = UserId, },
-            new TeamMemberDao { TeamId = team.Id, MemberId = UserId2, },
-            new TeamMemberDao { TeamId = team.Id, MemberId = UserId3, },
-            new TeamMemberDao { TeamId = team.Id, MemberId = UserId4, }
-        ];
+        team.AddMember(_userId);
+        team.AddMember(_userId2);
+        team.AddMember(_userId3);
+        team.AddMember(_userId4);
         
-        var team2 = new TeamDao
+        var team2 = new Team
         {
             Name = "Test Team", 
-            CreatedBy = UserId2
+            CreatedBy = _userId2
         };
         
-        team2.Members =
-        [
-            new TeamMemberDao { TeamId = team2.Id, MemberId = UserId2 },
-        ];
+        team2.AddMember(_userId2);
 
-        var labels = new Collection<LabelDao>
+        var labels = new Collection<Label>
         {
-            new() { Name = "Design", Colour = Colour.Violet, CreatedBy = UserId },
-            new() { Name = "App", Colour = Colour.Gray, CreatedBy = UserId },
-            new() { Name = "Feature", Colour = Colour.Red, CreatedBy = UserId },
-            new() { Name = "Log", Colour = Colour.Blue, CreatedBy = UserId },
-            new() { Name = "Documentation", Colour = Colour.Rose, CreatedBy = UserId },
-            new() { Name = "Persistence", Colour = Colour.Yellow, CreatedBy = UserId }
+            new() { Name = "Design", Colour = Colour.Violet, CreatedBy = (UserId)_userId },
+            new() { Name = "App", Colour = Colour.Gray, CreatedBy = (UserId)_userId },
+            new() { Name = "Feature", Colour = Colour.Red, CreatedBy = (UserId)_userId },
+            new() { Name = "Log", Colour = Colour.Blue, CreatedBy = (UserId)_userId },
+            new() { Name = "Documentation", Colour = Colour.Rose, CreatedBy = (UserId)_userId },
+            new() { Name = "Persistence", Colour = Colour.Yellow, CreatedBy = (UserId)_userId }
         };
 
-        var boardSettings = new Collection<BoardSettingDao>
+        var boardSettings = new Collection<BoardSetting>
         {
             new() { Colour = Colour.Violet },
             new() { Colour = Colour.Yellow }
         };
 
-        CardDao card1 = new()
+        Card card1 = new()
         {
             Name = "Create login page",
             Description = "Create login page with social network authentication.",
-            Suscribed = false,
             DueDate = DateTime.Now,
             Position = 65536,
-            Labels = [labels[0], labels[1]],
-            CreatedBy = UserId
+            CreatedBy = _userId
         };
-
-        card1.Assignees = 
-        [
-            new CardAssigneeDao { CardId = card1.Id, AssigneeId = UserId }
-        ];
         
-        CardDao card2 = new()
+        card1.AddLabel(labels[0].Id);
+        card1.AddLabel(labels[1].Id);
+
+        card1.AddAssignee(_userId);
+        
+        Card card2 = new()
         {
             Name = "Change background colors",
             Description = "",
-            Suscribed = false,
             DueDate = null,
             Position = 131072,
-            Labels = [labels[0]],
-            CreatedBy = UserId
+            CreatedBy = _userId
         };
-        CardDao card3 = new()
+        
+        card2.AddLabel(labels[0].Id);
+        
+        Card card3 = new()
         {
             Name = "Fix splash screen bugs",
             Description = "",
-            Suscribed = true,
             DueDate = new DateTime(2021, 5, 15),
             Position = 65536,
-            Labels = [labels[1]],
-            CreatedBy = UserId
+            CreatedBy = _userId
         };
-        CardDao card4 = new()
+        
+        card3.AddLabel(labels[1].Id);
+        
+        Card card4 = new()
         {
             Name = "Add a notification when a user adds a comment",
             Description = "",
-            Suscribed = false,
             DueDate = null,
             Position = 65536,
-            Labels = [labels[2]],
-            CreatedBy = UserId
+            CreatedBy = _userId
         };
+
+        card3.AddLabel(labels[2].Id);
         
-        card4.Assignees = 
-        [
-            new CardAssigneeDao { CardId = card4.Id, AssigneeId = UserId }
-        ];
+        card4.AddAssignee(_userId);
         
-        var cards = new Collection<CardDao>
+        var cards = new Collection<Card>
         {
             card1,
             card2,
@@ -239,77 +230,64 @@ public class ScrumboardDbContextInitializer(
             card4,
         };
 
-        CardDao card5 = new()
+        Card card5 = new()
         {
             Name = "Write documentation for the naming convention",
             Description = "",
-            Suscribed = false,
             DueDate = null,
             Position = 65536,
-            Labels = [labels[4]],
-            CreatedBy = UserId
+            CreatedBy = _userId
         };
         
-        card5.Assignees = 
-        [
-            new CardAssigneeDao { CardId = card5.Id, AssigneeId = UserId }
-        ];
+        card5.AddLabel(labels[4].Id);
+        card5.AddAssignee(_userId);
         
-        CardDao card6 = new()
+        Card card6 = new()
         {
             Name = "Add Serilog for logs",
             Description = "",
-            Suscribed = false,
             DueDate = null,
             Position = 131072,
-            Assignees = [],
-            Labels = new Collection<LabelDao> { labels[3] },
-            CreatedBy = UserId
+            CreatedBy = _userId
         };
-        var listboards = new Collection<ListBoardDao>
+        
+        card6.AddLabel(labels[3].Id);
+        
+        
+        var listboards = new Collection<ListBoard>
         {
-            new() { Name = "Design", Position = 65536, Cards = [cards[0], cards[1]], CreatedBy = UserId },
-            new() { Name = "Development", Position = 131072, Cards = [cards[2]], CreatedBy = UserId },
-            new() { Name = "Upcoming Features", Position = 196608, Cards = [cards[3]], CreatedBy = UserId },
-            new() { Name = "Known Bugs", Position = 262144, CreatedBy = UserId },
+            new() { Name = "Design", Position = 65536, Cards = [cards[0], cards[1]], CreatedBy = _userId },
+            new() { Name = "Development", Position = 131072, Cards = [cards[2]], CreatedBy = _userId },
+            new() { Name = "Upcoming Features", Position = 196608, Cards = [cards[3]], CreatedBy = _userId },
+            new() { Name = "Known Bugs", Position = 262144, CreatedBy = _userId },
             new()
             {
                 Name = "Backlog",
                 Position = 65536,
-                Cards = new Collection<CardDao>
+                Cards = new Collection<Card>
                 {
                     card5,
                     card6,
                 },
-                CreatedBy = UserId
+                CreatedBy = _userId
             }
         };
 
-        var boards = new Collection<BoardDao>
+        var boards = new Collection<Board>
         {
             new()
             {
                 Name = "Scrumboard Frontend",
                 IsPinned = false,
-                Team = team,
-                ListBoards =
-                [
-                    listboards[0],
-                    listboards[1],
-                    listboards[2],
-                    listboards[3]
-                ],
                 BoardSetting = boardSettings[0],
-                CreatedBy = UserId
+                CreatedBy = (UserId)_userId
             },
             new()
             {
                 Name = "Scrumboard Backend",
                 IsPinned = true,
-                Team = team,
-                ListBoards = [listboards[4]],
                 BoardSetting = boardSettings[1],
-                CreatedBy = UserId
+                CreatedBy = (UserId)_userId
             }
         };
 

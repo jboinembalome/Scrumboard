@@ -12,54 +12,50 @@ internal sealed class BoardsRepository(
 {
     public async Task<Board?> TryGetByIdAsync(
         BoardId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await Query()
+        CancellationToken cancellationToken = default) 
+        => await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-        return mapper.Map<Board>(dao);
-    }
 
     public async Task<Board> AddAsync(
         BoardCreation boardCreation, 
         CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<BoardDao>(boardCreation);
+        var board = mapper.Map<Board>(boardCreation);
         
-        dbContext.Boards.Add(dao);
+        dbContext.Boards.Add(board);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<Board>(dao);
+        return board;
     }
 
     public async Task<Board> UpdateAsync(
         BoardEdition boardEdition, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await Query()
+        var board = await Query()
             .FirstAsync(x => x.Id == boardEdition.Id, cancellationToken);
 
-        mapper.Map(boardEdition, dao);
+        mapper.Map(boardEdition, board);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         
-        return mapper.Map<Board>(dao);
+        return board;
     }
 
     public async Task DeleteAsync(
         BoardId id, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Boards.FindAsync([(int)id], cancellationToken)
+        var board = await dbContext.Boards.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
         
-        dbContext.Boards.Remove(dao);
+        dbContext.Boards.Remove(board);
         
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private IQueryable<BoardDao> Query()
+    private IQueryable<Board> Query()
         => dbContext.Boards
             .Include(b => b.BoardSetting);
 }

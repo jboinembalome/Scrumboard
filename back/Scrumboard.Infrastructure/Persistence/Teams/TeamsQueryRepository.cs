@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
@@ -7,31 +6,20 @@ using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 namespace Scrumboard.Infrastructure.Persistence.Teams;
 
 internal sealed class TeamsQueryRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : ITeamsQueryRepository
+    ScrumboardDbContext dbContext) : ITeamsQueryRepository
 {
     public async Task<Team?> TryGetByIdAsync(
         TeamId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await dbContext.Teams
+        CancellationToken cancellationToken = default) 
+        => await dbContext.Teams
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-        return mapper.Map<Team>(dao);
-    }
-
     public async Task<Team?> TryGetByBoardIdAsync(
         BoardId boardId, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await dbContext.Boards
+        CancellationToken cancellationToken = default) 
+        => await dbContext.Teams
             .AsNoTracking()
-            .Include(x => x.Team)
             .Where(x => x.Id == boardId)
-            .Select(x => x.Team)
             .FirstOrDefaultAsync(cancellationToken);
-
-        return mapper.Map<Team>(dao);
-    }
 }

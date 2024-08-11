@@ -1,5 +1,6 @@
 ﻿using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
+using Scrumboard.SharedKernel.Entities;
 
 namespace Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 

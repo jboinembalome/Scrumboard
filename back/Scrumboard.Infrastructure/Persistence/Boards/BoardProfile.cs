@@ -9,15 +9,10 @@ internal sealed class BoardProfile : Profile
     public BoardProfile()
     {
         // Write
-        CreateMap<BoardCreation, BoardDao>();
-        CreateMap<BoardEdition, BoardDao>();
+        CreateMap<BoardCreation, Board>();
+        CreateMap<BoardEdition, Board>();
         
-        CreateMap<BoardSettingCreation, BoardSettingDao>();
-        CreateMap<BoardSettingEdition, BoardSettingDao>();
-      
-        // Read
-        CreateMap<BoardDao, Board>();
-        
-        CreateMap<BoardSettingDao, BoardSetting>();
+        CreateMap<BoardSettingCreation, BoardSetting>();
+        CreateMap<BoardSettingEdition, BoardSetting>();
     }
 }

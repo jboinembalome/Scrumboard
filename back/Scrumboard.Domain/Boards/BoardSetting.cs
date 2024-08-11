@@ -1,10 +1,10 @@
 ﻿using Scrumboard.Domain.Common;
+using Scrumboard.SharedKernel.Entities;
 
 namespace Scrumboard.Domain.Boards;
 
-public sealed class BoardSetting
+public sealed class BoardSetting : EntityBase<BoardSettingId>
 {
-    public BoardSettingId Id { get; set; }
     public BoardId BoardId { get; set; }
     public Colour Colour { get; set; } = Colour.Gray;
 }

@@ -11,48 +11,44 @@ internal sealed class ListBoardsRepository(
 {
     public async Task<ListBoard?> TryGetByIdAsync(
         ListBoardId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken);
-
-        return mapper.Map<ListBoard>(dao);
-    }
+        CancellationToken cancellationToken = default) 
+        => await dbContext.ListBoards.FindAsync([id], cancellationToken);
 
     public async Task<ListBoard> AddAsync(
         ListBoardCreation listBoardCreation, 
         CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<ListBoardDao>(listBoardCreation);
+        var listBoard = mapper.Map<ListBoard>(listBoardCreation);
         
-        dbContext.ListBoards.Add(dao);
+        dbContext.ListBoards.Add(listBoard);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<ListBoard>(dao);
+        return listBoard;
     }
 
     public async Task<ListBoard> UpdateAsync(
         ListBoardEdition listBoardEdition, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.ListBoards.FindAsync([listBoardEdition.Id], cancellationToken)
+        var listBoard = await dbContext.ListBoards.FindAsync([listBoardEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
 
-        mapper.Map(listBoardEdition, dao);
+        mapper.Map(listBoardEdition, listBoard);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         
-        return mapper.Map<ListBoard>(dao);
+        return listBoard;
     }
 
     public async Task DeleteAsync(
         ListBoardId id, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.ListBoards.FindAsync([id], cancellationToken)
+        var listBoard = await dbContext.ListBoards.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
         
-        dbContext.ListBoards.Remove(dao);
+        dbContext.ListBoards.Remove(listBoard);
         
         await dbContext.SaveChangesAsync(cancellationToken);
     }

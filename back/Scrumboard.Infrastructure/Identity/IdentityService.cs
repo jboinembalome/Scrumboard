@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.SharedKernel.Entities;
 
 namespace Scrumboard.Infrastructure.Identity;
 

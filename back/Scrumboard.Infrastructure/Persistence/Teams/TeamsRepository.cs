@@ -11,48 +11,44 @@ internal sealed class TeamsRepository(
 {
     public async Task<Team?> TryGetByIdAsync(
         TeamId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await dbContext.Teams.FindAsync([id], cancellationToken);
-        
-        return mapper.Map<Team>(dao);
-    }
+        CancellationToken cancellationToken = default) 
+        => await dbContext.Teams.FindAsync([id], cancellationToken);
 
     public async Task<Team> AddAsync(
         TeamCreation teamCreation, 
         CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<TeamDao>(teamCreation);
+        var team = mapper.Map<Team>(teamCreation);
         
-        dbContext.Teams.Add(dao);
+        dbContext.Teams.Add(team);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<Team>(dao);
+        return team;
     }
 
     public async Task<Team> UpdateAsync(
         TeamEdition teamEdition, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Teams.FindAsync([teamEdition.Id], cancellationToken)
+        var team = await dbContext.Teams.FindAsync([teamEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
 
-        mapper.Map(teamEdition, dao);
+        mapper.Map(teamEdition, team);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         
-        return mapper.Map<Team>(dao);
+        return team;
     }
 
     public async Task DeleteAsync(
         TeamId id, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Teams.FindAsync([id], cancellationToken)
+        var team = await dbContext.Teams.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
         
-        dbContext.Teams.Remove(dao);
+        dbContext.Teams.Remove(team);
         
         await dbContext.SaveChangesAsync(cancellationToken);
     }

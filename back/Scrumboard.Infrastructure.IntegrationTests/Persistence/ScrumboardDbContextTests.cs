@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Teams;
@@ -20,18 +21,18 @@ public sealed class ScrumboardDbContextTests(
         var currentDate = DateTimeOffset.Now;
         SetCurrentDate(currentDate);
         
-        var boardDao = BuildBoardDao();
+        var board = BuildBoard();
         
         // Act
-        ActDbContext.Boards.Add(boardDao);
+        ActDbContext.Boards.Add(board);
         await ActDbContext.SaveChangesAsync();
 
         // Assert
-        boardDao.CreatedBy
+        board.CreatedBy
             .Should()
             .Be(userId);
         
-        boardDao.CreatedDate
+        board.CreatedDate
             .Should()
             .Be(currentDate);
     }
@@ -46,45 +47,41 @@ public sealed class ScrumboardDbContextTests(
         var currentDate = DateTimeOffset.Now;
         SetCurrentDate(currentDate);
         
-        var newBoardDao = await Given_a_BoardDao();
+        var newBoard = await Given_a_Board();
             
         // Act
-        var boardDao = await ActDbContext.Boards.FirstAsync(x => x.Id == newBoardDao.Id);
-        boardDao.Name = "Updated name";
+        var board = await ActDbContext.Boards.FirstAsync(x => x.Id == newBoard.Id);
+        board.Name = "Updated name";
         
         await ActDbContext.SaveChangesAsync();
 
         // Assert
-        boardDao.LastModifiedBy
+        board.LastModifiedBy
             .Should()
             .Be(userId);
         
-        boardDao.LastModifiedDate
+        board.LastModifiedDate
             .Should()
             .Be(currentDate);
     }
 
-    private async Task<BoardDao> Given_a_BoardDao()
+    private async Task<Board> Given_a_Board()
     {
-        var boardDao = BuildBoardDao();
+        var board = BuildBoard();
         
-        ArrangeDbContext.Boards.Add(boardDao);
+        ArrangeDbContext.Boards.Add(board);
         await ArrangeDbContext.SaveChangesAsync();
         
-        return boardDao;
+        return board;
     }
 
-    private static BoardDao BuildBoardDao() 
+    private static Board BuildBoard() 
         => new()
         {
             Name = "testBoard",
-            BoardSetting = new BoardSettingDao
+            BoardSetting = new BoardSetting
             {
                 Colour = Colour.Gray
-            },
-            Team = new TeamDao
-            {
-                Name = "Team 1"
             }
         };
 }

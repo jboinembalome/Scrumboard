@@ -9,19 +9,7 @@ internal sealed class LabelProfile : Profile
     public LabelProfile()
     {
         // Write
-        CreateMap<LabelCreation, LabelDao>();
-        CreateMap<LabelEdition, LabelDao>();
-
-        CreateMap<LabelId, LabelDao>()
-            .ConstructUsing(labelId => new LabelDao
-            {
-                Id = labelId
-            });
-
-        // Read
-        CreateMap<LabelDao, Label>();
-
-        CreateMap<LabelDao, LabelId>()
-            .ConstructUsing(labelDao => (LabelId)labelDao.Id);
+        CreateMap<LabelCreation, Label>();
+        CreateMap<LabelEdition, Label>();
     }
 }

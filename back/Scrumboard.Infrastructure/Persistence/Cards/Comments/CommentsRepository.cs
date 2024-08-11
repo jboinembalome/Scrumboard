@@ -11,48 +11,44 @@ internal sealed class CommentsRepository(
 {
     public async Task<Comment?> TryGetByIdAsync(
         CommentId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await dbContext.Comments.FindAsync([id], cancellationToken);
-        
-        return mapper.Map<Comment>(dao);
-    }
+        CancellationToken cancellationToken = default) 
+        => await dbContext.Comments.FindAsync([id], cancellationToken);
 
     public async Task<Comment> AddAsync(
         CommentCreation commentCreation, 
         CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<CommentDao>(commentCreation);
+        var comment = mapper.Map<Comment>(commentCreation);
         
-        dbContext.Comments.Add(dao);
+        dbContext.Comments.Add(comment);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<Comment>(dao);
+        return comment;
     }
 
     public async Task<Comment> UpdateAsync(
         CommentEdition commentEdition, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Comments.FindAsync([commentEdition.Id], cancellationToken)
+        var comment = await dbContext.Comments.FindAsync([commentEdition.Id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
 
-        mapper.Map(commentEdition, dao);
+        mapper.Map(commentEdition, comment);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         
-        return mapper.Map<Comment>(dao);
+        return comment;
     }
 
     public async Task DeleteAsync(
         CommentId id, 
         CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Comments.FindAsync([id], cancellationToken)
+        var comment = await dbContext.Comments.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
         
-        dbContext.Comments.Remove(dao);
+        dbContext.Comments.Remove(comment);
         
         await dbContext.SaveChangesAsync(cancellationToken);
     }

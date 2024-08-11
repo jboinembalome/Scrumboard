@@ -104,7 +104,8 @@ public class TeamsController(
     
     private async Task<TeamDto> GetTeamDtoAsync(Team team, CancellationToken cancellationToken)
     {
-        var memberIds = team.MemberIds
+        var memberIds = team.Members
+            .Select(x => x.MemberId)
             .ToHashSet();
         
         var members = await identityService.GetListAsync(memberIds, cancellationToken);

@@ -42,32 +42,32 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
         await _sut.AddAsync(boardCreation);
         
         // Assert
-        var createdBoardDao = await AssertDbContext.Boards
+        var createdBoard = await AssertDbContext.Boards
             .Include(x => x.BoardSetting)
             .FirstAsync(x => x.Name == boardCreation.Name);
 
-        createdBoardDao.Id.Should().BeGreaterThan(0);
-        createdBoardDao.Name.Should().Be(boardCreation.Name);
-        createdBoardDao.IsPinned.Should().Be(boardCreation.IsPinned);
+        createdBoard.Id.Value.Should().BeGreaterThan(0);
+        createdBoard.Name.Should().Be(boardCreation.Name);
+        createdBoard.IsPinned.Should().Be(boardCreation.IsPinned);
 
-        createdBoardDao.BoardSetting.Should().NotBeNull();
-        createdBoardDao.BoardSetting.Id.Should().BeGreaterThan(0);
-        createdBoardDao.BoardSetting.BoardId.Should().Be(createdBoardDao.Id);
-        createdBoardDao.BoardSetting.Colour.Should().Be(boardCreation.BoardSetting.Colour);
+        createdBoard.BoardSetting.Should().NotBeNull();
+        createdBoard.BoardSetting.Id.Value.Should().BeGreaterThan(0);
+        createdBoard.BoardSetting.BoardId.Should().Be(createdBoard.Id);
+        createdBoard.BoardSetting.Colour.Should().Be(boardCreation.BoardSetting.Colour);
     }
     
     [Fact]
     public async Task Should_delete_board()
     {           
         // Arrange
-        var boardDao = await Given_a_board();
+        var board = await Given_a_board();
         
         // Act
-        await _sut.DeleteAsync((BoardId)boardDao.Id);
+        await _sut.DeleteAsync(board.Id);
     
         // Assert
         var boardExist = await AssertDbContext.Boards
-            .AnyAsync(x => x.Id == boardDao.Id);
+            .AnyAsync(x => x.Id == board.Id);
         
         boardExist.Should()
             .BeFalse();
@@ -77,18 +77,17 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
     public async Task Should_get_board_by_id()
     {           
         // Arrange
-        var boardDao = await Given_a_board();
-        var boardId = (BoardId)boardDao.Id;
+        var existingBoard = await Given_a_board();
         
         // Act
-        var board = await _sut.TryGetByIdAsync(boardId);
+        var board = await _sut.TryGetByIdAsync(existingBoard.Id);
     
         // Assert
         board.Should()
             .NotBeNull();
 
         board!.Id.Should()
-            .Be(boardId);
+            .Be(existingBoard.Id);
     }
     
     
@@ -96,11 +95,10 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
     public async Task Should_update_board()
     {           
         // Arrange
-        var boardDao = await Given_a_board();
-        var boardId = (BoardId)boardDao.Id;
+        var existingBoard = await Given_a_board();
         
         var boardEdition = _fixture.Create<BoardEdition>();
-        boardEdition.Id = boardId;
+        boardEdition.Id = existingBoard.Id;
         
         // Act
         await _sut.UpdateAsync(boardEdition);
@@ -119,33 +117,14 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
         updatedBoardDao.BoardSetting.Colour.Should().Be(boardEdition.BoardSetting.Colour);
     }
     
-    private async Task<BoardDao> Given_a_board()
+    private async Task<Board> Given_a_board()
     {
-        var boardDao = BuildBoardDao();
+        var board = _fixture.Create<Board>();
         
-        ArrangeDbContext.Boards.Add(boardDao);
+        ArrangeDbContext.Boards.Add(board);
         
         await ArrangeDbContext.SaveChangesAsync();
         
-        return boardDao;
+        return board;
     }
-
-    private BoardDao BuildBoardDao()
-    {
-        var boardDao = _fixture.Build<BoardDao>()
-            .Without(x => x.Id)
-            .Without(x => x.ListBoards)
-            .Create();
-        
-        var teamMemberDao = BuildTeamMemberDao();
-        boardDao.Team.Members = [teamMemberDao];
-        
-        return boardDao;
-    }
-
-    private TeamMemberDao BuildTeamMemberDao() 
-        => _fixture.Build<TeamMemberDao>()
-            .Without(x => x.TeamId)
-            .With(x => x.MemberId, Guid.NewGuid().ToString())
-            .Create();
 }

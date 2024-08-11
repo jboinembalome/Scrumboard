@@ -9,14 +9,11 @@ internal sealed class ListBoardProfile : Profile
     public ListBoardProfile()
     {
         // Write
-        CreateMap<ListBoardInputBase, ListBoardDao>()
+        CreateMap<ListBoardInputBase, ListBoard>()
             .IncludeAllDerived();
 
-        CreateMap<ListBoardCreation, ListBoardDao>();
+        CreateMap<ListBoardCreation, ListBoard>();
 
-        CreateMap<ListBoardEdition, ListBoardDao>();
-        
-        // Read
-        CreateMap<ListBoardDao, ListBoard>();
+        CreateMap<ListBoardEdition, ListBoard>();
     }
 }

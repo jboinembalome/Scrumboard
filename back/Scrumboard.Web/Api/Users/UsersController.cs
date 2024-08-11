@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Users;
 using Scrumboard.Domain.Common;
+using Scrumboard.SharedKernel.Entities;
 
 namespace Scrumboard.Web.Api.Users;
 

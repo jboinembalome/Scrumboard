@@ -1,6 +1,7 @@
 using Scrumboard.Application.Abstractions.Users;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.SharedKernel.Entities;
 
 namespace Scrumboard.Application.Users;
 

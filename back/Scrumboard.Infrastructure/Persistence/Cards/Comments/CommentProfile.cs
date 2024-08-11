@@ -9,10 +9,7 @@ internal sealed class CommentProfile : Profile
     public CommentProfile()
     {
         // Write
-        CreateMap<CommentCreation, CommentDao>();
-        CreateMap<CommentEdition, CommentDao>();
-        
-        // Read
-        CreateMap<CommentDao, Comment>();
+        CreateMap<CommentCreation, Comment>();
+        CreateMap<CommentEdition, Comment>();
     }
 }

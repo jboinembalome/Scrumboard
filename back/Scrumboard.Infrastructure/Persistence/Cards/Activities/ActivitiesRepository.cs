@@ -1,36 +1,32 @@
-﻿using AutoMapper;
-using Scrumboard.Domain.Cards.Activities;
+﻿using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Activities;
 
 internal sealed class ActivitiesRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : IActivitiesRepository
+    ScrumboardDbContext dbContext) : IActivitiesRepository
 {
     public async Task<Activity> AddAsync(
         Activity activity, 
         CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<ActivityDao>(activity);
-        
-        dbContext.Activities.Add(dao);
+        dbContext.Activities.Add(activity);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<Activity>(dao);
+        return activity;
     }
     
     public async Task<IReadOnlyList<Activity>> AddAsync(
         IEnumerable<Activity> activities, 
         CancellationToken cancellationToken = default)
     {
-        var daos = mapper.Map<IEnumerable<ActivityDao>>(activities);
+        var entities = activities.ToArray();
         
-        dbContext.Activities.AddRange(daos);
+        dbContext.Activities.AddRange(entities);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<IReadOnlyList<Activity>>(daos);
+        return entities;
     }
 }

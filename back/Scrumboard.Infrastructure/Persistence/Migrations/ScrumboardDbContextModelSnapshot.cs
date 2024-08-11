@@ -22,21 +22,6 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CardsLabels", b =>
-                {
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LabelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CardId", "LabelId");
-
-                    b.HasIndex("LabelId");
-
-                    b.ToTable("CardsLabels");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -170,6 +155,341 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Scrumboard.Domain.Boards.Board", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsPinned")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset?>("LastModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Boards", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Boards.BoardSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId")
+                        .IsUnique();
+
+                    b.ToTable("BoardSettings", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Boards.Label", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset?>("LastModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.ToTable("Labels", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Cards.Activities.Activity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ActivityType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset?>("LastModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NewValue")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("OldValue")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("Activities", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Cards.Card", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTimeOffset?>("DueDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset?>("LastModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("ListBoardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ListBoardId");
+
+                    b.ToTable("Cards", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Cards.CardAssignee", b =>
+                {
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AssigneeId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.HasKey("CardId", "AssigneeId");
+
+                    b.ToTable("CardAssignees", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Cards.CardLabel", b =>
+                {
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LabelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CardId", "LabelId");
+
+                    b.ToTable("CardLabels", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Cards.Comments.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset?>("LastModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.ToTable("Comments", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.ListBoards.ListBoard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<DateTimeOffset?>("LastModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.ToTable("ListBoards", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Teams.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardId");
+
+                    b.ToTable("Teams", (string)null);
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Teams.TeamMember", b =>
+                {
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MemberId")
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.HasKey("TeamId", "MemberId");
+
+                    b.ToTable("TeamMembers", (string)null);
+                });
+
             modelBuilder.Entity("Scrumboard.Infrastructure.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -251,340 +571,6 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.BoardDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("IsPinned")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("Boards", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.BoardSettingDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BoardId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoardId")
-                        .IsUnique();
-
-                    b.ToTable("BoardSettings", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.Labels.LabelDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BoardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoardId");
-
-                    b.ToTable("Labels", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.Activities.ActivityDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ActivityType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NewValue")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("OldValue")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CardId");
-
-                    b.ToTable("Activities", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardAssigneeDao", b =>
-                {
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AssigneeId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.HasKey("CardId", "AssigneeId");
-
-                    b.ToTable("CardAssignees", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<DateTimeOffset?>("DueDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("ListBoardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Suscribed")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ListBoardId");
-
-                    b.ToTable("Cards", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.Comments.CommentDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CardId");
-
-                    b.ToTable("Comments", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.ListBoards.ListBoardDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BoardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoardId");
-
-                    b.ToTable("ListBoards", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Teams.TeamDao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams", (string)null);
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Teams.TeamMemberDao", b =>
-                {
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MemberId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.HasKey("TeamId", "MemberId");
-
-                    b.ToTable("TeamMembers", (string)null);
-                });
-
-            modelBuilder.Entity("CardsLabels", b =>
-                {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Cards.CardDao", null)
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Boards.Labels.LabelDao", null)
-                        .WithMany()
-                        .HasForeignKey("LabelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -636,49 +622,38 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.BoardDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Boards.BoardSetting", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Teams.TeamDao", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.BoardSettingDao", b =>
-                {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Boards.BoardDao", null)
+                    b.HasOne("Scrumboard.Domain.Boards.Board", null)
                         .WithOne("BoardSetting")
-                        .HasForeignKey("Scrumboard.Infrastructure.Persistence.Boards.BoardSettingDao", "BoardId")
+                        .HasForeignKey("Scrumboard.Domain.Boards.BoardSetting", "BoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("Scrumboard.Domain.Common.Colour", "Colour", b1 =>
                         {
-                            b1.Property<int>("BoardSettingDaoId")
+                            b1.Property<int>("BoardSettingId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("Code")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("BoardSettingDaoId");
+                            b1.HasKey("BoardSettingId");
 
                             b1.ToTable("BoardSettings");
 
                             b1.WithOwner()
-                                .HasForeignKey("BoardSettingDaoId");
+                                .HasForeignKey("BoardSettingId");
                         });
 
                     b.Navigation("Colour")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.Labels.LabelDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Boards.Label", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Boards.BoardDao", null)
+                    b.HasOne("Scrumboard.Domain.Boards.Board", null)
                         .WithMany()
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -686,28 +661,28 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("Scrumboard.Domain.Common.Colour", "Colour", b1 =>
                         {
-                            b1.Property<int>("LabelDaoId")
+                            b1.Property<int>("LabelId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("Code")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("LabelDaoId");
+                            b1.HasKey("LabelId");
 
                             b1.ToTable("Labels");
 
                             b1.WithOwner()
-                                .HasForeignKey("LabelDaoId");
+                                .HasForeignKey("LabelId");
                         });
 
                     b.Navigation("Colour")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.Activities.ActivityDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Cards.Activities.Activity", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Cards.CardDao", null)
+                    b.HasOne("Scrumboard.Domain.Cards.Card", null)
                         .WithMany()
                         .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -715,89 +690,107 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("Scrumboard.Domain.Cards.Activities.ActivityField", "ActivityField", b1 =>
                         {
-                            b1.Property<int>("ActivityDaoId")
+                            b1.Property<int>("ActivityId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("Field")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("ActivityDaoId");
+                            b1.HasKey("ActivityId");
 
                             b1.ToTable("Activities");
 
                             b1.WithOwner()
-                                .HasForeignKey("ActivityDaoId");
+                                .HasForeignKey("ActivityId");
                         });
 
                     b.Navigation("ActivityField")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardAssigneeDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Cards.Card", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Cards.CardDao", null)
-                        .WithMany("Assignees")
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardDao", b =>
-                {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.ListBoards.ListBoardDao", null)
+                    b.HasOne("Scrumboard.Domain.ListBoards.ListBoard", null)
                         .WithMany("Cards")
                         .HasForeignKey("ListBoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.Comments.CommentDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Cards.CardAssignee", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Cards.CardDao", null)
+                    b.HasOne("Scrumboard.Domain.Cards.Card", null)
+                        .WithMany("Assignees")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Cards.CardLabel", b =>
+                {
+                    b.HasOne("Scrumboard.Domain.Cards.Card", null)
+                        .WithMany("Labels")
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Cards.Comments.Comment", b =>
+                {
+                    b.HasOne("Scrumboard.Domain.Cards.Card", null)
                         .WithMany()
                         .HasForeignKey("CardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.ListBoards.ListBoardDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.ListBoards.ListBoard", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Boards.BoardDao", null)
-                        .WithMany("ListBoards")
+                    b.HasOne("Scrumboard.Domain.Boards.Board", null)
+                        .WithMany()
                         .HasForeignKey("BoardId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Teams.TeamMemberDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Teams.Team", b =>
                 {
-                    b.HasOne("Scrumboard.Infrastructure.Persistence.Teams.TeamDao", null)
+                    b.HasOne("Scrumboard.Domain.Boards.Board", null)
+                        .WithMany()
+                        .HasForeignKey("BoardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Scrumboard.Domain.Teams.TeamMember", b =>
+                {
+                    b.HasOne("Scrumboard.Domain.Teams.Team", null)
                         .WithMany("Members")
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Boards.BoardDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Boards.Board", b =>
                 {
                     b.Navigation("BoardSetting")
                         .IsRequired();
-
-                    b.Navigation("ListBoards");
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Cards.CardDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Cards.Card", b =>
                 {
                     b.Navigation("Assignees");
+
+                    b.Navigation("Labels");
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.ListBoards.ListBoardDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.ListBoards.ListBoard", b =>
                 {
                     b.Navigation("Cards");
                 });
 
-            modelBuilder.Entity("Scrumboard.Infrastructure.Persistence.Teams.TeamDao", b =>
+            modelBuilder.Entity("Scrumboard.Domain.Teams.Team", b =>
                 {
                     b.Navigation("Members");
                 });

@@ -12,25 +12,21 @@ internal sealed class CardsRepository(
 {
     public async Task<Card?> TryGetByIdAsync(
         CardId id, 
-        CancellationToken cancellationToken = default)
-    {
-        var dao = await Query()
+        CancellationToken cancellationToken = default) 
+        => await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-        return mapper.Map<Card>(dao);
-    }
 
     public async Task<Card> AddAsync(
         CardCreation cardCreation, 
         CancellationToken cancellationToken = default)
     {
-        var dao = mapper.Map<CardDao>(cardCreation);
+        var card = mapper.Map<Card>(cardCreation);
         
-        dbContext.Cards.Add(dao);
+        dbContext.Cards.Add(card);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return mapper.Map<Card>(dao);
+        return card;
     }
 
     public async Task<Card> UpdateAsync(
@@ -38,27 +34,27 @@ internal sealed class CardsRepository(
         CancellationToken cancellationToken = default)
     {
         // TODO: Use LoadAsync or ChangeTracker
-        var dao = await Query()
+        var card = await Query()
             .FirstAsync(x => x.Id == cardEdition.Id, cancellationToken);
 
-        mapper.Map(cardEdition, dao);
+        mapper.Map(cardEdition, card);
         
         await dbContext.SaveChangesAsync(cancellationToken);
         
-        return mapper.Map<Card>(dao);
+        return card;
     }
 
     public async Task DeleteAsync(CardId id, CancellationToken cancellationToken = default)
     {
-        var dao = await dbContext.Cards.FindAsync([id], cancellationToken)
+        var card = await dbContext.Cards.FindAsync([id], cancellationToken)
             .OrThrowEntityNotFoundAsync();
         
-        dbContext.Cards.Remove(dao);
+        dbContext.Cards.Remove(card);
         
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private IQueryable<CardDao> Query()
+    private IQueryable<Card> Query()
         => dbContext.Cards
             .AsSplitQuery()
             .Include(x => x.Labels)

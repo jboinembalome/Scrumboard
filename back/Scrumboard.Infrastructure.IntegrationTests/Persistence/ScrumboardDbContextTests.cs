@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
-using Scrumboard.Infrastructure.Persistence.Boards;
-using Scrumboard.Infrastructure.Persistence.Teams;
+using Scrumboard.SharedKernel.Types;
 using Xunit;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
@@ -15,7 +14,7 @@ public sealed class ScrumboardDbContextTests(
     public async void SaveChangesAsync_should_set_auditable_properties_when_creation()
     {
         // Arrange
-        var userId = Guid.NewGuid().ToString();
+        var userId = (UserId)Guid.NewGuid().ToString();
         SetCurrentUser(userId);
 
         var currentDate = DateTimeOffset.Now;
@@ -41,7 +40,7 @@ public sealed class ScrumboardDbContextTests(
     public async void SaveChangesAsync_should_set_auditable_properties_when_edition()
     {
         // Arrange
-        var userId = Guid.NewGuid().ToString();
+        var userId = (UserId)Guid.NewGuid().ToString();
         SetCurrentUser(userId);
 
         var currentDate = DateTimeOffset.Now;

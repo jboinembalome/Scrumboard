@@ -1,7 +1,6 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.SharedKernel.Entities;
@@ -12,6 +11,7 @@ namespace Scrumboard.Application.Boards;
 internal sealed class BoardsService(
     IBoardsRepository boardsRepository,
     IBoardsQueryRepository boardsQueryRepository,
+    IValidator<BoardCreation> boardCreationValidator,
     IValidator<BoardEdition> boardEditionValidator,
     ICurrentUserService currentUserService) : IBoardsService
 {
@@ -34,13 +34,14 @@ internal sealed class BoardsService(
         CancellationToken cancellationToken = default)
         => boardsQueryRepository.GetByUserIdAsync((UserId)currentUserService.UserId, cancellationToken);
 
-    public Task<Board> AddAsync(
+    public async Task<Board> AddAsync(
         BoardCreation boardCreation, 
         CancellationToken cancellationToken = default)
     {
-        //var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
+        await boardCreationValidator.ValidateAndThrowAsync(boardCreation, cancellationToken);
         
-        // TODO: Move into infra
+        // TODO: Use Domain Event to create the team (BoardCreatedEvent)
+        //var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
         
         // var board = mapper.Map<Board>(request);
         // board.BoardSetting = new BoardSetting();
@@ -48,7 +49,7 @@ internal sealed class BoardsService(
         // board.Team = new Team { Name = "Team 1", Members = [] };
         // board.Team.Members.Add(user.Id);
         
-        return boardsRepository.AddAsync(boardCreation, cancellationToken);
+        return await boardsRepository.AddAsync(boardCreation, cancellationToken);
     }
 
     public async Task<Board> UpdateAsync(

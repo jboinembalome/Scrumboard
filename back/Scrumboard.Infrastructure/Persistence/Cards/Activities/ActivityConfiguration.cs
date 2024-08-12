@@ -5,7 +5,7 @@ using Scrumboard.Domain.Cards.Activities;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Activities;
 
-internal sealed class ActivityConfiguration : AuditableEntityTypeConfiguration<Activity, ActivityId>
+internal sealed class ActivityConfiguration : CreatedAtEntityTypeConfiguration<Activity, ActivityId>
 {
     protected override void ConfigureDetails(EntityTypeBuilder<Activity> builder)
     {

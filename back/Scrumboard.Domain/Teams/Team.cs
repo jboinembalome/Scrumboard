@@ -6,15 +6,13 @@ using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Domain.Teams;
 
-public sealed class Team : EntityBase<TeamId>, ICreatedAtEntity
+public sealed class Team : CreatedAtEntityBase<TeamId>
 {
     private readonly List<TeamMember> _teamMembers = [];
     
     public string Name { get; set; }
     public IReadOnlyCollection<TeamMember> Members => _teamMembers.ToList();
     public BoardId BoardId { get; set; }
-    public UserId CreatedBy { get; set; }
-    public DateTimeOffset CreatedDate { get; set; }
 
     public void AddMember(UserId memberId)
     {

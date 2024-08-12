@@ -5,7 +5,7 @@ using Scrumboard.Domain.Cards.Comments;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Comments;
 
-internal sealed class CommentConfiguration : AuditableEntityTypeConfiguration<Comment, CommentId>
+internal sealed class CommentConfiguration : CreatedAtEntityTypeConfiguration<Comment, CommentId>
 {
     protected override void ConfigureDetails(EntityTypeBuilder<Comment> builder)
     {

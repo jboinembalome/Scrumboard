@@ -5,12 +5,12 @@ using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
-public abstract class CreatedAtEntityTypeConfiguration<TEntity, TEntityId> 
-    : IEntityTypeConfiguration<TEntity> 
+public abstract class CreatedAtEntityTypeConfiguration<TCreatedAtEntity, TEntityId> 
+    : IEntityTypeConfiguration<TCreatedAtEntity> 
     where TEntityId : struct, IEquatable<TEntityId>
-    where TEntity : class, ICreatedAtEntity 
+    where TCreatedAtEntity : class, ICreatedAtEntity 
 {
-    public void Configure(EntityTypeBuilder<TEntity> builder)
+    public void Configure(EntityTypeBuilder<TCreatedAtEntity> builder)
     {
         builder.Property(x => x.CreatedBy)
             .HasConversion(
@@ -20,5 +20,5 @@ public abstract class CreatedAtEntityTypeConfiguration<TEntity, TEntityId>
         ConfigureDetails(builder);
     }
 
-    protected abstract void ConfigureDetails(EntityTypeBuilder<TEntity> builder);
+    protected abstract void ConfigureDetails(EntityTypeBuilder<TCreatedAtEntity> builder);
 }

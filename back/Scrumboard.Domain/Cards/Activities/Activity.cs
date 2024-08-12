@@ -4,7 +4,7 @@ namespace Scrumboard.Domain.Cards.Activities;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
-public sealed class Activity : AuditableEntityBase<ActivityId>
+public sealed class Activity : CreatedAtEntityBase<ActivityId>
 {
     public Activity()
     {

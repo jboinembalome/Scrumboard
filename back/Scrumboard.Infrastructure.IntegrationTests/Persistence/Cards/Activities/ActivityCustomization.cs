@@ -11,7 +11,6 @@ public sealed class ActivityCustomization : IAutoAppliedCustomization
         fixture.Customize<Activity>(transform => transform
             .Without(x => x.Id)
             .Without(x => x.CardId)
-            .Without(x => x.CreatedBy)
-            .Without(x => x.LastModifiedBy));
+            .Without(x => x.CreatedBy));
     }
 }

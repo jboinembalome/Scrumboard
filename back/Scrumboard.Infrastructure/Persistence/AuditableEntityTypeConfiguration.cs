@@ -8,7 +8,7 @@ namespace Scrumboard.Infrastructure.Persistence;
 public abstract class AuditableEntityTypeConfiguration<TAuditableEntity, TEntityId> 
     : IEntityTypeConfiguration<TAuditableEntity> 
     where TEntityId : struct, IEquatable<TEntityId>
-    where TAuditableEntity : AuditableEntityBase<TEntityId>
+    where TAuditableEntity : class, ICreatedAtEntity, IModifiedAtEntity
 {
     public void Configure(EntityTypeBuilder<TAuditableEntity> builder)
     {

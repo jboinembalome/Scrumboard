@@ -12,10 +12,10 @@ internal sealed class BoardEditionValidator : AbstractValidator<BoardEdition>
         IBoardsRepository boardsRepository)
     {
         _boardsRepository = boardsRepository;
-        
+
         RuleFor(p => p.Name)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
+            .NotEmpty()
+            .MaximumLength(50);
         
         RuleFor(x => x.Id)
             .MustAsync(BoardExistsAsync)

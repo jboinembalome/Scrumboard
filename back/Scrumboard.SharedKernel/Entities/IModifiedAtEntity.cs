@@ -1,4 +1,6 @@
-﻿namespace Scrumboard.SharedKernel.Entities;
+﻿using Scrumboard.SharedKernel.Types;
+
+namespace Scrumboard.SharedKernel.Entities;
 
 public interface IModifiedAtEntity
 {

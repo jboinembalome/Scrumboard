@@ -10,6 +10,7 @@ using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.SharedKernel.Entities;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
 

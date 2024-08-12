@@ -1,3 +1,5 @@
+using Scrumboard.SharedKernel.Types;
+
 namespace Scrumboard.SharedKernel.Entities;
 
 /// <summary>

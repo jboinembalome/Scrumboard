@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.SharedKernel.Entities;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Identity;
 

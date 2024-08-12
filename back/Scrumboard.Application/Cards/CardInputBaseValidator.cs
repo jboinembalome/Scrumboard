@@ -7,6 +7,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 using Scrumboard.SharedKernel.Entities;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Application.Cards;
 

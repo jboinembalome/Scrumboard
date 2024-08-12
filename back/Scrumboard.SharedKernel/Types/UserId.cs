@@ -1,6 +1,4 @@
-﻿using Scrumboard.SharedKernel.Types;
-
-namespace Scrumboard.SharedKernel.Entities;
+﻿namespace Scrumboard.SharedKernel.Types;
 
 public readonly record struct UserId(string Value)
     : IStrongId<string, UserId>

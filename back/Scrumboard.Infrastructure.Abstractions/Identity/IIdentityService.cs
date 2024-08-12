@@ -1,5 +1,6 @@
 ﻿using Scrumboard.Domain.Common;
 using Scrumboard.SharedKernel.Entities;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Abstractions.Identity;
 

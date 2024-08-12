@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.SharedKernel.Entities;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
 

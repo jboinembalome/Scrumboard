@@ -5,11 +5,13 @@ using Scrumboard.Domain.Cards.Activities;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Activities;
 
-internal sealed class ActivityConfiguration : CreatedAtEntityTypeConfiguration<Activity, ActivityId>
+internal sealed class ActivityConfiguration : CreatedAtEntityTypeConfiguration<Activity, ActivityId>, IModelConfiguration
 {
+    private const string TableName = "Activities";
+    
     protected override void ConfigureDetails(EntityTypeBuilder<Activity> builder)
     {
-        builder.ToTable("Activities");
+        builder.ToTable(TableName);
         
         builder
             .HasKey(x => x.Id);
@@ -27,7 +29,6 @@ internal sealed class ActivityConfiguration : CreatedAtEntityTypeConfiguration<A
             .OwnsOne(b => b.ActivityField);
         
         builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
             .HasConversion(
                 x => (int)x,
                 x => (ActivityId)x);
@@ -36,5 +37,10 @@ internal sealed class ActivityConfiguration : CreatedAtEntityTypeConfiguration<A
             .HasConversion(
                 x => (int)x,
                 x => (CardId)x);
+    }
+
+    public void ConfigureModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseSequence<Activity, ActivityId>(increment: 50);
     }
 }

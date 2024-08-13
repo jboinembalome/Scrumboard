@@ -22,7 +22,7 @@ internal sealed class CardsRepository(
     {
         var card = mapper.Map<Card>(cardCreation);
         
-        dbContext.Cards.Add(card);
+        await dbContext.Cards.AddAsync(card, cancellationToken);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 

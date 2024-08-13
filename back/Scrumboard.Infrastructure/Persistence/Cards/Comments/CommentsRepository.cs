@@ -20,7 +20,7 @@ internal sealed class CommentsRepository(
     {
         var comment = mapper.Map<Comment>(commentCreation);
         
-        dbContext.Comments.Add(comment);
+        await dbContext.Comments.AddAsync(comment, cancellationToken);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 

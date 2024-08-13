@@ -40,7 +40,7 @@ internal sealed class LabelsRepository(
     {
         var label = mapper.Map<Label>(labelCreation);
 
-        dbContext.Labels.Add(label);
+        await dbContext.Labels.AddAsync(label, cancellationToken);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

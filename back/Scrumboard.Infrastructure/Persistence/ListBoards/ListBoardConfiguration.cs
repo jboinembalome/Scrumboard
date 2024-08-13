@@ -2,15 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
-using Scrumboard.Infrastructure.Persistence.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.ListBoards;
 
-internal sealed class ListBoardConfiguration : AuditableEntityTypeConfiguration<ListBoard, ListBoardId>
+internal sealed class ListBoardConfiguration : AuditableEntityTypeConfiguration<ListBoard, ListBoardId>, IModelConfiguration
 {
+    private const string TableName = "ListBoards";
+    
     protected override void ConfigureDetails(EntityTypeBuilder<ListBoard> builder)
     {
-        builder.ToTable("ListBoards");
+        builder.ToTable(TableName);
         
         builder
             .HasKey(x => x.Id);
@@ -30,7 +31,6 @@ internal sealed class ListBoardConfiguration : AuditableEntityTypeConfiguration<
             .HasForeignKey(x => x.BoardId);
         
         builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
             .HasConversion(
                 x => (int)x,
                 x => (ListBoardId)x);
@@ -39,5 +39,10 @@ internal sealed class ListBoardConfiguration : AuditableEntityTypeConfiguration<
             .HasConversion(
                 x => (int)x,
                 x => (BoardId)x);
+    }
+
+    public void ConfigureModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseSequence<ListBoard, ListBoardId>(increment: 50);
     }
 }

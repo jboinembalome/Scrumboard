@@ -11,6 +11,37 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence(
+                name: "Activities_HiLoSequence",
+                incrementBy: 50);
+
+            migrationBuilder.CreateSequence(
+                name: "Boards_HiLoSequence",
+                incrementBy: 50);
+
+            migrationBuilder.CreateSequence(
+                name: "BoardSettings_HiLoSequence",
+                incrementBy: 50);
+
+            migrationBuilder.CreateSequence(
+                name: "Cards_HiLoSequence",
+                incrementBy: 50);
+
+            migrationBuilder.CreateSequence(
+                name: "Comments_HiLoSequence",
+                incrementBy: 50);
+
+            migrationBuilder.CreateSequence(
+                name: "Labels_HiLoSequence");
+
+            migrationBuilder.CreateSequence(
+                name: "ListBoards_HiLoSequence",
+                incrementBy: 50);
+
+            migrationBuilder.CreateSequence(
+                name: "Teams_HiLoSequence",
+                incrementBy: 50);
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -58,8 +89,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "Boards",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     IsPinned = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
@@ -182,8 +212,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "BoardSettings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     BoardId = table.Column<int>(type: "int", nullable: false),
                     Colour_Code = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -202,8 +231,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "Labels",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Colour_Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BoardId = table.Column<int>(type: "int", nullable: false),
@@ -226,8 +254,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "ListBoards",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
                     BoardId = table.Column<int>(type: "int", nullable: false),
@@ -251,8 +278,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     BoardId = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -273,8 +299,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "Cards",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -318,17 +343,14 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     ActivityType = table.Column<int>(type: "int", nullable: false),
                     ActivityField_Field = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OldValue = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     NewValue = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     CardId = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    LastModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -381,14 +403,11 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 name: "Comments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     CardId = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: true),
-                    LastModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -533,6 +552,30 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Boards");
+
+            migrationBuilder.DropSequence(
+                name: "Activities_HiLoSequence");
+
+            migrationBuilder.DropSequence(
+                name: "Boards_HiLoSequence");
+
+            migrationBuilder.DropSequence(
+                name: "BoardSettings_HiLoSequence");
+
+            migrationBuilder.DropSequence(
+                name: "Cards_HiLoSequence");
+
+            migrationBuilder.DropSequence(
+                name: "Comments_HiLoSequence");
+
+            migrationBuilder.DropSequence(
+                name: "Labels_HiLoSequence");
+
+            migrationBuilder.DropSequence(
+                name: "ListBoards_HiLoSequence");
+
+            migrationBuilder.DropSequence(
+                name: "Teams_HiLoSequence");
         }
     }
 }

@@ -20,7 +20,7 @@ internal sealed class TeamsRepository(
     {
         var team = mapper.Map<Team>(teamCreation);
         
-        dbContext.Teams.Add(team);
+        await dbContext.Teams.AddAsync(team, cancellationToken);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 

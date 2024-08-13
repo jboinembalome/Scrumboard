@@ -10,7 +10,7 @@ internal sealed class ActivitiesRepository(
         Activity activity, 
         CancellationToken cancellationToken = default)
     {
-        dbContext.Activities.Add(activity);
+        await dbContext.Activities.AddAsync(activity, cancellationToken);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 
@@ -23,7 +23,7 @@ internal sealed class ActivitiesRepository(
     {
         var entities = activities.ToArray();
         
-        dbContext.Activities.AddRange(entities);
+        await dbContext.Activities.AddRangeAsync(entities, cancellationToken);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 

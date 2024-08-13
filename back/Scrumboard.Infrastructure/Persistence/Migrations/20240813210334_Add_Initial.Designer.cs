@@ -12,7 +12,7 @@ using Scrumboard.Infrastructure.Persistence;
 namespace Scrumboard.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ScrumboardDbContext))]
-    [Migration("20240811205501_Add_Initial")]
+    [Migration("20240813210334_Add_Initial")]
     partial class Add_Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,29 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.HasSequence("Activities_HiLoSequence")
+                .IncrementsBy(50);
+
+            modelBuilder.HasSequence("Boards_HiLoSequence")
+                .IncrementsBy(50);
+
+            modelBuilder.HasSequence("BoardSettings_HiLoSequence")
+                .IncrementsBy(50);
+
+            modelBuilder.HasSequence("Cards_HiLoSequence")
+                .IncrementsBy(50);
+
+            modelBuilder.HasSequence("Comments_HiLoSequence")
+                .IncrementsBy(50);
+
+            modelBuilder.HasSequence("Labels_HiLoSequence");
+
+            modelBuilder.HasSequence("ListBoards_HiLoSequence")
+                .IncrementsBy(50);
+
+            modelBuilder.HasSequence("Teams_HiLoSequence")
+                .IncrementsBy(50);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -164,7 +187,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "Boards_HiLoSequence");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -200,7 +223,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "BoardSettings_HiLoSequence");
 
                     b.Property<int>("BoardId")
                         .HasColumnType("int");
@@ -219,7 +242,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "Labels_HiLoSequence");
 
                     b.Property<int>("BoardId")
                         .HasColumnType("int");
@@ -257,7 +280,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "Activities_HiLoSequence");
 
                     b.Property<int>("ActivityType")
                         .HasColumnType("int");
@@ -267,17 +290,9 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NewValue")
@@ -301,7 +316,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "Cards_HiLoSequence");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -376,24 +391,16 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "Comments_HiLoSequence");
 
                     b.Property<int>("CardId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
-
-                    b.Property<DateTimeOffset?>("LastModifiedDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Message")
@@ -414,7 +421,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "ListBoards_HiLoSequence");
 
                     b.Property<int>("BoardId")
                         .HasColumnType("int");
@@ -455,7 +462,7 @@ namespace Scrumboard.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "Teams_HiLoSequence");
 
                     b.Property<int>("BoardId")
                         .HasColumnType("int");

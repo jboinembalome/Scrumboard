@@ -4,11 +4,13 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
-internal sealed class LabelConfiguration : AuditableEntityTypeConfiguration<Label, LabelId>
+internal sealed class LabelConfiguration : AuditableEntityTypeConfiguration<Label, LabelId>, IModelConfiguration
 {
+    private const string TableName = "Labels";
+    
     protected override void ConfigureDetails(EntityTypeBuilder<Label> builder)
     {
-        builder.ToTable("Labels");
+        builder.ToTable(TableName);
         
         builder
             .HasKey(x => x.Id);
@@ -22,7 +24,6 @@ internal sealed class LabelConfiguration : AuditableEntityTypeConfiguration<Labe
             .OnDelete(DeleteBehavior.ClientCascade);
         
         builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
             .HasConversion(
                 x => (int)x,
                 x => (LabelId)x);
@@ -35,5 +36,10 @@ internal sealed class LabelConfiguration : AuditableEntityTypeConfiguration<Labe
             .HasConversion(
                 x => (int)x,
                 x => (BoardId)x);
+    }
+
+    public void ConfigureModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseSequence<Label, LabelId>(increment: 1);
     }
 }

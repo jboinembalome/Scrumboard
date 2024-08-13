@@ -62,8 +62,11 @@ public class ScrumboardDbContext(
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
+        var assembly = Assembly.GetExecutingAssembly();
+        
+        builder.ApplyConfigurationsFromAssembly(assembly);
+        builder.ApplyModelConfigurationsFromAssembly(assembly);
+        
         base.OnModelCreating(builder);
     }
 }

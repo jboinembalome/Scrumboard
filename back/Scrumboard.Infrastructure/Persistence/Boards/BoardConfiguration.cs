@@ -4,11 +4,13 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards;
 
-internal sealed class BoardConfiguration : AuditableEntityTypeConfiguration<Board, BoardId>
+internal sealed class BoardConfiguration : AuditableEntityTypeConfiguration<Board, BoardId>, IModelConfiguration
 {
+    private const string TableName = "Boards";
+    
     protected override void ConfigureDetails(EntityTypeBuilder<Board> builder)
     {
-        builder.ToTable("Boards");
+        builder.ToTable(TableName);
         
         builder
             .HasKey(x => x.Id);
@@ -23,9 +25,13 @@ internal sealed class BoardConfiguration : AuditableEntityTypeConfiguration<Boar
             .HasForeignKey<BoardSetting>(x => x.BoardId);
         
         builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
             .HasConversion(
                 x => (int)x,
                 x => new BoardId(x));
+    }
+
+    public void ConfigureModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseSequence<Board, BoardId>(increment: 50);
     }
 }

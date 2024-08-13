@@ -2,15 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
-using Scrumboard.Infrastructure.Persistence.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Teams;
 
-internal sealed class TeamConfiguration : CreatedAtEntityTypeConfiguration<Team, TeamId>
+internal sealed class TeamConfiguration : CreatedAtEntityTypeConfiguration<Team, TeamId>, IModelConfiguration
 {
+    private const string TableName = "Teams";
+    
     protected override void ConfigureDetails(EntityTypeBuilder<Team> builder)
     {
-        builder.ToTable("Teams");
+        builder.ToTable(TableName);
         
         builder
             .HasKey(x => x.Id);
@@ -30,7 +31,6 @@ internal sealed class TeamConfiguration : CreatedAtEntityTypeConfiguration<Team,
             .HasForeignKey(x => x.BoardId);
         
         builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
             .HasConversion(
                 x => (int)x,
                 x => (TeamId)x);
@@ -39,5 +39,10 @@ internal sealed class TeamConfiguration : CreatedAtEntityTypeConfiguration<Team,
             .HasConversion(
                 x => (int)x,
                 x => (BoardId)x);
+    }
+
+    public void ConfigureModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseSequence<Team, TeamId>(increment: 50);
     }
 }

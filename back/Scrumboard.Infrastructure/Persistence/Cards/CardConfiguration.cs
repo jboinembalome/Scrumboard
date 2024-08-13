@@ -4,16 +4,16 @@ using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Domain.ListBoards;
-using Scrumboard.Infrastructure.Persistence.Cards.Activities;
-using Scrumboard.Infrastructure.Persistence.Cards.Comments;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 
-internal sealed class CardConfiguration : AuditableEntityTypeConfiguration<Card, CardId>
+internal sealed class CardConfiguration : AuditableEntityTypeConfiguration<Card, CardId>, IModelConfiguration
 {
+    private const string TableName = "Cards";
+    
     protected override void ConfigureDetails(EntityTypeBuilder<Card> builder)
     {
-        builder.ToTable("Cards");
+        builder.ToTable(TableName);
         
         builder
             .HasKey(x => x.Id);
@@ -46,7 +46,6 @@ internal sealed class CardConfiguration : AuditableEntityTypeConfiguration<Card,
             .HasForeignKey(x => x.CardId);
         
         builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
             .HasConversion(
                 x => (int)x,
                 x => (CardId)x);
@@ -55,5 +54,10 @@ internal sealed class CardConfiguration : AuditableEntityTypeConfiguration<Card,
             .HasConversion(
                 x => (int)x,
                 x => (ListBoardId)x);
+    }
+
+    public void ConfigureModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseSequence<Card, CardId>(increment: 50);
     }
 }

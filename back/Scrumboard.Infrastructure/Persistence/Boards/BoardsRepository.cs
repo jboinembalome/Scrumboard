@@ -22,7 +22,7 @@ internal sealed class BoardsRepository(
     {
         var board = mapper.Map<Board>(boardCreation);
         
-        dbContext.Boards.Add(board);
+        await dbContext.Boards.AddAsync(board, cancellationToken);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 

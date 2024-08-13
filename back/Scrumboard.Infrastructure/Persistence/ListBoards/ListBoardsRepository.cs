@@ -20,7 +20,7 @@ internal sealed class ListBoardsRepository(
     {
         var listBoard = mapper.Map<ListBoard>(listBoardCreation);
         
-        dbContext.ListBoards.Add(listBoard);
+        await dbContext.ListBoards.AddAsync(listBoard, cancellationToken);
         
         await dbContext.SaveChangesAsync(cancellationToken);
 

@@ -5,11 +5,13 @@ using Scrumboard.Domain.Cards.Comments;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Comments;
 
-internal sealed class CommentConfiguration : CreatedAtEntityTypeConfiguration<Comment, CommentId>
+internal sealed class CommentConfiguration : CreatedAtEntityTypeConfiguration<Comment, CommentId>, IModelConfiguration
 {
+    private const string TableName = "Comments";
+    
     protected override void ConfigureDetails(EntityTypeBuilder<Comment> builder)
     {
-        builder.ToTable("Comments");
+        builder.ToTable(TableName);
 
         builder.HasKey(x => x.Id);
         
@@ -18,7 +20,6 @@ internal sealed class CommentConfiguration : CreatedAtEntityTypeConfiguration<Co
             .IsRequired();
         
         builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
             .HasConversion(
                 x => (int)x,
                 x => (CommentId)x);
@@ -27,5 +28,10 @@ internal sealed class CommentConfiguration : CreatedAtEntityTypeConfiguration<Co
             .HasConversion(
                 x => (int)x,
                 x => (CardId)x);
+    }
+
+    public void ConfigureModel(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseSequence<Comment, CommentId>(increment: 50);
     }
 }

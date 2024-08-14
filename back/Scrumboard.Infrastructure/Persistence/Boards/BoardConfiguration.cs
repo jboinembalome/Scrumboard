@@ -4,11 +4,11 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards;
 
-internal sealed class BoardConfiguration : AuditableEntityTypeConfiguration<Board, BoardId>, IModelConfiguration
+internal sealed class BoardConfiguration : AuditableEntityTypeConfiguration<Board>, IModelConfiguration
 {
     private const string TableName = "Boards";
     
-    protected override void ConfigureDetails(EntityTypeBuilder<Board> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Board> builder)
     {
         builder.ToTable(TableName);
         

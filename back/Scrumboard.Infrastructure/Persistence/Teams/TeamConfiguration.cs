@@ -9,7 +9,7 @@ internal sealed class TeamConfiguration : CreatedAtEntityTypeConfiguration<Team,
 {
     private const string TableName = "Teams";
     
-    protected override void ConfigureDetails(EntityTypeBuilder<Team> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Team> builder)
     {
         builder.ToTable(TableName);
         

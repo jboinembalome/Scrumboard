@@ -5,11 +5,11 @@ using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Infrastructure.Persistence.ListBoards;
 
-internal sealed class ListBoardConfiguration : AuditableEntityTypeConfiguration<ListBoard, ListBoardId>, IModelConfiguration
+internal sealed class ListBoardConfiguration : AuditableEntityTypeConfiguration<ListBoard>, IModelConfiguration
 {
     private const string TableName = "ListBoards";
     
-    protected override void ConfigureDetails(EntityTypeBuilder<ListBoard> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<ListBoard> builder)
     {
         builder.ToTable(TableName);
         

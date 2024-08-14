@@ -9,7 +9,7 @@ internal sealed class ActivityConfiguration : CreatedAtEntityTypeConfiguration<A
 {
     private const string TableName = "Activities";
     
-    protected override void ConfigureDetails(EntityTypeBuilder<Activity> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Activity> builder)
     {
         builder.ToTable(TableName);
         

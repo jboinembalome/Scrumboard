@@ -7,11 +7,11 @@ using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 
-internal sealed class CardConfiguration : AuditableEntityTypeConfiguration<Card, CardId>, IModelConfiguration
+internal sealed class CardConfiguration : AuditableEntityTypeConfiguration<Card>, IModelConfiguration
 {
     private const string TableName = "Cards";
     
-    protected override void ConfigureDetails(EntityTypeBuilder<Card> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Card> builder)
     {
         builder.ToTable(TableName);
         

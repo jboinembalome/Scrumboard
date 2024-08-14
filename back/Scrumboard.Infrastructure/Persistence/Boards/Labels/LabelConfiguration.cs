@@ -4,11 +4,11 @@ using Scrumboard.Domain.Boards;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
-internal sealed class LabelConfiguration : AuditableEntityTypeConfiguration<Label, LabelId>, IModelConfiguration
+internal sealed class LabelConfiguration : AuditableEntityTypeConfiguration<Label>, IModelConfiguration
 {
     private const string TableName = "Labels";
     
-    protected override void ConfigureDetails(EntityTypeBuilder<Label> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Label> builder)
     {
         builder.ToTable(TableName);
         

@@ -5,12 +5,11 @@ using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
-public abstract class AuditableEntityTypeConfiguration<TAuditableEntity, TEntityId> 
-    : IEntityTypeConfiguration<TAuditableEntity> 
-    where TEntityId : struct, IEquatable<TEntityId>
-    where TAuditableEntity : class, ICreatedAtEntity, IModifiedAtEntity
+public abstract class AuditableEntityTypeConfiguration<TEntity> 
+    : IEntityTypeConfiguration<TEntity> 
+    where TEntity : class, IEntity, ICreatedAtEntity, IModifiedAtEntity
 {
-    public void Configure(EntityTypeBuilder<TAuditableEntity> builder)
+    public void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.Property(x => x.CreatedBy)
             .HasMaxLength(36)
@@ -24,8 +23,8 @@ public abstract class AuditableEntityTypeConfiguration<TAuditableEntity, TEntity
                 x => (string?)x,
                 x =>(UserId?)x!);
         
-        ConfigureDetails(builder);
+        ConfigureEntity(builder);
     }
 
-    protected abstract void ConfigureDetails(EntityTypeBuilder<TAuditableEntity> builder);
+    protected abstract void ConfigureEntity(EntityTypeBuilder<TEntity> builder);
 }

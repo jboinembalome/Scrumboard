@@ -9,7 +9,7 @@ internal sealed class CommentConfiguration : CreatedAtEntityTypeConfiguration<Co
 {
     private const string TableName = "Comments";
     
-    protected override void ConfigureDetails(EntityTypeBuilder<Comment> builder)
+    protected override void ConfigureEntity(EntityTypeBuilder<Comment> builder)
     {
         builder.ToTable(TableName);
 

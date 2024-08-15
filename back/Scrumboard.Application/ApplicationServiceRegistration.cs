@@ -23,7 +23,10 @@ public static class ApplicationServiceRegistration
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
+        var assembly = Assembly.GetExecutingAssembly();
+        services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
+        
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         
         // Boards
         services

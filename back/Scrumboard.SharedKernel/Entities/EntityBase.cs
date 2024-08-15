@@ -1,3 +1,5 @@
+using Scrumboard.SharedKernel.DomainEvents;
+
 namespace Scrumboard.SharedKernel.Entities;
 
 /// <summary>

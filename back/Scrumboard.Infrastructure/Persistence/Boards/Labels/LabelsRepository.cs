@@ -42,8 +42,6 @@ internal sealed class LabelsRepository(
 
         await dbContext.Labels.AddAsync(label, cancellationToken);
 
-        await dbContext.SaveChangesAsync(cancellationToken);
-
         return label;
     }
 
@@ -56,8 +54,6 @@ internal sealed class LabelsRepository(
 
         mapper.Map(labelEdition, label);
 
-        await dbContext.SaveChangesAsync(cancellationToken);
-
         return label;
     }
 
@@ -69,7 +65,5 @@ internal sealed class LabelsRepository(
             .OrThrowEntityNotFoundAsync();
 
         dbContext.Labels.Remove(label);
-
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -21,8 +21,6 @@ internal sealed class TeamsRepository(
         var team = mapper.Map<Team>(teamCreation);
         
         await dbContext.Teams.AddAsync(team, cancellationToken);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return team;
     }
@@ -36,8 +34,6 @@ internal sealed class TeamsRepository(
 
         mapper.Map(teamEdition, team);
         
-        await dbContext.SaveChangesAsync(cancellationToken);
-        
         return team;
     }
 
@@ -49,7 +45,5 @@ internal sealed class TeamsRepository(
             .OrThrowEntityNotFoundAsync();
         
         dbContext.Teams.Remove(team);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

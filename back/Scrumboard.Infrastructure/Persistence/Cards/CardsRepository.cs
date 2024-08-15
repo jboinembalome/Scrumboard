@@ -23,8 +23,6 @@ internal sealed class CardsRepository(
         var card = mapper.Map<Card>(cardCreation);
         
         await dbContext.Cards.AddAsync(card, cancellationToken);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return card;
     }
@@ -39,8 +37,6 @@ internal sealed class CardsRepository(
 
         mapper.Map(cardEdition, card);
         
-        await dbContext.SaveChangesAsync(cancellationToken);
-        
         return card;
     }
 
@@ -50,8 +46,6 @@ internal sealed class CardsRepository(
             .OrThrowEntityNotFoundAsync();
         
         dbContext.Cards.Remove(card);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     private IQueryable<Card> Query()

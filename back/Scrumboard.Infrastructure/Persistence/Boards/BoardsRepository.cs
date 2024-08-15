@@ -23,8 +23,6 @@ internal sealed class BoardsRepository(
         var board = mapper.Map<Board>(boardCreation);
         
         await dbContext.Boards.AddAsync(board, cancellationToken);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return board;
     }
@@ -38,8 +36,6 @@ internal sealed class BoardsRepository(
 
         mapper.Map(boardEdition, board);
         
-        await dbContext.SaveChangesAsync(cancellationToken);
-        
         return board;
     }
 
@@ -51,8 +47,6 @@ internal sealed class BoardsRepository(
             .OrThrowEntityNotFoundAsync();
         
         dbContext.Boards.Remove(board);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     private IQueryable<Board> Query()

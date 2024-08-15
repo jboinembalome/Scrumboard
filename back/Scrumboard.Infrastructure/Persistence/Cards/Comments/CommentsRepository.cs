@@ -21,8 +21,6 @@ internal sealed class CommentsRepository(
         var comment = mapper.Map<Comment>(commentCreation);
         
         await dbContext.Comments.AddAsync(comment, cancellationToken);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return comment;
     }
@@ -36,8 +34,6 @@ internal sealed class CommentsRepository(
 
         mapper.Map(commentEdition, comment);
         
-        await dbContext.SaveChangesAsync(cancellationToken);
-        
         return comment;
     }
 
@@ -49,7 +45,5 @@ internal sealed class CommentsRepository(
             .OrThrowEntityNotFoundAsync();
         
         dbContext.Comments.Remove(comment);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

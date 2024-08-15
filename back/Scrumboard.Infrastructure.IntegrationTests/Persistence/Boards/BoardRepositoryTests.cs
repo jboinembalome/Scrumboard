@@ -40,6 +40,7 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
 
         // Act
         await _sut.AddAsync(boardCreation);
+        await ActDbContext.SaveChangesAsync();
         
         // Assert
         var createdBoard = await AssertDbContext.Boards
@@ -64,6 +65,7 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
         
         // Act
         await _sut.DeleteAsync(board.Id);
+        await ActDbContext.SaveChangesAsync();
     
         // Assert
         var boardExist = await AssertDbContext.Boards
@@ -102,7 +104,8 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
         
         // Act
         await _sut.UpdateAsync(boardEdition);
-    
+        await ActDbContext.SaveChangesAsync();
+        
         // Assert
         var updatedBoardDao = await AssertDbContext.Boards
             .Include(x => x.BoardSetting)

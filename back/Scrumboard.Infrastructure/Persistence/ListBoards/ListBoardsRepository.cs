@@ -21,8 +21,6 @@ internal sealed class ListBoardsRepository(
         var listBoard = mapper.Map<ListBoard>(listBoardCreation);
         
         await dbContext.ListBoards.AddAsync(listBoard, cancellationToken);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return listBoard;
     }
@@ -36,8 +34,6 @@ internal sealed class ListBoardsRepository(
 
         mapper.Map(listBoardEdition, listBoard);
         
-        await dbContext.SaveChangesAsync(cancellationToken);
-        
         return listBoard;
     }
 
@@ -49,7 +45,5 @@ internal sealed class ListBoardsRepository(
             .OrThrowEntityNotFoundAsync();
         
         dbContext.ListBoards.Remove(listBoard);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

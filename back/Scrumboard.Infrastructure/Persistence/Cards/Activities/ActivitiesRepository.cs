@@ -11,8 +11,6 @@ internal sealed class ActivitiesRepository(
         CancellationToken cancellationToken = default)
     {
         await dbContext.Activities.AddAsync(activity, cancellationToken);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return activity;
     }
@@ -24,8 +22,6 @@ internal sealed class ActivitiesRepository(
         var entities = activities.ToArray();
         
         await dbContext.Activities.AddRangeAsync(entities, cancellationToken);
-        
-        await dbContext.SaveChangesAsync(cancellationToken);
 
         return entities;
     }

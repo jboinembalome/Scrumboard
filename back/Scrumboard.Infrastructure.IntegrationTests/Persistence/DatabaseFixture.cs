@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Respawn;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Infrastructure.Persistence.Interceptors;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -49,7 +51,7 @@ public sealed class DatabaseFixture : IDisposable
     
     public ScrumboardDbContext CreateDbContext()
     {
-        var dbContext = new ScrumboardDbContext(_dbContextOptions, CurrentUserServiceMock.Object, CurrentDateServiceMock.Object);
+        var dbContext = new ScrumboardDbContext(_dbContextOptions);
         
         dbContext.Database.Migrate();
         
@@ -80,6 +82,10 @@ public sealed class DatabaseFixture : IDisposable
         var services = new ServiceCollection();
 
         services.AddSingleton(CurrentUserServiceMock.Object);
+        services.AddSingleton(CurrentDateServiceMock.Object);
+        
+        services.AddScoped<ISaveChangesInterceptor, CreatedEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, ModifiedEntityInterceptor>();
         
         return services;
     }
@@ -87,6 +93,7 @@ public sealed class DatabaseFixture : IDisposable
     private static DbContextOptions<ScrumboardDbContext> GetDbContextOptions(IServiceProvider serviceProvider) 
         => new DbContextOptionsBuilder<ScrumboardDbContext>()
             .UseSqlServer(DEFAULT_SQL_CONNECTION)
+            .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>())
             .UseInternalServiceProvider(serviceProvider)
             .Options;
     

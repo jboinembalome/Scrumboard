@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrumboard.Infrastructure.Abstractions.Common;
@@ -23,6 +24,7 @@ using Scrumboard.Infrastructure.Persistence.Boards.Labels;
 using Scrumboard.Infrastructure.Persistence.Cards;
 using Scrumboard.Infrastructure.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Persistence.Cards.Comments;
+using Scrumboard.Infrastructure.Persistence.Interceptors;
 using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
 
@@ -32,9 +34,14 @@ public static class InfrastructureServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-            services.AddDbContext<ScrumboardDbContext>(options =>
+            services.AddScoped<ISaveChangesInterceptor, CreatedEntityInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, ModifiedEntityInterceptor>();
+
+            services.AddDbContext<ScrumboardDbContext>((serviceProvider, options) =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options
+                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                    .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
             });
             
             

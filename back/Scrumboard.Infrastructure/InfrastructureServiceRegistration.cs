@@ -27,6 +27,7 @@ using Scrumboard.Infrastructure.Persistence.Cards.Comments;
 using Scrumboard.Infrastructure.Persistence.Interceptors;
 using Scrumboard.Infrastructure.Persistence.ListBoards;
 using Scrumboard.Infrastructure.Persistence.Teams;
+using Scrumboard.SharedKernel.DomainEvents;
 
 namespace Scrumboard.Infrastructure;
 
@@ -36,7 +37,8 @@ public static class InfrastructureServiceRegistration
     {
             services.AddScoped<ISaveChangesInterceptor, CreatedEntityInterceptor>();
             services.AddScoped<ISaveChangesInterceptor, ModifiedEntityInterceptor>();
-
+            services.AddScoped<ISaveChangesInterceptor, PublishDomainEventsInterceptor>();
+            
             services.AddDbContext<ScrumboardDbContext>((serviceProvider, options) =>
             {
                 options
@@ -60,6 +62,9 @@ public static class InfrastructureServiceRegistration
             services.AddTransient<ICurrentDateService, CurrentDateService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient(typeof(ICsvExporter<>), typeof(CsvExporter<>));
+            
+            // DomainEventPublisher
+            services.AddScoped<IDomainEventPublisher, DomainEventPublisher>();
             
             // Boards
             services.AddScoped<IBoardsRepository, BoardsRepository>();

@@ -86,6 +86,7 @@ public sealed class DatabaseFixture : IDisposable
         
         services.AddScoped<ISaveChangesInterceptor, CreatedEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, ModifiedEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, PublishDomainEventsInterceptor>();
         
         return services;
     }

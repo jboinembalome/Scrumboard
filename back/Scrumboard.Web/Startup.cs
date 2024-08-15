@@ -10,6 +10,7 @@ using Scrumboard.Application;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Web.Api;
 using Scrumboard.Web.ExceptionHandlers;
+using Scrumboard.Web.Middlewares;
 
 namespace Scrumboard.Web;
 
@@ -33,6 +34,8 @@ public class Startup
         services.AddHttpContextAccessor();
 
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
+        
+        services.AddScoped<UnitOfWorkMiddleware>();
         
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -99,10 +102,12 @@ public class Startup
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Scrumboard API");
         });
-
-        app.UseRouting();
         
         app.UseExceptionHandler();
+        
+        app.UseMiddleware<UnitOfWorkMiddleware>();
+        
+        app.UseRouting();
         
         app.UseAuthentication();
         app.UseAuthorization();

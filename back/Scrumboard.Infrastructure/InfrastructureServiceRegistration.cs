@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.FileExport;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
@@ -32,7 +33,9 @@ public static class InfrastructureServiceRegistration
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
             services.AddDbContext<ScrumboardDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
             
             
             services.AddScoped<ScrumboardDbContextInitializer>();
@@ -50,7 +53,6 @@ public static class InfrastructureServiceRegistration
             services.AddTransient<ICurrentDateService, CurrentDateService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient(typeof(ICsvExporter<>), typeof(CsvExporter<>));
-            
             
             // Boards
             services.AddScoped<IBoardsRepository, BoardsRepository>();
@@ -73,7 +75,9 @@ public static class InfrastructureServiceRegistration
             // Teams
             services.AddScoped<ITeamsQueryRepository, TeamsQueryRepository>();
             services.AddScoped<ITeamsRepository, TeamsRepository>();
-           
+            
+            // UnitOfWork
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             
             services.AddAuthentication();
             

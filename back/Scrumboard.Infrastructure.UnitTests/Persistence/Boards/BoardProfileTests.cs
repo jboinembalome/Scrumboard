@@ -45,7 +45,8 @@ public sealed class BoardProfileTests
             BoardSetting = new BoardSetting
             {
                 Colour = boardCreation.BoardSetting.Colour
-            }
+            },
+            OwnerId = boardCreation.OwnerId
         };
 
         board

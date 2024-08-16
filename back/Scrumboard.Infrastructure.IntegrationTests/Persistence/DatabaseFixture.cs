@@ -5,7 +5,9 @@ using Moq;
 using Respawn;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Infrastructure.IntegrationTests.Persistence.Stubs;
 using Scrumboard.Infrastructure.Persistence.Interceptors;
+using Scrumboard.SharedKernel.DomainEvents;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -87,6 +89,9 @@ public sealed class DatabaseFixture : IDisposable
         services.AddScoped<ISaveChangesInterceptor, CreatedEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, ModifiedEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, PublishDomainEventsInterceptor>();
+        
+        // Use a stub as we only want to test the repositories
+        services.AddScoped<IDomainEventPublisher, DomainEventPublisherStub>();
         
         return services;
     }

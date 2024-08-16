@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
+using Scrumboard.SharedKernel.Types;
+using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Boards;
 
@@ -13,7 +16,8 @@ namespace Scrumboard.Web.Api.Boards;
 [Route("api/[controller]")]
 public class BoardsController(
     IMapper mapper,
-    IBoardsService boardsService) : ControllerBase
+    IBoardsService boardsService,
+    IIdentityService identityService) : ControllerBase
 {
     /// <summary>
     /// Get the boards of the current user.
@@ -26,7 +30,7 @@ public class BoardsController(
     {
         var boards = await boardsService.GetAsync(cancellationToken);
         
-        var dtos = mapper.Map<IEnumerable<BoardDto>>(boards);
+        var dtos = await GetBoardDtosAsync(boards, cancellationToken);
         
         return Ok(dtos);
     }
@@ -45,7 +49,7 @@ public class BoardsController(
     {
         var board = await boardsService.GetByIdAsync(new BoardId(id), cancellationToken);
         
-        var dto = mapper.Map<BoardDto>(board);
+        var dto = await GetBoardDtoAsync(board, cancellationToken);
 
         return Ok(dto);
     }
@@ -64,7 +68,7 @@ public class BoardsController(
         
         var board = await boardsService.AddAsync(boardCreation, cancellationToken);
         
-        var dto = mapper.Map<BoardDto>(board);
+        var dto = await GetBoardDtoAsync(board, cancellationToken);
 
         return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
     }
@@ -85,13 +89,15 @@ public class BoardsController(
         CancellationToken cancellationToken)
     {
         if (id != boardEditionDto.Id)
+        {
             return BadRequest();
+        }
         
         var boardEdition = mapper.Map<BoardEdition>(boardEditionDto);
         
         var board = await boardsService.UpdateAsync(boardEdition, cancellationToken);
         
-        var dto = mapper.Map<BoardDto>(board);
+        var dto = await GetBoardDtoAsync(board, cancellationToken);
 
         return Ok(dto);
     }
@@ -111,5 +117,50 @@ public class BoardsController(
         await boardsService.DeleteAsync(new BoardId(id), cancellationToken);
 
         return NoContent();
+    }
+    
+    private async Task<IReadOnlyCollection<BoardDto>> GetBoardDtosAsync(
+        IReadOnlyCollection<Board> boards,
+        CancellationToken cancellationToken)
+    {
+        var boardDtos = mapper.Map<IEnumerable<BoardDto>>(boards).ToList();
+        
+        var users = await identityService
+            .GetListAsync(boards
+                .Select(x => (UserId)x.OwnerId.Value), cancellationToken);
+        
+        var ownerDtos = boardDtos.Select(x => x.Owner).ToList();
+
+        MapUsers(users, ownerDtos);
+
+        return boardDtos;
+    }
+    
+    private async Task<BoardDto> GetBoardDtoAsync(
+        Board board,
+        CancellationToken cancellationToken)
+    {
+        var boardDto = mapper.Map<BoardDto>(board);
+        
+        var owner = await identityService.GetUserAsync((UserId)board.OwnerId.Value, cancellationToken);
+
+        mapper.Map(owner, boardDto.Owner);
+
+        return boardDto;
+    }
+    
+    private void MapUsers(IReadOnlyList<IUser> users, IEnumerable<UserDto> userDtos)
+    {
+        foreach (var userDto in userDtos)
+        {
+            var user = users.FirstOrDefault(x => x.Id == userDto.Id);
+
+            if (user is null)
+            {
+                continue;
+            }
+
+            mapper.Map(user, userDto);
+        }
     }
 }

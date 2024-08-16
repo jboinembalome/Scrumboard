@@ -9,4 +9,5 @@ public sealed class Board : AuditableEntityBase<BoardId>
     public string Name { get; set; } = "Untitled Board";
     public bool IsPinned { get; set; }
     public BoardSetting BoardSetting { get; set; }
+    public OwnerId OwnerId { get; set; }
 }

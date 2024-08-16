@@ -9,6 +9,7 @@ using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.SharedKernel.Extensions;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Application.Cards;
 
@@ -130,28 +131,28 @@ internal sealed class CardsService(
         if (!oldCard.Assignees.Any() && cardEdition.AssigneeIds.Any())
         {
             var firstAssigneeId = cardEdition.AssigneeIds.First();
-            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
+            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssignee.FirstName} {firstAssignee.LastName}"));
         }
 
         if (oldCard.Assignees.Any() && !cardEdition.AssigneeIds.Any())
         {
             var firstAssigneeId = oldCard.Assignees.First().AssigneeId;
-            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
+            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
         }
 
         if (oldCard.Assignees.Count < cardEdition.AssigneeIds.Count())
         {
             var firstAssigneeId = cardEdition.AssigneeIds.First(x => oldCard.Assignees.All(y => y.AssigneeId != x));
-            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
+            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssignee.FirstName} {firstAssignee.LastName}"));
         }
 
         if (oldCard.Assignees.Count > cardEdition.AssigneeIds.Count())
         {
             var firstAssigneeId = oldCard.Assignees.First(l => !cardEdition.AssigneeIds.Select(x => x).Contains(l.AssigneeId)).AssigneeId;
-            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId, cancellationToken);
+            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
         }
         #endregion

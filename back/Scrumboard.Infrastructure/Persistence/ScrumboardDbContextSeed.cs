@@ -10,7 +10,6 @@ using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
-using Scrumboard.SharedKernel.Entities;
 using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
@@ -145,10 +144,10 @@ public class ScrumboardDbContextInitializer(
             CreatedBy = _userId
         };
 
-        team.AddMember(_userId);
-        team.AddMember(_userId2);
-        team.AddMember(_userId3);
-        team.AddMember(_userId4);
+        team.AddMember((MemberId)_userId.Value);
+        team.AddMember((MemberId)_userId2.Value);
+        team.AddMember((MemberId)_userId3.Value);
+        team.AddMember((MemberId)_userId4.Value);
         
         var team2 = new Team
         {
@@ -156,7 +155,7 @@ public class ScrumboardDbContextInitializer(
             CreatedBy = _userId2
         };
         
-        team2.AddMember(_userId2);
+        team2.AddMember((MemberId)_userId2.Value);
 
         var labels = new Collection<Label>
         {
@@ -186,7 +185,7 @@ public class ScrumboardDbContextInitializer(
         card1.AddLabel(labels[0].Id);
         card1.AddLabel(labels[1].Id);
 
-        card1.AddAssignee(_userId);
+        card1.AddAssignee((AssigneeId)_userId.Value);
         
         Card card2 = new()
         {
@@ -221,7 +220,7 @@ public class ScrumboardDbContextInitializer(
 
         card3.AddLabel(labels[2].Id);
         
-        card4.AddAssignee(_userId);
+        card4.AddAssignee((AssigneeId)_userId.Value);
         
         var cards = new Collection<Card>
         {
@@ -241,7 +240,7 @@ public class ScrumboardDbContextInitializer(
         };
         
         card5.AddLabel(labels[4].Id);
-        card5.AddAssignee(_userId);
+        card5.AddAssignee((AssigneeId)_userId.Value);
         
         Card card6 = new()
         {

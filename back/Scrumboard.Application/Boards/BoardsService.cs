@@ -3,9 +3,7 @@ using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
-using Scrumboard.SharedKernel.Entities;
 using Scrumboard.SharedKernel.Extensions;
-using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Application.Boards;
 
@@ -33,12 +31,14 @@ internal sealed class BoardsService(
 
     public Task<IReadOnlyList<Board>> GetAsync(
         CancellationToken cancellationToken = default)
-        => boardsQueryRepository.GetByUserIdAsync((UserId)currentUserService.UserId, cancellationToken);
+        => boardsQueryRepository.GetByOwnerIdAsync((OwnerId)currentUserService.UserId, cancellationToken);
 
     public async Task<Board> AddAsync(
         BoardCreation boardCreation, 
         CancellationToken cancellationToken = default)
     {
+        boardCreation.OwnerId = (OwnerId)currentUserService.UserId;
+        
         await boardCreationValidator.ValidateAndThrowAsync(boardCreation, cancellationToken);
         
         // TODO: Use Domain Event to create the team (BoardCreatedEvent)

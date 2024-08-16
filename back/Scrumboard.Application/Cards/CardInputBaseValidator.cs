@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Common;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
-using Scrumboard.SharedKernel.Entities;
 using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Application.Cards;
@@ -86,11 +85,13 @@ internal abstract class CardInputBaseValidator<TInput>
     
     private async Task<bool> AssigneesExistAsync(
         TInput cardInput, 
-        IEnumerable<UserId> assigneeIds,
+        IEnumerable<AssigneeId> assigneeIds,
         ValidationContext<TInput> validationContext,
         CancellationToken cancellationToken)
     {
-        var ids = assigneeIds.ToArray();
+        var ids = assigneeIds
+            .Select(x => (UserId)x.Value)
+            .ToArray();
         
         var assignees = await _identityService.GetListAsync(ids, cancellationToken);
 

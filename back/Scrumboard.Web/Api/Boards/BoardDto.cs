@@ -10,8 +10,7 @@ public sealed class BoardDto
     public string Name { get; set; }
     public bool IsPinned { get; set; }
     public BoardSettingDto BoardSetting { get; set; }
-    public UserDto CreatedBy { get; set; }
+    public UserDto Owner { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
-    public UserDto? LastModifiedBy { get; set; }
     public DateTimeOffset? LastModifiedDate { get; set; }
 }

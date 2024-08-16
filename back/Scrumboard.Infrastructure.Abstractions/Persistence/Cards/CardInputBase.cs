@@ -1,8 +1,6 @@
 ﻿using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Common;
+using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.ListBoards;
-using Scrumboard.SharedKernel.Entities;
-using Scrumboard.SharedKernel.Types;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -16,5 +14,5 @@ public abstract class CardInputBase
     public int Position { get; set; }
     public ListBoardId ListBoardId { get; set; }
     public IEnumerable<LabelId> LabelIds { get; set; }
-    public IEnumerable<UserId> AssigneeIds { get; set; }
+    public IEnumerable<AssigneeId> AssigneeIds { get; set; }
 }

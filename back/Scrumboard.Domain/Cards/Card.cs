@@ -1,7 +1,6 @@
 ﻿using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.SharedKernel.Entities;
-using Scrumboard.SharedKernel.Types;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -20,7 +19,7 @@ public sealed class Card : AuditableEntityBase<CardId>
     public IReadOnlyCollection<CardAssignee> Assignees => _cardAssignees.ToList();
     public IReadOnlyCollection<CardLabel> Labels => _cardLabels.ToList();
     
-    public void AddAssignee(UserId assigneeId)
+    public void AddAssignee(AssigneeId assigneeId)
     {
         if (_cardAssignees.Any(x => x.CardId == Id && x.AssigneeId == assigneeId))
         {
@@ -30,7 +29,7 @@ public sealed class Card : AuditableEntityBase<CardId>
         _cardAssignees.Add(new CardAssignee { CardId = Id, AssigneeId = assigneeId });
     }
 
-    public void RemoveAssignee(UserId assigneeId)
+    public void RemoveAssignee(AssigneeId assigneeId)
     {
         var cardAssignee = _cardAssignees.FirstOrDefault(x => x.CardId == Id && x.AssigneeId == assigneeId);
         

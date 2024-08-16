@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.Domain.Teams;
-using Scrumboard.SharedKernel.Entities;
-using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence.Teams;
 
@@ -13,9 +11,6 @@ internal sealed class TeamMemberConfiguration : IEntityTypeConfiguration<TeamMem
         builder.ToTable("TeamMembers");
 
         builder.HasKey(x => new { x.TeamId, x.MemberId });
-
-        builder.Property(x => x.MemberId)
-            .HasMaxLength(36);
         
         builder.Property(x => x.TeamId)
             .HasConversion(
@@ -25,6 +20,7 @@ internal sealed class TeamMemberConfiguration : IEntityTypeConfiguration<TeamMem
         builder.Property(x => x.MemberId)
             .HasConversion(
                 x => (string)x,
-                x => (UserId)x);
+                x => (MemberId)x)
+            .HasMaxLength(36);
     }
 }

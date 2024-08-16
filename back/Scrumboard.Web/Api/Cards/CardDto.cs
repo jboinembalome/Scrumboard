@@ -13,4 +13,6 @@ public sealed class CardDto
     public int ListBoardId { get; set; }
     public IEnumerable<LabelDto> Labels { get; set; }
     public IEnumerable<UserDto> Assignees { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset? LastModifiedDate { get; set; }
 }

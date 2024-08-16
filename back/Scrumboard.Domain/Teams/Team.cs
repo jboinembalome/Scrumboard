@@ -1,6 +1,5 @@
 ﻿using Scrumboard.Domain.Boards;
 using Scrumboard.SharedKernel.Entities;
-using Scrumboard.SharedKernel.Types;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -14,7 +13,7 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
     public IReadOnlyCollection<TeamMember> Members => _teamMembers.ToList();
     public BoardId BoardId { get; set; }
 
-    public void AddMember(UserId memberId)
+    public void AddMember(MemberId memberId)
     {
         if (_teamMembers.Any(x => x.TeamId == Id && x.MemberId == memberId))
         {
@@ -24,7 +23,7 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
         _teamMembers.Add(new TeamMember { TeamId = Id, MemberId = memberId });
     }
 
-    public void RemoveMember(UserId memberId)
+    public void RemoveMember(MemberId memberId)
     {
         var teamMember = _teamMembers.FirstOrDefault(x => x.TeamId == Id && x.MemberId == memberId);
         

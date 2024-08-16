@@ -15,11 +15,11 @@ internal sealed class BoardsQueryRepository(
         => await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
-    public async Task<IReadOnlyList<Board>> GetByUserIdAsync(
-        UserId userId, 
+    public async Task<IReadOnlyList<Board>> GetByOwnerIdAsync(
+        OwnerId ownerId, 
         CancellationToken cancellationToken = default) 
         => await Query()
-            .Where(b => b.CreatedBy == userId)
+            .Where(b => b.OwnerId == ownerId)
             .ToListAsync(cancellationToken);
 
     private IQueryable<Board> Query()

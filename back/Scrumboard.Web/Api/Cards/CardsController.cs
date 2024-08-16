@@ -6,6 +6,7 @@ using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
+using Scrumboard.SharedKernel.Types;
 using Scrumboard.Web.Api.Boards.Labels;
 using Scrumboard.Web.Api.Users;
 
@@ -134,7 +135,7 @@ public class CardsController(
             return [];
         }
         
-        var users = await identityService.GetListAsync(card.Assignees.Select(x => x.AssigneeId), cancellationToken);
+        var users = await identityService.GetListAsync(card.Assignees.Select(x => (UserId)x.AssigneeId.Value), cancellationToken);
         
         return mapper.Map<IEnumerable<UserDto>>(users);
     }

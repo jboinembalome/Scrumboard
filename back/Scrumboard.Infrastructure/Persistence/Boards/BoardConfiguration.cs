@@ -28,6 +28,13 @@ internal sealed class BoardConfiguration : AuditableEntityTypeConfiguration<Boar
             .HasConversion(
                 x => (int)x,
                 x => new BoardId(x));
+        
+        builder.Property(b => b.OwnerId)
+            .HasConversion(
+                x => (string)x,
+                x => new OwnerId(x))
+            .HasMaxLength(36)
+            .IsRequired();
     }
 
     public void ConfigureModel(ModelBuilder modelBuilder)

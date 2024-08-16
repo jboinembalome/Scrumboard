@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.Domain.Cards;
-using Scrumboard.SharedKernel.Entities;
-using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 
@@ -25,6 +23,6 @@ internal sealed class CardAssigneeConfiguration : IEntityTypeConfiguration<CardA
         builder.Property(x => x.AssigneeId)
             .HasConversion(
                 x => (string)x,
-                x => (UserId)x);
+                x => (AssigneeId)x);
     }
 }

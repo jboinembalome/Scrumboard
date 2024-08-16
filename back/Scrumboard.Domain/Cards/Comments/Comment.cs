@@ -6,7 +6,6 @@ namespace Scrumboard.Domain.Cards.Comments;
 
 public sealed class Comment : CreatedAtEntityBase<CommentId>
 {
-    
     public string Message { get; set; }
     public CardId CardId { get; set; }
 }

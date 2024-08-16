@@ -6,6 +6,7 @@ using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.SharedKernel.Types;
 using Scrumboard.Web.Api.Teams;
 
 namespace Scrumboard.Web.Api.Boards.Teams;
@@ -52,7 +53,7 @@ public class TeamsController(
         CancellationToken cancellationToken)
     {
         var memberIds = team.Members
-            .Select(x => x.MemberId)
+            .Select(x => new UserId(x.MemberId.Value))
             .ToHashSet();
         
         var members = await identityService.GetListAsync(memberIds, cancellationToken);

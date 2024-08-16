@@ -6,4 +6,5 @@ public sealed class TeamCreationDto
 {
     public string Name { get; set; } = string.Empty;
     public IReadOnlyCollection<string> MemberIds { get; set; }
+    public int BoardId { get; set; }
 }

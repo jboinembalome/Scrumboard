@@ -41,15 +41,6 @@ internal sealed class BoardsService(
         
         await boardCreationValidator.ValidateAndThrowAsync(boardCreation, cancellationToken);
         
-        // TODO: Use Domain Event to create the team (BoardCreatedEvent)
-        //var user = await identityService.GetUserAsync(currentUserService.UserId, cancellationToken);
-        
-        // var board = mapper.Map<Board>(request);
-        // board.BoardSetting = new BoardSetting();
-        // // TODO: Update code for team name
-        // board.Team = new Team { Name = "Team 1", Members = [] };
-        // board.Team.Members.Add(user.Id);
-        
         return await boardsRepository.AddAsync(boardCreation, cancellationToken);
     }
 

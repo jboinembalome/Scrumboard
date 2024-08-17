@@ -12,8 +12,8 @@ public sealed class Board : AuditableEntityBase<BoardId>
         AddDomainEvent(new BoardCreatedDomainEvent(Id, OwnerId));
     }
     
-    public string Name { get; set; } = "Untitled Board";
-    public bool IsPinned { get; set; }
-    public BoardSetting BoardSetting { get; set; }
-    public OwnerId OwnerId { get; set; }
+    public string Name { get; init; }
+    public bool IsPinned { get; init; }
+    public BoardSetting BoardSetting { get; init; }
+    public OwnerId OwnerId { get; init; }
 }

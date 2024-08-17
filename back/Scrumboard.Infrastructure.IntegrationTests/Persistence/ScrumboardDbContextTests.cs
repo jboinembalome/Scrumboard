@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
+using Scrumboard.Shared.TestHelpers.Extensions;
 using Scrumboard.SharedKernel.Types;
 using Xunit;
 
@@ -50,7 +51,10 @@ public sealed class ScrumboardDbContextTests(
             
         // Act
         var board = await ActDbContext.Boards.FirstAsync(x => x.Id == newBoard.Id);
-        board.Name = "Updated name";
+        board.SetProperty(x => x.Name, "Updated name");
+        
+        typeof(Board).GetProperty(nameof(Board.Name))!.SetValue(board, "Updated name");
+        
         
         await ActDbContext.SaveChangesAsync();
 

@@ -5,18 +5,17 @@ using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Boards;
-using Scrumboard.Infrastructure.Persistence.Teams;
 using Scrumboard.Shared.TestHelpers.Fixtures;
 using Xunit;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Boards;
 
-public sealed class BoardRepositoryTests : PersistenceTestsBase
+public sealed class BoardsRepositoryTests : PersistenceTestsBase
 {
     private readonly IFixture _fixture;
     private readonly IBoardsRepository _sut;
     
-    public BoardRepositoryTests(DatabaseFixture databaseFixture) 
+    public BoardsRepositoryTests(DatabaseFixture databaseFixture) 
         : base(databaseFixture)
     {
         _fixture = new CustomizedFixture();
@@ -24,7 +23,6 @@ public sealed class BoardRepositoryTests : PersistenceTestsBase
         var mapperConfiguration = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<BoardProfile>();
-            cfg.AddProfile<TeamProfile>();
         });
         
         var mapper = mapperConfiguration.CreateMapper();

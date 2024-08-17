@@ -15,7 +15,7 @@ namespace Scrumboard.Infrastructure.IntegrationTests.Persistence;
 
 public sealed class DatabaseFixture : IDisposable
 {
-    private const string DEFAULT_SQL_CONNECTION = "Server=(localdb)\\mssqllocaldb;Database=ScrumboardTestDb;Trusted_Connection=True;MultipleActiveResultSets=true;";
+    private const string DEFAULT_SQL_CONNECTION = "Server=(localdb)\\mssqllocaldb;Database=ScrumboardIntegrationTestDb;Trusted_Connection=True;MultipleActiveResultSets=true;";
     
     private readonly DbContextOptions<ScrumboardDbContext> _dbContextOptions;
     private readonly ScrumboardDbContext _dbContext;

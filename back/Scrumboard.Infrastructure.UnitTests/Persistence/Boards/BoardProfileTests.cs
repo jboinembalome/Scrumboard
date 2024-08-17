@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Scrumboard.Infrastructure.UnitTests.Persistence.Boards;
 
-public sealed class BoardProfileTests
+public sealed class BoardProfileTests: UnitTestsBase
 {
     private readonly IFixture _fixture;
    
@@ -72,7 +72,7 @@ public sealed class BoardProfileTests
             BoardSetting = new BoardSetting
             {
                 Colour = boardEdition.BoardSetting.Colour
-            }
+            },
         };
 
         board

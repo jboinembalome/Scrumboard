@@ -32,7 +32,7 @@ internal sealed class CreatedEntityInterceptor(
             // TODO: Hack to not depend on httpContextAccessor when using ScrumboardDbContextSeed
             // (Will be removed later)
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-            if (entry.State is not EntityState.Added || entry.Entity.CreatedBy.Value is not null)
+            if (entry.State is not EntityState.Added || entry.Entity.CreatedBy is not null)
             {
                 continue;
             }

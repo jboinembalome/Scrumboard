@@ -19,8 +19,6 @@ public sealed class Board : AuditableEntityBase<BoardId>
         IsPinned = isPinned;
         BoardSetting = boardSetting ?? throw new ArgumentNullException(nameof(boardSetting));
         OwnerId = ownerId;
-        
-        AddDomainEvent(new BoardCreatedDomainEvent(Id, OwnerId));
     }
     
     public Board(
@@ -39,4 +37,14 @@ public sealed class Board : AuditableEntityBase<BoardId>
     public bool IsPinned { get; private set; }
     public BoardSetting BoardSetting { get; private set; }
     public OwnerId OwnerId { get; private set; }
+    
+    public void MarkAsCreated()
+    {
+        if (Id is null)
+        {
+            throw new InvalidOperationException("Board ID must be set before marking as created.");
+        }
+        
+        AddDomainEvent(new BoardCreatedDomainEvent(Id, OwnerId));
+    }
 }

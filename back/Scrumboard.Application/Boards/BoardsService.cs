@@ -37,11 +37,14 @@ internal sealed class BoardsService(
         BoardCreation boardCreation, 
         CancellationToken cancellationToken = default)
     {
-        boardCreation.OwnerId = (OwnerId)currentUserService.UserId;
+        boardCreation.OwnerId = currentUserService.UserId;
         
         await boardCreationValidator.ValidateAndThrowAsync(boardCreation, cancellationToken);
+
+        var board = await boardsRepository.AddAsync(boardCreation, cancellationToken);
+        board.MarkAsCreated();
         
-        return await boardsRepository.AddAsync(boardCreation, cancellationToken);
+        return board;
     }
 
     public async Task<Board> UpdateAsync(

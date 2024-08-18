@@ -35,9 +35,9 @@ public static class InfrastructureServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+            services.AddScoped<ISaveChangesInterceptor, PublishDomainEventsInterceptor>();
             services.AddScoped<ISaveChangesInterceptor, CreatedEntityInterceptor>();
             services.AddScoped<ISaveChangesInterceptor, ModifiedEntityInterceptor>();
-            services.AddScoped<ISaveChangesInterceptor, PublishDomainEventsInterceptor>();
             
             services.AddDbContext<ScrumboardDbContext>((serviceProvider, options) =>
             {

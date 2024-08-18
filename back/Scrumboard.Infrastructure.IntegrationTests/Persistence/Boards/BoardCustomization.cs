@@ -9,7 +9,11 @@ public sealed class BoardCustomization : IAutoAppliedCustomization
     public void Customize(IFixture fixture)
     {
         fixture.Customize<Board>(transform => transform
-            .Without(x => x.Id)
+            .FromFactory(() => new Board(
+                name: fixture.Create<string>(),          
+                isPinned: fixture.Create<bool>(),        
+                boardSetting: fixture.Create<BoardSetting>(),
+                ownerId: fixture.Create<OwnerId>()))
             .Without(x => x.CreatedBy)
             .Without(x => x.LastModifiedBy));
     }

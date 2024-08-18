@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.FileExport;
 using Scrumboard.Infrastructure.FileExport;
 using Xunit;
@@ -8,25 +9,20 @@ namespace Scrumboard.Infrastructure.IntegrationTests.FileExport;
 
 public class ExportToCsvTests
 {
-    private readonly ICsvExporter<Board> _csvExporter;
-
-    public ExportToCsvTests()
-    {
-        _csvExporter = new CsvExporter<Board>();
-    }
+    private readonly ICsvExporter<Board> _csvExporter = new CsvExporter<Board>();
 
     [Fact]
     public async Task ExportToCsv_ListOfBoards_ReturnCsv()
     {
         // Arrange
-        var board1 = new Board { Name = "board1" };
-        var board2 = new Board { Name = "board2" };
-        var board3 = new Board { Name = "board3" };
-
-        var boards = new List<Board> { board1, board2, board3};
+        var board = new Board(
+            name: "Scrumboard Frontend",
+            isPinned: false,
+            boardSetting:  new BoardSetting { Colour = Colour.Violet },
+            ownerId: new OwnerId("533f27ad-d3e8-4fe7-9259-ee4ef713dbea"));
 
         // Act
-        var file = await _csvExporter.ExportToCsvAsync(boards);
+        var file = await _csvExporter.ExportToCsvAsync([board]);
 
         // Assert
         file.Should().NotBeEmpty();

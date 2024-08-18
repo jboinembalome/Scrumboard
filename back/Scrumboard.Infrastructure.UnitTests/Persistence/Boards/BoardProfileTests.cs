@@ -38,16 +38,14 @@ public sealed class BoardProfileTests: UnitTestsBase
         var board = _mapper.Map<Board>(boardCreation);
         
         // Assert
-        var expectedBoard = new Board
-        {
-            Name = boardCreation.Name,
-            IsPinned = boardCreation.IsPinned,
-            BoardSetting = new BoardSetting
+        var expectedBoard = new Board(
+            name: boardCreation.Name,
+            isPinned: boardCreation.IsPinned,
+            boardSetting:  new BoardSetting
             {
                 Colour = boardCreation.BoardSetting.Colour
             },
-            OwnerId = boardCreation.OwnerId
-        };
+            ownerId: boardCreation.OwnerId);
 
         board
             .Should()
@@ -64,16 +62,14 @@ public sealed class BoardProfileTests: UnitTestsBase
         var board = _mapper.Map<Board>(boardEdition);
         
         // Assert
-        var expectedBoard = new Board
-        {
-            Id = boardEdition.Id,
-            Name = boardEdition.Name,
-            IsPinned = boardEdition.IsPinned,
-            BoardSetting = new BoardSetting
+        var expectedBoard = new Board(
+            id: boardEdition.Id,
+            name: boardEdition.Name,
+            isPinned: boardEdition.IsPinned,
+            boardSetting:  new BoardSetting
             {
                 Colour = boardEdition.BoardSetting.Colour
-            },
-        };
+            });
 
         board
             .Should()

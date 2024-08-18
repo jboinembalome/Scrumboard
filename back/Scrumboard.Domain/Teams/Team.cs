@@ -12,14 +12,6 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
     public string Name { get; set; }
     public IReadOnlyCollection<TeamMember> Members => _teamMembers.AsReadOnly();
     public BoardId BoardId { get; set; }
-
-    public void AddMembers(IEnumerable<MemberId> memberIds)
-    {
-        foreach (var memberId in memberIds)
-        {
-            AddMember(memberId);
-        }
-    }
     
     public void AddMember(MemberId memberId)
     {

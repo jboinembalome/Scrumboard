@@ -10,9 +10,17 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
     private readonly List<TeamMember> _teamMembers = [];
     
     public string Name { get; set; }
-    public IReadOnlyCollection<TeamMember> Members => _teamMembers.ToList();
+    public IReadOnlyCollection<TeamMember> Members => _teamMembers.AsReadOnly();
     public BoardId BoardId { get; set; }
 
+    public void AddMembers(IEnumerable<MemberId> memberIds)
+    {
+        foreach (var memberId in memberIds)
+        {
+            AddMember(memberId);
+        }
+    }
+    
     public void AddMember(MemberId memberId)
     {
         if (_teamMembers.Any(x => x.TeamId == Id && x.MemberId == memberId))

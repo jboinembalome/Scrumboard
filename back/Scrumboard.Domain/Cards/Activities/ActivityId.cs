@@ -2,12 +2,9 @@
 
 namespace Scrumboard.Domain.Cards.Activities;
 
-public readonly record struct ActivityId(int Value)
-    : IStrongId<int, ActivityId>
+public sealed class ActivityId(
+    int value) : IntStrongId<ActivityId>(value), IStrongId<ActivityId, int>
 {
-    public static implicit operator int(ActivityId strongId)
-        => strongId.Value;
-
     public static explicit operator ActivityId(int value)
         => new(value);
 }

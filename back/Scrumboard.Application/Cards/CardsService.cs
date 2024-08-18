@@ -1,6 +1,5 @@
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
-using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.ListBoards;
@@ -198,14 +197,14 @@ internal sealed class CardsService(
         {
             foreach (var oldLabelId in oldCard.Labels)
             {
-                var updateLabelId = (LabelId?)cardEdition.LabelIds.FirstOrDefault(x => x == oldLabelId.LabelId);
+                var updateLabelId = cardEdition.LabelIds.FirstOrDefault(x => x == oldLabelId.LabelId);
                 if (updateLabelId is null)
                     continue;
 
                 var oldLabel = await labelsRepository.TryGetByIdAsync(oldLabelId.LabelId, cancellationToken);
                 ArgumentNullException.ThrowIfNull(oldLabel);
                 
-                var updateLabel = await labelsRepository.TryGetByIdAsync(updateLabelId.Value, cancellationToken);
+                var updateLabel = await labelsRepository.TryGetByIdAsync(updateLabelId, cancellationToken);
                 ArgumentNullException.ThrowIfNull(updateLabel);
                 
                 if (oldLabelId.LabelId != updateLabelId)

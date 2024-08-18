@@ -8,7 +8,7 @@ public static class TaskGenericExtensions
         this Task<TDomainEntity?> taskEntity,
         TStrongId id)
         where TDomainEntity : class
-        where TStrongId : struct
+        where TStrongId : notnull
     {
         var entity = await taskEntity;
         return entity ?? throw new NotFoundException(typeof(TDomainEntity).Name, id);

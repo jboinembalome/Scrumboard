@@ -2,12 +2,9 @@
 
 namespace Scrumboard.Domain.Teams;
 
-public readonly record struct TeamId(int Value)
-    : IStrongId<int, TeamId>
+public sealed class TeamId(
+    int value) : IntStrongId<TeamId>(value), IStrongId<TeamId, int>
 {
-    public static implicit operator int(TeamId strongId)
-        => strongId.Value;
-
     public static explicit operator TeamId(int value)
         => new(value);
 }

@@ -10,7 +10,7 @@ internal sealed class CreateTeamWhenBoardCreatedDomainEventHandler(
 {
     public async Task Handle(BoardCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
     {
-        var memberId = new MemberId(domainEvent.OwnerId);
+        var memberId = new MemberId(domainEvent.OwnerId.Value);
         var teamCreation = new TeamCreation
         {
             Name = $"Team - {domainEvent.BoardId}",

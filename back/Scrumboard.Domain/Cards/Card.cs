@@ -16,8 +16,8 @@ public sealed class Card : AuditableEntityBase<CardId>
     public DateTimeOffset? DueDate { get; set; }
     public int Position { get; set; }
     public ListBoardId ListBoardId { get; set; }
-    public IReadOnlyCollection<CardAssignee> Assignees => _cardAssignees.ToList();
-    public IReadOnlyCollection<CardLabel> Labels => _cardLabels.ToList();
+    public IReadOnlyCollection<CardAssignee> Assignees => _cardAssignees.AsReadOnly();
+    public IReadOnlyCollection<CardLabel> Labels => _cardLabels.AsReadOnly();
     
     public void AddAssignee(AssigneeId assigneeId)
     {

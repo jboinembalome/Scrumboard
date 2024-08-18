@@ -70,13 +70,13 @@ internal abstract class CardInputBaseValidator<TInput>
         var idsNotFound = labels
             .Select(x => x.Id)
             .Except(ids)
-            .ToArray();
+            .ToList();
 
-        if (idsNotFound.Length == 0)
+        if (idsNotFound.Count == 0)
         {
             return true;
         }
-        
+
         validationContext.MessageFormatter
             .AppendArgument("LabelIdsNotFound", string.Join(',', idsNotFound));
         
@@ -98,9 +98,9 @@ internal abstract class CardInputBaseValidator<TInput>
         var idsNotFound = assignees
             .Select(x => (UserId)x.Id)
             .Except(ids)
-            .ToArray();
+            .ToList();
 
-        if (idsNotFound.Length == 0)
+        if (idsNotFound.Count == 0)
         {
             return true;
         }

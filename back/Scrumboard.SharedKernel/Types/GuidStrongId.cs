@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Scrumboard.SharedKernel.Types;
@@ -9,6 +10,10 @@ public abstract class GuidStrongId<TStrongType>(
     public override string ToString()
         => Value.ToString("D", CultureInfo.InvariantCulture);
 
+    [return: NotNullIfNotNull(nameof(id))]
+    public static explicit operator Guid?(GuidStrongId<TStrongType>? id)
+        => id?.Value;
+    
     public static explicit operator Guid(GuidStrongId<TStrongType> id)
         => id.Value;
 }

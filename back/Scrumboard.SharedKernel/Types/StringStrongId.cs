@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Scrumboard.SharedKernel.Types;
 
 public abstract class StringStrongId<TStrongType>(
@@ -7,6 +9,7 @@ public abstract class StringStrongId<TStrongType>(
     public override string ToString()
         => Value;
     
-    public static explicit operator string(StringStrongId<TStrongType> id)
-        => id.Value;
+    [return: NotNullIfNotNull(nameof(id))]
+    public static explicit operator string?(StringStrongId<TStrongType>? id)
+        => id?.Value;
 }

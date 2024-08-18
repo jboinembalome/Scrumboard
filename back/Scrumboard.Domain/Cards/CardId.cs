@@ -1,10 +1,12 @@
-﻿using Scrumboard.SharedKernel.Types;
+﻿using System.Diagnostics.CodeAnalysis;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Domain.Cards;
 
 public sealed class CardId(
     int value) : IntStrongId<CardId>(value), IStrongId<CardId, int>
 {
-    public static explicit operator CardId(int value)
-        => new(value);
+    [return: NotNullIfNotNull(nameof(id))]
+    public static implicit operator CardId?(int? id)
+        => id is null ? null : new CardId(id.Value);
 }

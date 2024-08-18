@@ -18,7 +18,7 @@ internal sealed class IdentityService(
         UserId userId, 
         CancellationToken cancellationToken = default)
     {
-        var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
+        var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId.Value, cancellationToken);
 
         return user;
     }
@@ -26,7 +26,7 @@ internal sealed class IdentityService(
         UserId userId, 
         CancellationToken cancellationToken = default)
     {
-        var user = await userManager.Users.FirstAsync(u => u.Id == userId, cancellationToken);
+        var user = await userManager.Users.FirstAsync(u => u.Id == userId.Value, cancellationToken);
 
         return user;
     }
@@ -35,7 +35,7 @@ internal sealed class IdentityService(
         UserId userId, 
         CancellationToken cancellationToken = default)
     {
-        var user = await userManager.Users.FirstAsync(u => u.Id == userId, cancellationToken);
+        var user = await userManager.Users.FirstAsync(u => u.Id == userId.Value, cancellationToken);
 
         return user.UserName;
     }
@@ -90,7 +90,7 @@ internal sealed class IdentityService(
         UserId userId, 
         string role)
     {
-        var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
+        var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId.Value);
 
         return user is not null && await userManager.IsInRoleAsync(user, role);
     }
@@ -99,7 +99,7 @@ internal sealed class IdentityService(
         UserId userId, 
         IEnumerable<string> roles)
     {
-        var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
+        var user = userManager.Users.SingleOrDefault(u => u.Id == userId.Value);
 
         foreach (var role in roles)
             if (user is not null)
@@ -112,7 +112,7 @@ internal sealed class IdentityService(
         UserId userId, 
         string role)
     {
-        var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
+        var user = userManager.Users.SingleOrDefault(u => u.Id == userId.Value);
 
         if (user is not null)
         {
@@ -124,7 +124,7 @@ internal sealed class IdentityService(
         UserId userId, 
         string policyName)
     {
-        var user = userManager.Users.SingleOrDefault(u => u.Id == userId);
+        var user = userManager.Users.SingleOrDefault(u => u.Id == userId.Value);
 
         if (user is not null)
         {
@@ -141,7 +141,7 @@ internal sealed class IdentityService(
     public async Task<Result> DeleteUserAsync(
         UserId userId)
     {
-        var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId);
+        var user = await userManager.Users.SingleOrDefaultAsync(u => u.Id == userId.Value);
 
         if (user is not null)
             return await DeleteUserAsync(user);

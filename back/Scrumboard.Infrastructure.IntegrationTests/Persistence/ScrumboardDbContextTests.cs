@@ -16,7 +16,7 @@ public sealed class ScrumboardDbContextTests(
     {
         // Arrange
         var userId = (UserId)Guid.NewGuid().ToString();
-        SetCurrentUser(userId);
+        SetCurrentUser(userId.Value);
 
         var currentDate = DateTimeOffset.Now;
         SetCurrentDate(currentDate);
@@ -42,7 +42,7 @@ public sealed class ScrumboardDbContextTests(
     {
         // Arrange
         var userId = (UserId)Guid.NewGuid().ToString();
-        SetCurrentUser(userId);
+        SetCurrentUser(userId.Value);
 
         var currentDate = DateTimeOffset.Now;
         SetCurrentDate(currentDate);

@@ -1,10 +1,12 @@
-﻿using Scrumboard.SharedKernel.Types;
+﻿using System.Diagnostics.CodeAnalysis;
+using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Domain.Boards;
 
 public sealed class BoardId(
     int value) : IntStrongId<BoardId>(value), IStrongId<BoardId, int>
 {
-    public static explicit operator BoardId(int value)
-        => new(value);
+    [return: NotNullIfNotNull(nameof(id))]
+    public static implicit operator BoardId?(int? id)
+        => id is null ? null : new BoardId(id.Value);
 }

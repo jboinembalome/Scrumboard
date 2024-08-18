@@ -18,7 +18,7 @@ internal static class ModelBuilderExtensions
         this ModelBuilder modelBuilder, 
         int increment = 100)
         where TEntity : EntityBase<TId>
-        where TId : struct, IEquatable<TId>
+        where TId : notnull
     {
         var entityBuilder = modelBuilder.Entity<TEntity>();
 

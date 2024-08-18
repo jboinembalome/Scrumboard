@@ -16,7 +16,6 @@ internal sealed class LabelsRepository(
     {
         var idValues = labelIds
             .ToHashSet()
-            .Select(x => x.Value)
             .ToList();
 
         if (idValues.Count == 0)

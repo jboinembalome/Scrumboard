@@ -127,12 +127,12 @@ public sealed class BoardProfileTests
         // Assert
         var expectedBoardDto = new BoardDto
         {
-            Id = board.Id,
+            Id = board.Id.Value,
             Name = board.Name,
             IsPinned = board.IsPinned,
             BoardSetting = new BoardSettingDto
             {
-                Id = board.BoardSetting.Id,
+                Id = board.BoardSetting.Id.Value,
                 Colour = board.BoardSetting.Colour
             },
             CreatedDate = board.CreatedDate,
@@ -155,7 +155,7 @@ public sealed class BoardProfileTests
         // Assert
         var expectedBoardSettingDto = new BoardSettingDto
         {
-            Id = boardSetting.Id,
+            Id = boardSetting.Id.Value,
             Colour = boardSetting.Colour
         };
 

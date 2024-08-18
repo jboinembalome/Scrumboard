@@ -7,7 +7,7 @@ namespace Scrumboard.Infrastructure.Persistence;
 
 public abstract class CreatedAtEntityTypeConfiguration<TEntity, TEntityId> 
     : IEntityTypeConfiguration<TEntity> 
-    where TEntityId : struct, IEquatable<TEntityId>
+    where TEntityId : notnull
     where TEntity : class, IEntity, ICreatedAtEntity 
 {
     public void Configure(EntityTypeBuilder<TEntity> builder)

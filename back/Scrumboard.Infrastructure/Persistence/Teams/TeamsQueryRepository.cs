@@ -20,6 +20,6 @@ internal sealed class TeamsQueryRepository(
         CancellationToken cancellationToken = default) 
         => await dbContext.Teams
             .AsNoTracking()
-            .Where(x => x.Id == boardId)
+            .Where(x => x.BoardId == boardId)
             .FirstOrDefaultAsync(cancellationToken);
 }

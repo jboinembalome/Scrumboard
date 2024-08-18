@@ -15,13 +15,13 @@ public abstract class AuditableEntityTypeConfiguration<TEntity>
             .HasMaxLength(36)
             .HasConversion(
                 x => (string)x,
-                x => (UserId)x);
+                x => x);
         
         builder.Property(x => x.LastModifiedBy)
             .HasMaxLength(36)
             .HasConversion(
-                x => (string?)x,
-                x =>(UserId?)x!);
+                x => (string?)x!,
+                x =>x);
         
         ConfigureEntity(builder);
     }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
+using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Boards;
 
@@ -16,7 +17,14 @@ internal sealed class BoardProfile : Profile
         CreateMap<BoardSettingEditionDto, BoardSettingEdition>();
         
         // Read
-        CreateMap<Board, BoardDto>();
+        CreateMap<Board, BoardDto>()
+            .ForMember(dest => dest.Owner, opt => opt.MapFrom(src => src.OwnerId));
+
+        CreateMap<OwnerId, UserDto>()
+            .ConstructUsing(ownerId => new UserDto
+            {
+                Id = ownerId.Value
+            });
         
         CreateMap<BoardSetting, BoardSettingDto>();
     }

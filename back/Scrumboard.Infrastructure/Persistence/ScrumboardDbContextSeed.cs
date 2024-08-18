@@ -6,10 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Common;
-using Scrumboard.Domain.ListBoards;
-using Scrumboard.Domain.Teams;
 using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
@@ -73,7 +70,7 @@ public class ScrumboardDbContextInitializer(
     private async Task TrySeedAsync()
     {
         await SeedDefaultUserAsync(userManager, roleManager);
-        await SeedSampleDataAsync(context);
+        await SeedSampleDataAsync();
     }
 
     private async Task SeedDefaultUserAsync(
@@ -94,7 +91,7 @@ public class ScrumboardDbContextInitializer(
         };
         var user2 = new ApplicationUser
         {
-            Id = _userId2,
+            Id = _userId2.Value,
             FirstName = "Guyliane",
             LastName = "De Jesus Pimenta",
             UserName = "adherent2@localhost",
@@ -104,7 +101,7 @@ public class ScrumboardDbContextInitializer(
         };
         var user3 = new ApplicationUser
         {
-            Id = _userId3,
+            Id = _userId3.Value,
             FirstName = "Corentin",
             LastName = "Hugot",
             UserName = "adherent3@localhost",
@@ -114,7 +111,7 @@ public class ScrumboardDbContextInitializer(
         };
         var user4 = new ApplicationUser
         {
-            Id = _userId4,
+            Id = _userId4.Value,
             FirstName = "Patrice",
             LastName = "Fouque",
             UserName = "adherent4@localhost",
@@ -136,159 +133,29 @@ public class ScrumboardDbContextInitializer(
         await AddUserToRole(userManager, roleManager, roles[0], user4);
     }
 
-    private async Task SeedSampleDataAsync(ScrumboardDbContext context)
+    private async Task SeedSampleDataAsync()
     {
-        var team = new Team
-        {
-            Name = "Developer Team",
-            CreatedBy = _userId
-        };
+        await SeedBoardsAsync();
+    }
 
-        team.AddMember((MemberId)_userId.Value);
-        team.AddMember((MemberId)_userId2.Value);
-        team.AddMember((MemberId)_userId3.Value);
-        team.AddMember((MemberId)_userId4.Value);
+    private async Task<Collection<Board>> SeedBoardsAsync()
+    {
+        var board1 = new Board(
+            name: "Scrumboard Frontend",
+            isPinned: false,
+            boardSetting: new BoardSetting { Colour = Colour.Violet },
+            ownerId: (OwnerId)_userId.Value);
         
-        var team2 = new Team
-        {
-            Name = "Test Team", 
-            CreatedBy = _userId2
-        };
+        var board2 = new Board(
+            name: "Scrumboard Backend",
+            isPinned: true,
+            boardSetting: new BoardSetting { Colour = Colour.Yellow },
+            ownerId: (OwnerId)_userId.Value);
         
-        team2.AddMember((MemberId)_userId2.Value);
-
-        var labels = new Collection<Label>
-        {
-            new() { Name = "Design", Colour = Colour.Violet, CreatedBy = (UserId)_userId },
-            new() { Name = "App", Colour = Colour.Gray, CreatedBy = (UserId)_userId },
-            new() { Name = "Feature", Colour = Colour.Red, CreatedBy = (UserId)_userId },
-            new() { Name = "Log", Colour = Colour.Blue, CreatedBy = (UserId)_userId },
-            new() { Name = "Documentation", Colour = Colour.Rose, CreatedBy = (UserId)_userId },
-            new() { Name = "Persistence", Colour = Colour.Yellow, CreatedBy = (UserId)_userId }
-        };
-
-        var boardSettings = new Collection<BoardSetting>
-        {
-            new() { Colour = Colour.Violet },
-            new() { Colour = Colour.Yellow }
-        };
-
-        Card card1 = new()
-        {
-            Name = "Create login page",
-            Description = "Create login page with social network authentication.",
-            DueDate = DateTime.Now,
-            Position = 65536,
-            CreatedBy = _userId
-        };
-        
-        card1.AddLabel(labels[0].Id);
-        card1.AddLabel(labels[1].Id);
-
-        card1.AddAssignee((AssigneeId)_userId.Value);
-        
-        Card card2 = new()
-        {
-            Name = "Change background colors",
-            Description = "",
-            DueDate = null,
-            Position = 131072,
-            CreatedBy = _userId
-        };
-        
-        card2.AddLabel(labels[0].Id);
-        
-        Card card3 = new()
-        {
-            Name = "Fix splash screen bugs",
-            Description = "",
-            DueDate = new DateTime(2021, 5, 15),
-            Position = 65536,
-            CreatedBy = _userId
-        };
-        
-        card3.AddLabel(labels[1].Id);
-        
-        Card card4 = new()
-        {
-            Name = "Add a notification when a user adds a comment",
-            Description = "",
-            DueDate = null,
-            Position = 65536,
-            CreatedBy = _userId
-        };
-
-        card3.AddLabel(labels[2].Id);
-        
-        card4.AddAssignee((AssigneeId)_userId.Value);
-        
-        var cards = new Collection<Card>
-        {
-            card1,
-            card2,
-            card3,
-            card4,
-        };
-
-        Card card5 = new()
-        {
-            Name = "Write documentation for the naming convention",
-            Description = "",
-            DueDate = null,
-            Position = 65536,
-            CreatedBy = _userId
-        };
-        
-        card5.AddLabel(labels[4].Id);
-        card5.AddAssignee((AssigneeId)_userId.Value);
-        
-        Card card6 = new()
-        {
-            Name = "Add Serilog for logs",
-            Description = "",
-            DueDate = null,
-            Position = 131072,
-            CreatedBy = _userId
-        };
-        
-        card6.AddLabel(labels[3].Id);
-        
-        
-        var listboards = new Collection<ListBoard>
-        {
-            new() { Name = "Design", Position = 65536, Cards = [cards[0], cards[1]], CreatedBy = _userId },
-            new() { Name = "Development", Position = 131072, Cards = [cards[2]], CreatedBy = _userId },
-            new() { Name = "Upcoming Features", Position = 196608, Cards = [cards[3]], CreatedBy = _userId },
-            new() { Name = "Known Bugs", Position = 262144, CreatedBy = _userId },
-            new()
-            {
-                Name = "Backlog",
-                Position = 65536,
-                Cards = new Collection<Card>
-                {
-                    card5,
-                    card6,
-                },
-                CreatedBy = _userId
-            }
-        };
-
         var boards = new Collection<Board>
         {
-            new()
-            {
-                Name = "Scrumboard Frontend",
-                IsPinned = false,
-                BoardSetting = boardSettings[0],
-                CreatedBy = (UserId)_userId
-            },
-            new()
-            {
-                Name = "Scrumboard Backend",
-                IsPinned = true,
-                BoardSetting = boardSettings[1],
-                CreatedBy = (UserId)_userId
-            }
+            board1,
+            board2 
         };
 
         // Seed, if necessary
@@ -298,6 +165,8 @@ public class ScrumboardDbContextInitializer(
 
             await context.SaveChangesAsync();
         }
+
+        return boards;
     }
 
     private static async Task CreateUser(UserManager<ApplicationUser> userManager, ApplicationUser user,

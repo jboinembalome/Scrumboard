@@ -36,7 +36,6 @@ internal sealed class ModifiedEntityInterceptor(
 
             entry.Entity.LastModifiedBy = (UserId)currentUserService.UserId;
             entry.Entity.LastModifiedDate = currentDateService.Now;
-            break;
         }
     }
 }

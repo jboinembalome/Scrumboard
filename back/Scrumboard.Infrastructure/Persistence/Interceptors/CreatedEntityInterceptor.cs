@@ -39,7 +39,6 @@ internal sealed class CreatedEntityInterceptor(
 
             entry.Entity.CreatedBy = (UserId)currentUserService.UserId;
             entry.Entity.CreatedDate = currentDateService.Now;
-            break;
         }
     }
 }

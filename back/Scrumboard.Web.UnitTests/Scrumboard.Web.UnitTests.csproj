@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Scrumboard.Shared.TestHelpers\Scrumboard.Shared.TestHelpers.csproj" />
     <ProjectReference Include="..\Scrumboard.Web\Scrumboard.Web.csproj" />
   </ItemGroup>
 

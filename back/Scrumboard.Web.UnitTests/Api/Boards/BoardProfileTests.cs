@@ -4,6 +4,7 @@ using FluentAssertions;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
+using Scrumboard.Shared.TestHelpers.Extensions;
 using Scrumboard.Web.Api.Boards;
 using Xunit;
 
@@ -120,6 +121,8 @@ public sealed class BoardProfileTests
     {
         // Arrange
         var board = _fixture.Create<Board>();
+        board.SetProperty(x => x.Name, _fixture.Create<string>());
+        board.SetProperty(x => x.BoardSetting, _fixture.Create<BoardSetting>());
         
         // Act
         var boardDto = _mapper.Map<BoardDto>(board);

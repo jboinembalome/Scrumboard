@@ -6,7 +6,7 @@ using System.Text.Encodings.Web;
 
 namespace Scrumboard.Web.FunctionalTests.Utilities;
 
-public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+internal sealed class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
     private readonly IList<Claim> _claims;
 

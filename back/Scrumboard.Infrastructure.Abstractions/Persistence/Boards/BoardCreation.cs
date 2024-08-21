@@ -10,6 +10,5 @@ public sealed class BoardCreation
     public string Name { get; set; }
     public bool IsPinned { get; set; }
     public BoardSettingCreation BoardSetting { get; set; }
-    public TeamCreation Team { get; set; }
     public OwnerId OwnerId { get; set; }
 }

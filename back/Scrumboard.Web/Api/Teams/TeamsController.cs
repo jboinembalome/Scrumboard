@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Web.Api.Teams;

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 

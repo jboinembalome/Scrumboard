@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using Scrumboard.Domain.Cards.Comments;
+﻿using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Comments;
 
 internal sealed class CommentsRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : ICommentsRepository
+    ScrumboardDbContext dbContext) : ICommentsRepository
 {
     public async Task<Comment?> TryGetByIdAsync(
         CommentId id, 
@@ -15,24 +13,17 @@ internal sealed class CommentsRepository(
         => await dbContext.Comments.FindAsync([id], cancellationToken);
 
     public async Task<Comment> AddAsync(
-        CommentCreation commentCreation, 
+        Comment comment, 
         CancellationToken cancellationToken = default)
     {
-        var comment = mapper.Map<Comment>(commentCreation);
-        
         await dbContext.Comments.AddAsync(comment, cancellationToken);
 
         return comment;
     }
 
-    public async Task<Comment> UpdateAsync(
-        CommentEdition commentEdition, 
-        CancellationToken cancellationToken = default)
+    public Comment Update(Comment comment)
     {
-        var comment = await dbContext.Comments.FindAsync([commentEdition.Id], cancellationToken)
-            .OrThrowEntityNotFoundAsync();
-
-        mapper.Map(commentEdition, comment);
+        dbContext.Comments.Update(comment);
         
         return comment;
     }

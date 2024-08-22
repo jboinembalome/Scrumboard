@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;

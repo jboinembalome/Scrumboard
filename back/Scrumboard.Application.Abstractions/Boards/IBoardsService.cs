@@ -1,5 +1,4 @@
 using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Application.Abstractions.Boards;
 

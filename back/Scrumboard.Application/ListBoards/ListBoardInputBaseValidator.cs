@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
+using Scrumboard.Application.Abstractions.ListBoards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
 namespace Scrumboard.Application.ListBoards;
 

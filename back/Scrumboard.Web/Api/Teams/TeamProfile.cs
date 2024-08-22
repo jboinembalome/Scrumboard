@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Domain.Teams;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 
 namespace Scrumboard.Web.Api.Teams;
 

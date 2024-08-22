@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.SharedKernel.Types;
 using Scrumboard.Web.Api.Users;
 

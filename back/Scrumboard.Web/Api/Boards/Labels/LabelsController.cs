@@ -2,8 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
+using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
 namespace Scrumboard.Web.Api.Boards.Labels;
 

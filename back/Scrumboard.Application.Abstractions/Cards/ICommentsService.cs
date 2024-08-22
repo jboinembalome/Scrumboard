@@ -1,6 +1,6 @@
+using Scrumboard.Application.Abstractions.Cards.Comments;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
 namespace Scrumboard.Application.Abstractions.Cards;
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Scrumboard.Application.Abstractions.Boards;
+using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Application.Abstractions.ListBoards;
 using Scrumboard.Application.Abstractions.Teams;
@@ -25,6 +26,8 @@ public static class ApplicationServiceRegistration
     {
         var assembly = Assembly.GetExecutingAssembly();
         services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
+        
+        services.AddAutoMapper(assembly);
         
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         

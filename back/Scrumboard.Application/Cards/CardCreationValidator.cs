@@ -1,5 +1,5 @@
-﻿using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
+﻿using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 

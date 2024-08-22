@@ -1,7 +1,6 @@
 using AutoFixture;
 using AutoFixture.Kernel;
 using Scrumboard.Shared.TestHelpers.Fixtures;
-using Scrumboard.SharedKernel.Entities;
 using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.IntegrationTests.Persistence.Users;

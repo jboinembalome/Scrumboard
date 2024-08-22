@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Application.Abstractions.Cards.Comments;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Cards.Comments;

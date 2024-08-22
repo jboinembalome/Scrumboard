@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" />
-    <PackageReference Include="AutoMapper" />
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" />

@@ -1,10 +1,10 @@
 using AutoFixture;
-using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Boards;
+using Scrumboard.Shared.TestHelpers.Extensions;
 using Scrumboard.Shared.TestHelpers.Fixtures;
 using Xunit;
 
@@ -20,39 +20,33 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     {
         _fixture = new CustomizedFixture();
         
-        var mapperConfiguration = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<BoardProfile>();
-        });
         
-        var mapper = mapperConfiguration.CreateMapper();
-        
-        _sut = new BoardsRepository(ActDbContext, mapper);
+        _sut = new BoardsRepository(ActDbContext);
     }
 
     [Fact]
     public async Task Should_add_board()
     {           
         // Arrange
-        var boardCreation = _fixture.Create<BoardCreation>();
+        var board = _fixture.Create<Board>();
 
         // Act
-        await _sut.AddAsync(boardCreation);
+        await _sut.AddAsync(board);
         await ActDbContext.SaveChangesAsync();
         
         // Assert
         var createdBoard = await AssertDbContext.Boards
             .Include(x => x.BoardSetting)
-            .FirstAsync(x => x.Name == boardCreation.Name);
+            .FirstAsync(x => x.Name == board.Name);
 
         createdBoard.Id.Value.Should().BeGreaterThan(0);
-        createdBoard.Name.Should().Be(boardCreation.Name);
-        createdBoard.IsPinned.Should().Be(boardCreation.IsPinned);
+        createdBoard.Name.Should().Be(board.Name);
+        createdBoard.IsPinned.Should().Be(board.IsPinned);
 
         createdBoard.BoardSetting.Should().NotBeNull();
         createdBoard.BoardSetting.Id.Value.Should().BeGreaterThan(0);
         createdBoard.BoardSetting.BoardId.Should().Be(createdBoard.Id);
-        createdBoard.BoardSetting.Colour.Should().Be(boardCreation.BoardSetting.Colour);
+        createdBoard.BoardSetting.Colour.Should().Be(board.BoardSetting.Colour);
     }
     
     [Fact]
@@ -97,25 +91,27 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
         // Arrange
         var existingBoard = await Given_a_board();
         
-        var boardEdition = _fixture.Create<BoardEdition>();
-        boardEdition.Id = existingBoard.Id;
+        var board = _fixture.Create<Board>();
+        
+        existingBoard.SetProperty(x => x.Name, board.Name);
+        existingBoard.SetProperty(x => x.IsPinned, board.IsPinned);
+        existingBoard.SetProperty(x => x.OwnerId, board.OwnerId);
+        existingBoard.BoardSetting.SetProperty(x => x.Colour, board.BoardSetting.Colour);
         
         // Act
-        await _sut.UpdateAsync(boardEdition);
+        _sut.Update(existingBoard);
         await ActDbContext.SaveChangesAsync();
         
         // Assert
-        var updatedBoardDao = await AssertDbContext.Boards
+        var updatedBoard = await AssertDbContext.Boards
             .Include(x => x.BoardSetting)
-            .FirstAsync(x => x.Id == boardEdition.Id);
+            .FirstAsync(x => x.Id == existingBoard.Id);
         
-        updatedBoardDao.Id.Should().Be(boardEdition.Id);
-        updatedBoardDao.Name.Should().Be(boardEdition.Name);
-        updatedBoardDao.IsPinned.Should().Be(boardEdition.IsPinned);
-
-        updatedBoardDao.BoardSetting.Should().NotBeNull();
-        updatedBoardDao.BoardSetting.BoardId.Should().Be(updatedBoardDao.BoardSetting.BoardId);
-        updatedBoardDao.BoardSetting.Colour.Should().Be(boardEdition.BoardSetting.Colour);
+        updatedBoard.Name.Should().Be(board.Name);
+        updatedBoard.IsPinned.Should().Be(board.IsPinned);
+        updatedBoard.OwnerId.Should().Be(board.OwnerId);
+        
+        updatedBoard.BoardSetting.Colour.Should().Be(board.BoardSetting.Colour);
     }
     
     private async Task<Board> Given_a_board()

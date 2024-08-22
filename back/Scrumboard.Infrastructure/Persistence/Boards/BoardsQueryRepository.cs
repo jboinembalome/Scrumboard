@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
-using Scrumboard.SharedKernel.Entities;
-using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards;
 

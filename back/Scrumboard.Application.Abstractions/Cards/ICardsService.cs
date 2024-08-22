@@ -1,6 +1,5 @@
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.ListBoards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 
 namespace Scrumboard.Application.Abstractions.Cards;
 

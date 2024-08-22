@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
+using Scrumboard.Application.Abstractions.Boards;
 
 namespace Scrumboard.Application.Boards;
 

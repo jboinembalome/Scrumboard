@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using Scrumboard.Domain.Teams;
+﻿using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.Teams;
 
 internal sealed class TeamsRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : ITeamsRepository
+    ScrumboardDbContext dbContext) : ITeamsRepository
 {
     public async Task<Team?> TryGetByIdAsync(
         TeamId id, 
@@ -15,24 +13,17 @@ internal sealed class TeamsRepository(
         => await dbContext.Teams.FindAsync([id], cancellationToken);
 
     public async Task<Team> AddAsync(
-        TeamCreation teamCreation, 
+        Team team, 
         CancellationToken cancellationToken = default)
     {
-        var team = mapper.Map<Team>(teamCreation);
-        
         await dbContext.Teams.AddAsync(team, cancellationToken);
 
         return team;
     }
 
-    public async Task<Team> UpdateAsync(
-        TeamEdition teamEdition, 
-        CancellationToken cancellationToken = default)
+    public Team Update(Team team)
     {
-        var team = await dbContext.Teams.FindAsync([teamEdition.Id], cancellationToken)
-            .OrThrowEntityNotFoundAsync();
-
-        mapper.Map(teamEdition, team);
+        dbContext.Teams.Update(team);
         
         return team;
     }

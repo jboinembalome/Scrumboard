@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using Scrumboard.Domain.ListBoards;
+﻿using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 using Scrumboard.SharedKernel.Extensions;
 
 namespace Scrumboard.Infrastructure.Persistence.ListBoards;
 
 internal sealed class ListBoardsRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : IListBoardsRepository
+    ScrumboardDbContext dbContext) : IListBoardsRepository
 {
     public async Task<ListBoard?> TryGetByIdAsync(
         ListBoardId id, 
@@ -15,24 +13,17 @@ internal sealed class ListBoardsRepository(
         => await dbContext.ListBoards.FindAsync([id], cancellationToken);
 
     public async Task<ListBoard> AddAsync(
-        ListBoardCreation listBoardCreation, 
+        ListBoard listBoard, 
         CancellationToken cancellationToken = default)
     {
-        var listBoard = mapper.Map<ListBoard>(listBoardCreation);
-        
         await dbContext.ListBoards.AddAsync(listBoard, cancellationToken);
 
         return listBoard;
     }
 
-    public async Task<ListBoard> UpdateAsync(
-        ListBoardEdition listBoardEdition, 
-        CancellationToken cancellationToken = default)
+    public ListBoard Update(ListBoard listBoard)
     {
-        var listBoard = await dbContext.ListBoards.FindAsync([listBoardEdition.Id], cancellationToken)
-            .OrThrowEntityNotFoundAsync();
-
-        mapper.Map(listBoardEdition, listBoard);
+        dbContext.ListBoards.Update(listBoard);
         
         return listBoard;
     }

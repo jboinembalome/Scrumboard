@@ -1,6 +1,6 @@
 using AutoMapper;
+using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Boards;

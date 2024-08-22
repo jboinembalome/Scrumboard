@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.SharedKernel.Extensions;
@@ -7,8 +6,7 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Infrastructure.Persistence.Boards;
 
 internal sealed class BoardsRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : IBoardsRepository
+    ScrumboardDbContext dbContext) : IBoardsRepository
 {
     public async Task<Board?> TryGetByIdAsync(
         BoardId id, 
@@ -17,24 +15,17 @@ internal sealed class BoardsRepository(
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<Board> AddAsync(
-        BoardCreation boardCreation, 
+        Board board, 
         CancellationToken cancellationToken = default)
     {
-        var board = mapper.Map<Board>(boardCreation);
-        
         await dbContext.Boards.AddAsync(board, cancellationToken);
 
         return board;
     }
 
-    public async Task<Board> UpdateAsync(
-        BoardEdition boardEdition, 
-        CancellationToken cancellationToken = default)
+    public Board Update(Board board)
     {
-        var board = await Query()
-            .FirstAsync(x => x.Id == boardEdition.Id, cancellationToken);
-
-        mapper.Map(boardEdition, board);
+        dbContext.Boards.Update(board);
         
         return board;
     }

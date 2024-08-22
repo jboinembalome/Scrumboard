@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Scrumboard.Application.Abstractions.ListBoards;
 using Scrumboard.Domain.ListBoards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 
 namespace Scrumboard.Web.Api.ListBoards;
 

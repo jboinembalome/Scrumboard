@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Scrumboard.Application.Abstractions.Boards;
+using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.SharedKernel.Types;
 using Scrumboard.Web.Api.Boards.Labels;
 using Scrumboard.Web.Api.Users;

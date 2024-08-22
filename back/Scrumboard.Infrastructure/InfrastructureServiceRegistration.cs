@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -54,11 +53,6 @@ public static class InfrastructureServiceRegistration
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ScrumboardDbContext>();
             
-            services.AddAutoMapper(cfg =>
-            {
-                // Configuration code
-            }, Assembly.GetExecutingAssembly());
-        
             services.AddTransient<ICurrentDateService, CurrentDateService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient(typeof(ICsvExporter<>), typeof(CsvExporter<>));

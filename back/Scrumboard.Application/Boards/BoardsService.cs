@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
@@ -8,6 +9,7 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Application.Boards;
 
 internal sealed class BoardsService(
+    IMapper mapper,
     IBoardsRepository boardsRepository,
     IBoardsQueryRepository boardsQueryRepository,
     IValidator<BoardCreation> boardCreationValidator,
@@ -31,7 +33,7 @@ internal sealed class BoardsService(
 
     public Task<IReadOnlyList<Board>> GetAsync(
         CancellationToken cancellationToken = default)
-        => boardsQueryRepository.GetByOwnerIdAsync((OwnerId)currentUserService.UserId, cancellationToken);
+        => boardsQueryRepository.GetByOwnerIdAsync(currentUserService.UserId, cancellationToken);
 
     public async Task<Board> AddAsync(
         BoardCreation boardCreation, 
@@ -41,7 +43,10 @@ internal sealed class BoardsService(
         
         await boardCreationValidator.ValidateAndThrowAsync(boardCreation, cancellationToken);
 
-        var board = await boardsRepository.AddAsync(boardCreation, cancellationToken);
+        var board = mapper.Map<Board>(boardCreation);
+        
+        await boardsRepository.AddAsync(board, cancellationToken);
+        
         board.MarkAsCreated();
         
         return board;
@@ -53,7 +58,14 @@ internal sealed class BoardsService(
     {
         await boardEditionValidator.ValidateAndThrowAsync(boardEdition, cancellationToken);
         
-        return await boardsRepository.UpdateAsync(boardEdition, cancellationToken);
+        var board = await boardsRepository.TryGetByIdAsync(boardEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(boardEdition.Id);
+
+        mapper.Map(boardEdition, board);
+
+        boardsRepository.Update(board);
+        
+        return board;
     }
 
     public async Task DeleteAsync(

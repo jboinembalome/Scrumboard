@@ -1,5 +1,7 @@
+using AutoMapper;
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
+using Scrumboard.Application.Abstractions.Cards.Comments;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
@@ -8,6 +10,7 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Application.Cards.Comments;
 
 internal sealed class CommentsService(
+    IMapper mapper,
     ICommentsRepository commentsRepository,
     ICommentsQueryRepository commentsQueryRepository,
     IValidator<CommentCreation> commentCreationValidator,
@@ -30,19 +33,25 @@ internal sealed class CommentsService(
     {
         await commentCreationValidator.ValidateAndThrowAsync(commentCreation, cancellationToken);
         
-        return await commentsRepository.AddAsync(commentCreation, cancellationToken);
+        var comment = mapper.Map<Comment>(commentCreation);
+        
+        return await commentsRepository.AddAsync(comment, cancellationToken);
     }
 
     public async Task<Comment> UpdateAsync(
         CommentEdition commentEdition, 
         CancellationToken cancellationToken = default)
     {
-        await commentsRepository.TryGetByIdAsync(commentEdition.Id, cancellationToken)
-            .OrThrowResourceNotFoundAsync(commentEdition.Id);
-        
         await commentEditionValidator.ValidateAndThrowAsync(commentEdition, cancellationToken);
+        
+        var comment = await commentsRepository.TryGetByIdAsync(commentEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(commentEdition.Id);
 
-        return await commentsRepository.UpdateAsync(commentEdition, cancellationToken);
+        mapper.Map(commentEdition, comment);
+        
+        commentsRepository.Update(comment);
+        
+        return comment;
     }
 
     public async Task DeleteAsync(

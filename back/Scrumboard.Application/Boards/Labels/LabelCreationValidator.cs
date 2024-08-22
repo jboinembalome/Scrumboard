@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
+using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
 namespace Scrumboard.Application.Boards.Labels;
 

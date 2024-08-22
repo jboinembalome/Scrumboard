@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
+using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
 using Scrumboard.SharedKernel.Types;

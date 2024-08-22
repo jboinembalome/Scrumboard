@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
+using Scrumboard.Application.Abstractions.Cards.Comments;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Comments;
 
 namespace Scrumboard.Application.Cards.Comments;
 

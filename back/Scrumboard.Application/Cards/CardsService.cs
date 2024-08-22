@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
@@ -13,6 +14,7 @@ using Scrumboard.SharedKernel.Types;
 namespace Scrumboard.Application.Cards;
 
 internal sealed class CardsService(
+    IMapper mapper,
     IActivitiesRepository activitiesRepository,
     ICardsRepository cardsRepository,
     ICardsQueryRepository cardsQueryRepository,
@@ -46,8 +48,10 @@ internal sealed class CardsService(
         CancellationToken cancellationToken = default)
     {
         await cardCreationValidator.ValidateAndThrowAsync(cardCreation, cancellationToken);
+
+        var card = mapper.Map<Card>(cardCreation);
         
-        var card = await cardsRepository.AddAsync(cardCreation, cancellationToken);
+        await cardsRepository.AddAsync(card, cancellationToken);
 
         var activity = new Activity(card.Id, ActivityType.Added, ActivityField.Card, string.Empty, card.Name);
         await activitiesRepository.AddAsync(activity, cancellationToken);
@@ -59,19 +63,23 @@ internal sealed class CardsService(
         CardEdition cardEdition, 
         CancellationToken cancellationToken = default)
     {
-        var cardToUpdate = await cardsRepository.TryGetByIdAsync(cardEdition.Id, cancellationToken)
-            .OrThrowResourceNotFoundAsync(cardEdition.Id);
-        
         await cardEditionValidator.ValidateAndThrowAsync(cardEdition, cancellationToken);
         
-        var newActivities = await GetNewActivities(cardToUpdate, cardEdition, cancellationToken);
+        var card = await cardsRepository.TryGetByIdAsync(cardEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(cardEdition.Id);
+
+        mapper.Map(cardEdition, card);
+        
+        cardsRepository.Update(card);
+            
+        var newActivities = await GetNewActivities(card, cardEdition, cancellationToken);
 
         if (newActivities.Count > 0)
         {
             await activitiesRepository.AddAsync(newActivities, cancellationToken);
         }
         
-        return await cardsRepository.UpdateAsync(cardEdition, cancellationToken);
+        return card;
     }
 
     public async Task DeleteAsync(

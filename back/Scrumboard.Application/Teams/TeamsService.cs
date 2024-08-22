@@ -1,3 +1,4 @@
+using AutoMapper;
 using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
@@ -7,6 +8,7 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Application.Teams;
 
 internal sealed class TeamsService(
+    IMapper mapper,
     ITeamsRepository teamsRepository,
     ITeamsQueryRepository teamsQueryRepository) : ITeamsService
 {
@@ -26,13 +28,26 @@ internal sealed class TeamsService(
     public Task<Team> AddAsync(
         TeamCreation teamCreation, 
         CancellationToken cancellationToken = default)
-        => teamsRepository.AddAsync(teamCreation, cancellationToken);
+    {
+        var team = mapper.Map<Team>(teamCreation);
+        
+        return teamsRepository.AddAsync(team, cancellationToken);
+    }
 
     // TODO: Add validation
-    public Task<Team> UpdateAsync(
+    public async Task<Team> UpdateAsync(
         TeamEdition teamEdition, 
-        CancellationToken cancellationToken = default) 
-        => teamsRepository.UpdateAsync(teamEdition, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        var team = await teamsRepository.TryGetByIdAsync(teamEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(teamEdition.Id);
+
+        mapper.Map(teamEdition, team);
+
+        teamsRepository.Update(team);
+            
+        return team;
+    }
 
     public async Task DeleteAsync(
         TeamId id, 

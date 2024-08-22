@@ -1,14 +1,14 @@
 using AutoFixture;
 using FluentValidation;
 using FluentValidation.TestHelper;
+using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Shared.TestHelpers.Fixtures;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards;
 
-public sealed class BoardCreationValidatorTests
+public sealed class BoardCreationValidatorTests : UnitTestsBase
 {
     private readonly CustomizedFixture _fixture = new();
     private readonly IValidator<BoardCreation> _sut = new BoardCreationValidator();

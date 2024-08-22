@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.SharedKernel.Extensions;
@@ -7,7 +6,6 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 
 internal sealed class LabelsRepository(
-    IMapper mapper,
     ScrumboardDbContext dbContext) : ILabelsRepository
 {
     public async Task<IReadOnlyList<Label>> GetAsync(
@@ -34,25 +32,18 @@ internal sealed class LabelsRepository(
         => await dbContext.Labels.FindAsync([id], cancellationToken);
 
     public async Task<Label> AddAsync(
-        LabelCreation labelCreation, 
+        Label label, 
         CancellationToken cancellationToken = default)
     {
-        var label = mapper.Map<Label>(labelCreation);
-
         await dbContext.Labels.AddAsync(label, cancellationToken);
 
         return label;
     }
 
-    public async Task<Label> UpdateAsync(
-        LabelEdition labelEdition, 
-        CancellationToken cancellationToken = default)
+    public Label Update(Label label)
     {
-        var label = await dbContext.Labels.FindAsync([labelEdition.Id], cancellationToken)
-            .OrThrowEntityNotFoundAsync();
-
-        mapper.Map(labelEdition, label);
-
+        dbContext.Labels.Update(label);
+        
         return label;
     }
 

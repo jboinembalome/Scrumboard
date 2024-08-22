@@ -1,3 +1,4 @@
+using AutoMapper;
 using FluentValidation;
 using Scrumboard.Application.Abstractions.ListBoards;
 using Scrumboard.Domain.Boards;
@@ -8,6 +9,7 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Application.ListBoards;
 
 internal sealed class ListBoardsService(
+    IMapper mapper,
     IListBoardsQueryRepository listBoardsQueryRepository,
     IListBoardsRepository listBoardsRepository,
     IValidator<ListBoardCreation> listBoardCreationValidator,
@@ -39,22 +41,26 @@ internal sealed class ListBoardsService(
         CancellationToken cancellationToken = default)
     {
         await listBoardCreationValidator.ValidateAndThrowAsync(listBoardCreation, cancellationToken);
+
+        var listBoard = mapper.Map<ListBoard>(listBoardCreation);
         
-        var listBoard = await listBoardsRepository.AddAsync(listBoardCreation, cancellationToken);
-        
-        return listBoard;
+        return await listBoardsRepository.AddAsync(listBoard, cancellationToken);
     }
 
     public async Task<ListBoard> UpdateAsync(
         ListBoardEdition listBoardEdition, 
         CancellationToken cancellationToken = default)
     {
-        await listBoardsRepository.TryGetByIdAsync(listBoardEdition.Id, cancellationToken)
-            .OrThrowResourceNotFoundAsync(listBoardEdition.Id);
-        
         await listBoardEditionValidator.ValidateAndThrowAsync(listBoardEdition, cancellationToken);
         
-        return await listBoardsRepository.UpdateAsync(listBoardEdition, cancellationToken);
+        var listBoard = await listBoardsRepository.TryGetByIdAsync(listBoardEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(listBoardEdition.Id);
+
+        mapper.Map(listBoardEdition, listBoard);
+
+        listBoardsRepository.Update(listBoard);
+            
+        return listBoard;
     }
 
     public async Task DeleteAsync(

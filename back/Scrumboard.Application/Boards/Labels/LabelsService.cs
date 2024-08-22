@@ -1,5 +1,6 @@
+using AutoMapper;
 using FluentValidation;
-using Scrumboard.Application.Abstractions.Boards;
+using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.SharedKernel.Extensions;
@@ -7,6 +8,7 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Application.Boards.Labels;
 
 internal sealed class LabelsService(
+    IMapper mapper,
     ILabelsQueryRepository labelsQueryRepository,
     ILabelsRepository labelsRepository,
     IValidator<LabelCreation> labelCreationValidator,
@@ -33,20 +35,26 @@ internal sealed class LabelsService(
         CancellationToken cancellationToken = default)
     {
         await labelCreationValidator.ValidateAndThrowAsync(labelCreation, cancellationToken);
+
+        var label = mapper.Map<Label>(labelCreation);
         
-        return await labelsRepository.AddAsync(labelCreation, cancellationToken);
+        return await labelsRepository.AddAsync(label, cancellationToken);
     }
 
     public async Task<Label> UpdateAsync(
         LabelEdition labelEdition, 
         CancellationToken cancellationToken = default)
     {
-        await labelsRepository.TryGetByIdAsync(labelEdition.Id, cancellationToken)
-            .OrThrowResourceNotFoundAsync(labelEdition.Id);
-        
         await labelEditionValidator.ValidateAndThrowAsync(labelEdition, cancellationToken);
+        
+        var label = await labelsRepository.TryGetByIdAsync(labelEdition.Id, cancellationToken)
+            .OrThrowResourceNotFoundAsync(labelEdition.Id);
 
-        return await labelsRepository.UpdateAsync(labelEdition, cancellationToken);
+        mapper.Map(labelEdition, label);
+
+        labelsRepository.Update(label);
+        
+        return label; 
     }
 
     public async Task DeleteAsync(

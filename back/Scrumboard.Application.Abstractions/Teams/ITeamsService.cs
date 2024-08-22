@@ -1,6 +1,5 @@
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Teams;
 
 namespace Scrumboard.Application.Abstractions.Teams;
 

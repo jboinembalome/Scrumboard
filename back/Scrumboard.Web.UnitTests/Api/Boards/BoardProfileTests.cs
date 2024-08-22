@@ -1,9 +1,9 @@
 using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
+using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Shared.TestHelpers.Extensions;
 using Scrumboard.Web.Api.Boards;
 using Xunit;

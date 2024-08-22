@@ -1,5 +1,5 @@
-﻿using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.ListBoards;
+﻿using Scrumboard.Application.Abstractions.ListBoards;
+using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Application.ListBoards;
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 
 namespace Scrumboard.Web.Api.Cards;
 

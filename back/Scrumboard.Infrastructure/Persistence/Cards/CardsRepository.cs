@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.SharedKernel.Extensions;
@@ -7,8 +6,7 @@ using Scrumboard.SharedKernel.Extensions;
 namespace Scrumboard.Infrastructure.Persistence.Cards;
 
 internal sealed class CardsRepository(
-    ScrumboardDbContext dbContext,
-    IMapper mapper) : ICardsRepository
+    ScrumboardDbContext dbContext) : ICardsRepository
 {
     public async Task<Card?> TryGetByIdAsync(
         CardId id, 
@@ -17,25 +15,17 @@ internal sealed class CardsRepository(
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<Card> AddAsync(
-        CardCreation cardCreation, 
+        Card card, 
         CancellationToken cancellationToken = default)
     {
-        var card = mapper.Map<Card>(cardCreation);
-        
         await dbContext.Cards.AddAsync(card, cancellationToken);
 
         return card;
     }
 
-    public async Task<Card> UpdateAsync(
-        CardEdition cardEdition, 
-        CancellationToken cancellationToken = default)
+    public Card Update(Card card)
     {
-        // TODO: Use LoadAsync or ChangeTracker
-        var card = await Query()
-            .FirstAsync(x => x.Id == cardEdition.Id, cancellationToken);
-
-        mapper.Map(cardEdition, card);
+        dbContext.Cards.Update(card);
         
         return card;
     }

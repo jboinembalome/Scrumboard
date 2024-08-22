@@ -2,6 +2,7 @@ using AutoFixture;
 using FluentValidation;
 using FluentValidation.TestHelper;
 using Moq;
+using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
@@ -10,7 +11,7 @@ using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards;
 
-public sealed class BoardEditionValidatorTests
+public sealed class BoardEditionValidatorTests : UnitTestsBase
 {
     private readonly CustomizedFixture _fixture = new();
 

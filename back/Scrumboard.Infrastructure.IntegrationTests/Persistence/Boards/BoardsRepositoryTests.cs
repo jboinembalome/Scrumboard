@@ -2,6 +2,7 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.Infrastructure.Persistence.Boards;
 using Scrumboard.Shared.TestHelpers.Extensions;
@@ -42,7 +43,7 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
         createdBoard.Id.Value.Should().BeGreaterThan(0);
         createdBoard.Name.Should().Be(board.Name);
         createdBoard.IsPinned.Should().Be(board.IsPinned);
-
+        createdBoard.OwnerId.Should().Be(board.OwnerId);
         createdBoard.BoardSetting.Should().NotBeNull();
         createdBoard.BoardSetting.Id.Value.Should().BeGreaterThan(0);
         createdBoard.BoardSetting.BoardId.Should().Be(createdBoard.Id);
@@ -89,28 +90,24 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     public async Task Should_update_board()
     {           
         // Arrange
-        var existingBoard = await Given_a_board();
-        
-        var board = _fixture.Create<Board>();
-        
-        existingBoard.SetProperty(x => x.Name, board.Name);
-        existingBoard.SetProperty(x => x.IsPinned, board.IsPinned);
-        existingBoard.SetProperty(x => x.OwnerId, board.OwnerId);
-        existingBoard.BoardSetting.SetProperty(x => x.Colour, board.BoardSetting.Colour);
+        var board = await Given_a_board();
+        board.SetProperty(x => x.Name, _fixture.Create<string>());
+        board.SetProperty(x => x.IsPinned, _fixture.Create<bool>());
+        board.SetProperty(x => x.OwnerId, _fixture.Create<OwnerId>());
+        board.BoardSetting.SetProperty(x => x.Colour, _fixture.Create<Colour>());
         
         // Act
-        _sut.Update(existingBoard);
+        _sut.Update(board);
         await ActDbContext.SaveChangesAsync();
         
         // Assert
         var updatedBoard = await AssertDbContext.Boards
             .Include(x => x.BoardSetting)
-            .FirstAsync(x => x.Id == existingBoard.Id);
+            .FirstAsync(x => x.Id == board.Id);
         
         updatedBoard.Name.Should().Be(board.Name);
         updatedBoard.IsPinned.Should().Be(board.IsPinned);
         updatedBoard.OwnerId.Should().Be(board.OwnerId);
-        
         updatedBoard.BoardSetting.Colour.Should().Be(board.BoardSetting.Colour);
     }
     

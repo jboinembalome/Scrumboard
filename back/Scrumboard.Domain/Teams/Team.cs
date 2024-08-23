@@ -34,4 +34,29 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
         
         _teamMembers.Remove(teamMember);
     }
+    
+    public void UpdateMembers(IEnumerable<MemberId> memberIds)
+    {
+        var memberIdsList = memberIds.ToList();
+        
+        if (_teamMembers.Count == memberIdsList.Count 
+            && _teamMembers.All(x => memberIdsList.Contains(x.MemberId)))
+        {
+            return;
+        }
+
+        // Remove members who are no longer in the list
+        _teamMembers.RemoveAll(x => !memberIdsList.Contains(x.MemberId));
+        
+        var membersToAdd = memberIdsList
+            .Where(memberId => !_teamMembers.Exists(tm => tm.MemberId == memberId))
+            .Select(memberId => new TeamMember { TeamId = Id, MemberId = memberId })
+            .ToArray();
+        
+        // Add new members only if there are any
+        if (membersToAdd.Length > 0)
+        {
+            _teamMembers.AddRange(membersToAdd);
+        }
+    }
 }

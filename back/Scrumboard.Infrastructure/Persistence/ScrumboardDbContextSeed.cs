@@ -89,48 +89,9 @@ public class ScrumboardDbContextInitializer(
             Job = "Software Engineer",
             Avatar = []
         };
-        var user2 = new ApplicationUser
-        {
-            Id = _userId2.Value,
-            FirstName = "Guyliane",
-            LastName = "De Jesus Pimenta",
-            UserName = "adherent2@localhost",
-            Email = "adherent2@localhost",
-            Job = "Software Engineer",
-            Avatar = []
-        };
-        var user3 = new ApplicationUser
-        {
-            Id = _userId3.Value,
-            FirstName = "Corentin",
-            LastName = "Hugot",
-            UserName = "adherent3@localhost",
-            Email = "adherent3@localhost",
-            Job = "Systems and Networks Engineer",
-            Avatar = []
-        };
-        var user4 = new ApplicationUser
-        {
-            Id = _userId4.Value,
-            FirstName = "Patrice",
-            LastName = "Fouque",
-            UserName = "adherent4@localhost",
-            Email = "adherent4@localhost",
-            Job = "Software Engineer",
-            Avatar = []
-        };
 
         await CreateUser(userManager, user, "Adherent1!");
         await AddUserToRoles(userManager, roleManager, roles, user);
-
-        await CreateUser(userManager, user2, "Adherent2!");
-        await AddUserToRole(userManager, roleManager, roles[0], user2);
-
-        await CreateUser(userManager, user3, "Adherent3!");
-        await AddUserToRole(userManager, roleManager, roles[0], user3);
-
-        await CreateUser(userManager, user4, "Adherent4!");
-        await AddUserToRole(userManager, roleManager, roles[0], user4);
     }
 
     private async Task SeedSampleDataAsync()

@@ -11,7 +11,9 @@ public static class SecurityServiceRegistration
         services.AddAuthorization(options =>
         {
             options.AddPolicy(Policies.ApplicationAccess, policy => 
-                policy.RequireRole(Roles.ApplicationAccess));
+                policy
+                    .RequireAuthenticatedUser()
+                    .RequireRole(Roles.ApplicationAccess));
             
             var applicationAccessPolicy = options.GetPolicy(Policies.ApplicationAccess) 
                                           ?? throw new InvalidOperationException($"Required policy {Policies.ApplicationAccess} not found.");

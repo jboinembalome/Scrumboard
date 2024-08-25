@@ -12,7 +12,7 @@ internal static class WebApplicationFactoryExtensions
     public static HttpClient CreateUserClient<T>(this WebApplicationFactory<T> factory,
         TestUser testUser) where T : class
     {
-        var claimsProvider = GetClaimsProvider(testUser);
+        var claimsProvider = ClaimsProvider.GetClaims(testUser);
 
         var client = factory.WithAuthentication(claimsProvider)
             .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
@@ -22,24 +22,14 @@ internal static class WebApplicationFactoryExtensions
         return client;
     }
 
-    private static TestClaimsProvider GetClaimsProvider(TestUser testUser)
-    {
-        var provider = new TestClaimsProvider();
-        provider.Claims.Add(new Claim(ClaimTypes.NameIdentifier, testUser.Id));
-        provider.Claims.Add(new Claim(ClaimTypes.Name, testUser.UserName));
-        provider.Claims.Add(new Claim(ClaimTypes.Role, string.Join(',', testUser.Roles)));
-        
-        return provider;
-    }
-
     private static WebApplicationFactory<T> WithAuthentication<T>(this WebApplicationFactory<T> factory,
-        TestClaimsProvider claimsProvider) where T : class 
+        ClaimsProvider claimsProvider) where T : class 
         => factory.WithWebHostBuilder(builder =>
         {
             builder.ConfigureTestServices(services =>
             {
                 services.AddAuthentication("Test")
-                    .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", op => { });
+                    .AddScheme<AuthenticationSchemeOptions, FakeAuthenticationHandler>("Test", op => { });
 
                 services.AddScoped(_ => claimsProvider);
             });

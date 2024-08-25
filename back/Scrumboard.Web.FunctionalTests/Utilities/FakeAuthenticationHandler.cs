@@ -6,19 +6,14 @@ using System.Text.Encodings.Web;
 
 namespace Scrumboard.Web.FunctionalTests.Utilities;
 
-internal sealed class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+internal sealed class FakeAuthenticationHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder,
+    ClaimsProvider claimsProvider)
+    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
-    private readonly IList<Claim> _claims;
-
-    public TestAuthHandler(
-        IOptionsMonitor<AuthenticationSchemeOptions> options, 
-        ILoggerFactory logger,
-        UrlEncoder encoder, 
-        TestClaimsProvider claimsProvider) 
-        : base(options, logger, encoder)
-    {
-            _claims = claimsProvider.Claims;
-        }
+    private readonly IList<Claim> _claims = claimsProvider.Claims;
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {

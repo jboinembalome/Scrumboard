@@ -4,6 +4,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoFixture" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Moq" />
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 </Project>

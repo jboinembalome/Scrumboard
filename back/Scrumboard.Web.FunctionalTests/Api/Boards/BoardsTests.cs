@@ -42,7 +42,6 @@ public sealed class BoardsTests(
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.Adherent);
-
         var board = await Given_a_board(SeededUser.Adherent.Id);
         
         // Act
@@ -57,7 +56,6 @@ public sealed class BoardsTests(
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.NoRightUser);
-        
         var board = await Given_a_board(SeededUser.NoRightUser.Id);
 
         // Act
@@ -72,7 +70,6 @@ public sealed class BoardsTests(
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.Adherent);
-
         var payload = BuildPostBoardPayload();
         
         // Act
@@ -87,7 +84,6 @@ public sealed class BoardsTests(
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.NoRightUser);
-        
         var payload = BuildPostBoardPayload();
 
         // Act
@@ -102,9 +98,7 @@ public sealed class BoardsTests(
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.Adherent);
-
         var board = await Given_a_board(SeededUser.Adherent.Id);
-        
         var payload = BuildPutBoardPayload(board.Id);
         
         // Act
@@ -119,10 +113,8 @@ public sealed class BoardsTests(
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.NoRightUser);
-        
         var board = await Given_a_board(SeededUser.NoRightUser.Id);
-        
-        var payload = BuildPostBoardPayload();
+        var payload = BuildPutBoardPayload(board.Id);
 
         // Act
         var response = await client.PutAsJsonAsync($"/api/boards/{board.Id}", payload);

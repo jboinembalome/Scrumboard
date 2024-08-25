@@ -5,7 +5,9 @@ using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
 using Scrumboard.Shared.TestHelpers.Extensions;
+using Scrumboard.Shared.TestHelpers.Fixtures;
 using Scrumboard.Web.Api.Boards;
+using Scrumboard.Web.Api.Common.Profiles;
 using Xunit;
 
 namespace Scrumboard.Web.UnitTests.Api.Boards;
@@ -18,10 +20,11 @@ public sealed class BoardProfileTests
     
     public BoardProfileTests()
     {
-        _fixture = new Fixture();
+        _fixture = new CustomizedFixture();
         
         var mapperConfiguration = new MapperConfiguration(cfg =>
         {
+            cfg.AddProfile<MappingProfile>();
             cfg.AddProfile<BoardProfile>();
             cfg.SkipUserDtoMappings();
         });

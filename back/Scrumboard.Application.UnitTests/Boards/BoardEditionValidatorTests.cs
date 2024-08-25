@@ -47,7 +47,7 @@ public sealed class BoardEditionValidatorTests : UnitTestsBase
             .With(x => x.Name, new string('A', 51))
             .Create();
         
-        Given_a_not_found_board(boardEdition.Id);
+        Given_a_not_found_Board(boardEdition.Id);
         
         // Act
         var result = await _sut.TestValidateAsync(boardEdition);
@@ -64,7 +64,7 @@ public sealed class BoardEditionValidatorTests : UnitTestsBase
             .With(x => x.Name, new string('A', 50))
             .Create();
         
-        Given_a_found_board(boardEdition.Id);
+        Given_a_found_Board(boardEdition.Id);
         
         // Act
         var result = await _sut.TestValidateAsync(boardEdition);
@@ -73,19 +73,19 @@ public sealed class BoardEditionValidatorTests : UnitTestsBase
         result.ShouldNotHaveAnyValidationErrors();
     }
     
-    private void Given_a_found_board(BoardId boardId)
+    private void Given_a_found_Board(BoardId boardId)
     {
         var board = _fixture.Build<Board>()
             .With(x => x.Id, boardId)
             .Create();
 
         Mock.Get(_boardsRepository)
-            .Setup(x => x.TryGetByIdAsync(boardId, new CancellationToken()))
+            .Setup(x => x.TryGetByIdAsync(boardId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(board);
     }
     
-    private void Given_a_not_found_board(BoardId boardId) 
+    private void Given_a_not_found_Board(BoardId boardId) 
         => Mock.Get(_boardsRepository)
-            .Setup(x => x.TryGetByIdAsync(boardId, new CancellationToken()))
-            .ReturnsAsync((Board?)null);
+            .Setup(x => x.TryGetByIdAsync(boardId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(null as Board);
 }

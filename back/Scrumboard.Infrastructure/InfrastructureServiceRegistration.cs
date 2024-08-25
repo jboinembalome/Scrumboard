@@ -84,13 +84,6 @@ public static class InfrastructureServiceRegistration
             
             // UnitOfWork
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            
-            services.AddAuthentication();
-            
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("CanPurge", policy => policy.RequireRole("Administrator"));
-            //});
 
             return services;
         }

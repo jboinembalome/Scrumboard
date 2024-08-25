@@ -77,7 +77,7 @@ public class ScrumboardDbContextInitializer(
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
-        var roles = new[] { "Adherent" };
+        var roles = new[] { Roles.ApplicationAccess, Roles.Adherent };
         
         var user = new ApplicationUser
         {

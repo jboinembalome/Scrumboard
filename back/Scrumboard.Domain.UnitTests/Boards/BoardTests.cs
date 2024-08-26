@@ -20,7 +20,7 @@ public sealed class BoardTests
         var board = Given_a_Board_on_creation();
 
         // Act
-        Action act = () => board.MarkAsCreated();
+        var act = () => board.MarkAsCreated();
 
         // Assert
         act.Should()

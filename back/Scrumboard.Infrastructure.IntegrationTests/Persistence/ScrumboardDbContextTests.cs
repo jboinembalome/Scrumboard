@@ -82,9 +82,7 @@ public sealed class ScrumboardDbContextTests(
         => new(
             name: "testBoard",
             isPinned: false,
-            boardSetting:  new BoardSetting
-            {
-                Colour = Colour.Gray
-            },
+            boardSetting:  new BoardSetting(
+                colour: Colour.Gray),
             ownerId: (OwnerId)Guid.NewGuid().ToString());
 }

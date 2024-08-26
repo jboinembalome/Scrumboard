@@ -127,7 +127,8 @@ public sealed class BoardsTests(
         => await _factory.AddEntityAsync(new Board(
             name: "New Board",
             isPinned: false,
-            boardSetting: new BoardSetting { Colour = Colour.Blue },
+            boardSetting: new BoardSetting(
+                colour: Colour.Blue),
             ownerId: ownerId));
     
     private static BoardCreationDto BuildPostBoardPayload()

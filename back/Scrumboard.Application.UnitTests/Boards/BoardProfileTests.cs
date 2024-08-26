@@ -41,10 +41,8 @@ public sealed class BoardProfileTests : UnitTestsBase
         var expectedBoard = new Board(
             name: boardCreation.Name,
             isPinned: boardCreation.IsPinned,
-            boardSetting:  new BoardSetting
-            {
-                Colour = boardCreation.BoardSetting.Colour
-            },
+            boardSetting:  new BoardSetting(
+                colour: boardCreation.BoardSetting.Colour),
             ownerId: boardCreation.OwnerId);
 
         board
@@ -66,10 +64,8 @@ public sealed class BoardProfileTests : UnitTestsBase
             id: boardEdition.Id,
             name: boardEdition.Name,
             isPinned: boardEdition.IsPinned,
-            boardSetting:  new BoardSetting
-            {
-                Colour = boardEdition.BoardSetting.Colour
-            });
+            boardSetting:  new BoardSetting(
+                colour: boardEdition.BoardSetting.Colour));
 
         board
             .Should()
@@ -86,10 +82,8 @@ public sealed class BoardProfileTests : UnitTestsBase
         var boardSetting = _mapper.Map<BoardSetting>(boardSettingCreation);
         
         // Assert
-        var expectedBoardSetting = new BoardSetting
-        {
-            Colour = boardSettingCreation.Colour,
-        };
+        var expectedBoardSetting = new BoardSetting(
+            colour: boardSettingCreation.Colour);
 
         boardSetting
             .Should()
@@ -106,10 +100,8 @@ public sealed class BoardProfileTests : UnitTestsBase
         var boardSetting = _mapper.Map<BoardSetting>(boardSettingEdition);
         
         // Assert
-        var expectedBoardSetting = new BoardSetting
-        {
-            Colour = boardSettingEdition.Colour
-        };
+        var expectedBoardSetting = new BoardSetting(
+            colour: boardSettingEdition.Colour);
 
         boardSetting
             .Should()

@@ -18,7 +18,8 @@ public class ExportToCsvTests
         var board = new Board(
             name: "Scrumboard Frontend",
             isPinned: false,
-            boardSetting:  new BoardSetting { Colour = Colour.Violet },
+            boardSetting:  new BoardSetting(
+                colour: Colour.Violet),
             ownerId: new OwnerId("533f27ad-d3e8-4fe7-9259-ee4ef713dbea"));
 
         // Act

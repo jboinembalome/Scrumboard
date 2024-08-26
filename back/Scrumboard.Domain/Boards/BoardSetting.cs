@@ -7,6 +7,13 @@ namespace Scrumboard.Domain.Boards;
 
 public sealed class BoardSetting : EntityBase<BoardSettingId>
 {
-    public BoardId BoardId { get; set; }
-    public Colour Colour { get; set; } = Colour.Gray;
+    public BoardSetting() { }
+
+    public BoardSetting(Colour colour)
+    {
+        Colour = colour;
+    }
+    
+    public BoardId BoardId { get; private set; }
+    public Colour Colour { get; private set; } = Colour.Gray;
 }

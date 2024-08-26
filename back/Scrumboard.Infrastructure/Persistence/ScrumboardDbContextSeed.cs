@@ -31,10 +31,7 @@ public class ScrumboardDbContextInitializer(
     UserManager<ApplicationUser> userManager,
     RoleManager<IdentityRole> roleManager)
 {
-    private readonly UserId _userId = (UserId)"533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private readonly UserId _userId2 = (UserId)"633f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private readonly UserId _userId3 = (UserId)"635f27ad-d3e8-4fe7-9259-ee4ef713dbea";
-    private readonly UserId _userId4 = (UserId)"637f27ad-d3e8-4fe7-9259-ee4ef713dbea";
+    private readonly UserId _userId = "533f27ad-d3e8-4fe7-9259-ee4ef713dbea";
 
     public async Task InitialiseAsync()
     {
@@ -69,13 +66,11 @@ public class ScrumboardDbContextInitializer(
 
     private async Task TrySeedAsync()
     {
-        await SeedDefaultUserAsync(userManager, roleManager);
+        await SeedDefaultUserAsync();
         await SeedSampleDataAsync();
     }
 
-    private async Task SeedDefaultUserAsync(
-        UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager)
+    private async Task SeedDefaultUserAsync()
     {
         var roles = new[] { Roles.ApplicationAccess, Roles.Adherent };
         
@@ -104,14 +99,16 @@ public class ScrumboardDbContextInitializer(
         var board1 = new Board(
             name: "Scrumboard Frontend",
             isPinned: false,
-            boardSetting: new BoardSetting { Colour = Colour.Violet },
-            ownerId: (OwnerId)_userId.Value);
+            boardSetting: new BoardSetting(
+                colour:Colour.Violet),
+            ownerId: _userId.Value);
         
         var board2 = new Board(
             name: "Scrumboard Backend",
             isPinned: true,
-            boardSetting: new BoardSetting { Colour = Colour.Yellow },
-            ownerId: (OwnerId)_userId.Value);
+            boardSetting: new BoardSetting(
+                colour:Colour.Yellow),
+            ownerId: _userId.Value);
         
         var boards = new Collection<Board>
         {

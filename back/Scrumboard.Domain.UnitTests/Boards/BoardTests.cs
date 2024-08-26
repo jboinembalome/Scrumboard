@@ -55,9 +55,7 @@ public sealed class BoardTests
         => new(
             name: _fixture.Create<string>(),
             isPinned: _fixture.Create<bool>(),
-            boardSetting: new BoardSetting
-            {
-                Colour = _fixture.Create<Colour>()
-            },
+            boardSetting: new BoardSetting(
+                colour: _fixture.Create<Colour>()),
             ownerId: _fixture.Create<OwnerId>());
 }

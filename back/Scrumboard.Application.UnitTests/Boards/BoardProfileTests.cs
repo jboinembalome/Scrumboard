@@ -5,6 +5,7 @@ using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Boards;
 using Scrumboard.Application.Teams;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Shared.TestHelpers.Extensions;
 using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Boards;
@@ -60,12 +61,12 @@ public sealed class BoardProfileTests : UnitTestsBase
         var board = _mapper.Map<Board>(boardEdition);
         
         // Assert
-        var expectedBoard = new Board(
-            id: boardEdition.Id,
-            name: boardEdition.Name,
-            isPinned: boardEdition.IsPinned,
-            boardSetting:  new BoardSetting(
-                colour: boardEdition.BoardSetting.Colour));
+        var expectedBoard = new Board();
+        expectedBoard.SetProperty(x => x.Id, boardEdition.Id);
+        expectedBoard.SetProperty(x => x.Name, boardEdition.Name);
+        expectedBoard.SetProperty(x => x.IsPinned, boardEdition.IsPinned);
+        expectedBoard.SetProperty(x => x.BoardSetting, new BoardSetting(
+            colour: boardEdition.BoardSetting.Colour));
 
         board
             .Should()

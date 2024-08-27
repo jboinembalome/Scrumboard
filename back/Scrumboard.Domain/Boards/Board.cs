@@ -21,18 +21,6 @@ public sealed class Board : AuditableEntityBase<BoardId>
         OwnerId = ownerId;
     }
     
-    public Board(
-        BoardId id,
-        string name, 
-        bool isPinned, 
-        BoardSetting boardSetting)
-    {
-        Id = id;
-        Name = name ?? throw new ArgumentNullException(nameof(name));
-        IsPinned = isPinned;
-        BoardSetting = boardSetting ?? throw new ArgumentNullException(nameof(boardSetting));
-    }
-    
     public string Name { get; private set; }
     public bool IsPinned { get; private set; }
     public BoardSetting BoardSetting { get; private set; }

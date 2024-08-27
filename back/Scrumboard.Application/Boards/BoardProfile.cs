@@ -10,9 +10,7 @@ internal sealed class BoardProfile : Profile
     {
         // Write
         CreateMap<BoardCreation, Board>();
-        CreateMap<BoardEdition, Board>();
         
         CreateMap<BoardSettingCreation, BoardSetting>();
-        CreateMap<BoardSettingEdition, BoardSetting>();
     }
 }

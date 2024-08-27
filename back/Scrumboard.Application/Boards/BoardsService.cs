@@ -61,7 +61,10 @@ internal sealed class BoardsService(
         var board = await boardsRepository.TryGetByIdAsync(boardEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(boardEdition.Id);
 
-        mapper.Map(boardEdition, board);
+        board.Update(
+            name: boardEdition.Name,
+            isPinned: boardEdition.IsPinned,
+            boardSettingColour: boardEdition.BoardSetting.Colour);
 
         boardsRepository.Update(board);
         

@@ -51,6 +51,34 @@ public sealed class BoardTests
                     .Excluding(x => x.DateOccurred));
     }
     
+    [Fact]
+    public void Update_should_correctly_apply_changes()
+    {
+        // Arrange
+        var board = Given_a_Board_on_edition();
+        
+        var newName = _fixture.Create<string>();
+        var newIsPinned = _fixture.Create<bool>();
+        var newColour = _fixture.Create<Colour>();
+        
+        // Act
+        board.Update(
+            name: newName,
+            isPinned: newIsPinned,
+            boardSettingColour: newColour);
+
+        // Assert
+        var expectedBoard = new Board();
+        expectedBoard.SetProperty(x => x.Id, board.Id);
+        expectedBoard.SetProperty(x => x.OwnerId, board.OwnerId);
+        expectedBoard.SetProperty(x => x.Name, newName);
+        expectedBoard.SetProperty(x => x.IsPinned, newIsPinned);
+        expectedBoard.BoardSetting.SetProperty(x => x.Colour, newColour);
+        
+        board.Should()
+            .BeEquivalentTo(expectedBoard);
+    }
+    
     private Board Given_a_Board_on_creation() 
         => new(
             name: _fixture.Create<string>(),
@@ -58,4 +86,12 @@ public sealed class BoardTests
             boardSetting: new BoardSetting(
                 colour: _fixture.Create<Colour>()),
             ownerId: _fixture.Create<OwnerId>());
+    
+    private Board Given_a_Board_on_edition()
+    {
+        var board = Given_a_Board_on_creation();
+        board.SetProperty(x => x.Id, board.Id);
+        
+        return board;
+    }
 }

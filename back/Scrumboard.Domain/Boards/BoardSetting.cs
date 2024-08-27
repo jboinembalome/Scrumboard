@@ -16,4 +16,9 @@ public sealed class BoardSetting : EntityBase<BoardSettingId>
     
     public BoardId BoardId { get; private set; }
     public Colour Colour { get; private set; } = Colour.Gray;
+    
+    public void Update(Colour colour)
+    {
+        Colour = colour;
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using Scrumboard.Domain.Boards.Events;
+using Scrumboard.Domain.Common;
 using Scrumboard.SharedKernel.Entities;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
@@ -23,7 +24,7 @@ public sealed class Board : AuditableEntityBase<BoardId>
     
     public string Name { get; private set; }
     public bool IsPinned { get; private set; }
-    public BoardSetting BoardSetting { get; private set; }
+    public BoardSetting BoardSetting { get; private set; } = new();
     public OwnerId OwnerId { get; private set; }
     
     public void MarkAsCreated()
@@ -34,5 +35,16 @@ public sealed class Board : AuditableEntityBase<BoardId>
         }
         
         AddDomainEvent(new BoardCreatedDomainEvent(Id, OwnerId));
+    }
+
+    public void Update(
+        string name, 
+        bool isPinned, 
+        Colour boardSettingColour)
+    {
+        Name = name;
+        IsPinned = isPinned;
+        
+        BoardSetting.Update(boardSettingColour);
     }
 }

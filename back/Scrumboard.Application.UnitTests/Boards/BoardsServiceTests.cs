@@ -304,23 +304,6 @@ public sealed class BoardsServiceTests
     }
     
     [Fact]
-    public async Task Update_Board_should_map_BoardEdition_to_Board()
-    {
-        // Arrange
-        var boardEdition = _fixture.Build<BoardEdition>().Create();
-        var board = Given_a_found_Board(boardEdition.Id);
-
-        Given_mapping(boardEdition, board);
-
-        // Act
-        await _sut.UpdateAsync(boardEdition);
-
-        // Assert
-        Mock.Get(_mapper)
-            .Verify(x => x.Map(boardEdition, board), Times.Once);
-    }
-    
-    [Fact]
     public async Task Update_Board_should_call_the_repository()
     {
         // Arrange
@@ -335,6 +318,22 @@ public sealed class BoardsServiceTests
         // Assert
         Mock.Get(_boardsRepository)
             .Verify(x => x.Update(board), Times.Once);
+    }
+    
+    [Fact]
+    public async Task Update_Board_should_update_the_board()
+    {
+        // Arrange
+        var boardEdition = _fixture.Build<BoardEdition>().Create();
+        var board = Given_a_found_Board(boardEdition.Id);
+
+        // Act
+        await _sut.UpdateAsync(boardEdition);
+
+        // Assert
+        board.Name.Should().Be(boardEdition.Name);
+        board.IsPinned.Should().Be(boardEdition.IsPinned);
+        board.BoardSetting.Colour.Should().Be(boardEdition.BoardSetting.Colour);
     }
     
     [Fact]

@@ -43,8 +43,7 @@ public sealed class BoardProfileTests : UnitTestsBase
                 colour: boardCreation.BoardSetting.Colour),
             ownerId: boardCreation.OwnerId);
 
-        board
-            .Should()
+        board.Should()
             .BeEquivalentTo(expectedBoard);
     }
     
@@ -61,8 +60,7 @@ public sealed class BoardProfileTests : UnitTestsBase
         var expectedBoardSetting = new BoardSetting(
             colour: boardSettingCreation.Colour);
 
-        boardSetting
-            .Should()
+        boardSetting.Should()
             .BeEquivalentTo(expectedBoardSetting);
     }
 }

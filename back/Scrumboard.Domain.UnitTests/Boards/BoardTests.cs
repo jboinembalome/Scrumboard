@@ -90,7 +90,7 @@ public sealed class BoardTests
     private Board Given_a_Board_on_edition()
     {
         var board = Given_a_Board_on_creation();
-        board.SetProperty(x => x.Id, board.Id);
+        board.SetProperty(x => x.Id, _fixture.Create<BoardId>());
         
         return board;
     }

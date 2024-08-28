@@ -3,7 +3,6 @@ using AutoMapper;
 using FluentAssertions;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Boards;
-using Scrumboard.Application.Teams;
 using Scrumboard.Domain.Boards;
 using Xunit;
 
@@ -22,7 +21,6 @@ public sealed class BoardProfileTests : UnitTestsBase
         var mapperConfiguration = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<BoardProfile>();
-            cfg.AddProfile<TeamProfile>();
         });
         
         _mapper = mapperConfiguration.CreateMapper();

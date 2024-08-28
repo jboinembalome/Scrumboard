@@ -8,45 +8,22 @@ namespace Scrumboard.Domain.Teams;
 public sealed class Team : CreatedAtEntityBase<TeamId>
 {
     private readonly List<TeamMember> _teamMembers = [];
+
+    public Team() { }
     
-    public string Name { get; set; }
+    public Team(string name, BoardId boardId)
+    {
+        Name = name;
+        BoardId = boardId;
+    }
+
+    public string Name { get; private set; }
+    public BoardId BoardId { get; private set; }
     public IReadOnlyCollection<TeamMember> Members => _teamMembers.AsReadOnly();
-    public BoardId BoardId { get; set; }
     
-    public void AddMember(MemberId memberId)
+    public void AddMembers(IEnumerable<MemberId> memberIds)
     {
-        if (_teamMembers.Any(x => x.TeamId == Id && x.MemberId == memberId))
-        {
-            return;
-        }
-        
-        _teamMembers.Add(new TeamMember { TeamId = Id, MemberId = memberId });
-    }
-
-    public void RemoveMember(MemberId memberId)
-    {
-        var teamMember = _teamMembers.FirstOrDefault(x => x.TeamId == Id && x.MemberId == memberId);
-        
-        if (teamMember is null)
-        {
-            return;
-        }
-        
-        _teamMembers.Remove(teamMember);
-    }
-    
-    public void UpdateMembers(IEnumerable<MemberId> memberIds)
-    {
-        var memberIdsList = memberIds.ToList();
-        
-        if (_teamMembers.Count == memberIdsList.Count 
-            && _teamMembers.All(x => memberIdsList.Contains(x.MemberId)))
-        {
-            return;
-        }
-
-        // Remove members who are no longer in the list
-        _teamMembers.RemoveAll(x => !memberIdsList.Contains(x.MemberId));
+        var memberIdsList = memberIds.ToHashSet();
         
         var membersToAdd = memberIdsList
             .Where(memberId => !_teamMembers.Exists(tm => tm.MemberId == memberId))
@@ -58,5 +35,21 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
         {
             _teamMembers.AddRange(membersToAdd);
         }
+    }
+    
+    public void UpdateMembers(IEnumerable<MemberId> memberIds)
+    {
+        var memberIdsList = memberIds.ToHashSet();
+        
+        if (_teamMembers.Count == memberIdsList.Count 
+            && _teamMembers.All(x => memberIdsList.Contains(x.MemberId)))
+        {
+            return;
+        }
+
+        // Remove members who are no longer in the list
+        _teamMembers.RemoveAll(x => !memberIdsList.Contains(x.MemberId));
+        
+        AddMembers(memberIdsList);
     }
 }

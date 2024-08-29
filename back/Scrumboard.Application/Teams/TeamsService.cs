@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation;
 using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Teams;
@@ -10,7 +11,9 @@ namespace Scrumboard.Application.Teams;
 internal sealed class TeamsService(
     IMapper mapper,
     ITeamsRepository teamsRepository,
-    ITeamsQueryRepository teamsQueryRepository) : ITeamsService
+    ITeamsQueryRepository teamsQueryRepository,
+    IValidator<TeamCreation> teamCreationValidator,
+    IValidator<TeamEdition> teamEditionValidator) : ITeamsService
 {
     public Task<Team> GetByIdAsync(
         TeamId id, 
@@ -23,22 +26,24 @@ internal sealed class TeamsService(
         CancellationToken cancellationToken = default) 
         => await teamsQueryRepository.TryGetByBoardIdAsync(boardId, cancellationToken)
             .OrThrowResourceNotFoundAsync(boardId);
-
-    // TODO: Add validation
-    public Task<Team> AddAsync(
+    
+    public async Task<Team> AddAsync(
         TeamCreation teamCreation, 
         CancellationToken cancellationToken = default)
     {
+        await teamCreationValidator.ValidateAndThrowAsync(teamCreation, cancellationToken);
+        
         var team = mapper.Map<Team>(teamCreation);
         
-        return teamsRepository.AddAsync(team, cancellationToken);
+        return await teamsRepository.AddAsync(team, cancellationToken);
     }
-
-    // TODO: Add validation
+    
     public async Task<Team> UpdateAsync(
         TeamEdition teamEdition, 
         CancellationToken cancellationToken = default)
     {
+        await teamEditionValidator.ValidateAndThrowAsync(teamEdition, cancellationToken);
+        
         var team = await teamsRepository.TryGetByIdAsync(teamEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(teamEdition.Id);
 

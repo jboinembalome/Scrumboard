@@ -35,12 +35,12 @@ public sealed class BoardsQueryRepositoryTests : PersistenceTestsBase
         board.Should()
             .NotBeNull();
 
-        board!.Id.Should()
-            .Be(existingBoard.Id);
+        board.Should()
+            .BeEquivalentTo(existingBoard);
     }
     
     [Fact]
-    public async Task Should_get_Board_by_OwnerId()
+    public async Task Should_get_Boards_by_OwnerId()
     {           
         // Arrange
         var firstOwnerId = _fixture.Create<OwnerId>();
@@ -54,8 +54,7 @@ public sealed class BoardsQueryRepositoryTests : PersistenceTestsBase
     
         // Assert
         boards.Should()
-            .OnlyContain(x => x.Id == firstBoard.Id 
-                              && x.OwnerId == firstBoard.OwnerId);
+            .BeEquivalentTo([firstBoard]);
     }
     
     private async Task<Board> Given_a_Board()

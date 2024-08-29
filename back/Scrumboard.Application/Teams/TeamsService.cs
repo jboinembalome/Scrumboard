@@ -35,7 +35,9 @@ internal sealed class TeamsService(
         
         var team = mapper.Map<Team>(teamCreation);
         
-        return await teamsRepository.AddAsync(team, cancellationToken);
+        await teamsRepository.AddAsync(team, cancellationToken);
+
+        return team;
     }
     
     public async Task<Team> UpdateAsync(

@@ -9,8 +9,19 @@ internal sealed class TeamsRepository(
 {
     public async Task<Team?> TryGetByIdAsync(
         TeamId id, 
-        CancellationToken cancellationToken = default) 
-        => await dbContext.Teams.FindAsync([id], cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        var team = await dbContext.Teams.FindAsync([id], cancellationToken);
+        
+        if (team is not null)
+        {
+            await dbContext.Entry(team)
+                .Collection(x => x.Members)
+                .LoadAsync(cancellationToken);
+        }
+        
+        return team;
+    }
 
     public async Task<Team> AddAsync(
         Team team, 

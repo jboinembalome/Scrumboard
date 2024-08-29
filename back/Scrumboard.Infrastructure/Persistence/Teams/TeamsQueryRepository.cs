@@ -11,15 +11,17 @@ internal sealed class TeamsQueryRepository(
     public async Task<Team?> TryGetByIdAsync(
         TeamId id, 
         CancellationToken cancellationToken = default) 
-        => await dbContext.Teams
-            .AsNoTracking()
+        => await Query()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public async Task<Team?> TryGetByBoardIdAsync(
         BoardId boardId, 
         CancellationToken cancellationToken = default) 
-        => await dbContext.Teams
-            .AsNoTracking()
-            .Where(x => x.BoardId == boardId)
-            .FirstOrDefaultAsync(cancellationToken);
+        => await Query()
+            .FirstOrDefaultAsync(x => x.BoardId == boardId, cancellationToken);
+    
+    private IQueryable<Team> Query() 
+        => dbContext.Teams
+            .Include(x => x.Members)
+            .AsNoTracking();
 }

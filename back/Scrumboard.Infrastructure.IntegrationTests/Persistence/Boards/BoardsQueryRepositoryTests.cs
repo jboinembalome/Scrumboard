@@ -23,10 +23,10 @@ public sealed class BoardsQueryRepositoryTests : PersistenceTestsBase
     }
     
     [Fact]
-    public async Task Should_get_board_by_id()
+    public async Task Should_get_Board_by_Id()
     {           
         // Arrange
-        var existingBoard = await Given_a_board();
+        var existingBoard = await Given_a_Board();
         
         // Act
         var board = await _sut.TryGetByIdAsync(existingBoard.Id);
@@ -40,14 +40,14 @@ public sealed class BoardsQueryRepositoryTests : PersistenceTestsBase
     }
     
     [Fact]
-    public async Task Should_get_board_by_owner_id()
+    public async Task Should_get_Board_by_OwnerId()
     {           
         // Arrange
         var firstOwnerId = _fixture.Create<OwnerId>();
-        var firstBoard = await Given_a_board(firstOwnerId);
+        var firstBoard = await Given_a_Board(firstOwnerId);
         
         var secondOwnerId = _fixture.Create<OwnerId>();
-        await Given_a_board(secondOwnerId);
+        await Given_a_Board(secondOwnerId);
         
         // Act
         var boards = await _sut.GetByOwnerIdAsync(firstOwnerId);
@@ -58,7 +58,7 @@ public sealed class BoardsQueryRepositoryTests : PersistenceTestsBase
                               && x.OwnerId == firstBoard.OwnerId);
     }
     
-    private async Task<Board> Given_a_board()
+    private async Task<Board> Given_a_Board()
     {
         var board = _fixture.Create<Board>();
         
@@ -69,7 +69,7 @@ public sealed class BoardsQueryRepositoryTests : PersistenceTestsBase
         return board;
     }
     
-    private async Task<Board> Given_a_board(OwnerId ownerId)
+    private async Task<Board> Given_a_Board(OwnerId ownerId)
     {
         var board = _fixture.Create<Board>();
         board.SetProperty(x => x.OwnerId, ownerId);

@@ -26,7 +26,7 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     }
 
     [Fact]
-    public async Task Should_add_board()
+    public async Task Should_add_Board()
     {           
         // Arrange
         var board = _fixture.Create<Board>();
@@ -51,10 +51,10 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     }
     
     [Fact]
-    public async Task Should_delete_board()
+    public async Task Should_delete_Board()
     {           
         // Arrange
-        var board = await Given_a_board();
+        var board = await Given_a_Board();
         
         // Act
         await _sut.DeleteAsync(board.Id);
@@ -69,10 +69,10 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     }
     
     [Fact]
-    public async Task Should_get_board_by_id()
+    public async Task Should_get_Board_by_Id()
     {           
         // Arrange
-        var existingBoard = await Given_a_board();
+        var existingBoard = await Given_a_Board();
         
         // Act
         var board = await _sut.TryGetByIdAsync(existingBoard.Id);
@@ -87,10 +87,10 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     
     
     [Fact]
-    public async Task Should_update_board()
+    public async Task Should_update_Board()
     {           
         // Arrange
-        var board = await Given_a_board();
+        var board = await Given_a_Board();
         board.SetProperty(x => x.Name, _fixture.Create<string>());
         board.SetProperty(x => x.IsPinned, _fixture.Create<bool>());
         board.SetProperty(x => x.OwnerId, _fixture.Create<OwnerId>());
@@ -111,7 +111,7 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
         updatedBoard.BoardSetting.Colour.Should().Be(board.BoardSetting.Colour);
     }
     
-    private async Task<Board> Given_a_board()
+    private async Task<Board> Given_a_Board()
     {
         var board = _fixture.Create<Board>();
         

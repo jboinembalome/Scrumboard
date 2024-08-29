@@ -90,7 +90,7 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     public async Task Should_update_Board()
     {           
         // Arrange
-        var board = await Given_a_Board();
+        var board = await Given_a_Board_for_edition();
         board.SetProperty(x => x.Name, _fixture.Create<string>());
         board.SetProperty(x => x.IsPinned, _fixture.Create<bool>());
         board.SetProperty(x => x.OwnerId, _fixture.Create<OwnerId>());
@@ -120,5 +120,14 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
         await ArrangeDbContext.SaveChangesAsync();
         
         return board;
+    }
+    
+    private async Task<Board> Given_a_Board_for_edition()
+    {
+        var board = await Given_a_Board();
+        
+        return await ActDbContext.Boards
+            .Include(x => x.BoardSetting)
+            .FirstAsync(x => x.Id == board.Id);
     }
 }

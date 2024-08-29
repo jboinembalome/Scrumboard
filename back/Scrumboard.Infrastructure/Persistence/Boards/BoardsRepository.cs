@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Scrumboard.Domain.Boards;
+﻿using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 using Scrumboard.SharedKernel.Extensions;
 
@@ -10,9 +9,19 @@ internal sealed class BoardsRepository(
 {
     public async Task<Board?> TryGetByIdAsync(
         BoardId id, 
-        CancellationToken cancellationToken = default) 
-        => await Query()
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        var board = await dbContext.Boards.FindAsync([id], cancellationToken);
+        
+        if (board is not null)
+        {
+            await dbContext.Entry(board)
+                .Reference(x => x.BoardSetting)
+                .LoadAsync(cancellationToken);
+        }
+        
+        return board;
+    }
 
     public async Task<Board> AddAsync(
         Board board, 
@@ -39,8 +48,4 @@ internal sealed class BoardsRepository(
         
         dbContext.Boards.Remove(board);
     }
-
-    private IQueryable<Board> Query()
-        => dbContext.Boards
-            .Include(b => b.BoardSetting);
 }

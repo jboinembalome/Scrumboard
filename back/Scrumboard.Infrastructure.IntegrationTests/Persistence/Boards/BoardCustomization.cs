@@ -14,6 +14,7 @@ public sealed class BoardCustomization : IAutoAppliedCustomization
                 isPinned: fixture.Create<bool>(),        
                 boardSetting: fixture.Create<BoardSetting>(),
                 ownerId: fixture.Create<OwnerId>()))
+            .Without(x => x.Id)
             .Without(x => x.CreatedBy)
             .Without(x => x.LastModifiedBy));
     }

@@ -17,7 +17,7 @@ namespace Scrumboard.Application.UnitTests.Boards;
 
 public sealed class BoardsServiceTests
 {
-    private readonly Fixture _fixture;
+    private readonly IFixture _fixture;
     
     private readonly IMapper _mapper;
     private readonly IBoardsRepository _boardsRepository;

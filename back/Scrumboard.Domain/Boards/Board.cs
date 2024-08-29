@@ -16,9 +16,12 @@ public sealed class Board : AuditableEntityBase<BoardId>
         BoardSetting boardSetting, 
         OwnerId ownerId)
     {
-        Name = name ?? throw new ArgumentNullException(nameof(name));
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentNullException.ThrowIfNull(boardSetting);
+        
+        Name = name;
         IsPinned = isPinned;
-        BoardSetting = boardSetting ?? throw new ArgumentNullException(nameof(boardSetting));
+        BoardSetting = boardSetting;
         OwnerId = ownerId;
     }
     

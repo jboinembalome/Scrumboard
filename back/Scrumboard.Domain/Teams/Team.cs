@@ -13,6 +13,8 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
     
     public Team(string name, BoardId boardId)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        
         Name = name;
         BoardId = boardId;
     }

@@ -3,6 +3,7 @@ using Scrumboard.Infrastructure.Identity;
 using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Comments;

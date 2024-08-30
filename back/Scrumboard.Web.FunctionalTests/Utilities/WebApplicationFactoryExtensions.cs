@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 
 namespace Scrumboard.Web.FunctionalTests.Utilities;
 

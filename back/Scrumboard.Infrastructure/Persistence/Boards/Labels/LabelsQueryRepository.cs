@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;

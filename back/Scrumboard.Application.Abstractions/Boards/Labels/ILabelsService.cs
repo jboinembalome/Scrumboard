@@ -1,4 +1,5 @@
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 
 namespace Scrumboard.Application.Abstractions.Boards.Labels;
 

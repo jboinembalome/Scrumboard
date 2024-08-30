@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 
 namespace Scrumboard.Infrastructure.Persistence.Boards.Labels;
 

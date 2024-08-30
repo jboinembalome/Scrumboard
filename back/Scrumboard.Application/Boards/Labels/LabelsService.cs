@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.SharedKernel.Extensions;
 

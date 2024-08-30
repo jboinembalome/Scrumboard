@@ -1,4 +1,4 @@
-﻿using Scrumboard.Domain.Boards;
+﻿using Scrumboard.Domain.Boards.Labels;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.ListBoards;
 

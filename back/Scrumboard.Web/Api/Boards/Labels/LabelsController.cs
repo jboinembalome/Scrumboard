@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 
 namespace Scrumboard.Web.Api.Boards.Labels;
 

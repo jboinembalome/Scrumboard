@@ -1,4 +1,4 @@
-﻿using Scrumboard.Domain.Boards;
+﻿using Scrumboard.Domain.Boards.Labels;
 
 namespace Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 

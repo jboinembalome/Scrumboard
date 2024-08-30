@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Scrumboard.Application.Abstractions.Boards.Labels;
-using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 
 namespace Scrumboard.Application.Boards.Labels;
 

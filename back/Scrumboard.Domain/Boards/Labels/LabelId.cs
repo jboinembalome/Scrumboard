@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Scrumboard.SharedKernel.Types;
 
-namespace Scrumboard.Domain.Boards;
+namespace Scrumboard.Domain.Boards.Labels;
 
 public sealed class LabelId(
     int value) : IntStrongId<LabelId>(value), IStrongId<LabelId, int>

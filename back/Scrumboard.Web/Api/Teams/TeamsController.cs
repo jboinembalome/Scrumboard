@@ -31,7 +31,7 @@ public class TeamsController(
     {
         var team = await teamsService.GetByIdAsync(new TeamId(id), cancellationToken);
         
-        var teamDto = mapper.Map<TeamDto>(team);
+        var teamDto = await GetTeamDtoAsync(team, cancellationToken);
 
         return Ok(teamDto);
     }
@@ -45,7 +45,7 @@ public class TeamsController(
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> Update(
+    public async Task<ActionResult> Create(
         TeamCreationDto teamCreationDto,
         CancellationToken cancellationToken)
     {
@@ -55,7 +55,7 @@ public class TeamsController(
 
         var teamDto = await GetTeamDtoAsync(team, cancellationToken);
         
-        return Ok(teamDto);
+        return CreatedAtAction(nameof(GetByTeamId), new { id = teamDto.Id }, teamDto);
     }
 
     /// <summary>

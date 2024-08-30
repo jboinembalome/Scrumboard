@@ -8,5 +8,5 @@ public sealed class TeamDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    public IEnumerable<UserDto> Members { get; set; }
+    public IEnumerable<UserDto> Members { get; set; } = [];
 }

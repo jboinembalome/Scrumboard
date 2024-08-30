@@ -30,7 +30,6 @@
     <Folder Include="Api\Cards\" />
     <Folder Include="Api\Common\" />
     <Folder Include="Api\ListBoards\" />
-    <Folder Include="Api\Teams\" />
     <Folder Include="Api\Users\" />
   </ItemGroup>
 

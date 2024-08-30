@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Common;
+using Scrumboard.Domain.Teams;
 using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
@@ -91,7 +92,8 @@ public class ScrumboardDbContextInitializer(
 
     private async Task SeedSampleDataAsync()
     {
-        await SeedBoardsAsync();
+        var boards = await SeedBoardsAsync();
+        await SeedTeamsAsync(boards[0], boards[1]);
     }
 
     private async Task<Collection<Board>> SeedBoardsAsync()
@@ -125,6 +127,37 @@ public class ScrumboardDbContextInitializer(
         }
 
         return boards;
+    }
+    
+    private async Task<Collection<Team>> SeedTeamsAsync(Board board1, Board board2)
+    {
+        var team1 = new Team(
+            name: "Frontend team",
+            boardId: board1.Id);
+        
+        team1.AddMembers([_userId.Value]);
+        
+        var team2 = new Team(
+            name: "Backend team",
+            boardId: board2.Id);
+        
+        team2.AddMembers([_userId.Value]);
+        
+        var teams = new Collection<Team>
+        {
+            team1,
+            team2 
+        };
+
+        // Seed, if necessary
+        if (!await context.Teams.AnyAsync())
+        {
+            await context.Teams.AddRangeAsync(teams);
+
+            await context.SaveChangesAsync();
+        }
+
+        return teams;
     }
 
     private static async Task CreateUser(UserManager<ApplicationUser> userManager, ApplicationUser user,

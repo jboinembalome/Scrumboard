@@ -37,7 +37,7 @@ public sealed class TeamsQueryRepositoryTests : PersistenceTestsBase
     }
     
     [Fact]
-    public async Task Should_return_null_if_Team_by_Id_not_found()
+    public async Task Get_Team_by_Id_should_return_null_when_not_found()
     {           
         // Act
         var retrievedTeam = await _sut.TryGetByIdAsync(new TeamId(0));
@@ -62,7 +62,7 @@ public sealed class TeamsQueryRepositoryTests : PersistenceTestsBase
     }
     
     [Fact]
-    public async Task Should_return_null_if_Team_by_BoardId_not_found()
+    public async Task Get_Team_by_BoardId_should_return_null_when_not_found()
     {           
         // Act
         var retrievedTeam = await _sut.TryGetByBoardIdAsync(new BoardId(0));

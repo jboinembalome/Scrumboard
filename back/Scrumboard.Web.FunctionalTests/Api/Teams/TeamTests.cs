@@ -101,6 +101,7 @@ public sealed class TeamTests(
         
         var board = await Given_a_board(SeededUser.NoRightUser.Id);
         var team = await Given_a_team(SeededUser.NoRightUser.Id, board.Id);
+        
         var payload = BuildPutTeamPayload(team.Id.Value, [SeededUser.NoRightUser.Id], board.Id.Value);
 
         // Act

@@ -39,7 +39,9 @@ internal sealed class LabelsService(
 
         var label = mapper.Map<Label>(labelCreation);
         
-        return await labelsRepository.AddAsync(label, cancellationToken);
+        await labelsRepository.AddAsync(label, cancellationToken);
+
+        return label;
     }
 
     public async Task<Label> UpdateAsync(
@@ -62,7 +64,7 @@ internal sealed class LabelsService(
         LabelId id, 
         CancellationToken cancellationToken = default)
     {
-        _ = await labelsRepository.TryGetByIdAsync(id, cancellationToken)
+        await labelsRepository.TryGetByIdAsync(id, cancellationToken)
             .OrThrowResourceNotFoundAsync(id);
         
         await labelsRepository.DeleteAsync(id, cancellationToken);

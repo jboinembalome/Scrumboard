@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Domain.Boards;
-using Scrumboard.Domain.Common;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Boards;
 
 namespace Scrumboard.Application.Boards.Labels;
@@ -20,17 +19,10 @@ internal sealed class LabelCreationValidator : AbstractValidator<LabelCreation>
             .MaximumLength(255)
                 .WithMessage("{PropertyName} must not exceed 255 characters.");
         
-        RuleFor(x => x.Colour)
-            .Must(ColourExists)
-                .WithMessage("{PropertyName} is not supported.");
-        
         RuleFor(x => x.BoardId)
             .MustAsync(BoardExistsAsync)
                 .WithMessage("{PropertyName} not found.");
     }
-    
-    private static bool ColourExists(Colour colour) 
-        => Colour.SupportedColours.Any(x => Equals(x, colour));
     
     private async Task<bool> BoardExistsAsync(BoardId boardId, CancellationToken cancellationToken)
     {

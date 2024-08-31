@@ -40,7 +40,7 @@ public sealed class LabelsRepositoryTests : PersistenceTestsBase
         
         // Assert
         var createdLabel = await AssertDbContext.Labels
-            .FirstAsync(x => x.Name == label.Name);
+            .FirstAsync(x => x.Id == label.Id);
 
         label.Should()
             .BeEquivalentTo(createdLabel);

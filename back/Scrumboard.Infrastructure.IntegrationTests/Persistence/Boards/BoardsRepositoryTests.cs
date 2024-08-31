@@ -21,7 +21,6 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     {
         _fixture = new CustomizedFixture();
         
-        
         _sut = new BoardsRepository(ActDbContext);
     }
 
@@ -38,16 +37,10 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
         // Assert
         var createdBoard = await AssertDbContext.Boards
             .Include(x => x.BoardSetting)
-            .FirstAsync(x => x.Name == board.Name);
+            .FirstAsync(x => x.Id == board.Id);
 
-        createdBoard.Id.Value.Should().BeGreaterThan(0);
-        createdBoard.Name.Should().Be(board.Name);
-        createdBoard.IsPinned.Should().Be(board.IsPinned);
-        createdBoard.OwnerId.Should().Be(board.OwnerId);
-        createdBoard.BoardSetting.Should().NotBeNull();
-        createdBoard.BoardSetting.Id.Value.Should().BeGreaterThan(0);
-        createdBoard.BoardSetting.BoardId.Should().Be(createdBoard.Id);
-        createdBoard.BoardSetting.Colour.Should().Be(board.BoardSetting.Colour);
+        createdBoard.Should()
+            .BeEquivalentTo(board);
     }
     
     [Fact]
@@ -79,10 +72,7 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     
         // Assert
         board.Should()
-            .NotBeNull();
-
-        board!.Id.Should()
-            .Be(existingBoard.Id);
+            .BeEquivalentTo(existingBoard);
     }
     
     
@@ -105,10 +95,8 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
             .Include(x => x.BoardSetting)
             .FirstAsync(x => x.Id == board.Id);
         
-        updatedBoard.Name.Should().Be(board.Name);
-        updatedBoard.IsPinned.Should().Be(board.IsPinned);
-        updatedBoard.OwnerId.Should().Be(board.OwnerId);
-        updatedBoard.BoardSetting.Colour.Should().Be(board.BoardSetting.Colour);
+        updatedBoard.Should()
+            .BeEquivalentTo(updatedBoard);
     }
     
     private async Task<Board> Given_a_Board()

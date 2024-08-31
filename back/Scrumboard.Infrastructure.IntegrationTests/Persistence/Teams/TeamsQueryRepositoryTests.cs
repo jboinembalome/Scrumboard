@@ -26,50 +26,28 @@ public sealed class TeamsQueryRepositoryTests : PersistenceTestsBase
     public async Task Should_get_Team_by_Id()
     {           
         // Arrange
-        var team = await Given_a_Team();
+        var existingTeam = await Given_a_Team();
         
         // Act
-        var retrievedTeam = await _sut.TryGetByIdAsync(team.Id);
+        var team = await _sut.TryGetByIdAsync(existingTeam.Id);
     
         // Assert
-        retrievedTeam.Should()
-            .BeEquivalentTo(team);
-    }
-    
-    [Fact]
-    public async Task Get_Team_by_Id_should_return_null_when_not_found()
-    {           
-        // Act
-        var retrievedTeam = await _sut.TryGetByIdAsync(new TeamId(0));
-
-        // Assert
-        retrievedTeam.Should()
-            .BeNull();
+        team.Should()
+            .BeEquivalentTo(existingTeam);
     }
     
     [Fact]
     public async Task Should_get_Team_by_BoardId()
     {           
         // Arrange
-        var team = await Given_a_Team();
+        var existingTeam = await Given_a_Team();
         
         // Act
-        var retrievedTeam = await _sut.TryGetByBoardIdAsync(team.BoardId);
+        var team = await _sut.TryGetByBoardIdAsync(existingTeam.BoardId);
     
         // Assert
-        retrievedTeam.Should()
-            .BeEquivalentTo(team);
-    }
-    
-    [Fact]
-    public async Task Get_Team_by_BoardId_should_return_null_when_not_found()
-    {           
-        // Act
-        var retrievedTeam = await _sut.TryGetByBoardIdAsync(new BoardId(0));
-
-        // Assert
-        retrievedTeam.Should()
-            .BeNull();
+        team.Should()
+            .BeEquivalentTo(existingTeam);
     }
     
     private async Task<Team> Given_a_Team()

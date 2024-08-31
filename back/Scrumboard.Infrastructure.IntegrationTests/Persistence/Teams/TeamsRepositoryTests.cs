@@ -42,12 +42,10 @@ public sealed class TeamsRepositoryTests : PersistenceTestsBase
         // Assert
         var createdTeam = await AssertDbContext.Teams
             .Include(x => x.Members)
-            .FirstAsync(x => x.Name == team.Name);
+            .FirstAsync(x => x.Id == team.Id);
 
-        createdTeam.Id.Value.Should().BeGreaterThan(0);
-        createdTeam.Name.Should().Be(team.Name);
-        createdTeam.BoardId.Should().Be(board.Id);
-        createdTeam.Members.Should().BeEquivalentTo(team.Members);
+        createdTeam.Should()
+            .BeEquivalentTo(team);
     }
     
     [Fact]
@@ -79,10 +77,7 @@ public sealed class TeamsRepositoryTests : PersistenceTestsBase
     
         // Assert
         team.Should()
-            .NotBeNull();
-
-        team!.Id.Should()
-            .Be(existingTeam.Id);
+            .BeEquivalentTo(existingTeam);
     }
     
     
@@ -105,8 +100,8 @@ public sealed class TeamsRepositoryTests : PersistenceTestsBase
             .Include(x => x.Members)
             .FirstAsync(x => x.Id == team.Id);
         
-        updatedTeam.Name.Should().Be(team.Name);
-        updatedTeam.Members.Should().BeEquivalentTo(team.Members);
+        updatedTeam.Should()
+            .BeEquivalentTo(team);
     }
     
     private async Task<Team> Given_a_Team()

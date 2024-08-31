@@ -44,7 +44,7 @@ public sealed class BoardEditionValidatorTests : UnitTestsBase
     {
         // Arrange
         var boardEdition = _fixture.Build<BoardEdition>()
-            .With(x => x.Name, new string('A', 51))
+            .With(x => x.Name, new string('A', 50))
             .Create();
         
         Given_a_not_found_Board(boardEdition.Id);

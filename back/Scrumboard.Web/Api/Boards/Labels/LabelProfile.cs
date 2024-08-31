@@ -12,16 +12,7 @@ internal sealed class LabelProfile : Profile
         CreateMap<LabelCreationDto, LabelCreation>();
         CreateMap<LabelEditionDto, LabelEdition>();
         
-        CreateMap<LabelDto, int>()
-            .ConstructUsing(labelDto => labelDto.Id);
-        
         // Read
         CreateMap<Label, LabelDto>();
-        
-        CreateMap<int, LabelDto>()
-            .ConstructUsing(labelId => new LabelDto
-            {
-                Id = labelId
-            });
     }
 }

@@ -12,6 +12,9 @@ public sealed class ListBoard : AuditableEntityBase<ListBoardId>
     
     public ListBoard(string name, int position, BoardId boardId)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(position);
+        
         Name = name;
         Position = position;
         BoardId = boardId;

@@ -9,9 +9,6 @@ internal sealed class ListBoardProfile : Profile
     public ListBoardProfile()
     {
         // Write
-        CreateMap<ListBoardInputBase, ListBoard>()
-            .IncludeAllDerived();
-
         CreateMap<ListBoardCreation, ListBoard>();
 
         CreateMap<ListBoardEdition, ListBoard>();

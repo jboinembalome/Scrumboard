@@ -8,8 +8,25 @@ namespace Scrumboard.Domain.ListBoards;
 
 public sealed class ListBoard : AuditableEntityBase<ListBoardId>
 {
-    public string Name { get; set; }
-    public int Position { get; set; }
-    public BoardId BoardId { get; set; }
-    public ICollection<Card> Cards { get; set; }
+    public ListBoard() { }
+    
+    public ListBoard(string name, int position, BoardId boardId)
+    {
+        Name = name;
+        Position = position;
+        BoardId = boardId;
+    }
+
+    public string Name { get; private set; }
+    public int Position { get; private set; }
+    public BoardId BoardId { get; private set; }
+    public IReadOnlyCollection<Card> Cards { get; private set; } = [];
+    
+    public void Update(
+        string name, 
+        int position)
+    {
+        Name = name;
+        Position = position;
+    }
 }

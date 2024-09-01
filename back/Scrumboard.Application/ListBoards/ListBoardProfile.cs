@@ -10,7 +10,5 @@ internal sealed class ListBoardProfile : Profile
     {
         // Write
         CreateMap<ListBoardCreation, ListBoard>();
-
-        CreateMap<ListBoardEdition, ListBoard>();
     }
 }

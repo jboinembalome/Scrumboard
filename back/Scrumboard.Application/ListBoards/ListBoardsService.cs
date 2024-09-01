@@ -44,7 +44,9 @@ internal sealed class ListBoardsService(
 
         var listBoard = mapper.Map<ListBoard>(listBoardCreation);
         
-        return await listBoardsRepository.AddAsync(listBoard, cancellationToken);
+        await listBoardsRepository.AddAsync(listBoard, cancellationToken);
+
+        return listBoard;
     }
 
     public async Task<ListBoard> UpdateAsync(
@@ -56,7 +58,9 @@ internal sealed class ListBoardsService(
         var listBoard = await listBoardsRepository.TryGetByIdAsync(listBoardEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(listBoardEdition.Id);
 
-        mapper.Map(listBoardEdition, listBoard);
+       listBoard.Update(
+           name: listBoardEdition.Name, 
+           position: listBoardEdition.Position);
 
         listBoardsRepository.Update(listBoard);
             

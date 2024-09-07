@@ -23,7 +23,7 @@ public sealed class ListBoard : AuditableEntityBase<ListBoardId>
     public string Name { get; private set; }
     public int Position { get; private set; }
     public BoardId BoardId { get; private set; }
-    public IReadOnlyCollection<Card> Cards { get; private set; } = [];
+    public IReadOnlyCollection<Card> Cards { get; private set; } = new List<Card>();
     
     public void Update(
         string name, 

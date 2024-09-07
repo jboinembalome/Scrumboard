@@ -19,47 +19,67 @@ public sealed class Card : AuditableEntityBase<CardId>
     public IReadOnlyCollection<CardAssignee> Assignees => _assignees.AsReadOnly();
     public IReadOnlyCollection<CardLabel> Labels => _labels.AsReadOnly();
     
-    public void AddAssignee(AssigneeId assigneeId)
+    public void AddAssignees(IEnumerable<AssigneeId> assigneeIds)
     {
-        if (_assignees.Any(x => x.CardId == Id && x.AssigneeId == assigneeId))
+        var assigneeIdsList = assigneeIds.ToHashSet();
+        
+        var assigneesToAdd = assigneeIdsList
+            .Where(assigneeId => !_assignees.Exists(x => x.AssigneeId == assigneeId))
+            .Select(assigneeId => new CardAssignee { CardId = Id, AssigneeId = assigneeId })
+            .ToArray();
+        
+        // Add new assignees only if there are any
+        if (assigneesToAdd.Length > 0)
         {
-            return;
+            _assignees.AddRange(assigneesToAdd);
         }
-        
-        _assignees.Add(new CardAssignee { CardId = Id, AssigneeId = assigneeId });
-    }
-
-    public void RemoveAssignee(AssigneeId assigneeId)
-    {
-        var cardAssignee = _assignees.FirstOrDefault(x => x.CardId == Id && x.AssigneeId == assigneeId);
-        
-        if (cardAssignee is null)
-        {
-            return;
-        }
-        
-        _assignees.Remove(cardAssignee);
     }
     
-    public void AddLabel(LabelId labelId)
+    public void UpdateAssignees(IEnumerable<AssigneeId> assigneeIds)
     {
-        if (_labels.Any(x => x.CardId == Id && x.LabelId == labelId))
+        var assigneeIdsList = assigneeIds.ToHashSet();
+        
+        if (_assignees.Count == assigneeIdsList.Count 
+            && _assignees.All(x => assigneeIdsList.Contains(x.AssigneeId)))
         {
             return;
         }
-        
-        _labels.Add(new CardLabel { CardId = Id, LabelId = labelId });
-    }
 
-    public void RemoveLabel(LabelId labelId)
-    {
-        var cardLabel = _labels.FirstOrDefault(x => x.CardId == Id && x.LabelId == labelId);
+        // Remove assignees who are no longer in the list
+        _assignees.RemoveAll(x => !assigneeIdsList.Contains(x.AssigneeId));
         
-        if (cardLabel is null)
+        AddAssignees(assigneeIdsList);
+    }
+    
+    public void AddLabels(IEnumerable<LabelId> labelIds)
+    {
+        var labelIdsList = labelIds.ToHashSet();
+        
+        var labelsToAdd = labelIdsList
+            .Where(labelId => !_labels.Exists(x => x.LabelId == labelId))
+            .Select(labelId => new CardLabel { CardId = Id, LabelId = labelId })
+            .ToArray();
+        
+        // Add new labels only if there are any
+        if (labelsToAdd.Length > 0)
+        {
+            _labels.AddRange(labelsToAdd);
+        }
+    }
+    
+    public void UpdateLabels(IEnumerable<LabelId> labelIds)
+    {
+        var labelIdsList = labelIds.ToHashSet();
+        
+        if (_labels.Count == labelIdsList.Count 
+            && _labels.All(x => labelIdsList.Contains(x.LabelId)))
         {
             return;
         }
+
+        // Remove labels who are no longer in the list
+        _labels.RemoveAll(x => !labelIdsList.Contains(x.LabelId));
         
-        _labels.Remove(cardLabel);
+        AddLabels(labelIdsList);
     }
 }

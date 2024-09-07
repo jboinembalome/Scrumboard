@@ -141,7 +141,7 @@ public class BoardsController(
     {
         var boardDto = mapper.Map<BoardDto>(board);
         
-        var owner = await identityService.GetUserAsync((UserId)board.OwnerId.Value, cancellationToken);
+        var owner = await identityService.GetUserAsync(board.OwnerId.Value, cancellationToken);
 
         mapper.Map(owner, boardDto.Owner);
 

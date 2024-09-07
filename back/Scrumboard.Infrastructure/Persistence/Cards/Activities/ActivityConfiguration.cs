@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Activities;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Activities;
@@ -31,12 +30,12 @@ internal sealed class ActivityConfiguration : CreatedAtEntityTypeConfiguration<A
         builder.Property(x => x.Id)
             .HasConversion(
                 x => (int)x,
-                x => (ActivityId)x);
+                x => x);
         
         builder.Property(x => x.CardId)
             .HasConversion(
                 x => (int)x,
-                x => (CardId)x);
+                x => x);
     }
 
     public void ConfigureModel(ModelBuilder modelBuilder)

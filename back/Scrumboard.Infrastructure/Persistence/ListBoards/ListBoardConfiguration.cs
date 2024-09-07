@@ -33,12 +33,12 @@ internal sealed class ListBoardConfiguration : AuditableEntityTypeConfiguration<
         builder.Property(x => x.Id)
             .HasConversion(
                 x => (int)x,
-                x => (ListBoardId)x);
+                x => x);
         
         builder.Property(x => x.BoardId)
             .HasConversion(
                 x => (int)x,
-                x => (BoardId)x);
+                x => x);
     }
 
     public void ConfigureModel(ModelBuilder modelBuilder)

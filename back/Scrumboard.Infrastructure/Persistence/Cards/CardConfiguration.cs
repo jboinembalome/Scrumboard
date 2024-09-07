@@ -48,12 +48,12 @@ internal sealed class CardConfiguration : AuditableEntityTypeConfiguration<Card>
         builder.Property(x => x.Id)
             .HasConversion(
                 x => (int)x,
-                x => (CardId)x);
+                x => x);
         
         builder.Property(x => x.ListBoardId)
             .HasConversion(
                 x => (int)x,
-                x => (ListBoardId)x);
+                x => x);
     }
 
     public void ConfigureModel(ModelBuilder modelBuilder)

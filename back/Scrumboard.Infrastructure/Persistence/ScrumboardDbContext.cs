@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Scrumboard.Infrastructure.Identity;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Boards.Labels;
 using Scrumboard.Domain.Cards;
@@ -9,6 +8,7 @@ using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
+using Scrumboard.Infrastructure.Identity;
 
 namespace Scrumboard.Infrastructure.Persistence;
 

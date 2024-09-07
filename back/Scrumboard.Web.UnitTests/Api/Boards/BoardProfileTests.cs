@@ -44,7 +44,7 @@ public sealed class BoardProfileTests
         // Assert
         var expectedBoardEdition = new BoardEdition
         {
-            Id = (BoardId)boardEditionDto.Id,
+            Id = boardEditionDto.Id,
             Name = boardEditionDto.Name,
             IsPinned = boardEditionDto.IsPinned,
             BoardSetting = new BoardSettingEdition

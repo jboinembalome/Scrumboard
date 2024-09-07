@@ -33,12 +33,12 @@ internal sealed class TeamConfiguration : CreatedAtEntityTypeConfiguration<Team,
         builder.Property(x => x.Id)
             .HasConversion(
                 x => (int)x,
-                x => (TeamId)x);
+                x => x);
         
         builder.Property(x => x.BoardId)
             .HasConversion(
                 x => (int)x,
-                x => (BoardId)x);
+                x => x);
     }
 
     public void ConfigureModel(ModelBuilder modelBuilder)

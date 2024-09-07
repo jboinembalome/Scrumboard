@@ -82,7 +82,7 @@ internal sealed class IdentityService(
 
         var result = await userManager.CreateAsync(user, password);
 
-        return (result.ToApplicationResult(), (UserId)user.Id);
+        return (result.ToApplicationResult(), user.Id);
     }
 
     public async Task<bool> IsInRoleAsync(

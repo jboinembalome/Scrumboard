@@ -15,12 +15,12 @@ internal sealed class TeamMemberConfiguration : IEntityTypeConfiguration<TeamMem
         builder.Property(x => x.TeamId)
             .HasConversion(
                 x => (int)x,
-                x => (TeamId)x);
+                x => x);
         
         builder.Property(x => x.MemberId)
             .HasConversion(
                 x => (string)x,
-                x => (MemberId)x)
+                x => x)
             .HasMaxLength(36);
     }
 }

@@ -21,7 +21,7 @@ internal sealed class BoardSettingConfiguration : IEntityTypeConfiguration<Board
         builder.Property(x => x.Id)
             .HasConversion(
                 x => (int)x,
-                x => (BoardSettingId)x);
+                x => x);
     }
 
     public void ConfigureModel(ModelBuilder modelBuilder)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 
 namespace Scrumboard.Infrastructure.Persistence.Cards.Comments;
@@ -22,12 +21,12 @@ internal sealed class CommentConfiguration : CreatedAtEntityTypeConfiguration<Co
         builder.Property(x => x.Id)
             .HasConversion(
                 x => (int)x,
-                x => (CommentId)x);
+                x => x);
         
         builder.Property(x => x.CardId)
             .HasConversion(
                 x => (int)x,
-                x => (CardId)x);
+                x => x);
     }
 
     public void ConfigureModel(ModelBuilder modelBuilder)

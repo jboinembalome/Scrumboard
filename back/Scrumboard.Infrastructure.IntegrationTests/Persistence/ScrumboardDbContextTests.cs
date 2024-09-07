@@ -84,5 +84,5 @@ public sealed class ScrumboardDbContextTests(
             isPinned: false,
             boardSetting:  new BoardSetting(
                 colour: Colour.Gray),
-            ownerId: (OwnerId)Guid.NewGuid().ToString());
+            ownerId: Guid.NewGuid().ToString());
 }

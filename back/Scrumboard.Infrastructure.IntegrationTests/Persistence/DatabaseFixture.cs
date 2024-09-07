@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Respawn;
-using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.IntegrationTests.Persistence.Stubs;
+using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Infrastructure.Persistence.Interceptors;
 using Scrumboard.SharedKernel.DomainEvents;
 

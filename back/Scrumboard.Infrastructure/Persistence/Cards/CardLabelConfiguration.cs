@@ -16,11 +16,11 @@ internal sealed class CardLabelConfiguration : IEntityTypeConfiguration<CardLabe
         builder.Property(x => x.CardId)
             .HasConversion(
                 x => (int)x,
-                x => (CardId)x);
+                x => x);
         
         builder.Property(x => x.LabelId)
             .HasConversion(
                 x => (int)x,
-                x => (LabelId)x);
+                x => x);
     }
 }

@@ -1,7 +1,3 @@
 ﻿namespace Scrumboard.SharedKernel.Exceptions;
 
-public sealed class ForbiddenAccessException : Exception
-{
-    public ForbiddenAccessException()
-    { }
-}
+public sealed class ForbiddenAccessException : Exception;

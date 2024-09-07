@@ -24,7 +24,7 @@ public static class HttpClientExtensions
     {
         var stringContent = new StringContent(
             SerializationHelper.Serialize(payload),
-            System.Text.Encoding.UTF8, "application/json");
+            Encoding.UTF8, "application/json");
         
         return await client.PutAsync(requestUrl, stringContent);
     }

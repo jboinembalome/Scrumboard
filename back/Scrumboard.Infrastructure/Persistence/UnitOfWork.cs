@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Microsoft.EntityFrameworkCore.Storage;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 using IsolationLevel = System.Data.IsolationLevel;
 
 namespace Scrumboard.Infrastructure.Persistence;

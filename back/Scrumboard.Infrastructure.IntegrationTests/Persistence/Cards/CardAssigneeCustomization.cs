@@ -10,6 +10,6 @@ public sealed class CardAssigneeCustomization : IAutoAppliedCustomization
     {
         fixture.Customize<CardAssignee>(transform => transform
             .Without(x => x.CardId)
-            .With(x => x.AssigneeId, (AssigneeId)Guid.NewGuid().ToString()));
+            .With(x => x.AssigneeId, Guid.NewGuid().ToString()));
     }
 }

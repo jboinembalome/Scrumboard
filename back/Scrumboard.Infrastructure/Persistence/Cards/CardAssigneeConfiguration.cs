@@ -18,11 +18,11 @@ internal sealed class CardAssigneeConfiguration : IEntityTypeConfiguration<CardA
         builder.Property(x => x.CardId)
             .HasConversion(
                 x => (int)x,
-                x => (CardId)x);
+                x => x);
         
         builder.Property(x => x.AssigneeId)
             .HasConversion(
                 x => (string)x,
-                x => (AssigneeId)x);
+                x => x);
     }
 }

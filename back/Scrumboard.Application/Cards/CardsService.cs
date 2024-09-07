@@ -138,7 +138,7 @@ internal sealed class CardsService(
         if (!oldCard.Assignees.Any() && cardEdition.AssigneeIds.Any())
         {
             var firstAssigneeId = cardEdition.AssigneeIds.First();
-            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
+            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId.Value, cancellationToken);
             activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssignee.FirstName} {firstAssignee.LastName}"));
         }
 

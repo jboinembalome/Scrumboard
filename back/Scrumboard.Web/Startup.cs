@@ -1,17 +1,17 @@
+using System.Reflection;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
-using Scrumboard.Infrastructure;
-using Scrumboard.Infrastructure.Persistence;
-using Scrumboard.Web.Services;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.OpenApi.Models;
 using Scrumboard.Application;
+using Scrumboard.Infrastructure;
 using Scrumboard.Infrastructure.Abstractions.Common;
+using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Web.Api;
 using Scrumboard.Web.ExceptionHandlers;
 using Scrumboard.Web.Middlewares;
 using Scrumboard.Web.Security;
+using Scrumboard.Web.Services;
 
 namespace Scrumboard.Web;
 
@@ -155,7 +155,7 @@ public class Startup
                 Scheme = "Bearer"
             });
 
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
                     new OpenApiSecurityScheme

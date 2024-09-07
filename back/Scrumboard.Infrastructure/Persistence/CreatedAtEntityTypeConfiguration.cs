@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Scrumboard.SharedKernel.Entities;
-using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Infrastructure.Persistence;
 
@@ -15,7 +14,7 @@ public abstract class CreatedAtEntityTypeConfiguration<TEntity, TEntityId>
         builder.Property(x => x.CreatedBy)
             .HasConversion(
                 x => (string)x,
-                x => (UserId)x);
+                x => x);
         
         ConfigureEntity(builder);
     }

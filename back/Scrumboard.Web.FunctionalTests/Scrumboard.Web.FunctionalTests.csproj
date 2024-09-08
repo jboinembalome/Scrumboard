@@ -37,4 +37,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Api\Boards\ListBoards\" />
+    <Folder Include="Api\ListBoards\" />
+  </ItemGroup>
+
 </Project>

@@ -172,6 +172,11 @@ public class ScrumboardDbContextInitializer(
         return teams;
     }
 
+    // TODO: Add Labels
+    // TODO: Add ListBoards
+    // TODO: Add Cards
+    // TODO: Add Activities
+    // TODO: Add Comments
     private static async Task CreateUser(UserManager<ApplicationUser> userManager, ApplicationUser user,
         string userPassword)
     {

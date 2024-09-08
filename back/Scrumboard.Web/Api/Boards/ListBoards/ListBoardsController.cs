@@ -37,9 +37,9 @@ public class ListBoardsController(
             return NotFound($"Board ({boardId}) not found.");
         }
         
-        var labels = await listBoardsService.GetByBoardIdAsync(typedBoardId, includeCards, cancellationToken);
+        var listBoards = await listBoardsService.GetByBoardIdAsync(typedBoardId, includeCards, cancellationToken);
 
-        var dtos = mapper.Map<IEnumerable<ListBoardWithCardDto>>(labels);
+        var dtos = mapper.Map<IEnumerable<ListBoardWithCardDto>>(listBoards);
         
         return Ok(dtos);
     }

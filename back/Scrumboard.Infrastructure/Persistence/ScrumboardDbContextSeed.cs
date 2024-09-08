@@ -103,15 +103,21 @@ public class ScrumboardDbContextInitializer(
             isPinned: false,
             boardSetting: new BoardSetting(
                 colour:Colour.Violet),
-            ownerId: _userId.Value);
-        
+            ownerId: _userId.Value)
+        {
+            CreatedBy = _userId.Value
+        };
+
         var board2 = new Board(
             name: "Scrumboard Backend",
             isPinned: true,
             boardSetting: new BoardSetting(
                 colour:Colour.Yellow),
-            ownerId: _userId.Value);
-        
+            ownerId: _userId.Value)
+        {
+            CreatedBy = _userId.Value
+        };
+
         var boards = new Collection<Board>
         {
             board1,
@@ -133,13 +139,19 @@ public class ScrumboardDbContextInitializer(
     {
         var team1 = new Team(
             name: "Frontend team",
-            boardId: board1.Id);
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
         
         team1.AddMembers([_userId.Value]);
         
         var team2 = new Team(
             name: "Backend team",
-            boardId: board2.Id);
+            boardId: board2.Id)
+        {
+            CreatedBy = _userId.Value
+        };
         
         team2.AddMembers([_userId.Value]);
         

@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Scrumboard.Domain.Boards;
+using Scrumboard.Domain.Boards.Labels;
 using Scrumboard.Domain.Common;
+using Scrumboard.Domain.ListBoards;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Identity;
 using Scrumboard.SharedKernel.Types;
@@ -94,12 +96,14 @@ public class ScrumboardDbContextInitializer(
     {
         var boards = await SeedBoardsAsync();
         await SeedTeamsAsync(boards[0], boards[1]);
+        await SeedLabelsAsync(boards[0]);
+        await SeedListBoardsAsync(boards[0]);
     }
 
     private async Task<Collection<Board>> SeedBoardsAsync()
     {
         var board1 = new Board(
-            name: "Scrumboard Frontend",
+            name: "Blouppy",
             isPinned: false,
             boardSetting: new BoardSetting(
                 colour:Colour.Violet),
@@ -109,7 +113,7 @@ public class ScrumboardDbContextInitializer(
         };
 
         var board2 = new Board(
-            name: "Scrumboard Backend",
+            name: "Flouppy",
             isPinned: true,
             boardSetting: new BoardSetting(
                 colour:Colour.Yellow),
@@ -138,7 +142,7 @@ public class ScrumboardDbContextInitializer(
     private async Task<Collection<Team>> SeedTeamsAsync(Board board1, Board board2)
     {
         var team1 = new Team(
-            name: "Frontend team",
+            name: "Blouppy team",
             boardId: board1.Id)
         {
             CreatedBy = _userId.Value
@@ -147,7 +151,7 @@ public class ScrumboardDbContextInitializer(
         team1.AddMembers([_userId.Value]);
         
         var team2 = new Team(
-            name: "Backend team",
+            name: "Flouppy team",
             boardId: board2.Id)
         {
             CreatedBy = _userId.Value
@@ -171,28 +175,141 @@ public class ScrumboardDbContextInitializer(
 
         return teams;
     }
+    
+    private async Task<Collection<Label>> SeedLabelsAsync(Board board1)
+    {
+        var label1 = new Label(
+            name: "Front",
+            colour: Colour.Blue, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+        
+        
+        var label2 = new Label(
+            name: "Back",
+            colour: Colour.Yellow, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+        
+        var labels = new Collection<Label>
+        {
+            label1,
+            label2 
+        };
 
-    // TODO: Add Labels
-    // TODO: Add ListBoards
+        // Seed, if necessary
+        if (!await context.Labels.AnyAsync())
+        {
+            await context.Labels.AddRangeAsync(labels);
+
+            await context.SaveChangesAsync();
+        }
+
+        return labels;
+    }
+    
+    private async Task<Collection<ListBoard>> SeedListBoardsAsync(Board board1)
+    {
+        var listBoard1 = new ListBoard(
+            name: "Backlog",
+            position: 1, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+        
+        var listBoard2 = new ListBoard(
+            name: "Todo",
+            position: 2, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+        
+        var listBoard3 = new ListBoard(
+            name: "In Progress",
+            position: 3, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+        
+        var listBoard4 = new ListBoard(
+            name: "In Review",
+            position: 4, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+        
+        var listBoard5 = new ListBoard(
+            name: "In Functional Review",
+            position: 5, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+
+        var listBoard6 = new ListBoard(
+            name: "Done",
+            position: 6, 
+            boardId: board1.Id)
+        {
+            CreatedBy = _userId.Value
+        };
+        
+        var listBoards = new Collection<ListBoard>
+        {
+            listBoard1,
+            listBoard2,
+            listBoard3,
+            listBoard4,
+            listBoard5,
+            listBoard6
+        };
+
+        // Seed, if necessary
+        if (!await context.ListBoards.AnyAsync())
+        {
+            await context.ListBoards.AddRangeAsync(listBoards);
+
+            await context.SaveChangesAsync();
+        }
+
+        return listBoards;
+    }
+
     // TODO: Add Cards
     // TODO: Add Activities
     // TODO: Add Comments
-    private static async Task CreateUser(UserManager<ApplicationUser> userManager, ApplicationUser user,
+    private static async Task CreateUser(
+        UserManager<ApplicationUser> userManager, 
+        ApplicationUser user,
         string userPassword)
     {
         if (userManager.Users.All(u => u.UserName != user.UserName))
             await userManager.CreateAsync(user, userPassword);
     }
 
-    private static async Task AddUserToRoles(UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager, string[] roles, ApplicationUser user)
+    private static async Task AddUserToRoles(
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager, 
+        string[] roles, 
+        ApplicationUser user)
     {
         foreach (var role in roles)
             await AddUserToRole(userManager, roleManager, role, user);
     }
 
-    private static async Task AddUserToRole(UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager, string role, ApplicationUser user)
+    private static async Task AddUserToRole(
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager, 
+        string role, 
+        ApplicationUser user)
     {
         IdentityRole? identityRole;
         if (!await roleManager.RoleExistsAsync(role))

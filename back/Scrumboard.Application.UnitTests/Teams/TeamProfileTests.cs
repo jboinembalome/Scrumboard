@@ -39,9 +39,8 @@ public sealed class TeamProfileTests
         // Assert
         var expectedTeam = new Team(
             name: teamCreation.Name,
-            boardId: teamCreation.BoardId);
-
-        expectedTeam.AddMembers(teamCreation.MemberIds);
+            boardId: teamCreation.BoardId,
+            memberIds: teamCreation.MemberIds);
 
         team.Should()
             .BeEquivalentTo(expectedTeam);
@@ -60,13 +59,14 @@ public sealed class TeamProfileTests
         // Assert
         var expectedTeam = new Team(
             name: teamEdition.Name,
-            boardId: team.BoardId);
+            boardId: team.BoardId,
+            memberIds: []);
 
         expectedTeam.SetProperty(x => x.Id, team.Id);
         expectedTeam.SetProperty(x => x.CreatedBy, team.CreatedBy);
         expectedTeam.SetProperty(x => x.CreatedDate, team.CreatedDate);
         expectedTeam.UpdateMembers(teamEdition.MemberIds);
-
+        
         team.Should()
             .BeEquivalentTo(expectedTeam);
     }

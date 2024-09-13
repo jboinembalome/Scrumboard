@@ -143,21 +143,19 @@ public class ScrumboardDbContextInitializer(
     {
         var team1 = new Team(
             name: "Blouppy team",
-            boardId: board1.Id)
+            boardId: board1.Id,
+            memberIds: [_userId.Value])
         {
             CreatedBy = _userId.Value
         };
-        
-        team1.AddMembers([_userId.Value]);
         
         var team2 = new Team(
             name: "Flouppy team",
-            boardId: board2.Id)
+            boardId: board2.Id,
+            memberIds: [_userId.Value])
         {
             CreatedBy = _userId.Value
         };
-        
-        team2.AddMembers([_userId.Value]);
         
         var teams = new Collection<Team>
         {

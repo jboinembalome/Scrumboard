@@ -29,11 +29,8 @@ public sealed class TeamsRepositoryTests : PersistenceTestsBase
         // Arrange
         var board = await Given_a_Board();
         
-        var memberIds = _fixture.CreateMany<MemberId>().ToArray();
-        
         var team = _fixture.Create<Team>();
         team.SetProperty(x => x.BoardId, board.Id);
-        team.AddMembers(memberIds);
 
         // Act
         await _sut.AddAsync(team);
@@ -107,11 +104,9 @@ public sealed class TeamsRepositoryTests : PersistenceTestsBase
     private async Task<Team> Given_a_Team()
     {
         var board = await Given_a_Board();
-        var memberIds = _fixture.CreateMany<MemberId>().ToArray();
         
         var team = _fixture.Create<Team>();
         team.SetProperty(x => x.BoardId, board.Id);
-        team.AddMembers(memberIds);
         
         ArrangeDbContext.Teams.Add(team);
         

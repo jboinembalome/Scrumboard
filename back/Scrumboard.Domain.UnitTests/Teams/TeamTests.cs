@@ -11,62 +11,14 @@ namespace Scrumboard.Domain.UnitTests.Teams;
 public sealed class TeamTests
 {
     private readonly IFixture _fixture = new CustomizedFixture();
-
-    [Fact]
-    public void AddMembers_should_add_Members()
-    {
-        // Arrange
-        var team = Given_a_Team_on_creation();
-        var memberIds = _fixture.CreateMany<MemberId>(3).ToArray();
-
-        // Act
-        team.AddMembers(memberIds);
-
-        // Assert
-        var expectedMembers = memberIds
-            .Select(memberId => new TeamMember
-            {
-                TeamId = team.Id, 
-                MemberId = memberId
-            })
-            .ToArray();
-        
-        team.Members.Should()
-            .BeEquivalentTo(expectedMembers);
-    }
-
-    [Fact]
-    public void AddMembers_should_not_add_duplicate_Members()
-    {
-        // Arrange
-        var team = Given_a_Team_on_creation();
-        var memberIds = _fixture.CreateMany<MemberId>(3).ToArray();
-        
-        // Act
-        team.AddMembers([..memberIds, ..memberIds]);
-
-        // Assert
-        var expectedMembers = memberIds
-            .Select(memberId => new TeamMember
-            {
-                TeamId = team.Id, 
-                MemberId = memberId
-            })
-            .ToArray();
-        
-        team.Members.Should()
-            .HaveCount(3)
-            .And.BeEquivalentTo(expectedMembers);
-    }
-
+    
     [Fact]
     public void UpdateMembers_should_remove_Members_who_are_no_longer_in_the_list()
     {
         // Arrange
         var memberIds = _fixture.CreateMany<MemberId>(3).ToArray();
         
-        var team = Given_a_Team_on_edition();
-        team.AddMembers(memberIds);
+        var team = Given_a_Team(memberIds);
 
         var updatedMemberIds = memberIds[2..];
 
@@ -93,8 +45,7 @@ public sealed class TeamTests
         // Arrange
         var memberIds = _fixture.CreateMany<MemberId>(3).ToArray();
         
-        var team = Given_a_Team_on_edition();
-        team.AddMembers(memberIds);
+        var team = Given_a_Team(memberIds);
 
         var newMemberIds = _fixture.CreateMany<MemberId>(2).ToArray();
 
@@ -123,8 +74,7 @@ public sealed class TeamTests
         // Arrange
         var memberIds = _fixture.CreateMany<MemberId>(3);
         
-        var team = Given_a_Team_on_edition();
-        team.AddMembers(memberIds);
+        var team = Given_a_Team(memberIds);
 
         // Act
         team.UpdateMembers([]);
@@ -140,8 +90,7 @@ public sealed class TeamTests
         // Arrange
         var memberIds = _fixture.CreateMany<MemberId>(3).ToList();
         
-        var team = Given_a_Team_on_edition();
-        team.AddMembers(memberIds);
+        var team = Given_a_Team(memberIds);
 
         // Act
         team.UpdateMembers(memberIds);
@@ -160,19 +109,9 @@ public sealed class TeamTests
             .And.BeEquivalentTo(expectedMembers);
     }
     
-    private Team Given_a_Team_on_creation() 
+    private Team Given_a_Team(IEnumerable<MemberId> memberIds) 
         => new(
             name: _fixture.Create<string>(),
-            boardId: _fixture.Create<BoardId>());
-    
-    private Team Given_a_Team_on_edition()
-    {
-        var team = new Team(
-            name: _fixture.Create<string>(),
-            boardId: _fixture.Create<BoardId>());
-        
-        team.SetProperty(x => x.Id, _fixture.Create<TeamId>());
-        
-        return team;
-    }
+            boardId: _fixture.Create<BoardId>(),
+            memberIds: memberIds);
 }

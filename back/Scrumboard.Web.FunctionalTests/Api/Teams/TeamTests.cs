@@ -147,9 +147,8 @@ public sealed class TeamTests(
     {
         var team = new Team(
             name: "New Team",
-            boardId: boardId);
-        
-        team.AddMembers([memberId]);
+            boardId: boardId,
+            memberIds: [memberId]);
         
         return await _factory.AddEntityAsync(team);
     }

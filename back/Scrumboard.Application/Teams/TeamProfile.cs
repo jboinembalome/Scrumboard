@@ -10,8 +10,7 @@ internal sealed class TeamProfile : Profile
     {
         // Write
         CreateMap<TeamCreation, Team>()
-            .ForMember(dest => dest.Members, opt => opt.Ignore())
-            .AfterMap((src, dest) => dest.AddMembers(src.MemberIds));
+            .ConstructUsing(src => new Team(src.Name, src.BoardId, src.MemberIds));
         CreateMap<TeamEdition, Team>()
             .ForMember(dest => dest.Members, opt => opt.Ignore())
             .AfterMap((src, dest) => dest.UpdateMembers(src.MemberIds));

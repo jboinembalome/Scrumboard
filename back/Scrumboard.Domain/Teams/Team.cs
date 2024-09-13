@@ -11,33 +11,22 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
 
     public Team() { }
     
-    public Team(string name, BoardId boardId)
+    public Team(
+        string name, 
+        BoardId boardId,
+        IEnumerable<MemberId> memberIds)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         
         Name = name;
         BoardId = boardId;
+        
+        AddMembers(memberIds);
     }
 
     public string Name { get; private set; }
     public BoardId BoardId { get; private set; }
     public IReadOnlyCollection<TeamMember> Members => _members.AsReadOnly();
-    
-    public void AddMembers(IEnumerable<MemberId> memberIds)
-    {
-        var memberIdsList = memberIds.ToHashSet();
-        
-        var membersToAdd = memberIdsList
-            .Where(memberId => !_members.Exists(tm => tm.MemberId == memberId))
-            .Select(memberId => new TeamMember { TeamId = Id, MemberId = memberId })
-            .ToArray();
-        
-        // Add new members only if there are any
-        if (membersToAdd.Length > 0)
-        {
-            _members.AddRange(membersToAdd);
-        }
-    }
     
     public void UpdateMembers(IEnumerable<MemberId> memberIds)
     {
@@ -53,5 +42,21 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
         _members.RemoveAll(x => !memberIdsList.Contains(x.MemberId));
         
         AddMembers(memberIdsList);
+    }
+    
+    private void AddMembers(IEnumerable<MemberId> memberIds)
+    {
+        var memberIdsList = memberIds.ToHashSet();
+        
+        var membersToAdd = memberIdsList
+            .Where(memberId => !_members.Exists(tm => tm.MemberId == memberId))
+            .Select(memberId => new TeamMember { TeamId = Id, MemberId = memberId })
+            .ToArray();
+        
+        // Add new members only if there are any
+        if (membersToAdd.Length > 0)
+        {
+            _members.AddRange(membersToAdd);
+        }
     }
 }

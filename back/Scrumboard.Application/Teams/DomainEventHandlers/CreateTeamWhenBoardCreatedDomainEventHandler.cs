@@ -13,9 +13,8 @@ internal sealed class CreateTeamWhenBoardCreatedDomainEventHandler(
         var memberId = new MemberId(domainEvent.OwnerId.Value);
         var team = new Team(
             name: $"Team - {domainEvent.BoardId}",
-            boardId: domainEvent.BoardId);
-        
-        team.AddMembers([memberId]);
+            boardId: domainEvent.BoardId,
+            memberIds: [memberId]);
 
         await teamsRepository.AddAsync(team, cancellationToken);
     }

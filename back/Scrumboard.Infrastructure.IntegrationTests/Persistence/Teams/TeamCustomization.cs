@@ -12,7 +12,8 @@ public sealed class TeamCustomization : IAutoAppliedCustomization
         fixture.Customize<Team>(transform => transform
             .FromFactory(() => new Team(
                 name: fixture.Create<string>(),          
-                boardId: fixture.Create<BoardId>()))
+                boardId: fixture.Create<BoardId>(),
+                memberIds: fixture.CreateMany<MemberId>()))
             .Without(x => x.Id)
             .Without(x => x.CreatedBy));
     }

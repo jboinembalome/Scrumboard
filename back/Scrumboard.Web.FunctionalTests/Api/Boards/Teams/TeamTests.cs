@@ -18,7 +18,7 @@ public sealed class TeamTests(
         var client = _factory.CreateUserClient(SeededUser.Adherent);
         
         var board = await Given_a_Board(SeededUser.Adherent.Id);
-        await Given_a_Team(board.Id);
+        await Given_a_Team(board.Id, [SeededUser.Adherent.Id]);
 
         // Act
         var response = await client.GetAsync($"/api/boards/{board.Id}/teams");
@@ -50,8 +50,9 @@ public sealed class TeamTests(
                 colour: Colour.Blue),
             ownerId: ownerId));
 
-    private Task<Team> Given_a_Team(BoardId boardId) 
+    private Task<Team> Given_a_Team(BoardId boardId, IEnumerable<MemberId> memberIds) 
         => _factory.AddEntityAsync(new Team(
             name: "Test Team",
-            boardId: boardId));
+            boardId: boardId,
+            memberIds: memberIds));
 }

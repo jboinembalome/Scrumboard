@@ -118,9 +118,9 @@ public sealed class ListBoardsQueryRepositoryTests : PersistenceTestsBase
             card.SetProperty(x => x.ListBoardId, listBoard.Id);
             
             var assigneeId = _fixture.Create<AssigneeId>();
-            card.AddAssignees([assigneeId]);
+            card.UpdateAssignees([assigneeId]);
             
-            card.AddLabels(labels.Select(x => x.Id));
+            card.UpdateLabels(labels.Select(x => x.Id));
         });
         
         await ArrangeDbContext.Cards.AddRangeAsync(cards);

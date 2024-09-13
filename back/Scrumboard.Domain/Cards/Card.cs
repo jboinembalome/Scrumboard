@@ -19,22 +19,6 @@ public sealed class Card : AuditableEntityBase<CardId>
     public IReadOnlyCollection<CardAssignee> Assignees => _assignees.AsReadOnly();
     public IReadOnlyCollection<CardLabel> Labels => _labels.AsReadOnly();
     
-    public void AddAssignees(IEnumerable<AssigneeId> assigneeIds)
-    {
-        var assigneeIdsList = assigneeIds.ToHashSet();
-        
-        var assigneesToAdd = assigneeIdsList
-            .Where(assigneeId => !_assignees.Exists(x => x.AssigneeId == assigneeId))
-            .Select(assigneeId => new CardAssignee { CardId = Id, AssigneeId = assigneeId })
-            .ToArray();
-        
-        // Add new assignees only if there are any
-        if (assigneesToAdd.Length > 0)
-        {
-            _assignees.AddRange(assigneesToAdd);
-        }
-    }
-    
     public void UpdateAssignees(IEnumerable<AssigneeId> assigneeIds)
     {
         var assigneeIdsList = assigneeIds.ToHashSet();
@@ -49,22 +33,6 @@ public sealed class Card : AuditableEntityBase<CardId>
         _assignees.RemoveAll(x => !assigneeIdsList.Contains(x.AssigneeId));
         
         AddAssignees(assigneeIdsList);
-    }
-    
-    public void AddLabels(IEnumerable<LabelId> labelIds)
-    {
-        var labelIdsList = labelIds.ToHashSet();
-        
-        var labelsToAdd = labelIdsList
-            .Where(labelId => !_labels.Exists(x => x.LabelId == labelId))
-            .Select(labelId => new CardLabel { CardId = Id, LabelId = labelId })
-            .ToArray();
-        
-        // Add new labels only if there are any
-        if (labelsToAdd.Length > 0)
-        {
-            _labels.AddRange(labelsToAdd);
-        }
     }
     
     public void UpdateLabels(IEnumerable<LabelId> labelIds)
@@ -82,4 +50,37 @@ public sealed class Card : AuditableEntityBase<CardId>
         
         AddLabels(labelIdsList);
     }
+    
+    private void AddAssignees(IEnumerable<AssigneeId> assigneeIds)
+    {
+        var assigneeIdsList = assigneeIds.ToHashSet();
+        
+        var assigneesToAdd = assigneeIdsList
+            .Where(assigneeId => !_assignees.Exists(x => x.AssigneeId == assigneeId))
+            .Select(assigneeId => new CardAssignee { CardId = Id, AssigneeId = assigneeId })
+            .ToArray();
+        
+        // Add new assignees only if there are any
+        if (assigneesToAdd.Length > 0)
+        {
+            _assignees.AddRange(assigneesToAdd);
+        }
+    }
+    
+    private void AddLabels(IEnumerable<LabelId> labelIds)
+    {
+        var labelIdsList = labelIds.ToHashSet();
+        
+        var labelsToAdd = labelIdsList
+            .Where(labelId => !_labels.Exists(x => x.LabelId == labelId))
+            .Select(labelId => new CardLabel { CardId = Id, LabelId = labelId })
+            .ToArray();
+        
+        // Add new labels only if there are any
+        if (labelsToAdd.Length > 0)
+        {
+            _labels.AddRange(labelsToAdd);
+        }
+    }
+
 }

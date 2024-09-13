@@ -73,8 +73,8 @@ public sealed class ListBoardsTests(
             ListBoardId = listBoard.Id
         };
         
-        card.AddLabels([label.Id]);
-        card.AddAssignees([assigneeId]);
+        card.UpdateLabels([label.Id]);
+        card.UpdateAssignees([assigneeId]);
         return await _factory.AddEntityAsync(card);
     }
     

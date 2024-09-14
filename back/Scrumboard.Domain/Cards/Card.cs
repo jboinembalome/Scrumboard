@@ -10,16 +10,63 @@ public sealed class Card : AuditableEntityBase<CardId>
 {
     private readonly List<CardAssignee> _assignees = [];
     private readonly List<CardLabel> _labels = [];
-    
-    public string Name { get; set; }
-    public string? Description { get; set; }
-    public DateTimeOffset? DueDate { get; set; }
-    public int Position { get; set; }
-    public ListBoardId ListBoardId { get; set; }
+
+    public Card() { }
+
+    public Card(
+        string name, 
+        string? description, 
+        DateTimeOffset? dueDate, 
+        int position, 
+        ListBoardId listBoardId,
+        IReadOnlyCollection<AssigneeId> assigneeIds,
+        IReadOnlyCollection<LabelId> labelIds)
+    {
+        Name = name;
+        Description = description;
+        DueDate = dueDate;
+        Position = position;
+        ListBoardId = listBoardId;
+
+        if (assigneeIds.Count > 0)
+        {
+            AddNewAssignees(assigneeIds);
+        }
+
+        if (labelIds.Count > 0)
+        {
+            AddNewLabels(labelIds);
+        }    
+    }
+
+    public string Name { get; private set; }
+    public string? Description { get; private set; }
+    public DateTimeOffset? DueDate { get; private set; }
+    public int Position { get; private set; }
+    public ListBoardId ListBoardId { get; private set; }
     public IReadOnlyCollection<CardAssignee> Assignees => _assignees.AsReadOnly();
     public IReadOnlyCollection<CardLabel> Labels => _labels.AsReadOnly();
-    
-    public void UpdateAssignees(IEnumerable<AssigneeId> assigneeIds)
+
+    public void Update(
+        string name,
+        string? description,
+        DateTimeOffset? dueDate,
+        int position,
+        ListBoardId listBoardId,
+        IReadOnlyCollection<AssigneeId> assigneeIds,
+        IReadOnlyCollection<LabelId> labelIds)
+    {
+        Name = name; 
+        Description = description;
+        DueDate = dueDate;
+        Position = position;
+        ListBoardId = listBoardId;
+        
+        UpdateAssignees(assigneeIds);
+        UpdateLabels(labelIds);
+    }
+
+    private void UpdateAssignees(IEnumerable<AssigneeId> assigneeIds)
     {
         var assigneeIdsList = assigneeIds.ToHashSet();
         
@@ -33,7 +80,7 @@ public sealed class Card : AuditableEntityBase<CardId>
         AddNewAssignees(assigneeIdsList);
     }
     
-    public void UpdateLabels(IEnumerable<LabelId> labelIds)
+    private void UpdateLabels(IEnumerable<LabelId> labelIds)
     {
         var labelIdsList = labelIds.ToHashSet();
         

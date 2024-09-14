@@ -66,15 +66,15 @@ public sealed class ListBoardsTests(
     {
         var label = await Given_a_Label(listBoard.BoardId);
         
-        var card = new Card
-        {
-            Name = "Test Card",
-            Description = "Description",
-            ListBoardId = listBoard.Id
-        };
+        var card = new Card(
+            name: "Test Card",
+            description: "Description",
+            dueDate: DateTimeOffset.Now.AddDays(1),
+            position: 1,
+            listBoardId: listBoard.Id,
+            assigneeIds: [assigneeId],
+            labelIds: [label.Id]);
         
-        card.UpdateLabels([label.Id]);
-        card.UpdateAssignees([assigneeId]);
         return await _factory.AddEntityAsync(card);
     }
     

@@ -13,6 +13,6 @@ public abstract class CardInputBase
     public DateTimeOffset? DueDate { get; set; }
     public int Position { get; set; }
     public ListBoardId ListBoardId { get; set; }
-    public IEnumerable<LabelId> LabelIds { get; set; }
-    public IEnumerable<AssigneeId> AssigneeIds { get; set; }
+    public IReadOnlyCollection<LabelId> LabelIds { get; set; }
+    public IReadOnlyCollection<AssigneeId> AssigneeIds { get; set; }
 }

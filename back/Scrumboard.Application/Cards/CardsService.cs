@@ -67,12 +67,20 @@ internal sealed class CardsService(
         
         var card = await cardsRepository.TryGetByIdAsync(cardEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(cardEdition.Id);
-
-        mapper.Map(cardEdition, card);
-        
-        cardsRepository.Update(card);
             
         var newActivities = await GetNewActivities(card, cardEdition, cancellationToken);
+
+        card.Update(
+           name: cardEdition.Name,
+           description: cardEdition.Description,
+           dueDate: cardEdition.DueDate,
+           position: cardEdition.Position,
+           listBoardId: cardEdition.ListBoardId,
+           assigneeIds: cardEdition.AssigneeIds,
+           labelIds: cardEdition.LabelIds);
+
+
+        cardsRepository.Update(card);
 
         if (newActivities.Count > 0)
         {

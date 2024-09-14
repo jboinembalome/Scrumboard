@@ -98,18 +98,26 @@ public sealed class ListBoardProfileTests
     private List<Card> Given_some_cards(ListBoard listBoard)
     {
         var labels = Given_some_labels(listBoard.BoardId);
-        var cards = _fixture.CreateMany<Card>()
-            .ToList();
-        
-        cards.ForEach(card =>
+
+        var cards = new List<Card>();
+
+        for (int i = 0; i < 3; i++)
         {
-            card.SetProperty(x => x.ListBoardId, listBoard.Id);
-            
             var assigneeId = _fixture.Create<AssigneeId>();
-            card.UpdateAssignees([assigneeId]);
-            
-            card.UpdateLabels(labels.Select(x => x.Id));
-        });
+
+            var card = new Card(
+                    name: _fixture.Create<string>(),
+                    description: _fixture.Create<string>(),
+                    dueDate: _fixture.Create<DateTimeOffset>(),
+                    position: _fixture.Create<int>(),
+                    listBoardId: listBoard.Id,
+                    assigneeIds: [assigneeId],
+                    labelIds: labels.Select(x => x.Id).ToArray());
+
+            card.SetProperty(x => x.Id, _fixture.Create<CardId>());
+
+            cards.Add(card);
+        }
         
         return cards;
     }

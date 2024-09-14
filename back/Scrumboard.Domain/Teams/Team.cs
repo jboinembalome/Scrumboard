@@ -21,7 +21,7 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
         Name = name;
         BoardId = boardId;
         
-        AddMembers(memberIds);
+        AddNewMembers(memberIds);
     }
 
     public string Name { get; private set; }
@@ -38,25 +38,32 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
             return;
         }
 
-        // Remove members who are no longer in the list
-        _members.RemoveAll(x => !memberIdsList.Contains(x.MemberId));
-        
-        AddMembers(memberIdsList);
+        RemoveMembersNoLongerPresent(memberIdsList);
+        AddNewMembers(memberIdsList);
     }
-    
-    private void AddMembers(IEnumerable<MemberId> memberIds)
+
+    private void RemoveMembersNoLongerPresent(IEnumerable<MemberId> memberIds)
     {
-        var memberIdsList = memberIds.ToHashSet();
-        
-        var membersToAdd = memberIdsList
-            .Where(memberId => !_members.Exists(tm => tm.MemberId == memberId))
+        var membersToRemove = _members
+            .Where(x => !memberIds.Contains(x.MemberId))
+            .ToArray();
+
+        foreach (var member in membersToRemove)
+        {
+            _members.Remove(member);
+        }
+    }
+
+    private void AddNewMembers(IEnumerable<MemberId> memberIds)
+    {   
+        var membersToAdd = memberIds
+            .Where(memberId => !_members.Exists(x => x.MemberId == memberId))
             .Select(memberId => new TeamMember { TeamId = Id, MemberId = memberId })
             .ToArray();
         
-        // Add new members only if there are any
-        if (membersToAdd.Length > 0)
+        foreach (var member in membersToAdd)
         {
-            _members.AddRange(membersToAdd);
+            _members.Add(member);
         }
     }
 }

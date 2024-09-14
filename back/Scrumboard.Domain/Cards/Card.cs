@@ -29,10 +29,8 @@ public sealed class Card : AuditableEntityBase<CardId>
             return;
         }
 
-        // Remove assignees who are no longer in the list
-        _assignees.RemoveAll(x => !assigneeIdsList.Contains(x.AssigneeId));
-        
-        AddAssignees(assigneeIdsList);
+        RemoveAssigneesNoLongerPresent(assigneeIdsList);
+        AddNewAssignees(assigneeIdsList);
     }
     
     public void UpdateLabels(IEnumerable<LabelId> labelIds)
@@ -45,42 +43,57 @@ public sealed class Card : AuditableEntityBase<CardId>
             return;
         }
 
-        // Remove labels who are no longer in the list
-        _labels.RemoveAll(x => !labelIdsList.Contains(x.LabelId));
-        
-        AddLabels(labelIdsList);
+        RemoveLabelsNoLongerPresent(labelIdsList);
+        AddNewLabels(labelIdsList);
     }
-    
-    private void AddAssignees(IEnumerable<AssigneeId> assigneeIds)
+
+    private void RemoveAssigneesNoLongerPresent(IEnumerable<AssigneeId> assigneeIds)
     {
-        var assigneeIdsList = assigneeIds.ToHashSet();
-        
-        var assigneesToAdd = assigneeIdsList
-            .Where(assigneeId => !_assignees.Exists(x => x.AssigneeId == assigneeId))
-            .Select(assigneeId => new CardAssignee { CardId = Id, AssigneeId = assigneeId })
+        var assigneesToRemove = _assignees
+            .Where(x => !assigneeIds.Contains(x.AssigneeId))
             .ToArray();
-        
-        // Add new assignees only if there are any
-        if (assigneesToAdd.Length > 0)
+
+        foreach (var assignee in assigneesToRemove)
         {
-            _assignees.AddRange(assigneesToAdd);
-        }
-    }
-    
-    private void AddLabels(IEnumerable<LabelId> labelIds)
-    {
-        var labelIdsList = labelIds.ToHashSet();
-        
-        var labelsToAdd = labelIdsList
-            .Where(labelId => !_labels.Exists(x => x.LabelId == labelId))
-            .Select(labelId => new CardLabel { CardId = Id, LabelId = labelId })
-            .ToArray();
-        
-        // Add new labels only if there are any
-        if (labelsToAdd.Length > 0)
-        {
-            _labels.AddRange(labelsToAdd);
+            _assignees.Remove(assignee);
         }
     }
 
+    private void AddNewAssignees(IEnumerable<AssigneeId> assigneeIds)
+    {
+        var assigneesToAdd = assigneeIds
+            .Where(assigneeId => !_assignees.Exists(x => x.AssigneeId == assigneeId))
+            .Select(assigneeId => new CardAssignee { CardId = Id, AssigneeId = assigneeId })
+            .ToArray();
+
+        foreach (var assignee in assigneesToAdd)
+        {
+            _assignees.Add(assignee);
+        }
+    }
+
+    private void RemoveLabelsNoLongerPresent(IEnumerable<LabelId> labelIds)
+    {
+        var labelsToRemove = _labels
+            .Where(x => !labelIds.Contains(x.LabelId))
+            .ToArray();
+
+        foreach (var label in labelsToRemove)
+        {
+            _labels.Remove(label);
+        }
+    }
+
+    private void AddNewLabels(IEnumerable<LabelId> labelIds)
+    {
+        var labelsToAdd = labelIds
+            .Where(labelId => !_labels.Exists(x => x.LabelId == labelId))
+            .Select(labelId => new CardLabel { CardId = Id, LabelId = labelId })
+            .ToArray();
+
+        foreach (var label in labelsToAdd)
+        {
+            _labels.Add(label);
+        }
+    }
 }

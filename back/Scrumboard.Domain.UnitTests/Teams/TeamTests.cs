@@ -72,7 +72,7 @@ public sealed class TeamTests
     public void UpdateMembers_should_remove_all_Members_when_list_is_empty()
     {
         // Arrange
-        var memberIds = _fixture.CreateMany<MemberId>(3);
+        var memberIds = _fixture.CreateMany<MemberId>(3).ToArray();
         
         var team = Given_a_Team(memberIds);
 
@@ -109,7 +109,7 @@ public sealed class TeamTests
             .And.BeEquivalentTo(expectedMembers);
     }
     
-    private Team Given_a_Team(IEnumerable<MemberId> memberIds) 
+    private Team Given_a_Team(IReadOnlyCollection<MemberId> memberIds) 
         => new(
             name: _fixture.Create<string>(),
             boardId: _fixture.Create<BoardId>(),

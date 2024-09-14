@@ -13,7 +13,7 @@ public sealed class TeamCustomization : IAutoAppliedCustomization
             .FromFactory(() => new Team(
                 name: fixture.Create<string>(),          
                 boardId: fixture.Create<BoardId>(),
-                memberIds: fixture.CreateMany<MemberId>()))
+                memberIds: fixture.CreateMany<MemberId>().ToArray()))
             .Without(x => x.Id)
             .Without(x => x.CreatedBy));
     }

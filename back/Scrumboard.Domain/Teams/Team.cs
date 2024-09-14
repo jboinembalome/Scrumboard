@@ -14,14 +14,17 @@ public sealed class Team : CreatedAtEntityBase<TeamId>
     public Team(
         string name, 
         BoardId boardId,
-        IEnumerable<MemberId> memberIds)
+        IReadOnlyCollection<MemberId> memberIds)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         
         Name = name;
         BoardId = boardId;
-        
-        AddNewMembers(memberIds);
+
+        if (memberIds.Count > 0)
+        {
+            AddNewMembers(memberIds);
+        }  
     }
 
     public string Name { get; private set; }

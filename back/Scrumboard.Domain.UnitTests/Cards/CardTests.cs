@@ -81,6 +81,14 @@ public sealed class CardTests
     {
         // Arrange
         var card = Given_a_Card_on_edition();
+        var oldName = card.Name;
+        var oldDescription = card.Description;
+        var oldDueDate = card.DueDate;
+        var oldPosition = card.Position;
+        var oldListBoardId = card.ListBoardId;
+        var oldAssigneeIds = card.Assignees.Select(x => x.AssigneeId).ToArray();
+        var oldLabelIds = card.Labels.Select(x => x.LabelId).ToArray();
+
         var newName = _fixture.Create<string>();
         var newDescription = _fixture.Create<string>();
         var newDueDate = _fixture.Create<DateTimeOffset>();
@@ -101,7 +109,15 @@ public sealed class CardTests
         );
 
         // Assert
-        var expectedCardUpdatedDomainEvent = new CardUpdatedDomainEvent(card.Id);
+        var expectedCardUpdatedDomainEvent = new CardUpdatedDomainEvent(
+            id: card.Id,
+            name: (OldValue: oldName, NewValue: newName),
+            description: (OldValue: oldDescription, NewValue: newDescription),
+            dueDate: (OldValue: oldDueDate, NewValue: newDueDate),
+            position: (OldValue: oldPosition, NewValue: newPosition),
+            listBoardId: (OldValue: oldListBoardId, NewValue: newListBoardId),
+            assigneeIds: (OldValue: oldAssigneeIds, NewValue: newAssigneeIds),
+            labelIds: (OldValue: oldLabelIds, NewValue: newLabelIds));
 
         card.DomainEvents.Should()
             .ContainSingle()

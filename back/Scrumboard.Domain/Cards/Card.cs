@@ -62,6 +62,16 @@ public sealed class Card : AuditableEntityBase<CardId>
             throw new InvalidOperationException($"Cannot update a {nameof(Card)} when {nameof(Id)} is null.");
         }
 
+        AddDomainEvent(new CardUpdatedDomainEvent(
+            id: Id,
+            name: (OldValue: Name, NewValue: name),
+            description: (OldValue: Description, NewValue: description),
+            dueDate: (OldValue: DueDate, NewValue: dueDate),
+            position: (OldValue: Position, NewValue: position),
+            listBoardId: (OldValue: ListBoardId, NewValue: listBoardId),
+            assigneeIds: (OldValue: Assignees.Select(x => x.AssigneeId).ToArray(), NewValue:assigneeIds),
+            labelIds: (OldValue: Labels.Select(x => x.LabelId).ToArray(), NewValue: labelIds)));
+
         Name = name; 
         Description = description;
         DueDate = dueDate;
@@ -70,8 +80,6 @@ public sealed class Card : AuditableEntityBase<CardId>
         
         UpdateAssignees(assigneeIds);
         UpdateLabels(labelIds);
-
-        AddDomainEvent(new CardUpdatedDomainEvent(Id));
     }
 
     private void UpdateAssignees(IEnumerable<AssigneeId> assigneeIds)

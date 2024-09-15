@@ -1,6 +1,7 @@
 ﻿using Scrumboard.Domain.Boards.Labels;
 using Scrumboard.Domain.ListBoards;
 using Scrumboard.SharedKernel.Entities;
+using Scrumboard.Domain.Cards.Events;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value
 
@@ -56,6 +57,11 @@ public sealed class Card : AuditableEntityBase<CardId>
         IReadOnlyCollection<AssigneeId> assigneeIds,
         IReadOnlyCollection<LabelId> labelIds)
     {
+        if (Id is null)
+        {
+            throw new InvalidOperationException($"Cannot update a {nameof(Card)} when {nameof(Id)} is null.");
+        }
+
         Name = name; 
         Description = description;
         DueDate = dueDate;
@@ -64,6 +70,8 @@ public sealed class Card : AuditableEntityBase<CardId>
         
         UpdateAssignees(assigneeIds);
         UpdateLabels(labelIds);
+
+        AddDomainEvent(new CardUpdatedDomainEvent(Id));
     }
 
     private void UpdateAssignees(IEnumerable<AssigneeId> assigneeIds)

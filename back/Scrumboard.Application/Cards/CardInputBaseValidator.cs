@@ -28,9 +28,7 @@ internal abstract class CardInputBaseValidator<TInput>
 
         RuleFor(p => p.Name)
             .NotEmpty()
-                .WithMessage("{PropertyName} is required.")
-            .MaximumLength(255)
-                .WithMessage("{PropertyName} must not exceed 255 characters.");
+            .MaximumLength(255);
 
         RuleFor(p => p.Position)
             .GreaterThan(0);
@@ -67,9 +65,8 @@ internal abstract class CardInputBaseValidator<TInput>
         
         var labels = await _labelsRepository.GetAsync(ids, cancellationToken);
 
-        var idsNotFound = labels
-            .Select(x => x.Id)
-            .Except(ids)
+        var idsNotFound = ids
+            .Except(labels.Select(x => x.Id))
             .ToList();
 
         if (idsNotFound.Count == 0)
@@ -95,9 +92,8 @@ internal abstract class CardInputBaseValidator<TInput>
         
         var assignees = await _identityService.GetListAsync(ids, cancellationToken);
 
-        var idsNotFound = assignees
-            .Select(x => (UserId)x.Id)
-            .Except(ids)
+        var idsNotFound = ids
+            .Except(assignees.Select(x => (UserId)x.Id))
             .ToList();
 
         if (idsNotFound.Count == 0)

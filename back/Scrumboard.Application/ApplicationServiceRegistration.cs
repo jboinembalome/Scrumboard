@@ -38,6 +38,7 @@ public static class ApplicationServiceRegistration
         
         // Cards
         services
+            .AddScoped<IActivityFactory, ActivityFactory>()
             .AddScoped<IActivitiesService, ActivitiesService>()
             .AddScoped<ICardsService, CardsService>()
             .AddScoped<ICommentsService, CommentsService>();

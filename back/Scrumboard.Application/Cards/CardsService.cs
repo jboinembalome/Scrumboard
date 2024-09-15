@@ -2,24 +2,16 @@ using AutoMapper;
 using FluentValidation;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
-using Scrumboard.Domain.Cards.Activities;
 using Scrumboard.Domain.ListBoards;
-using Scrumboard.Infrastructure.Abstractions.Identity;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Activities;
-using Scrumboard.Infrastructure.Abstractions.Persistence.Cards.Labels;
 using Scrumboard.SharedKernel.Extensions;
-using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Application.Cards;
 
 internal sealed class CardsService(
     IMapper mapper,
-    IActivitiesRepository activitiesRepository,
     ICardsRepository cardsRepository,
     ICardsQueryRepository cardsQueryRepository,
-    ILabelsRepository labelsRepository,
-    IIdentityService identityService,
     IValidator<CardCreation> cardCreationValidator,
     IValidator<CardEdition> cardEditionValidator) : ICardsService
 {
@@ -52,9 +44,6 @@ internal sealed class CardsService(
         var card = mapper.Map<Card>(cardCreation);
         
         await cardsRepository.AddAsync(card, cancellationToken);
-
-        var activity = new Activity(card.Id, ActivityType.Added, ActivityField.Card, string.Empty, card.Name);
-        await activitiesRepository.AddAsync(activity, cancellationToken);
         
         return card;
     }
@@ -67,8 +56,6 @@ internal sealed class CardsService(
         
         var card = await cardsRepository.TryGetByIdAsync(cardEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(cardEdition.Id);
-            
-        var newActivities = await GetNewActivities(card, cardEdition, cancellationToken);
 
         card.Update(
            name: cardEdition.Name,
@@ -79,14 +66,8 @@ internal sealed class CardsService(
            assigneeIds: cardEdition.AssigneeIds,
            labelIds: cardEdition.LabelIds);
 
-
         cardsRepository.Update(card);
 
-        if (newActivities.Count > 0)
-        {
-            await activitiesRepository.AddAsync(newActivities, cancellationToken);
-        }
-        
         return card;
     }
 
@@ -98,137 +79,5 @@ internal sealed class CardsService(
             .OrThrowResourceNotFoundAsync(id);
         
         await cardsRepository.DeleteAsync(id, cancellationToken);
-    }
-    
-    // TODO: Move new activities logic into a specific service or factory
-    
-    /// <summary>
-    /// Retrieves the card activies. 
-    /// </summary>
-    /// <param name="oldCard">Old card.</param>
-    /// <param name="cardEdition">Updated card.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    private async Task<List<Activity>> GetNewActivities(
-        Card oldCard, 
-        CardEdition cardEdition, 
-        CancellationToken cancellationToken)
-    {
-        var activities = new List<Activity>();
-        
-        #region Name
-        if (oldCard.Name != cardEdition.Name)
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Updated, ActivityField.Name, oldCard.Name, cardEdition.Name));
-
-        #endregion
-
-        #region Description
-        if (oldCard.Description != cardEdition.Description)
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Updated, ActivityField.Description, oldCard.Description, cardEdition.Description));
-
-        #endregion
-
-        #region DueDate
-        if (oldCard.DueDate != cardEdition.DueDate)
-        {
-            if (!oldCard.DueDate.HasValue && cardEdition.DueDate.HasValue)
-                activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.DueDate, string.Empty, cardEdition.DueDate.Value.Date.ToShortDateString()));
-
-            if (oldCard.DueDate.HasValue && !cardEdition.DueDate.HasValue)
-                activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.DueDate, oldCard.DueDate.Value.Date.ToShortDateString(), string.Empty));
-
-            if (oldCard.DueDate.HasValue && cardEdition.DueDate.HasValue && oldCard.DueDate.Value != cardEdition.DueDate.Value)
-                activities.Add(new Activity(cardEdition.Id, ActivityType.Updated, ActivityField.DueDate, oldCard.DueDate.Value.Date.ToShortDateString(), cardEdition.DueDate.Value.Date.ToShortDateString()));
-        }
-
-        #endregion
-
-        #region Member
-        if (!oldCard.Assignees.Any() && cardEdition.AssigneeIds.Any())
-        {
-            var firstAssigneeId = cardEdition.AssigneeIds.First();
-            var firstAssignee = await identityService.GetUserAsync(firstAssigneeId.Value, cancellationToken);
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssignee.FirstName} {firstAssignee.LastName}"));
-        }
-
-        if (oldCard.Assignees.Any() && !cardEdition.AssigneeIds.Any())
-        {
-            var firstAssigneeId = oldCard.Assignees.First().AssigneeId;
-            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
-        }
-
-        if (oldCard.Assignees.Count < cardEdition.AssigneeIds.Count())
-        {
-            var firstAssigneeId = cardEdition.AssigneeIds.First(x => oldCard.Assignees.All(y => y.AssigneeId != x));
-            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Member, string.Empty, $"{firstAssignee.FirstName} {firstAssignee.LastName}"));
-        }
-
-        if (oldCard.Assignees.Count > cardEdition.AssigneeIds.Count())
-        {
-            var firstAssigneeId = oldCard.Assignees.First(l => !cardEdition.AssigneeIds.Select(x => x).Contains(l.AssigneeId)).AssigneeId;
-            var firstAssignee = await identityService.GetUserAsync((UserId)firstAssigneeId.Value, cancellationToken);
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Member, $"{firstAssignee.FirstName} {firstAssignee.LastName}", string.Empty));
-        }
-        #endregion
-        
-        #region Label
-        if (!oldCard.Labels.Any() && cardEdition.LabelIds.Any())
-        {
-            var labelId = cardEdition.LabelIds.First();
-            var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
-            ArgumentNullException.ThrowIfNull(label);
-            
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
-        }
-
-        if (oldCard.Labels.Any() && !cardEdition.LabelIds.Any())
-        {
-            var labelId = oldCard.Labels.First().LabelId;
-            var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
-            ArgumentNullException.ThrowIfNull(label);
-            
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
-        }
-
-        if (oldCard.Labels.Count < cardEdition.LabelIds.Count())
-        {
-            var labelId = cardEdition.LabelIds.First(l => !oldCard.Labels.Select(x => x.LabelId).Contains(l));
-            var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
-            ArgumentNullException.ThrowIfNull(label);
-            
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Added, ActivityField.Label, string.Empty, label.Name));
-        }
-
-        if (oldCard.Labels.Count > cardEdition.LabelIds.Count())
-        {
-            var labelId = oldCard.Labels.First(l => !cardEdition.LabelIds.Select(x => x).Contains(l.LabelId)).LabelId;
-            var label = await labelsRepository.TryGetByIdAsync(labelId, cancellationToken);
-            ArgumentNullException.ThrowIfNull(label);
-            
-            activities.Add(new Activity(cardEdition.Id, ActivityType.Removed, ActivityField.Label, label.Name, string.Empty));
-        }
-
-        if (oldCard.Labels.Any() && cardEdition.LabelIds.Any() && oldCard.Labels.Count == cardEdition.LabelIds.Count())
-        {
-            foreach (var oldLabelId in oldCard.Labels)
-            {
-                var updateLabelId = cardEdition.LabelIds.FirstOrDefault(x => x == oldLabelId.LabelId);
-                if (updateLabelId is null)
-                    continue;
-
-                var oldLabel = await labelsRepository.TryGetByIdAsync(oldLabelId.LabelId, cancellationToken);
-                ArgumentNullException.ThrowIfNull(oldLabel);
-                
-                var updateLabel = await labelsRepository.TryGetByIdAsync(updateLabelId, cancellationToken);
-                ArgumentNullException.ThrowIfNull(updateLabel);
-                
-                if (oldLabelId.LabelId != updateLabelId)
-                    activities.Add(new Activity(cardEdition.Id, ActivityType.Updated, ActivityField.Label, oldLabel.Name, updateLabel.Name));
-            }
-        }
-        #endregion
-
-        return activities;
     }
 }

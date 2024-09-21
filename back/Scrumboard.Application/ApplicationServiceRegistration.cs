@@ -12,11 +12,15 @@ using Scrumboard.Application.Boards;
 using Scrumboard.Application.Boards.Labels;
 using Scrumboard.Application.Cards;
 using Scrumboard.Application.Cards.Activities;
+using Scrumboard.Application.Cards.Activities.ActivityStrategies;
 using Scrumboard.Application.Cards.Comments;
 using Scrumboard.Application.ListBoards;
 using Scrumboard.Application.Teams;
 using Scrumboard.Application.Users;
 using Scrumboard.Application.WeatherForecasts;
+using Scrumboard.Domain.Boards.Labels;
+using Scrumboard.Domain.Cards;
+using Scrumboard.Domain.ListBoards;
 
 namespace Scrumboard.Application;
 
@@ -31,6 +35,15 @@ public static class ApplicationServiceRegistration
         
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
         
+        // Activities
+        services
+            .AddScoped<IActivitiesService, ActivitiesService>()
+            .AddScoped<IActivityFactory, ActivityFactory>()
+            .AddScoped<IChangeActivityStrategy<DateTimeOffset?>, DueDateActivityStrategy>()
+            .AddScoped<IChangeActivityStrategy<ListBoardId>, ListBoardActivityStrategy>()
+            .AddScoped<IChangeActivityStrategy<IReadOnlyCollection<AssigneeId>>, AssigneesActivityStrategy>()
+            .AddScoped<IChangeActivityStrategy<IReadOnlyCollection<LabelId>>, LabelsActivityStrategy>();
+        
         // Boards
         services
             .AddScoped<IBoardsService, BoardsService>()
@@ -38,8 +51,6 @@ public static class ApplicationServiceRegistration
         
         // Cards
         services
-            .AddScoped<IActivityFactory, ActivityFactory>()
-            .AddScoped<IActivitiesService, ActivitiesService>()
             .AddScoped<ICardsService, CardsService>()
             .AddScoped<ICommentsService, CommentsService>();
         

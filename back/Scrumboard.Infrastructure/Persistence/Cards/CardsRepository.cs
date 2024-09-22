@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Scrumboard.Domain.Cards;
+﻿using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Persistence.Cards;
 using Scrumboard.SharedKernel.Extensions;
 
@@ -10,9 +9,19 @@ internal sealed class CardsRepository(
 {
     public async Task<Card?> TryGetByIdAsync(
         CardId id, 
-        CancellationToken cancellationToken = default) 
-        => await Query()
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        var card = await dbContext.Cards.FindAsync([id], cancellationToken);
+
+        if (card is null)
+        {
+            return card;
+        }
+
+        await LoadNavigationPropertiesAsync(card, cancellationToken);
+
+        return card;
+    }
 
     public async Task<Card> AddAsync(
         Card card, 
@@ -38,9 +47,9 @@ internal sealed class CardsRepository(
         dbContext.Cards.Remove(card);
     }
 
-    private IQueryable<Card> Query()
-        => dbContext.Cards
-            .AsSplitQuery()
-            .Include(x => x.Labels)
-            .Include(x => x.Assignees);
+    private async Task LoadNavigationPropertiesAsync(Card card, CancellationToken cancellationToken)
+    {
+        await dbContext.LoadNavigationPropertyAsync(card, x => x.Assignees, cancellationToken);
+        await dbContext.LoadNavigationPropertyAsync(card, x => x.Labels, cancellationToken);
+    }
 }

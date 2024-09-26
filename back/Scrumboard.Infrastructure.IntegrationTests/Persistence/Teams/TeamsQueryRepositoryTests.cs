@@ -57,7 +57,7 @@ public sealed class TeamsQueryRepositoryTests : PersistenceTestsBase
         var team = _fixture.Create<Team>();
         team.SetProperty(x => x.BoardId, board.Id);
         
-        ArrangeDbContext.Teams.Add(team);
+        await ArrangeDbContext.Teams.AddAsync(team);
         
         await ArrangeDbContext.SaveChangesAsync();
         
@@ -68,7 +68,7 @@ public sealed class TeamsQueryRepositoryTests : PersistenceTestsBase
     {
         var board = _fixture.Create<Board>();
         
-        ArrangeDbContext.Boards.Add(board);
+        await ArrangeDbContext.Boards.AddAsync(board);
         
         await ArrangeDbContext.SaveChangesAsync();
         

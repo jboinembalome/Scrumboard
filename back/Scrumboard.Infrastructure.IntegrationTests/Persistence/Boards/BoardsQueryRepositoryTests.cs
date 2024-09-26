@@ -73,7 +73,7 @@ public sealed class BoardsQueryRepositoryTests : PersistenceTestsBase
         var board = _fixture.Create<Board>();
         board.SetProperty(x => x.OwnerId, ownerId);
         
-        ArrangeDbContext.Boards.Add(board);
+        await ArrangeDbContext.Boards.AddAsync(board);
         
         await ArrangeDbContext.SaveChangesAsync();
         

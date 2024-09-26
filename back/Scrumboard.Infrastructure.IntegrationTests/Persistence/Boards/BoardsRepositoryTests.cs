@@ -103,7 +103,7 @@ public sealed class BoardsRepositoryTests : PersistenceTestsBase
     {
         var board = _fixture.Create<Board>();
         
-        ArrangeDbContext.Boards.Add(board);
+        await ArrangeDbContext.Boards.AddAsync(board);
         
         await ArrangeDbContext.SaveChangesAsync();
         

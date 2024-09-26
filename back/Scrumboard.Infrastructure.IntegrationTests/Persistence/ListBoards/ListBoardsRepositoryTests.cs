@@ -104,7 +104,8 @@ public sealed class ListBoardsRepositoryTests : PersistenceTestsBase
         var listBoard = _fixture.Create<ListBoard>();
         listBoard.SetProperty(x => x.BoardId, board.Id);
 
-        ArrangeDbContext.ListBoards.Add(listBoard);
+        await ArrangeDbContext.ListBoards.AddAsync(listBoard);
+
         await ArrangeDbContext.SaveChangesAsync();
 
         return listBoard;
@@ -122,7 +123,7 @@ public sealed class ListBoardsRepositoryTests : PersistenceTestsBase
     {
         var board = _fixture.Create<Board>();
         
-        ArrangeDbContext.Boards.Add(board);
+        await ArrangeDbContext.Boards.AddAsync(board);
         
         await ArrangeDbContext.SaveChangesAsync();
         

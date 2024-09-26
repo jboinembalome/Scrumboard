@@ -44,13 +44,14 @@ public sealed class CardsQueryRepositoryTests : PersistenceTestsBase
     public async Task Should_return_null_when_Card_does_not_exist()
     {
         // Arrange
-        var nonexistentCardId = new CardId(999);
+        var nonExistentCardId = new CardId(999);
 
         // Act
-        var card = await _sut.TryGetByIdAsync(nonexistentCardId);
+        var card = await _sut.TryGetByIdAsync(nonExistentCardId);
 
         // Assert
-        card.Should().BeNull();
+        card.Should()
+            .BeNull();
     }
 
     [Fact]
@@ -68,8 +69,8 @@ public sealed class CardsQueryRepositoryTests : PersistenceTestsBase
         var result = await _sut.GetByListBoardIdAsync(listBoard.Id);
 
         // Assert
-        result.Should().HaveCount(cards.Count);
-        result.Should().BeEquivalentTo(cards);
+        result.Should()
+            .BeEquivalentTo(cards);
     }
 
     [Fact]
@@ -82,14 +83,15 @@ public sealed class CardsQueryRepositoryTests : PersistenceTestsBase
         var result = await _sut.GetByListBoardIdAsync(nonexistentListBoardId);
 
         // Assert
-        result.Should().BeEmpty();
+        result.Should()
+            .BeEmpty();
     }
     
     private async Task<Board> Given_a_Board()
     {
         var board = _fixture.Create<Board>();
         
-        ArrangeDbContext.Boards.Add(board);
+        await ArrangeDbContext.Boards.AddAsync(board);
         
         await ArrangeDbContext.SaveChangesAsync();
         
@@ -138,7 +140,7 @@ public sealed class CardsQueryRepositoryTests : PersistenceTestsBase
             assigneeIds: _fixture.CreateMany<AssigneeId>().ToArray(),
             labelIds: [label.Id]);
 
-        ArrangeDbContext.Cards.Add(card);
+        await ArrangeDbContext.Cards.AddAsync(card);
 
         await ArrangeDbContext.SaveChangesAsync();
 
@@ -158,7 +160,8 @@ public sealed class CardsQueryRepositoryTests : PersistenceTestsBase
             assigneeIds: _fixture.CreateMany<AssigneeId>().ToArray(),
             labelIds: [label.Id]);
 
-        ArrangeDbContext.Cards.Add(card);
+        await ArrangeDbContext.Cards.AddAsync(card);
+
         await ArrangeDbContext.SaveChangesAsync();
 
         return card;

@@ -116,7 +116,7 @@ public sealed class CardsRepositoryTests : PersistenceTestsBase
     {
         var board = _fixture.Create<Board>();
         
-        ArrangeDbContext.Boards.Add(board);
+        await ArrangeDbContext.Boards.AddAsync(board);
         
         await ArrangeDbContext.SaveChangesAsync();
         
@@ -165,7 +165,7 @@ public sealed class CardsRepositoryTests : PersistenceTestsBase
             assigneeIds: _fixture.CreateMany<AssigneeId>().ToArray(),
             labelIds: [label.Id]);
 
-        ArrangeDbContext.Cards.Add(card);
+        await ArrangeDbContext.Cards.AddAsync(card);
 
         await ArrangeDbContext.SaveChangesAsync();
 

@@ -109,7 +109,7 @@ public class CardsController(
         return NoContent();
     }
     
-    // TODO: endpoint to move a card
+    // TODO: Recalculate card position (also listBoard)
     
     private async Task<IEnumerable<LabelDto>> GetLabelDtosAsync(
         Card card,

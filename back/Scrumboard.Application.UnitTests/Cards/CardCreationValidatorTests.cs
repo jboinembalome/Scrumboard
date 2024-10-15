@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Cards;
 
-public sealed class CardCreationValidatorTests : CardValidatorTestsBase<CardCreation>
+public sealed class CardCreationValidatorTests : CardInputBaseValidatorTestsBase<CardCreation>
 {
     private readonly IValidator<CardCreation> _sut;
 

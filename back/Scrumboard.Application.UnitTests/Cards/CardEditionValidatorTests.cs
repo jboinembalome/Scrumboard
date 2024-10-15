@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Cards;
 
-public sealed class CardEditionValidatorTests : CardValidatorTestsBase<CardEdition>
+public sealed class CardEditionValidatorTests : CardInputBaseValidatorTestsBase<CardEdition>
 {
     private readonly ICardsRepository _cardsRepository;
 

@@ -15,7 +15,7 @@ using Xunit;
 
 namespace Scrumboard.Application.UnitTests.Cards;
 
-public abstract class CardValidatorTestsBase<TInput> : UnitTestsBase 
+public abstract class CardInputBaseValidatorTestsBase<TInput> : UnitTestsBase 
     where TInput : CardInputBase
 {
     protected readonly CustomizedFixture _fixture = new();
@@ -191,13 +191,8 @@ public abstract class CardValidatorTestsBase<TInput> : UnitTestsBase
             .Setup(x => x.TryGetByIdAsync(listBoardId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(listBoard);
     }
-
-    protected void Given_a_not_found_ListBoard(ListBoardId listBoardId)
-        => Mock.Get(_listBoardsRepository)
-            .Setup(x => x.TryGetByIdAsync(listBoardId, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(null as ListBoard);
-
-    protected void Given_found_Labels(IEnumerable<LabelId> labelIds)
+    
+    protected void Given_found_Labels(IReadOnlyCollection<LabelId> labelIds)
     {
         var labels = labelIds
             .Select(labelId =>
@@ -214,12 +209,7 @@ public abstract class CardValidatorTestsBase<TInput> : UnitTestsBase
             .ReturnsAsync(labels);
     }
 
-    protected void Given_not_found_Labels(IEnumerable<LabelId> labelIds) 
-        => Mock.Get(_labelsRepository)
-            .Setup(x => x.GetAsync(labelIds, It.IsAny<CancellationToken>()))
-            .ReturnsAsync([]);
-
-    protected void Given_found_Users(IEnumerable<UserId> userIds)
+    protected void Given_found_Users(IReadOnlyCollection<UserId> userIds)
     {
         var users = userIds
             .Select(userId =>
@@ -232,18 +222,25 @@ public abstract class CardValidatorTestsBase<TInput> : UnitTestsBase
                 user.Avatar = _fixture.Create<byte[]>();
 
                 return user;
-
             })
             .ToArray();
-
-
-
+        
         Mock.Get(_identityService)
             .Setup(x => x.GetListAsync(userIds, It.IsAny<CancellationToken>()))
             .ReturnsAsync(users);
     }
 
-    protected void Given_not_found_Users(IEnumerable<UserId> userIds) 
+    private void Given_a_not_found_ListBoard(ListBoardId listBoardId)
+        => Mock.Get(_listBoardsRepository)
+            .Setup(x => x.TryGetByIdAsync(listBoardId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(null as ListBoard);
+    
+    private void Given_not_found_Labels(IEnumerable<LabelId> labelIds) 
+        => Mock.Get(_labelsRepository)
+            .Setup(x => x.GetAsync(labelIds, It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
+    
+    private void Given_not_found_Users(IReadOnlyCollection<UserId> userIds) 
         => Mock.Get(_identityService)
             .Setup(x => x.GetListAsync(userIds, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<IUser>());

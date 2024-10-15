@@ -79,7 +79,9 @@ public class CardsController(
         CancellationToken cancellationToken)
     {
         if (id != cardEditionDto.Id)
+        {
             return BadRequest();
+        }
         
         var cardEdition = mapper.Map<CardEdition>(cardEditionDto);
         

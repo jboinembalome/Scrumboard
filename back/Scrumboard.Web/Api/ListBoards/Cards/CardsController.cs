@@ -11,7 +11,7 @@ namespace Scrumboard.Web.Api.ListBoards.Cards;
 [Authorize]
 [ApiController]
 [Produces("application/json")]
-[Route("api/listboards/{listBoardId:int}/[controller]")]
+[Route("api/list-boards/{listBoardId:int}/[controller]")]
 public class CardsController(
     IMapper mapper,
     ICardsService cardsService,

@@ -30,20 +30,15 @@ internal abstract class CardInputBaseValidator<TInput>
             .NotEmpty()
             .MaximumLength(255);
 
-        RuleFor(p => p.Position)
-            .GreaterThan(0);
-
         RuleFor(x => x.ListBoardId)
             .MustAsync(ListBoardExistsAsync)
             .WithMessage("{PropertyName} not found.");
         
         RuleFor(x => x.LabelIds)
-            .NotEmpty()
             .MustAsync(LabelsExistAsync)
                 .WithMessage("{PropertyName} has not found values: {LabelIdsNotFound}.");
         
         RuleFor(x => x.AssigneeIds)
-            .NotEmpty()
             .MustAsync(AssigneesExistAsync)
             .WithMessage("{PropertyName} has not found values: {AssigneeIdsNotFound}.");
     }
@@ -62,6 +57,11 @@ internal abstract class CardInputBaseValidator<TInput>
         CancellationToken cancellationToken)
     {
         var ids = labelIds.ToArray();
+        
+        if (ids.Length == 0)
+        {
+            return true;
+        }
         
         var labels = await _labelsRepository.GetAsync(ids, cancellationToken);
 
@@ -89,6 +89,11 @@ internal abstract class CardInputBaseValidator<TInput>
         var ids = assigneeIds
             .Select(x => (UserId)x.Value)
             .ToArray();
+        
+        if (ids.Length == 0)
+        {
+            return true;
+        }
         
         var assignees = await _identityService.GetListAsync(ids, cancellationToken);
 

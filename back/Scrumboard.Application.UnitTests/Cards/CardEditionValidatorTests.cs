@@ -61,6 +61,33 @@ public sealed class CardEditionValidatorTests : CardInputBaseValidatorTestsBase<
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Id);
     }
+    
+    [Fact]
+    public async Task Should_have_error_when_Position_is_not_greater_than_0()
+    {
+        // Arrange
+        var sut = GetValidator();
+
+        var cardInput = _fixture.Build<CardEdition>()
+            .With(x => x.Position, 0)
+            .Create();
+
+        var userIds = cardInput.AssigneeIds
+            .Select(x => (UserId)x.Value)
+            .ToArray();
+
+        Given_a_found_ListBoard(cardInput.ListBoardId);
+
+        Given_found_Users(userIds);
+
+        Given_found_Labels(cardInput.LabelIds);
+
+        // Act
+        var result = await sut.TestValidateAsync(cardInput);
+
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.Position);
+    }
 
     [Fact]
     public async Task Should_pass_validation_for_valid_input()

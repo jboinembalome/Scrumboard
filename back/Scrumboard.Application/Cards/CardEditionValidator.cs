@@ -27,6 +27,9 @@ internal sealed class CardEditionValidator : CardInputBaseValidator<CardEdition>
         RuleFor(x => x.Id)
             .MustAsync(CardExistsAsync)
             .WithMessage("{PropertyName} not found.");
+        
+        RuleFor(p => p.Position)
+            .GreaterThan(0);
     }
     
     private async Task<bool> CardExistsAsync(CardId cardId, CancellationToken cancellationToken)

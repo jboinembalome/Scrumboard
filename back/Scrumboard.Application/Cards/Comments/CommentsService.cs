@@ -34,8 +34,10 @@ internal sealed class CommentsService(
         await commentCreationValidator.ValidateAndThrowAsync(commentCreation, cancellationToken);
         
         var comment = mapper.Map<Comment>(commentCreation);
+
+        await commentsRepository.AddAsync(comment, cancellationToken);
         
-        return await commentsRepository.AddAsync(comment, cancellationToken);
+        return comment;
     }
 
     public async Task<Comment> UpdateAsync(
@@ -47,7 +49,7 @@ internal sealed class CommentsService(
         var comment = await commentsRepository.TryGetByIdAsync(commentEdition.Id, cancellationToken)
             .OrThrowResourceNotFoundAsync(commentEdition.Id);
 
-        mapper.Map(commentEdition, comment);
+        comment.Update(commentEdition.Message);
         
         commentsRepository.Update(comment);
         

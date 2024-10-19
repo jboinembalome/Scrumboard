@@ -14,8 +14,8 @@ internal sealed class CommentCreationValidator : AbstractValidator<CommentCreati
         _cardsRepository = cardsRepository;
         
         RuleFor(p => p.Message)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
+            .NotEmpty()
+            .MaximumLength(500);
         
         RuleFor(x => x.CardId)
             .MustAsync(CardExistsAsync)

@@ -9,7 +9,7 @@ internal sealed class CommentProfile : Profile
     public CommentProfile()
     {
         // Write
-        CreateMap<CommentCreation, Comment>();
-        CreateMap<CommentEdition, Comment>();
+        CreateMap<CommentCreation, Comment>()
+            .ConstructUsing(src => new Comment(src.Message, src.CardId));
     }
 }

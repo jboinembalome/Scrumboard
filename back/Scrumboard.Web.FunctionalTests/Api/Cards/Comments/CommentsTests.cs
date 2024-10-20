@@ -125,7 +125,7 @@ public sealed class CommentsTests(
         var card = await Given_a_Card(SeededUser.Adherent.Id);
         var comment = await Given_a_Comment(card.Id);
 
-        var payload = BuildUpdateCommentPayload(comment.Id);
+        var payload = BuildUpdateCommentPayload(comment.Id, card.Id);
 
         // Act
         var response = await client.PutAsJsonAsync($"/api/cards/{card.Id}/comments/{comment.Id}", payload);
@@ -144,7 +144,7 @@ public sealed class CommentsTests(
         var card = await Given_a_Card(SeededUser.Adherent.Id);
         var comment = await Given_a_Comment(card.Id);
 
-        var payload = BuildUpdateCommentPayload(comment.Id);
+        var payload = BuildUpdateCommentPayload(comment.Id, card.Id);
 
         // Act
         var response = await client.PutAsJsonAsync($"/api/cards/{card.Id}/comments/{comment.Id}", payload);
@@ -241,11 +241,14 @@ public sealed class CommentsTests(
             CardId = cardId.Value
         };
 
-    private static CommentEditionDto BuildUpdateCommentPayload(CommentId commentId)
+    private static CommentEditionDto BuildUpdateCommentPayload(
+        CommentId commentId,
+        CardId cardId)
         => new()
         {
             Id = commentId.Value,
-            Message = "Updated Comment"
+            Message = "Updated Comment",
+            CardId = cardId.Value
         };
 
 }

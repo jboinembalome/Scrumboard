@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Scrumboard.Web.FunctionalTests.Api.Teams;
 
-public sealed class TeamTests(
+public sealed class TeamsTests(
     CustomWebApplicationFactory factory) : FunctionalTestsBase(factory)
 {
     [Fact]

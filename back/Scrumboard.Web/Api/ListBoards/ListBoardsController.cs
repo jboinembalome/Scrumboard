@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.ListBoards;
 using Scrumboard.Domain.ListBoards;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Web.Api.ListBoards;
 
@@ -12,7 +13,8 @@ namespace Scrumboard.Web.Api.ListBoards;
 [Route("api/[controller]")]
 public class ListBoardsController(
     IMapper mapper,
-    IListBoardsService listBoardsService) : ControllerBase
+    IListBoardsService listBoardsService,
+    IUnitOfWork unitOfWork) : ControllerBase
 {
     /// <summary>
     /// Get a list by id.
@@ -47,6 +49,8 @@ public class ListBoardsController(
         
         var listBoard = await listBoardsService.AddAsync(listBoardCreation, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = mapper.Map<ListBoardDto>(listBoard);
         
         return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
@@ -74,6 +78,8 @@ public class ListBoardsController(
         
         var listBoard = await listBoardsService.UpdateAsync(listBoardEdition, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = mapper.Map<ListBoardDto>(listBoard);
         
         return Ok(dto);
@@ -92,6 +98,8 @@ public class ListBoardsController(
         CancellationToken cancellationToken)
     {
         await listBoardsService.DeleteAsync(new ListBoardId(id), cancellationToken);
+        
+        await unitOfWork.CommitAsync(cancellationToken);
         
         return NoContent();
     }

@@ -9,7 +9,6 @@ using Scrumboard.Infrastructure.Abstractions.Common;
 using Scrumboard.Infrastructure.Persistence;
 using Scrumboard.Web.Api;
 using Scrumboard.Web.ExceptionHandlers;
-using Scrumboard.Web.Middlewares;
 using Scrumboard.Web.Security;
 using Scrumboard.Web.Services;
 
@@ -36,8 +35,6 @@ public class Startup
         services.AddHttpContextAccessor();
 
         services.AddSingleton<ICurrentUserService, CurrentUserService>();
-        
-        services.AddScoped<UnitOfWorkMiddleware>();
         
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -106,8 +103,6 @@ public class Startup
         });
         
         app.UseExceptionHandler();
-        
-        app.UseMiddleware<UnitOfWorkMiddleware>();
         
         app.UseRouting();
         

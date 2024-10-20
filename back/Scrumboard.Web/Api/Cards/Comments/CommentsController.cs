@@ -6,6 +6,7 @@ using Scrumboard.Application.Abstractions.Cards.Comments;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Domain.Cards.Comments;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Scrumboard.Web.Api.Users;
 
 namespace Scrumboard.Web.Api.Cards.Comments;
@@ -18,7 +19,8 @@ public class CommentsController(
     IMapper mapper,
     ICardsService cardsService,
     ICommentsService commentsService,
-    IIdentityService identityService) : ControllerBase
+    IIdentityService identityService,
+    IUnitOfWork unitOfWork) : ControllerBase
 {
     /// <summary>
     /// Get card comments.
@@ -66,7 +68,7 @@ public class CommentsController(
         }
 
         var comment = await commentsService.GetByIdAsync(new CommentId(id), cancellationToken);
-
+        
         var dto = await GetCommentDtoAsync(comment, cancellationToken);
         
         return Ok(dto);
@@ -94,7 +96,9 @@ public class CommentsController(
         var commentCreation = mapper.Map<CommentCreation>(commentCreationDto);
         
         var comment = await commentsService.AddAsync(commentCreation, cancellationToken);
-
+        
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = await GetCommentDtoAsync(comment, cancellationToken);
 
         return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
@@ -128,6 +132,8 @@ public class CommentsController(
         var commentEdition = mapper.Map<CommentEdition>(commentEditionDto);
         
         var comment = await commentsService.UpdateAsync(commentEdition, cancellationToken);
+        
+        await unitOfWork.CommitAsync(cancellationToken);
 
         var dto = await GetCommentDtoAsync(comment, cancellationToken);
 
@@ -154,6 +160,8 @@ public class CommentsController(
         }
         
         await commentsService.DeleteAsync(new CommentId(id), cancellationToken);
+        
+        await unitOfWork.CommitAsync(cancellationToken);
 
         return NoContent();
     }

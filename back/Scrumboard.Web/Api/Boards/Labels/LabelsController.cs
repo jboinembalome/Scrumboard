@@ -5,6 +5,7 @@ using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Domain.Boards.Labels;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 
 namespace Scrumboard.Web.Api.Boards.Labels;
 
@@ -15,7 +16,8 @@ namespace Scrumboard.Web.Api.Boards.Labels;
 public sealed class LabelsController(
     IMapper mapper,
     IBoardsService boardsService,
-    ILabelsService labelsService) : ControllerBase
+    ILabelsService labelsService,
+    IUnitOfWork unitOfWork) : ControllerBase
 {
     /// <summary>
     /// Get labels by board id.
@@ -92,6 +94,8 @@ public sealed class LabelsController(
         
         var label = await labelsService.AddAsync(labelCreation, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = mapper.Map<LabelDto>(label);
 
         return CreatedAtAction(nameof(Get), new { BoardId = boardId, dto.Id }, dto);
@@ -126,6 +130,8 @@ public sealed class LabelsController(
         
         var label = await labelsService.UpdateAsync(labelEdition, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = mapper.Map<LabelDto>(label);
 
         return Ok(dto);
@@ -152,6 +158,8 @@ public sealed class LabelsController(
         }
 
         await labelsService.DeleteAsync(new LabelId(id), cancellationToken);
+        
+        await unitOfWork.CommitAsync(cancellationToken);
         
         return NoContent();
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Teams;
 using Scrumboard.Domain.Teams;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Scrumboard.SharedKernel.Types;
 
 namespace Scrumboard.Web.Api.Teams;
@@ -15,7 +16,8 @@ namespace Scrumboard.Web.Api.Teams;
 public class TeamsController(
     IMapper mapper,
     ITeamsService teamsService,
-    IIdentityService identityService) : ControllerBase
+    IIdentityService identityService,
+    IUnitOfWork unitOfWork) : ControllerBase
 {
     /// <summary>
     /// Get a team by id.
@@ -53,6 +55,8 @@ public class TeamsController(
 
         var team = await teamsService.AddAsync(teamCreation, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var teamDto = await GetTeamDtoAsync(team, cancellationToken);
         
         return CreatedAtAction(nameof(GetByTeamId), new { id = teamDto.Id }, teamDto);
@@ -80,6 +84,8 @@ public class TeamsController(
 
         var team = await teamsService.UpdateAsync(teamEdition, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var teamDto = await GetTeamDtoAsync(team, cancellationToken);
 
         return Ok(teamDto);
@@ -99,6 +105,8 @@ public class TeamsController(
     {
         await teamsService.DeleteAsync(new TeamId(id), cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         return NoContent();
     }
     

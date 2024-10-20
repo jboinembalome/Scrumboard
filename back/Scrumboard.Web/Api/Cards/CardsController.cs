@@ -5,6 +5,7 @@ using Scrumboard.Application.Abstractions.Boards.Labels;
 using Scrumboard.Application.Abstractions.Cards;
 using Scrumboard.Domain.Cards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Scrumboard.SharedKernel.Types;
 using Scrumboard.Web.Api.Boards.Labels;
 using Scrumboard.Web.Api.Users;
@@ -19,7 +20,8 @@ public class CardsController(
     IMapper mapper,
     ICardsService cardsService,
     ILabelsService labelsService,
-    IIdentityService identityService) : ControllerBase
+    IIdentityService identityService,
+    IUnitOfWork unitOfWork) : ControllerBase
 {
     /// <summary>
     /// Get a card by id.
@@ -56,6 +58,8 @@ public class CardsController(
         
         var card = await cardsService.AddAsync(cardCreation, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = mapper.Map<CardDetailDto>(card);
         dto.Labels = await GetLabelDtosAsync(card, cancellationToken);
         dto.Assignees = await GetAssigneeDtosAsync(card, cancellationToken);
@@ -87,6 +91,8 @@ public class CardsController(
         
         var card = await cardsService.UpdateAsync(cardEdition, cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = mapper.Map<CardDetailDto>(card);
         dto.Labels = await GetLabelDtosAsync(card, cancellationToken);
         dto.Assignees = await GetAssigneeDtosAsync(card, cancellationToken);
@@ -107,6 +113,8 @@ public class CardsController(
         CancellationToken cancellationToken)
     {
         await cardsService.DeleteAsync(new CardId(id), cancellationToken);
+        
+        await unitOfWork.CommitAsync(cancellationToken);
         
         return NoContent();
     }

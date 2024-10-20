@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Scrumboard.Application.Abstractions.Boards;
 using Scrumboard.Domain.Boards;
 using Scrumboard.Infrastructure.Abstractions.Identity;
+using Scrumboard.Infrastructure.Abstractions.Persistence;
 using Scrumboard.SharedKernel.Types;
 using Scrumboard.Web.Api.Users;
 
@@ -16,7 +17,8 @@ namespace Scrumboard.Web.Api.Boards;
 public class BoardsController(
     IMapper mapper,
     IBoardsService boardsService,
-    IIdentityService identityService) : ControllerBase
+    IIdentityService identityService,
+    IUnitOfWork unitOfWork) : ControllerBase
 {
     /// <summary>
     /// Get the boards of the current user.
@@ -67,6 +69,8 @@ public class BoardsController(
         
         var board = await boardsService.AddAsync(boardCreation, cancellationToken);
         
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = await GetBoardDtoAsync(board, cancellationToken);
 
         return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
@@ -96,6 +100,8 @@ public class BoardsController(
         
         var board = await boardsService.UpdateAsync(boardEdition, cancellationToken);
         
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         var dto = await GetBoardDtoAsync(board, cancellationToken);
 
         return Ok(dto);
@@ -115,6 +121,8 @@ public class BoardsController(
     {
         await boardsService.DeleteAsync(new BoardId(id), cancellationToken);
 
+        await unitOfWork.CommitAsync(cancellationToken);
+        
         return NoContent();
     }
     

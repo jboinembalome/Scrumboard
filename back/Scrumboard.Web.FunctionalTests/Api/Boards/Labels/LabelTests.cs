@@ -76,7 +76,7 @@ public sealed class LabelTests(
     }
     
     [Fact]
-    public async Task Create_label_should_return_Created()
+    public async Task Post_label_should_return_Created()
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.Adherent);
@@ -93,7 +93,7 @@ public sealed class LabelTests(
     }
     
     [Fact]
-    public async Task Create_label_should_return_Forbidden_when_user_has_no_right()
+    public async Task Post_label_should_return_Forbidden_when_user_has_no_right()
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.NoRightUser);
@@ -110,7 +110,7 @@ public sealed class LabelTests(
     }
     
     [Fact]
-    public async Task Update_label_should_return_Ok()
+    public async Task Put_label_should_return_Ok()
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.Adherent);
@@ -130,7 +130,7 @@ public sealed class LabelTests(
     }
     
     [Fact]
-    public async Task Update_label_should_return_Forbidden_when_user_has_no_right()
+    public async Task Put_label_should_return_Forbidden_when_user_has_no_right()
     {
         // Arrange
         var client = _factory.CreateUserClient(SeededUser.NoRightUser);
